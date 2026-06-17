@@ -1,0 +1,130 @@
+{% assign _settings = section.settings %}
+
+<section>
+  <div class="container container--large">
+    <div class="form-row">
+      <div class="form-row__col">
+        <div class="form-image">
+          <div class="thumb">
+            <div class="positioner">
+              {% render 'lazy-image', image: _settings.image, width: '1000' %}
+            </div>
+          </div>
+        </div>
+        <div class="form-content">
+          <h2 class="h4">{{ _settings.heading }}</h2>
+          <div class="fc-items">
+            <div class="fc-items__col">
+              {{ _settings.content_1 }}
+              {% if _settings.link_text_1 and _settings.link_url_1 != blank %}
+                <a href="{{ _settings.link_url_1 }}" class="btn btn--text btn--text-white">
+                  {{- _settings.link_text_1 -}}
+                </a>
+              {% endif %}
+            </div>
+            <div class="fc-items__col">
+              {{ _settings.content_2 }}
+              {% if _settings.link_text_2 and _settings.link_url_2 != blank %}
+                <a href="{{ _settings.link_url_2 }}" class="btn btn--text btn--text-white">
+                  {{- _settings.link_text_2 -}}
+                </a>
+              {% endif %}
+            </div>
+          </div>
+          {% include 'social-links' %}
+        </div>
+      </div>
+      <div class="form-row__col">
+        {% if _settings.heading_form != blank %}
+          <h1>{{ _settings.heading_form }}</h1>
+        {% endif %}
+        {% if _settings.form_content != blank %}
+          {{ _settings.form_content }}
+        {% endif %}
+        {{ _settings.form }}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Form + Image",
+  "class": "shopify-block form-block",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content_1",
+      "label": "Content Column 1"
+    },
+    {
+      "type": "text",
+      "id": "link_text_1",
+      "label": "Link Text 1"
+    },
+    {
+      "type": "url",
+      "id": "link_url_1",
+      "label": "Link URL 1"
+    },
+    {
+      "type": "richtext",
+      "id": "content_2",
+      "label": "Content Column 2"
+    },
+    {
+      "type": "text",
+      "id": "link_text_2",
+      "label": "Link Text 2"
+    },
+    {
+      "type": "url",
+      "id": "link_url_2",
+      "label": "Link URL 2"
+    },
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "text",
+      "id": "heading_form",
+      "label": "Form Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "form_content",
+      "label": "Form Content"
+    },
+    {
+      "type": "textarea",
+      "id": "form",
+      "label": "Form"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Form + Image",
+      "category": "Form / Image"
+    }
+  ]
+}
+{% endschema %}

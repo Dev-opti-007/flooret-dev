@@ -1,0 +1,472 @@
+{%- liquid
+  assign module = section.settings
+  assign page_url = request.path
+
+  assign meta = collection.metafields.flooret
+  assign collection_hero_background_color = meta.collection_hero_background_color
+  assign collection_hero_text_color = meta.collection_hero_text_color
+-%}
+
+{%- capture section_styles -%}style="
+  {%- if collection_hero_background_color != blank and collection_hero_background_color != 'rgba(0,0,0,0)' -%}background-color: {{collection_hero_background_color}};{%- endif -%}
+  {%- if collection_hero_text_color != blank and collection_hero_text_color != 'rgba(0,0,0,0)' -%}color: {{collection_hero_text_color}};{%- endif -%}
+  {% comment %} background-image:url('{{ collection.image | image_url: width: 2000 }}'); {% endcomment %}
+  "
+{%- endcapture -%}
+
+{{ 'custom-collection-design.css' | asset_url | stylesheet_tag }}
+{% render 'collection-banner', collection: collection, settings: section.settings %}
+
+
+
+  {% comment %} RENDER COMMON PLP DESIGN {% endcomment %}
+
+  <div id="js-collection">
+    {%- render 'collection-filter' -%}
+    <section
+      class="collection-grid"
+      id="collection-grid"
+    >
+      <div class="container">
+        <div class="collection-grid__loop">
+          {%- paginate collection.products by 100 -%}
+            {%- for product in collection.products -%}
+              {% if product.title contains 'Provence' %}
+                {% render 'product-card-provence-sample', product: product %}
+              {% else %}
+              {% render 'product-card-sample-kit', product: product %}
+              {% endif %}
+            {%- endfor -%}
+            {% comment %} {{ paginate | default_pagination: next: 'Older', previous: 'Newer' }} {% endcomment %}
+          {%- endpaginate -%}
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+
+<style>
+  span.off-percent {
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 7px;
+}
+  .provence.product-card .product-card__image:hover .product-card__hover-image {
+    opacity:0;
+  }
+  button.common-plp-arrows.modin--slider.slick-next.slick-arrow {
+    right: 0px;
+  }
+  button.common-plp-arrows.modin--slider.slick-prev.slick-arrow {
+    left: 0;
+  }
+  #collection-grid .container {
+      padding-inline: 10px;
+      padding-top: 20px;
+  }
+  .ss-section-divider{
+    width: 100%;
+    height: 15px;
+    background: white;
+  }
+  .col-contents-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+  }
+
+  /* Desktop gap */
+  .collection-all-floors .slick-slide,
+  {
+    margin: 0 12px;
+  }
+  .collection-all-floors .slick-list {
+    margin: 0 -12px;
+  }
+
+  .collection-filter .filter--collection {
+    display: none;
+  }
+  button.modin--slider.slick-arrow {
+    border: none;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+    z-index: 99;
+    top: 45%;
+    position: absolute;
+  }
+  button.modin--slider.slick-prev.slick-arrow {
+      left: -30px;
+  }
+  button.modin--slider.slick-next.slick-arrow {
+      right: -30px;
+  }
+  .collection--modin-container.adding-grid,.collection--arista-container.adding-grid,.collection--silvan-hardwood-container.adding-grid {
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 20px;
+
+  }
+  .collection--modin-container,.collection--arista-container,.collection--silvan-hardwood{
+    padding-top: 20px;
+  }
+  .col-lvp-header {
+      padding-left: 20px;
+  }
+  .collection-all-floors .product-card{
+    padding-inline: 20px;
+  }
+  .collection-all-floors {
+      padding-bottom: 0px;
+  }
+  .collection-all-floors .container {
+      padding-top: 70px !important;
+      padding-bottom: 70px !important;
+  }
+  .collection-all-floors button#shop_all_btn_modin_lvp,button#shop_all_btn_arista_laminate,button#shop_all_btn_silvan_hardwood {
+    appearance: none;
+    border: none;
+    background: transparent;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 16px;
+    letter-spacing: 0;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .shop_all_btn_modin_lvp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block: 40px;
+    margin-bottom:0px;
+  }
+  .shop_all_btn_arista_laminate,.shop_all_btn_silvan_hardwood {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block: 40px;
+    margin-bottom:0px;
+  }
+  #collection-grid .collection-grid__loop .product-card .product-card__model-info {
+    display:none;
+  }
+  @media (max-width:1024px){
+    .collection-all-floors .product-card {
+      padding-inline: 0px;
+    }
+    {% comment %} .col_icon_txt_wrapper{
+      display: none;
+    } {% endcomment %}
+    .mob-only.col_sm_text {
+        display: none;
+    }
+    .col_icon_txt_wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 0px;
+    }
+
+    .col_icon_txt_wrapper .icon_txt_box {
+        justify-content: start;
+    }
+    .col-lvp-header {
+      padding-left: 10px;
+    }
+    .collection-all-floors .slick-slide {
+      margin: 0 6px;
+    }
+    .collection-all-floors .slick-list {
+      margin: 0 -6px;
+    }
+  }
+  @media (min-width:768px){
+    .ruk_rating_snippet.collection {
+        display: grid !important;
+        grid-template-columns: 18px 18px 18px 18px 18px 25px;
+    }
+    .product-card__title a {
+        font-size: 18px;
+        line-height: 26px !important;
+    }
+    .product-card__model-info {
+        display: none;
+    }
+  }
+  @media (max-width:768px){
+    .d-flex-title-rating .collection-reviews-wrapper {
+    margin-bottom: 5px;
+    }
+      .collection-all-floors .container {
+          padding-top: 50px !important;
+          padding-bottom: 50px !important;
+      }
+      .product-card__title a,
+      .product-card__title.h5 {
+            line-height: 17px;
+     }
+      ul.slick-dots{
+        bottom: 10px;
+      }
+      button.common-plp-arrows.modin--slider.slick-next.slick-arrow, button.common-plp-arrows.modin--slider.slick-prev.slick-arrow{
+        display: none;
+      }
+      .ruk_rating_snippet.collection {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+      }
+      .ruk_rating_snippet.collection i.ruk-icon-percentage-star--100 {
+          position: relative;
+          {% comment %} top: -2px; {% endcomment %}
+      }
+  }
+</style>
+<script>
+  
+  var collectionVariantMetafields = {};
+  {%- for product in collection.products -%}
+    {%- for variant in product.variants -%}
+      collectionVariantMetafields["{{ variant.id }}"] = {
+        "sqft_price": {% if variant.metafields.custom.sqft_price.value != blank %}{{ variant.metafields.custom.sqft_price.value | json }}{% else %}null{% endif %},
+        "sqft_compare_at_price": {% if variant.metafields.custom.sqft_compare_at_price.value != blank %}{{ variant.metafields.custom.sqft_compare_at_price.value | json }}{% else %}null{% endif %}
+      };
+    {%- endfor -%}
+  {%- endfor -%}
+</script>
+
+{% comment %} <script>
+  document.addEventListener('DOMContentLoaded', function () {
+  // Only apply on screens below 768px
+    
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        setTimeout(()=>{
+          document.querySelectorAll('.ruk-rating-snippet-count').forEach(function (el) {
+            // e.g. "(20 Reviews)" -> "(20)"
+            const text = el.textContent;
+            el.textContent = text.replace(/\s*Reviews?\s*\)?/i, ')').trim();
+            el.style.display = 'inline-block'
+          });
+        }, 2000)
+      }
+    
+  
+});
+
+</script> {% endcomment %}
+
+
+{% schema %}
+{
+  "name": "Collections",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id":"banner-image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "number",
+      "id": "desktop_banner_height",
+      "label": "Desktop Banner Height",
+      "default": 700
+    },
+    {
+      "type": "number",
+      "id": "mobile_banner_height",
+      "label": "Mobile Banner Height",
+      "default": 300
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "paragraph",
+      "content": "All settings are for the contents of collection banner"
+    },
+    {
+      "type": "select",
+      "id": "font_heading",
+      "label": "Heading Font Family",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        },
+        {
+          "value": "Playfair Display",
+          "label": "Playfair Display"
+        }
+      ],
+      "default": "Playfair Display"
+    },
+    {
+      "type": "select",
+      "id": "font_body",
+      "label": "Body Font Family",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        },
+        {
+          "value": "Playfair Display",
+          "label": "Playfair Display"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "number",
+      "id": "heading_size_desktop",
+      "label": "Heading Size Desktop (px)",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "heading_size_mobile",
+      "label": "Heading Size Mobile (px)",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "body_size_desktop",
+      "label": "Body Text Size Desktop (px)",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "body_size_mobile",
+      "label": "Body Text Size Mobile (px)",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "body_text_weight",
+      "label": "Body Text Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "heading_text_color",
+      "label": "Heading Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "body_text_color",
+      "label": "Body Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Breadcrumb Configurations"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_brd_btn",
+      "label": "Show Breadcrumb Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "brd_btn_lable",
+      "label": "Breadcrumb Label",
+      "default": "All Flooring"
+    },
+    {
+      "type": "url",
+      "id": "brd_btn_link",
+      "label": "Breadcrumb Link"
+    },
+    {
+      "type": "color",
+      "id": "brd_bg_clr",
+      "label": "Breadcrumb background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "brd_txt_clr",
+      "label": "Breadcrumb text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Small Texts"
+    },
+    {
+      "type": "text",
+      "id": "col_small_txt",
+      "label": "Small Text One",
+      "default": "Quick links"
+    },
+    {
+      "type": "text",
+      "id": "col_small_txt_two",
+      "label": "Small Text Two",
+      "default": "Quick links"
+    },
+    {
+      "type": "text",
+      "id": "col_small_txt_three",
+      "label": "Small Text Three",
+      "default": "Quick links"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "Block",
+      "name": "Block",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Don't want the collection? Add a link."
+        },
+        {
+          "type": "text",
+          "id": "text_replace",
+          "label": "Filter Label"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,43 @@
+{%- liquid
+  assign meta = article.metafields.custom
+  assign image = article.image
+  if article.image == blank
+    assign image = settings.article_default_image
+  endif
+-%}
+
+<div class="feat-article-card {{ class }}">
+  <div class="row">
+    <div class="col col--left">
+      <a href="{{ article.url }}" class="feat-article-card__image">
+        {% render 'lazy-image', image: image, height: 720 %}
+      </a>
+    </div>
+    <div class="col col--right">
+      <div class="feat-article-card__content">
+        <div class="feat-article-card__category">
+          {%- for tag in article.tags -%}
+            {%- if tag contains 'Cat - ' -%}
+              <a
+                href="/blogs/{{ blog.handle }}/tagged/{{ tag | handle }}"
+                class="btn btn--small btn--outline btn--orange"
+              >
+                {{- tag | remove: 'Cat - ' -}}
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="feat-article-card__meta">
+          <span class="feat-article-card__date">{{ article.published_at | date: '%B %d, %Y' }}</span>
+          &bull;
+          <span class="feat-article-card__author">By {{ article.author }}</span>
+        </div>
+
+        <h2 class="feat-article-card__heading">
+          <a href="{{ article.url }}">{{ article.title }}</a>
+        </h2>
+        <a href="{{article.url }}" class="btn btn--text">Read More</a>
+      </div>
+    </div>
+  </div>
+</div>

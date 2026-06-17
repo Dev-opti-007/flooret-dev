@@ -1,0 +1,24 @@
+<div class="the-cart__summary full-mob">
+  <h2 class="h5 the-cart__heading">{{ 'cart.summary' | t }}</h2>
+
+  <table class="details">
+    <tbody>
+      <tr>
+        <td>{{ 'cart.shipping' | t }}</td>
+        <td>{{ 'cart.calculated_at_checkout' | t }}</td>
+      </tr>
+      <tr>
+        <td>{{ 'cart.taxes' | t }}</td>
+        <td>{{ 'cart.calculated_at_checkout' | t }}</td>
+      </tr>
+      <tr>
+        <td>{{ 'cart.subtotal' | t }}</td>
+        <td class="total-price js-cart-subtotal">{{ cart.total_price | money_without_trailing_zeros }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="the-cart__checkout-btns">
+    <button type="submit" name="checkout" class="btn btn--black">{{ 'cart.checkout' | t }}</button>
+  </div>
+</div>

@@ -1,0 +1,226 @@
+{{ 'before-after.css' | asset_url | stylesheet_tag }}
+
+<style>
+    #shopify-section-{{ section.id }} .before-text-content-title {
+      color: {{ section.settings.heading_text_color }};
+    }
+
+    #shopify-section-{{ section.id }} .ba-image {
+      {% if section.settings.headline == blank %}
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+      {% endif %}
+    }
+    /* .#shopify-section-{{ section.id }} .ba-container img {
+      width: 100%;
+      height: 450px;
+      display: block;
+      object-fit: cover;
+    } */
+
+    #shopify-section-{{ section.id }} .ba-container {
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    #shopify-section-{{ section.id }} .ba-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left;
+    }
+    #shopify-section-{{ section.id }} .ba-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #shopify-section-{{ section.id }} .ba-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      cursor: grab;
+      z-index: 2;
+      transition: background .2s;
+    }
+    #shopify-section-{{ section.id }} .ba-handle:hover {
+      background: rgba(255,255,255,1);
+    }
+
+  #shopify-section-{{ section.id }} .ba-handle::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml;utf8,\<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\<path d='M12.9462 11.9999L8.34619 7.39994L9.39994 6.34619L15.0537 11.9999L9.39994 17.6537L8.34619 16.5999L12.9462 11.9999Z' fill='%23fff'/>\</svg>");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: translate(4px, -50%); 
+  }
+
+  #shopify-section-{{ section.id }} .ba-handle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml;utf8,\<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\<path d='M11.0538 11.9999L15.6538 7.39994L14.6001 6.34619L8.9463 11.9999L14.6001 17.6537L15.6538 16.5999L11.0538 11.9999Z' fill='%23fff'/>\</svg>");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: translate(-20px, -50%); 
+  }
+</style>
+
+<section id="shopify-section-{{ section.id }}" class="before-after-with-text-section">
+  <div class="before-after-with-text-container{% if section.settings.reverse %} before-reverse{% endif %}">
+    <div class="before-image-container">
+      {% if section.settings.before_image != blank %}
+        <div class="before-after-image ba-container">
+          <img
+            src="{{ section.settings.before_image | image_url: width: '490' }}"
+            alt="{{ section.settings.heading }}"
+            class="ba-image ba-base"
+          >
+          <div class="ba-overlay">
+            <img
+              src="{{ section.settings.after_image | image_url: width: '490' }}"
+              alt="{{ section.settings.heading }}"
+              class="ba-image ba-gray"
+            >
+          </div>
+          <div class="ba-handle"></div>
+        </div>
+      {% endif %}
+
+      {% if section.settings.headline != blank %}
+        <div class="before-review">
+          <h2>{{ section.settings.headline }}</h2>
+          <p>{{ section.settings.quote }}</p>
+          <div class="review-text-content">
+            {% if section.settings.author_image != blank %}
+              {{ section.settings.author_image | image_url: width: '32' | image_tag }}
+            {% endif %}
+            {% if section.settings.author_name != blank %}
+              <span>{{ section.settings.author_name }}</span>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="before-text-container">
+      <h1 class="before-text-content-title">{{ section.settings.heading }}</h1>
+      <p class="before-text-content-description">{{ section.settings.section_description }}</p>
+      <div class="for-tabs-container">
+        {% for block in section.blocks %}
+          <div
+            class="each-tab-div"
+            style="align-items:{% if block.settings.description != blank %} start{% else %} center{% endif %};"
+          >
+            {{ block.settings.icon | image_url: width: '40' | image_tag }}
+            <div>
+              {% if block.settings.title != blank %}
+                <h3>{{ block.settings.title }}</h3>
+              {% endif %}
+              {% if block.settings.description != blank %}
+                <p>{{ block.settings.description }}</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('#shopify-section-{{ section.id }} .ba-container').forEach((container) => {
+        const overlay = container.querySelector('.ba-overlay');
+        const handle = container.querySelector('.ba-handle');
+        let dragging = false;
+
+        handle.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          dragging = true;
+          handle.style.cursor = 'grabbing';
+        });
+        document.addEventListener('mouseup', () => {
+          dragging = false;
+          handle.style.cursor = 'grab';
+        });
+        document.addEventListener('mousemove', (e) => {
+          if (!dragging) return;
+          updateSlider(e);
+        });
+
+        handle.addEventListener('touchstart', (e) => {
+          dragging = true;
+        });
+        document.addEventListener('touchend', () => {
+          dragging = false;
+        });
+        document.addEventListener('touchmove', (e) => {
+          if (!dragging) return;
+          updateSlider(e.touches ? e.touches[0] : e);
+        });
+
+        function updateSlider(e) {
+          const rect = container.getBoundingClientRect();
+          let x = (e.clientX || e.pageX) - rect.left;
+          x = Math.max(0, Math.min(x, rect.width));
+          overlay.style.width = x + 'px';
+          handle.style.left = x + 'px';
+        }
+      });
+    });
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Before After Section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Title", "default": "What Makes Us Different" },
+    { "type": "color", "id": "heading_text_color", "label": "Heading text color", "default": "#000000" },
+    { "type": "checkbox", "id": "reverse", "label": "Show image on the right", "default": false },
+    {
+      "type": "textarea",
+      "id": "section_description",
+      "label": "Description",
+      "default": "We’re the first direct-to-consumer..."
+    },
+    { "type": "image_picker", "id": "before_image", "label": "Before Image" },
+    { "type": "image_picker", "id": "after_image", "label": "After Image" },
+    { "type": "text", "id": "headline", "label": "Testimonial Title" },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Testimonial Text",
+      "default": "“We love the fact that the grain is embossed…”"
+    },
+    { "type": "text", "id": "author_name", "label": "Author Name", "default": "Megan M" },
+    { "type": "image_picker", "id": "author_image", "label": "Author Image" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Box",
+      "limit": 6,
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "title", "label": "Feature Title" },
+        { "type": "textarea", "id": "description", "label": "Description" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Before After Section" }]
+}
+{% endschema %}

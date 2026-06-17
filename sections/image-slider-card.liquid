@@ -1,0 +1,164 @@
+{% assign is_flooring_101 = false %}
+{% if request.page_type == 'page' and page.handle == 'flooring-101' %}
+  {% assign is_flooring_101 = true %}
+{% endif -%}
+{%- assign settings = section.settings %}
+
+<section class="image-card-block" id="current-trends">
+  <div class="container container--large">
+    <div class="image-card-block__top {% if is_flooring_101 %}flooring-101-heading{% endif %}">
+      {% if settings.heading != blank %}
+        <h2>
+          {% if is_flooring_101 %}
+            <img
+              src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/current-trends-icon.svg?v=1726686709"
+              alt="Flooring 101 Icon"
+              class="flooring-101-icon"
+            >
+          {% endif %}
+          {{ settings.heading }}
+        </h2>
+      {% endif %}
+      {% if settings.link_text != blank and settings.link_url != blank %}
+        <a
+          href="{{ settings.link_url }}"
+          class="btn btn--text"
+        >
+          {{- settings.link_text -}}
+        </a>
+      {% endif %}
+    </div>
+    <div class="image-card-slider swiper">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="image-slide swiper-slide">
+            <div class="image-slide__wrap">
+              <div class="slider-img">
+                <div class="slider-img__thumb">
+                  <div class="positioner">
+                    {% render 'lazy-image', image: block.settings.bg_image, width: '3000' %}
+                  </div>
+                </div>
+              </div>
+              <div class="slider-card">
+                <div class="slider-card__img">
+                  <div class="positioner">
+                    {% render 'lazy-image', image: block.settings.card_image, width: '900' %}
+                  </div>
+                </div>
+                <div class="slider-card__content">
+                  {% if block.settings.pre_heading != blank %}
+                    <span class="h5">{{ block.settings.pre_heading }}</span>
+                  {% endif %}
+
+                  {% if block.settings.card_heading != blank %}
+                    <h5 class="h4">{{ block.settings.card_heading }}</h5>
+                  {% endif %}
+                  {% if block.settings.card_content != blank %}
+                    {{ block.settings.card_content }}
+                  {% endif %}
+                </div>
+
+                {% if block.settings.card_link != blank %}
+                  <a class="btn btn--white" href="{{ block.settings.card_link }}">
+                    {% if is_flooring_101 %}
+                      View products
+                    {% else %}
+                      Read More
+                    {% endif %}
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-controls">
+        <button class="swiper-button-prev" type="button"></button>
+        <div class="swiper-scrollbar mob-only"></div>
+        <button class="swiper-button-next" type="button"></button>
+      </div>
+    </div>
+  </div>
+  <!-- /.container -->
+</section>
+
+{% schema %}
+{
+  "name": "Image + Card Slider",
+  "class": "shopify-block",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image-slider",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Background Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "header",
+          "content": "Content Card"
+        },
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "pre_heading",
+          "label": "Pre-Heading"
+        },
+        {
+          "type": "text",
+          "id": "card_heading",
+          "label": "Card Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "card_content",
+          "label": "Card Content"
+        },
+        {
+          "type": "url",
+          "id": "card_link",
+          "label": "Card Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image + Card Slider",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

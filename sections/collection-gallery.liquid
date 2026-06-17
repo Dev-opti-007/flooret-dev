@@ -1,0 +1,434 @@
+{%- liquid
+  assign module = section.settings
+  assign page_url = request.path
+
+  assign meta = collection.metafields.flooret
+  assign collection_hero_background_color = meta.collection_hero_background_color
+  assign collection_hero_text_color = meta.collection_hero_text_color
+
+  assign total_ads = section.blocks.size
+  assign start_count = false
+  assign ad_index = 0
+-%}
+
+{%- capture section_styles -%}style="
+  {%- if collection_hero_background_color != blank and collection_hero_background_color != 'rgba(0,0,0,0)' -%}background-color: {{collection_hero_background_color}};{%- endif -%}
+  {%- if collection_hero_text_color != blank and collection_hero_text_color != 'rgba(0,0,0,0)' -%}color: {{collection_hero_text_color}};{%- endif -%}
+  "
+{%- endcapture -%}
+
+{%- liquid
+  assign total_active_values = 0
+  assign sort_by = collection.sort_by | default: 'manual'
+
+  for filter in collection.filters
+    assign total_active_values = total_active_values | plus: filter.active_values.size
+    if filter.min_value.value != null or filter.max_value.value != null
+      assign total_active_values = total_active_values | plus: 1
+    endif
+  endfor
+-%}
+
+<section class="collection-hero" {{ section_styles }}>
+  <div class="container">
+    <div class="collection-hero__content">
+      {%- render 'breadcrumbs' -%}
+      <div class="section__header">
+        <h1>{{ collection.title }}</h1>
+        {%- if collection.description -%}
+          <p>{{ collection.description }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="js-collection">
+  <form class="col-search-filter">
+    <div class="container">
+      <div class="input-group">
+        <label for="search-col">Search</label>
+        <input id="search-col" type="search" placeholder="Search Product">
+        {% render 'svg-search' %}
+      </div>
+    </div>
+  </form>
+
+  {% comment %} {%- render 'collection-filter' -%} {% endcomment %}
+  {%- render 'collection-filter-gallery' -%}
+
+  <section class="gallery custom-gallery">
+    <div class="container">
+      <div class="filter-space">
+        <form class="col-facets" id="col-facets">
+          <input id="sort_by" type="hidden" name="sort_by" value="{{ sort_by }}">
+          {%- if collection.terms -%}
+            <input type="hidden" name="q" value="{{ collection.terms | escape }}">
+            <input name="options[prefix]" type="hidden" value="last">
+          {%- endif -%}
+
+          <button type="submit" class="col-facets__submit hidden">Submit</button>
+          <div class="overflow">
+            <div class="col-facets__mob-header mob-only">
+              <span>{{ collection.products_count }} Results</span>
+              <button class="reset col-facets__close show-filters" type="button">{% render 'svg-close' %}</button>
+            </div>
+
+            {% if total_active_values > 0 %}
+              <div class="selected-filters">
+                <div class="container">
+                  <span class="selected-filters__label">My Filters: </span>
+                  <div class="selected-filters__selected">
+                    {%- for filter in collection.filters -%}
+                      {%- for filter_value in filter.active_values -%}
+                        <button
+                          class="remove-filter"
+                          type="button"
+                          data-ftype="{{ filter_value }}"
+                          data-remove="{{ filter_value.url_to_remove }}"
+                        >
+                          <span></span>
+                          {{ filter_value.label | escape }}
+                        </button>
+                      {%- endfor -%}
+                      {%- if filter.type == 'price_range' -%}
+                        {%- if filter.min_value.value != null or filter.max_value.value != null -%}
+                          <button class="remove-filter" type="button" data-remove="{{ filter.url_to_remove }}">
+                            <span></span>
+                            {%- liquid
+                              if filter.min_value.value
+                                echo filter.min_value.value | money
+                              else
+                                echo 0 | money
+                              endif
+                              echo '-'
+                              if filter.max_value.value
+                                echo filter.max_value.value | money
+                              else
+                                echo filter.range_max | money
+                              endif
+                            %}
+                          </button>
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="col-facets__filters">
+              {%- for filter in collection.filters -%}
+                {% liquid
+                  assign listClass = 'one-col'
+                  if filter.values.size > 3 and filter.values < 7
+                    assign listClass = 'two-col'
+                  elsif filter.values.size > 6
+                    assign listClass = 'three-col'
+                  endif
+
+                  if filter.values.size == 0
+                    continue
+                  endif
+                  if filter.values.size == 1
+                    continue
+                  endif
+
+                  # if filter.label == 'Model' and collection.handle != 'modin-luxury-vinyl-plank'
+                  # continue
+                  # endif
+
+                  # if filter.label == 'Plank Width' and collection.handle != 'all'
+                  # continue
+                  # endif
+
+                  if filter.label == 'Plank Width' and collection.handle == 'sample-kits'
+                    continue
+                  endif
+
+                  assign showCollectionFilterIn = 'trim-accessories,inspiration' | split: ','
+                %}
+                <fieldset class="filter filter--{{ filter.label | handleize }}">
+                  <legend>
+                    {{ filter.label }}
+                    {% render 'svg-chevron' %}
+                  </legend>
+                  <div class="filter__content">
+                    <div class="container">
+                      {% if filter.type == 'price_range' %}
+                        <div class="price-range">
+                          <label for="Mobile-Filter-{{ filter.label | escape }}-GTE">
+                            Min
+                            <input
+                              class="field__input"
+                              name="{{ filter.min_value.param_name }}"
+                              id="Mobile-Filter-{{ filter.label | escape }}-GTE"
+                              {%- if filter.min_value.value -%}
+                                {%- if uses_comma_decimals -%}
+                                  value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                {%- else -%}
+                                  value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                                {%- endif %}
+                              {%- endif -%}
+                              type="number"
+                              placeholder="0"
+                              min="0"
+                              inputmode="decimal"
+                              {%- if uses_comma_decimals -%}
+                                max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                              {%- else -%}
+                                max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                              {% endif %}
+                            >
+                          </label>
+                          <label for="Mobile-Filter-{{ filter.label | escape }}-LTE">
+                            Max
+                            <input
+                              class="field__input"
+                              name="{{ filter.max_value.param_name }}"
+                              id="Mobile-Filter-{{ filter.label | escape }}-LTE"
+                              {%- if filter.max_value.value -%}
+                                {%- if uses_comma_decimals -%}
+                                  value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                {%- else -%}
+                                  value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                                {%- endif %}
+                              {%- endif -%}
+                              type="number"
+                              min="0"
+                              inputmode="decimal"
+                              {%- if uses_comma_decimals -%}
+                                placeholder="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                              {%- else -%}
+                                placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                              {% endif %}
+                            >
+                          </label>
+                        </div>
+                      {% elsif filter.label == 'Plank Size' %}
+                        <ul class="filter-group--{{ filter.label | handleize }}">
+                          {% for value in filter.values %}
+                            {{ value }}
+                            {%- liquid
+                              assign filter_handle = blank
+                              assign filter_img = blank
+
+                              if value.label == 'Hidden'
+                                continue
+                              endif
+
+                              if value.display.type == 'image'
+                                assign filter_handle = value.display.value | handleize
+                                assign filter_img = value.display.value
+                              endif
+
+                              if filter.label == 'Plank Size' or filter.label == 'Model'
+                                assign filter_handle = value.label | handleize
+                                assign filter_img = shop.metaobjects.product_model[filter_handle].image
+                              endif
+                            -%}
+                            <li class="filter-option--{{ value.value | handleize }}">
+                              <input
+                                type="radio"
+                                id="{{ filter.param_name | escape }}-{{ forloop.index }}"
+                                class="hidden"
+                                name="{{ value.param_name }}"
+                                value="{{ value.value }}"
+                                {% if value.active %}
+                                  checked
+                                {% endif %}
+                                {% if value.count == 0 and value.active == false %}
+                                  disabled
+                                {% endif %}
+                              >
+                              <label
+                                class="col-facets__item"
+                                title="{{ value.label }}"
+                                for="{{ filter.param_name | escape }}-{{ forloop.index }}"
+                              >
+                                {%- if filter_img != blank -%}
+                                  <span class="col-facets__icon {{ filter.param_name | escape }}-{{ forloop.index }}">
+                                    <img src="{{ filter_img | image_url: width: 32, height: 32 }}">
+                                  </span>
+                                {%- endif -%}
+                                <span class="col-facets__label">
+                                  {{- value.label }}
+                                  <span class="count">({{ value.count }})</span></span
+                                >
+                              </label>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% else %}
+                        <ul class="filter-group--{{ filter.label | handleize }}">
+                          {% for value in filter.values %}
+                            {%- liquid
+                              assign filter_handle = blank
+                              assign filter_img = blank
+
+                              if value.label == 'Hidden'
+                                continue
+                              endif
+
+                              if value.display.type == 'image'
+                                assign filter_handle = value.display.value | handleize
+                                assign filter_img = value.display.value
+                              endif
+
+                              if filter.label == 'Plank Size' or filter.label == 'Model'
+                                assign filter_handle = value.label | handleize
+                                assign filter_img = shop.metaobjects.product_model[filter_handle].image
+                              endif
+                            -%}
+                            <li class="filter-option--{{ value.value | handleize }}">
+                              <input
+                                type="checkbox"
+                                id="{{ filter.param_name | escape }}-{{ forloop.index }}"
+                                class="hidden"
+                                name="{{ value.param_name }}"
+                                value="{{ value.value }}"
+                                {% if value.active %}
+                                  checked
+                                {% endif %}
+                                {% if value.count == 0 and value.active == false %}
+                                  disabled
+                                {% endif %}
+                              >
+                              <label
+                                class="col-facets__item"
+                                title="{{ value.label }}"
+                                for="{{ filter.param_name | escape }}-{{ forloop.index }}"
+                              >
+                                {%- if filter_img != blank -%}
+                                  <span class="col-facets__icon {{ filter.param_name | escape }}-{{ forloop.index }}">
+                                    <img src="{{ filter_img | image_url: width: 32, height: 32 }}">
+                                    <p>{{ value.label }}</p>
+                                  </span>
+                                {%- endif -%}
+                                <span class="col-facets__label">
+                                  {{- value.label }}
+                                  <span class="count">({{ value.count }})</span></span
+                                >
+                              </label>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </div>
+                  </div>
+                </fieldset>
+              {% endfor %}
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="gallery__grid">
+        {%- paginate collection.products by 100 -%}
+          {%- for product in collection.products -%}
+            {%- assign modulo = forloop.index | minus: 3 | modulo: 9 -%}
+
+            {%- if forloop.index == 3 -%}
+              {%- assign start_count = true -%}
+            {%- endif %}
+
+            {%- if start_count and ad_index < total_ads and modulo == 0 -%}
+              {%- assign ad = section.blocks[ad_index] -%}
+              {%- assign ad_index = ad_index | plus: 1 -%}
+              {%- render 'gallery-card-ad', ad: ad.settings -%}
+            {%- endif -%}
+
+            {%- render 'gallery-card-custom', product: product -%}
+          {%- endfor -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </section>
+
+  {% comment %}
+    <section
+      class="collection-grid"
+      id="collection-grid"
+    >
+      <div class="container">
+        <div class="collection-grid__loop">
+          {%- paginate collection.products by 100 -%}
+            {%- for product in collection.products -%}
+              {% render 'product-card', product: product %}
+            {%- endfor -%}
+            {% comment %} {{ paginate | default_pagination: next: 'Older', previous: 'Newer' }} {% endcomment %}
+          {%- endpaginate -%}
+        </div>
+      </div>
+    </section>
+  {% endcomment %}
+</div>
+
+{%- liquid
+  assign ad_heading = ad.heading
+  assign ad_content = ad.content
+  assign ad_cta_text = ad.cta_text
+  assign ad_cta_url = ad.cta_url
+  assign ad_bg_color = ad.bg_color
+  assign ad_text_color = ad.text_color
+-%}
+
+{% schema %}
+{
+  "name": "Collections",
+  "settings": [
+    {
+      "type": "color",
+      "id": "hero_bg_color",
+      "label": "Hero Background Color",
+      "default": "#F4F3F1"
+    },
+    {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Hero Text Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "Block",
+      "name": "Ad",
+      "settings": [
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Text"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

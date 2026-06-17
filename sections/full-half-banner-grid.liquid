@@ -1,0 +1,1510 @@
+<style>
+  .feature-grid--{{ section.id }} {
+    padding-top: {{ section.settings.padding-top }}px;
+    padding-bottom: {{ section.settings.padding-bottom }}px;
+    padding-left: {{ section.settings.padding-left }}px;
+    padding-right: {{ section.settings.padding-right }}px;
+    background: {{ section.settings.bg-color }};
+  }
+  .feature-grid--{{ section.id }} .heading h2 {
+    color: {{ section.settings.color_heading }};
+    font-family: {{ section.settings.font_heading }};
+    font-size: {{ section.settings.font_size_heading }}px;
+    font-weight: {{ section.settings.heading_weight | default: 600 }};
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  @media (max-width: 768px) {
+    .feature-grid--{{ section.id }} {
+      padding-top: {{ section.settings.padding-top-mob }}px;
+      padding-bottom: {{ section.settings.padding-bottom-mob }}px;
+      padding-left: {{ section.settings.padding-left-mob }}px;
+      padding-right: {{ section.settings.padding-right-mob }}px;
+    }
+    .feature-grid--{{ section.id }} .heading h2 {
+      font-size: {{ section.settings.font_size_heading_mob }}px;
+      margin-bottom: 25px;
+    }
+  }
+</style>
+
+<style>
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--fg-gap, 16px);
+  }
+
+  /* Prevent initial flash for the section heading */
+  .feature-grid--{{ section.id }} .heading h2 {
+    opacity: 0;
+    transform: translateY(60px);
+    will-change: transform, opacity;
+  }
+
+  /* Initial hidden state to prevent flash before GSAP runs */
+  .feature-grid__text .feature-grid__heading,
+  .feature-grid__text .feature-grid__sub,
+  .feature-grid__text .feature-grid__buttons {
+    opacity: 0;
+    transform: translateY(60px);
+    will-change: transform, opacity;
+  }
+
+  @media (min-width: 990px) {
+    .feature-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .feature-grid__item {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-grid__item.full {
+    grid-column: 1 / -1;
+  }
+
+  .feature-grid__media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+  }
+
+  .feature-grid__media img,
+  .feature-grid__media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .feature-grid__overlay {
+    position: absolute;
+    inset: 0;
+  }
+
+  .feature-grid__textwrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+  }
+
+  .feature-grid__text {
+    max-width: 560px;
+  }
+
+  .feature-grid__heading {
+    margin: 0 0 24px;
+    color: var(--fg-head-color);
+    font-weight: var(--fg-head-weight, 800);
+  }
+
+  .feature-grid__sub {
+    margin: 0 0 24px;
+    color: var(--fg-sub-color);
+    font-weight: var(--fg-sub-weight, 600);
+    line-height: 24px;
+  }
+
+  .feature-grid__buttons {
+    display: flex;
+    gap: 12px;
+    /* flex-wrap: wrap; */
+  }
+
+  .feature-grid__buttons .btn {
+    padding: 0px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--fg-btn-font-family);
+    color: var(--fg-btn1-color);
+    background: var(--fg-btn1-bg);
+    /* margin-top: 14px; */
+    font-weight: var(--fg-btn-weight, 700);
+    text-decoration: underline;
+  }
+
+  .feature-grid__buttons .btn:hover {
+    color: var(--fg-btn1-color-h);
+    background: var(--fg-btn1-bg-h);
+  }
+
+  .feature-grid__buttons .btn--2 {
+    color: var(--fg-btn2-color);
+    background: var(--fg-btn2-bg);
+    margin-left: 15px;
+    margin-top: 0px;
+  }
+
+  .feature-grid__buttons .btn--2:hover {
+    color: var(--fg-btn2-color-h);
+    background: var(--fg-btn2-bg-h);
+  }
+
+  /* Mobile typography */
+  @media (max-width: 768px) {
+    .feature-grid.slider-mobile-f-grid {
+        max-height: 315px;
+    }
+
+    .feature-grid.slider-mobile-f-grid.slick-initialized {
+        max-height: unset;
+    }
+    .feature-grid {
+      gap: {{ section.settings.gap_mobile | default: section.settings.gap | default: 16 }}px;
+    }
+
+    .feature-grid__buttons .btn {
+      margin-top: 0px !important;
+    }
+    .feature-grid__heading {
+      font-family: var(--fg-head-font-family);
+      font-size: var(--fg-head-size-m);
+    }
+
+    .feature-grid__sub {
+      font-family: var(--fg-body-font-family);
+      font-size: var(--fg-sub-size-m);
+    }
+
+    .feature-grid__buttons .btn {
+      font-family: var(--fg-btn-font-family);
+      font-size: var(--fg-btn-size-m);
+      white-space: nowrap;
+      justify-content: start;
+      min-width: unset;
+      width: auto;
+    }
+
+    {% comment %} {% if section.settings.mobile_slider %}
+  .feature-grid--{{ section.id }} .feature-grid {
+    display: flex !important;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: {{ section.settings.gap_mobile | default: section.settings.gap | default: 16 }}px;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .feature-grid--{{ section.id }} .feature-grid__item {
+    flex: 0 0 70%;
+    scroll-snap-align: start;
+  }
+  {% endif %} {% endcomment %}
+  }
+
+  @media (min-width: 769px) {
+    .feature-grid__heading {
+      font-family: var(--fg-head-font-family);
+      font-size: var(--fg-head-size-d);
+    }
+
+    .feature-grid__sub {
+      font-family: var(--fg-body-font-family);
+      font-size: var(--fg-sub-size-d);
+    }
+
+    .feature-grid__buttons .btn {
+      font-family: var(--fg-btn-font-family);
+      font-size: var(--fg-btn-size-d);
+    }
+  }
+
+  /* Full bleed option */
+  .feature-grid--fullbleed {
+    width: 100vw;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+</style>
+
+<div class="feature-grid--{{ section.id }}">
+  {% if section.settings.heading != blank %}
+  <div class="heading">
+    <h2>{{ section.settings.heading }}</h2>
+  </div>
+  {% endif %}
+
+  <div class="feature-grid {% if section.settings.mobile_slider %}slider-mobile-f-grid{% endif %} {% if section.settings.full_bleed %}feature-grid--fullbleed{% endif %}" style="--fg-gap: {{ section.settings.gap | default: 16 }}px">
+    {% for block in section.blocks %}
+      {% assign b = block.settings %}
+      <div class="feature-grid__item feature-grid__item--{{ block.id }} {% if b.width == 'full' %}full{% endif %}" {{ block.shopify_attributes }}>
+        <div class="feature-grid__media">
+          {% if b.media_type == 'video' and b.video_url != blank %}
+            <video playsinline muted loop autoplay poster="{{ b.video_thumb | img_url: '1200x' }}">
+              <source src="{{ b.video_url }}" type="video/mp4">
+            </video>
+          {% else %}
+            {% if b.image != blank %}
+              {{ b.image | image_url: width: 2000 | image_tag:
+                alt: b.heading | default: 'Feature image',
+                loading: 'lazy',
+                width: 1200,
+                height: 800,
+                class: 'feature-grid__image'
+              }}
+            {% endif %}
+          {% endif %}
+          {% if b.overlay_opacity > 0 %}
+            <span class="feature-grid__overlay" style="background-color: {{ b.overlay_color }}; opacity: {{ b.overlay_opacity }}"></span>
+          {% endif %}
+          <style>
+            @media (min-width: 769px) {
+              .feature-grid__item--{{ block.id }} {
+                {% if b.enable_manual_height_desk == true %}
+                  max-height: {{ b.height_desk }}px;
+                  height: {{ b.height_desk }}px;
+                {% endif %}
+              }
+            }
+            @media (max-width: 768px) {
+              .feature-grid__item--{{ block.id }} {
+                {% if b.enable_manual_height_mob == true %}
+                  max-height: {{ b.height_mob }}px;
+                  height: {{ b.height_mob }}px;
+                
+                {% endif %}
+              }
+            }
+          </style>
+        </div>
+
+        {% assign vpos = b.vpos_desktop | default: 'center' %}
+        {% assign hpos = b.hpos_desktop | default: 'center' %}
+        {% assign talign = b.text_align_desktop | default: 'center' %}
+
+        <div class="feature-grid__textwrap" style="
+          --fg-head-color: {{ b.heading_color }};
+          --fg-sub-color: {{ b.subtext_color }};
+
+          {% comment %} Font family selects with fallback to theme defaults {% endcomment %}
+          --fg-head-font-family: '{{ b.font_heading | default: settings.type_header_font | default: 'system-ui' }}', sans-serif;
+          --fg-body-font-family: '{{ b.font_body | default: settings.type_body_font | default: 'system-ui' }}', sans-serif;
+          --fg-btn-font-family: '{{ b.font_buttons | default: settings.type_body_font | default: 'system-ui' }}', sans-serif;
+
+          --fg-head-size-m: {{ b.heading_size_m | default: 24 }}px;
+          --fg-sub-size-m: {{ b.subtext_size_m | default: 16 }}px;
+          --fg-btn-size-m: {{ b.button_size_m | default: 14 }}px;
+
+          --fg-head-size-d: {{ b.heading_size_d | default: 40 }}px;
+          --fg-sub-size-d: {{ b.subtext_size_d | default: 18 }}px;
+          --fg-btn-size-d: {{ b.button_size_d | default: 15 }}px;
+
+          --fg-btn1-color: {{ b.btn1_text_color }};
+          --fg-btn1-bg: {{ b.btn1_bg }};
+          --fg-btn1-color-h: {{ b.btn1_text_hover }};
+          --fg-btn1-bg-h: {{ b.btn1_bg_h }};
+          --fg-btn2-color: {{ b.btn2_text_color }};
+          --fg-btn2-bg: {{ b.btn2_bg }};
+          --fg-btn2-color-h: {{ b.btn2_text_hover }};
+          --fg-btn2-bg-h: {{ b.btn2_bg_h }};
+
+          /* ADD: emit font-weight variables with defaults */
+          --fg-head-weight: {{ b.heading_weight | default: 800 }};
+          --fg-sub-weight: {{ b.subtext_weight | default: 600 }};
+          --fg-btn-weight: {{ b.button_weight | default: 700 }};
+        ">
+          <div class="feature-grid__text">
+            {% if b.heading != blank %}
+              <h2 class="feature-grid__heading">{{ b.heading }}</h2>
+            {% endif %}
+            {% if b.subtext != blank %}
+              <div class="feature-grid__sub">{{ b.subtext }}</div>
+            {% endif %}
+            {% if b.btn1_label != blank or b.btn2_label != blank %}
+              <div class="feature-grid__buttons">
+                {% if b.btn1_label != blank %}
+                  <a class="btn" href="{{ b.btn1_url }}">{{ b.btn1_label }}</a>
+                {% endif %}
+                {% if b.btn2_label != blank %}
+                  <a class="btn btn--2" href="{{ b.btn2_url }}">{{ b.btn2_label }}</a>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <style>
+          @media (min-width: 769px) {
+            .feature-grid__item--{{ block.id }} .feature-grid__textwrap {
+              padding: {{ b.pad | default: 24 }}px;
+            }
+            .feature-grid__item--{{ block.id }} .feature-grid__text {
+              max-width: {{ b.text_width_desktop | default: 60 }}%;
+              justify-self: {{ b.hpos_desktop | default: 'center' }};
+              align-self: {{ b.vpos_desktop | default: 'center' }};
+              text-align: {{ b.text_align_desktop | default: 'center' }};
+            }
+          }
+          @media (max-width: 768px) {
+            .feature-grid__item--{{ block.id }} .feature-grid__textwrap {
+              padding: {{ b.pad_mobile | default: 16 }}px;
+            }
+            .feature-grid__item--{{ block.id }} .feature-grid__text {
+              max-width: {{ b.text_width_mobile | default: 100 }}%;
+              justify-self: {{ b.hpos_mobile | default: b.hpos_desktop | default: 'center' }};
+              align-self: {{ b.vpos_mobile | default: b.vpos_desktop | default: 'center' }};
+              text-align: {{ b.text_align_mobile | default: b.text_align_desktop | default: 'center' }};
+            }
+          }
+        </style>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% if section.settings.mobile_slider %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if(window.innerWidth < 769){
+    $('.slider-mobile-f-grid').slick({
+      dots: false,
+      infinite: false,
+      arrows: false,
+      speed: 300,
+      slidesToShow: 1,
+      centerMode: true,
+      centerPadding: '{{section.settings.center-padding}}px'
+    });
+  }
+});
+</script>
+<style>
+  @media (max-width: 769px){
+    .slider-mobile-f-grid .slick-track .slick-slide {
+        margin: 0px {{section.settings.gap-between-slider}}px 0px 0px;
+    }
+    .slider-mobile-f-grid  .slick-list .slick-track {
+        margin-left: -{{section.settings.margin-left-section-slider}}px;
+    }
+  }
+</style>
+{% endif %}
+
+{% comment %} <script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  const sectionRoot = document.querySelector('.feature-grid--{{ section.id }}');
+  if (!sectionRoot) return;
+
+  // Mid-page refresh guard for this section instance
+  scrollTriggerManager.revealIfInViewAll(
+    '.feature-grid--{{ section.id }} .heading h2, ' +
+    '.feature-grid--{{ section.id }} .feature-grid__text .feature-grid__heading, ' +
+    '.feature-grid--{{ section.id }} .feature-grid__text .feature-grid__sub, ' +
+    '.feature-grid--{{ section.id }} .feature-grid__text .feature-grid__buttons'
+  );
+
+  // Section heading animation
+  const headingEl = sectionRoot.querySelector('.heading h2');
+  if (headingEl) {
+    gsap.to(headingEl, {
+      scrollTrigger: {
+        trigger: sectionRoot,
+        start: 'clamp(top 70%)',
+        toggleActions: 'play none none none',
+        once: true,
+        markers: false
+      },
+      y: 0,
+      opacity: 1,
+      duration: 0.9,
+      ease: 'power3.out'
+    });
+  }
+});
+</script> {% endcomment %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Feature Grid GSAP Script - DOMContentLoaded triggered for section {{ section.id }}');
+  
+  if (!window.gsap || !window.ScrollTrigger) {
+    console.error('Feature Grid GSAP Script - GSAP or ScrollTrigger not loaded');
+    console.log('window.gsap:', !!window.gsap);
+    console.log('window.ScrollTrigger:', !!window.ScrollTrigger);
+    return;
+  }
+
+  console.log('Feature Grid GSAP Script - GSAP and ScrollTrigger are available');
+  gsap.registerPlugin(ScrollTrigger);
+  console.log('Feature Grid GSAP Script - ScrollTrigger plugin registered');
+
+  const sectionRoot = document.querySelector('.feature-grid--{{ section.id }}');
+  console.log('Feature Grid GSAP Script - Section ID:', '{{ section.id }}');
+  console.log('Feature Grid GSAP Script - Section Root found:', !!sectionRoot);
+  
+  if (!sectionRoot) {
+    console.error('Feature Grid GSAP Script - Section root not found: .feature-grid--{{ section.id }}');
+    console.log('Available feature-grid elements:', document.querySelectorAll('.feature-grid').length);
+    return;
+  }
+
+  console.log('Feature Grid GSAP Script - Section root found successfully');
+  console.log('Feature Grid GSAP Script - Section root classes:', sectionRoot.className);
+
+  // Mid-page refresh guard for this section instance
+  console.log('Feature Grid GSAP Script - Attempting scrollTriggerManager.revealIfInViewAll');
+  
+  if (typeof scrollTriggerManager !== 'undefined' && scrollTriggerManager.revealIfInViewAll) {
+    console.log('Feature Grid GSAP Script - scrollTriggerManager is available');
+    const targetsString = '.feature-grid--{{ section.id }} .heading h2, ' +
+                          '.feature-grid--{{ section.id }} .feature-grid__text .feature-grid__heading, ' +
+                          '.feature-grid--{{ section.id }} .feature-grid__text .feature-grid__sub, ' +
+                          '.feature-grid--{{ section.id }} .feature-grid__text .feature-grid__buttons';
+    
+    console.log('Feature Grid GSAP Script - Targets string:', targetsString);
+    
+    const targetElements = document.querySelectorAll(targetsString);
+    console.log('Feature Grid GSAP Script - Target elements found:', targetElements.length);
+    
+    targetElements.forEach((el, index) => {
+      console.log(`Feature Grid GSAP Script - Target ${index + 1}:`, el, 'Classes:', el.className);
+    });
+    
+    try {
+      scrollTriggerManager.revealIfInViewAll(targetsString);
+      console.log('Feature Grid GSAP Script - scrollTriggerManager.revealIfInViewAll executed successfully');
+    } catch (error) {
+      console.error('Feature Grid GSAP Script - Error in revealIfInViewAll:', error);
+    }
+  } else {
+    console.warn('Feature Grid GSAP Script - scrollTriggerManager not available, skipping revealIfInViewAll');
+  }
+
+  // Section heading animation
+  const headingEl = sectionRoot.querySelector('.heading h2');
+  console.log('Feature Grid GSAP Script - Heading element search: .heading h2');
+  console.log('Feature Grid GSAP Script - Heading found:', !!headingEl);
+  
+  if (headingEl) {
+    console.log('Feature Grid GSAP Script - Initial heading state:', {
+      opacity: headingEl.style.opacity,
+      transform: headingEl.style.transform
+    });
+    
+    console.log('Feature Grid GSAP Script - Setting up heading animation');
+    console.log('Feature Grid GSAP Script - Heading target:', headingEl);
+    console.log('Feature Grid GSAP Script - Heading classes:', headingEl.className);
+    
+    const tween = gsap.to(headingEl, {
+      scrollTrigger: {
+        trigger: sectionRoot,
+        start: 'clamp(top 70%)',
+        toggleActions: 'play none none none',
+        once: true,
+        markers: false,
+        onEnter: () => console.log('Feature Grid GSAP Script - Heading ScrollTrigger onEnter'),
+        onLeave: () => console.log('Feature Grid GSAP Script - Heading ScrollTrigger onLeave'),
+        onToggle: (self) => console.log('Feature Grid GSAP Script - Heading ScrollTrigger toggled, isActive:', self.isActive)
+      },
+      y: 0,
+      opacity: 1,
+      duration: 0.9,
+      ease: 'power3.out',
+      onStart: () => console.log('Feature Grid GSAP Script - Heading animation started'),
+      onComplete: () => console.log('Feature Grid GSAP Script - Heading animation completed'),
+      onUpdate: (self) => {
+        if (self.progress > 0 && self.progress < 1) {
+          // Optional: Log progress if needed for debugging
+        }
+      }
+    });
+
+    console.log('Feature Grid GSAP Script - Heading tween created:', tween);
+  } else {
+    console.warn('Feature Grid GSAP Script - Heading element not found');
+    console.log('Available heading elements:', document.querySelectorAll('.heading'));
+    console.log('Available h2 elements in section:', sectionRoot.querySelectorAll('h2'));
+  }
+
+  // Debug section structure
+  console.log('Feature Grid GSAP Script - Section structure debug:');
+  console.log('- Section root:', sectionRoot);
+  console.log('- All children:', sectionRoot.children.length);
+  Array.from(sectionRoot.children).forEach((child, index) => {
+    console.log(`  Child ${index + 1}:`, child.tagName, child.className);
+  });
+
+  console.log('Feature Grid GSAP Script - All ScrollTriggers in page:', ScrollTrigger.getAll().length);
+});
+</script>
+
+
+{% if section.settings.animation-position == 'top' %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  const sectionRoot = document.querySelector('.feature-grid--{{ section.id }}');
+  if (!sectionRoot) return;
+
+  // Use matchMedia for responsive animations
+  gsap.matchMedia().add('(min-width: 769px)', () => {
+    // Desktop: unchanged behavior
+    sectionRoot.querySelectorAll('.feature-grid__item').forEach((item) => {
+      const heading = item.querySelector('.feature-grid__text .feature-grid__heading');
+      const sub     = item.querySelector('.feature-grid__text .feature-grid__sub');
+      const buttons = item.querySelector('.feature-grid__text .feature-grid__buttons');
+      
+      if (!heading && !sub && !buttons) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: item,
+          start: 'clamp(top 60%)',
+          toggleActions: 'play none none none',
+          once: true,
+          markers: false
+        }
+      });
+
+      if (heading) tl.to(heading, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0);
+      if (sub)     tl.to(sub,     { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.15);
+      if (buttons) tl.to(buttons, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.30);
+    });
+  });
+
+  gsap.matchMedia().add('(max-width: 768px)', () => {
+    // Mobile: different start position
+    sectionRoot.querySelectorAll('.feature-grid__item').forEach((item) => {
+      const heading = item.querySelector('.feature-grid__text .feature-grid__heading');
+      const sub     = item.querySelector('.feature-grid__text .feature-grid__sub');
+      const buttons = item.querySelector('.feature-grid__text .feature-grid__buttons');
+      
+      if (!heading && !sub && !buttons) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: item,
+          start: 'clamp(top 80%)',
+          toggleActions: 'play none none none',
+          once: true,
+          markers: false
+        }
+      });
+
+      if (heading) tl.to(heading, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0);
+      if (sub)     tl.to(sub,     { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0.12);
+      if (buttons) tl.to(buttons, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0.24);
+    });
+  });
+
+  // Robust refresh sequence
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      scrollTriggerManager.safeRefresh(50);
+    }, 50);
+  });
+});
+</script>
+{% elsif section.settings.animation-position == 'middle' %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  const sectionRoot = document.querySelector('.feature-grid--{{ section.id }}');
+  if (!sectionRoot) return;
+
+  // Desktop: unchanged behavior
+  gsap.matchMedia().add('(min-width: 769px)', () => {
+    sectionRoot.querySelectorAll('.feature-grid__item').forEach((item) => {
+      const heading = item.querySelector('.feature-grid__text .feature-grid__heading');
+      const sub     = item.querySelector('.feature-grid__text .feature-grid__sub');
+      const buttons = item.querySelector('.feature-grid__text .feature-grid__buttons');
+      
+      if (!heading && !sub && !buttons) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: item,
+          start: 'clamp(top 80%)',
+          toggleActions: 'play none none none',
+          once: true,
+          markers: false
+        }
+      });
+
+      if (heading) tl.to(heading, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0);
+      if (sub)     tl.to(sub,     { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.15);
+      if (buttons) tl.to(buttons, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.30);
+    });
+  });
+
+  // Mobile: different start position for middle
+  gsap.matchMedia().add('(max-width: 768px)', () => {
+    sectionRoot.querySelectorAll('.feature-grid__item').forEach((item) => {
+      const heading = item.querySelector('.feature-grid__text .feature-grid__heading');
+      const sub     = item.querySelector('.feature-grid__text .feature-grid__sub');
+      const buttons = item.querySelector('.feature-grid__text .feature-grid__buttons');
+      
+      if (!heading && !sub && !buttons) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: item,
+          start: 'clamp(top 80%)',
+          toggleActions: 'play none none none',
+          once: true,
+          markers: false
+        }
+      });
+
+      if (heading) tl.to(heading, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0);
+      if (sub)     tl.to(sub,     { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0.12);
+      if (buttons) tl.to(buttons, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0.24);
+    });
+  });
+
+  // Robust refresh sequence
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      scrollTriggerManager.safeRefresh(50);
+    }, 50);
+  });
+});
+</script>
+{% else %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  const sectionRoot = document.querySelector('.feature-grid--{{ section.id }}');
+  if (!sectionRoot) return;
+
+  // Desktop: unchanged behavior
+  gsap.matchMedia().add('(min-width: 769px)', () => {
+    sectionRoot.querySelectorAll('.feature-grid__item').forEach((item) => {
+      const heading = item.querySelector('.feature-grid__text .feature-grid__heading');
+      const sub     = item.querySelector('.feature-grid__text .feature-grid__sub');
+      const buttons = item.querySelector('.feature-grid__text .feature-grid__buttons');
+      
+      if (!heading && !sub && !buttons) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: item,
+          start: 'clamp(top 10%)',
+          toggleActions: 'play none none none',
+          once: true,
+          markers: false
+        }
+      });
+
+      if (heading) tl.to(heading, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0);
+      if (sub)     tl.to(sub,     { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.15);
+      if (buttons) tl.to(buttons, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.30);
+    });
+  });
+
+  // Mobile: different start position for bottom
+  gsap.matchMedia().add('(max-width: 768px)', () => {
+    sectionRoot.querySelectorAll('.feature-grid__item').forEach((item) => {
+      const heading = item.querySelector('.feature-grid__text .feature-grid__heading');
+      const sub     = item.querySelector('.feature-grid__text .feature-grid__sub');
+      const buttons = item.querySelector('.feature-grid__text .feature-grid__buttons');
+      
+      if (!heading && !sub && !buttons) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: item,
+          start: 'clamp(top 70%)',
+          toggleActions: 'play none none none',
+          once: true,
+          markers: false
+        }
+      });
+
+      if (heading) tl.to(heading, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0);
+      if (sub)     tl.to(sub,     { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0.12);
+      if (buttons) tl.to(buttons, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0.24);
+    });
+  });
+
+  // Robust refresh sequence
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      scrollTriggerManager.safeRefresh(50);
+    }, 50);
+  });
+});
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Full Half Banner Grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Animation Content Position"
+    },
+    {
+      "type": "select",
+      "id": "animation-position",
+      "label": "Animation Position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "middle",
+          "label": "Middle"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "header",
+      "content": "Section Background"
+    },
+    {
+      "type": "color",
+      "id": "bg-color",
+      "label": "Background Color"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_bleed",
+      "label": "Full-bleed width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Grid gap (px)",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Grid gap mobile (px)",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "font_heading",
+      "label": "Font Family Title",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        },
+        {
+          "value": "Playfair Display",
+          "label": "Playfair Display"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "range",
+      "id": "font_size_heading",
+      "label": "Font Size Heading",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "font_size_heading_mob",
+      "label": "Font Size Heading Mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 40
+    },
+    {
+    "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        {"value": "300", "label": "Light"},
+        {"value": "400", "label": "Normal"},
+        {"value": "500", "label": "Medium"},
+        {"value": "600", "label": "Semi Bold"},
+        {"value": "700", "label": "Bold"}
+      ],
+      "default": "600"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_slider",
+      "label": "Enable slider on mobile",
+      "default": false
+    },
+    {
+      "type":"number",
+      "id": "center-padding",
+      "label": "Center Padding",
+      "default":20
+    },
+    {
+      "type": "number",
+      "id": "margin-left-section-slider",
+      "label": "Margin Left for slider section",
+      "default":16
+    },
+    {
+      "type": "number",
+      "id":"gap-between-slider",
+      "label": "Gap between Slides",
+      "default":16
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding-top",
+      "label": "Padding Top Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-bottom",
+      "label": "Padding Bottom Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-left",
+      "label": "Padding Left Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-right",
+      "label": "Padding Right Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding-top-mob",
+      "label": "Padding Top Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-bottom-mob",
+      "label": "Padding Bottom Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-left-mob",
+      "label": "Padding Left Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-right-mob",
+      "label": "Padding Right Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Feature item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Width",
+          "options": [
+            {
+              "value": "half",
+              "label": "Half width"
+            },
+            {
+              "value": "full",
+              "label": "Full width"
+            }
+          ],
+          "default": "half"
+        },
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media Type",
+          "options": [
+            {
+              "value": "image",
+              "label": "Image"
+            },
+            {
+              "value": "video",
+              "label": "Video"
+            }
+          ],
+          "default": "image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "video_thumb",
+          "label": "Video poster"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video URL"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay opacity",
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "default": 0
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "label": "Subheading"
+        },
+        {
+          "type": "color",
+          "id": "subtext_color",
+          "label": "Subheading color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "url",
+          "id": "btn1_url",
+          "label": "Button 1 link"
+        },
+        {
+          "type": "text",
+          "id": "btn1_label",
+          "label": "Button 1 label"
+        },
+        {
+          "type": "color",
+          "id": "btn1_text_hover",
+          "label": "Btn 1 hover text",
+          "default": "#111111"
+        },
+        {
+          "type": "color",
+          "id": "btn1_bg",
+          "label": "Btn 1 background"
+        },
+        {
+          "type": "color",
+          "id": "btn1_text_color",
+          "label": "Btn 1 text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "url",
+          "id": "btn2_url",
+          "label": "Button 2 link"
+        },
+        {
+          "type": "text",
+          "id": "btn2_label",
+          "label": "Button 2 label"
+        },
+        {
+          "type": "color",
+          "id": "btn2_text_hover",
+          "label": "Btn 2 hover text",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "btn2_bg",
+          "label": "Btn 2 background"
+        },
+        {
+          "type": "color",
+          "id": "btn2_text_color",
+          "label": "Btn 2 text color",
+          "default": "#111111"
+        },
+        {
+          "type": "header",
+          "content": "Typography"
+        },
+        {
+          "type": "select",
+          "id": "font_heading",
+          "label": "Font Family Heading",
+          "options": [
+            {
+              "value": "Montserrat",
+              "label": "Montserrat"
+            },
+            {
+              "value": "Roboto",
+              "label": "Roboto"
+            },
+            {
+              "value": "Helvetica Neue",
+              "label": "Helvetica Neue"
+            },
+            {
+              "value": "Playfair Display",
+              "label": "Playfair Display"
+            }
+          ],
+          "default": "Montserrat"
+        },
+        {
+          "type": "select",
+          "id": "font_body",
+          "label": "Font Family Body",
+          "options": [
+            {
+              "value": "Montserrat",
+              "label": "Montserrat"
+            },
+            {
+              "value": "Roboto",
+              "label": "Roboto"
+            },
+            {
+              "value": "Helvetica Neue",
+              "label": "Helvetica Neue"
+            },
+            {
+              "value": "Playfair Display",
+              "label": "Playfair Display"
+            }
+          ],
+          "default": "Montserrat"
+        },
+        {
+          "type": "select",
+          "id": "font_buttons",
+          "label": "Font Family Buttons",
+          "options": [
+            {
+              "value": "Montserrat",
+              "label": "Montserrat"
+            },
+            {
+              "value": "Roboto",
+              "label": "Roboto"
+            },
+            {
+              "value": "Helvetica Neue",
+              "label": "Helvetica Neue"
+            },
+            {
+              "value": "Playfair Display",
+              "label": "Playfair Display"
+            }
+          ],
+          "default": "Montserrat"
+        },
+        {
+          "type": "range",
+          "id": "heading_size_m",
+          "label": "Heading size (mobile px)",
+          "min": 10,
+          "max": 60,
+          "step": 1,
+          "default": 26
+        },
+        {
+          "type": "range",
+          "id": "heading_size_d",
+          "label": "Heading size (desktop px)",
+          "min": 12,
+          "max": 100,
+          "step": 1,
+          "default": 42
+        },
+        {
+          "type": "range",
+          "id": "subtext_size_m",
+          "label": "Subheading size (mobile px)",
+          "min": 10,
+          "max": 40,
+          "step": 1,
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "subtext_size_d",
+          "label": "Subheading size (desktop px)",
+          "min": 10,
+          "max": 64,
+          "step": 1,
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "button_size_m",
+          "label": "Button text (mobile px)",
+          "min": 10,
+          "max": 32,
+          "step": 1,
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "button_size_d",
+          "label": "Button text (desktop px)",
+          "min": 10,
+          "max": 40,
+          "step": 1,
+          "default": 15
+        },
+        /* ADD: Typography weight controls */
+        {
+          "type": "select",
+          "id": "heading_weight",
+          "label": "Heading font weight",
+          "options": [
+            { "value": "300", "label": "Light 300" },
+            { "value": "400", "label": "Normal 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi Bold 600" },
+            { "value": "700", "label": "Bold 700" },
+            { "value": "800", "label": "Extra Bold 800" },
+            { "value": "900", "label": "Black 900" }
+          ],
+          "default": "800"
+        },
+        {
+          "type": "select",
+          "id": "subtext_weight",
+          "label": "Subheading font weight",
+          "options": [
+            { "value": "300", "label": "Light 300" },
+            { "value": "400", "label": "Normal 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi Bold 600" },
+            { "value": "700", "label": "Bold 700" }
+          ],
+          "default": "600"
+        },
+        {
+          "type": "select",
+          "id": "button_weight",
+          "label": "Button font weight",
+          "options": [
+            { "value": "300", "label": "Light 300" },
+            { "value": "400", "label": "Normal 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi Bold 600" },
+            { "value": "700", "label": "Bold 700" },
+            { "value": "800", "label": "Extra Bold 800" }
+          ],
+          "default": "700"
+        },
+        {
+          "type": "header",
+          "content": "Text block position"
+        },
+        {
+          "type": "range",
+          "id": "text_width_desktop",
+          "label": "Text width desktop (%)",
+          "min": 20,
+          "max": 100,
+          "step": 5,
+          "default": 60
+        },
+        {
+          "type": "range",
+          "id": "text_width_mobile",
+          "label": "Text width mobile (%)",
+          "min": 40,
+          "max": 100,
+          "step": 5,
+          "default": 100
+        },
+        {
+          "type": "range",
+          "id": "pad",
+          "label": "Inner padding desktop (px)",
+          "min": 0,
+          "max": 120,
+          "step": 4,
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "pad_mobile",
+          "label": "Inner padding mobile (px)",
+          "min": 0,
+          "max": 120,
+          "step": 4,
+          "default": 16
+        },
+        {
+          "type": "select",
+          "id": "vpos_desktop",
+          "label": "Vertical desktop",
+          "options": [
+            {
+              "value": "start",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Bottom"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "hpos_desktop",
+          "label": "Horizontal desktop",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "text_align_desktop",
+          "label": "Text align desktop",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "vpos_mobile",
+          "label": "Vertical mobile",
+          "options": [
+            {
+              "value": "start",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Bottom"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "hpos_mobile",
+          "label": "Horizontal mobile",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "text_align_mobile",
+          "label": "Text align mobile",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "Manual Height Mobile"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_manual_height_mob",
+          "label": "Enable Manual Height",
+          "default": false
+        },
+        {
+          "type": "number",
+          "id": "height_mob",
+          "label": "Manual Height",
+          "info": "Write in number (px)"
+        },
+        {
+          "type": "header",
+          "content": "Manual Height Desktop"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_manual_height_desk",
+          "label": "Enable Desktop Height",
+          "default": false
+        },
+        {
+          "type": "number",
+          "id": "height_desk",
+          "label": "Manual Height",
+          "info": "Write in number (px)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Full Half Banner Grid",
+      "blocks": [
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

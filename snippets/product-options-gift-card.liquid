@@ -1,0 +1,968 @@
+<div class="pdp-atc__variants" id="pdp-atc__variants">
+  {% if product.title == 'Elmstead' or product.title == 'Brenwick' or product.title == 'Modin Reducer' or product.title == 'Concorde' %}
+      <script type="text/javascript">
+    console.log('Inline script starting for handle: {{ product.handle }}');
+    window.productInfo = window.productInfo || {};
+    window.productInfo["{{ product.handle }}"] = {{ product.variants | json }};
+    window.productInfo['selectedVariant'] = {{ product.selected_or_first_available_variant | json }};
+    console.log('window.productInfo set for {{ product.handle }} with ' + window.productInfo["{{ product.handle }}"].length + ' variants');
+
+    // Your forloop for preorder_message and msrp...
+    {%- for variant in product.variants -%}
+    {% assign preorder_message = variant.metafields.flooret.preorder_message
+                                  | metafield_tag
+                                  | json %}
+    {% if preorder_message != 'null' %}
+      window.productInfo["{{ product.handle }}"][{{ forloop.index0 }}]
+        .preorder_message = {{ preorder_message }};
+    {% endif %}
+
+          {%- if msrp != blank -%}
+            window.productInfo["{{product.handle}}"][{{ forloop.index0 }}]["msrp"] = {{ msrp | times: 100 }};
+          {%- endif -%}
+
+      {%- endfor -%}
+
+      // Rest of your script (updateVariantInURL, etc.)...
+      console.log('Inline script completed for {{ product.handle }}');
+  </script>
+
+  {% else %}
+
+  <script type="text/javascript">
+    window.productInfo =  window.productInfo || {};
+
+    window.productInfo["{{product.handle}}"] = {{ product.variants | json }};
+
+    window.productInfo['selectedVariant'] = {{ product.selected_or_first_available_variant | json }};
+    
+    function updateVariantInURL() {
+      const currentVariant = {{ product.selected_or_first_available_variant | json }};
+      const formElement = document.querySelector(".mproduct__form");
+      
+      const idInput = formElement.querySelector("[name='id']");
+      const modelInput = formElement.querySelector("[name='model']"); 
+      const bevelInput = formElement.querySelector("[name='bevel']");   
+      const typeInput = formElement.querySelector("[name='type']");   
+
+      if (idInput) {
+        idInput.value = currentVariant.id;
+      }
+
+      if (modelInput) {
+        modelInput.value = currentVariant.option1 
+      }
+      
+      if (bevelInput && typeInput) {
+        bevelInput.value = currentVariant.option2 
+        typeInput.value = currentVariant.option3 
+      } else if (typeInput) {
+        typeInput.value = currentVariant.option2 
+      }
+
+      const currentUrl = new URL(window.location.href);
+    
+      currentUrl.searchParams.set("variant", currentVariant.id);
+      window.history.replaceState(null, null, currentUrl.toString());
+    }
+    
+    const urlParams = new URLSearchParams(new URL(window.location.href).search);
+
+    if (!urlParams?.has("select-color")) {
+      setTimeout(() => updateVariantInURL(), 500);
+    }
+    
+    {%- for variant in product.variants -%}
+
+      {%- assign preorder_message = variant.metafields.flooret.preorder_message | metafield_tag | escape -%}
+
+      {%- assign msrp = variant.metafields.flooret.msrp -%}
+
+      {%- if preorder_message != blank -%}
+        window.productInfo["{{ product.handle }}"][{{ forloop.index0 }}]["preorder_message"] = "{{ preorder_message  }}";
+      {%- endif -%}
+
+      {%- if msrp != blank -%}
+        window.productInfo["{{product.handle}}"][{{ forloop.index0 }}]["msrp"] = {{ msrp | times: 100 }};
+      {%- endif -%}
+
+
+    {%- endfor -%}
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const waitForInputs = setInterval(() => {
+        const currentVariant = {{ product.selected_or_first_available_variant | json }};
+        const formElement = document.querySelector(".mproduct__form");
+        if (!formElement) return;
+      
+        const bevelInput = formElement.querySelector("[name='bevel']");
+        const signatureRadioInputs = [
+          'nakan',
+          'kingswood',
+          'soho',
+          'palka', 
+          'arbor',
+          'brenwick'
+        ].map(name => document.getElementById(`${name}__option1__signature`));
+
+        const bevelRadios = document.querySelectorAll('input[name="Bevel"]');
+
+        signatureRadioInputs.forEach(radioInput => {
+          if (radioInput && bevelInput) {
+            clearInterval(waitForInputs); // Stop polling once we found the inputs
+            
+            radioInput.addEventListener('click', function(event) {
+              if (event.target.checked) {
+                const enhancedBevel = Array.from(bevelRadios).find(b => b.value === 'Enhanced');
+                if (enhancedBevel) {
+                  enhancedBevel.checked = true;
+                  bevelInput.value = 'Enhanced';
+                  enhancedBevel.dispatchEvent(new Event('change')); // trigger any listeners
+                }
+              }
+            });
+
+            // Optional: Fire change handler on first load
+            radioInput.dispatchEvent(new Event('change'));
+          }
+        });
+      }, 200);
+    });
+    
+  </script>
+
+  {% endif %}
+
+  <style>
+    .pdp-atc__group__buttons.Bevel {
+      flex-direction: column-reverse !important;
+    }
+  </style>
+
+  <div class="select-menu hidden">
+    <select class="js-product-form__main-select" name="id" autocomplete="off">
+      {% for variant in product.variants %}
+        <option
+          {% unless variant.available %}
+            class="disabled"
+          {% endunless %}
+          value="{{ variant.id }}"
+          {% if variant.option1 != blank %}
+            data-option1="{{ variant.option1 | escape }}"
+          {% endif %}
+          {% if variant.option2 != blank %}
+            data-option2="{{ variant.option2 | escape }}"
+          {% endif %}
+          {% if variant.option3 != blank %}
+            data-option3="{{ variant.option3 | escape }}"
+          {% endif %}
+          {% if variant.id == product.selected_or_first_available_variant.id %}
+            selected
+          {% endif %}
+        >
+          {{ variant.title }} - {{ variant.price | money }} -
+          {{- variant.compare_at_price | money -}} - 
+          {%- assign savings = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round -%}
+          {{ savings }}% OFF
+          {% unless variant.available %}(Soldout){% endunless %}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="pdp-atc__groups">
+    {% for product_option in product.options_with_values %}
+      {%- liquid
+        assign optionIndex = forloop.index
+        assign optionSelector = 'option' | append: optionIndex
+        assign first_available_option = product.selected_or_first_available_variant[optionSelector]
+      %}
+
+      {% unless product_option.name == 'Title' %}
+
+
+       {% liquid
+          assign swatch = false
+          assign swatchHandles = 'color' | split: ','
+          assign optionHandle = product_option.name | handleize
+          if swatchHandles contains optionHandle
+            assign swatch = true
+          endif
+        %} 
+
+        {% comment %} New changes {% endcomment %}
+        {% liquid
+          if product.title == 'Copy Dev Modin LVP 4-Model Comparison Kit' or product.title == "Modin LVP 4-Model Comparison Kit" or product.title == "Modin LVP 3-Model Comparison Kit" or product.title == "Modin LVP 2-Model Comparison Kit" or product.title == "Silvan Hardwood 2-Width Comparison Kit" or product.title == "Modin LVP Signature Sample Kits" or product.title == "Bestsellers Sample Kits"
+            assign swatch = false
+            assign optionHandle = product_option.name | handleize
+          endif
+        %}
+
+               {% comment %} {% liquid
+          if product.tags contains 'sample-v2'
+            assign swatch = false
+            assign optionHandle = product_option.name | handleize
+          endif
+        %} {% endcomment %}
+        {% comment %} New changes {% endcomment %}
+
+        {%- if isAddSamplePopup and optionHandle == 'type' -%}
+        {%- endif -%}
+
+        {% if product_option.name == 'Type' %}
+        <div class="js-product-form__group pdp-atc__group pdp-atc__group--{{ product_option.name | handleize }} {% if swatch %}pdp-atc__group--swatches{% endif %}">
+          <div class="pdp-atc__group__title {% if product_option.name == 'Type' %}type-d-flex{% endif %} {% if product_option.name == 'Model' and product.tags contains 'Cat--Modin LVP' %}flex-fix{% endif %}">
+            <label for="{{ product_option.name | handleize }}" class=" {% if product_option.name == 'Color' or product_option.name == 'Kit' %}color-label-ds{% endif %}">
+              {% if product_option.name == 'Color' %}
+                Choose your color:
+              {% elsif product_option.name == 'Kit' %}
+                Choose your collection:
+              {% else %}
+              {{ product_option.name }}
+              {% endif %}
+            </label>
+            {% if product_option.name == 'Type' %}
+              <div class="pdp_type--tab_list">
+                  <div data-items="sample" class="pdp_type--tab pdp_tab--active"><span>Order by Sample</span></div>
+                  <div data-items="box" class="pdp_type--tab"><span>Order by Box</span></div>
+              </div>
+            {% endif %}
+            
+               {% if product_option.name == 'Model' and product.tags contains 'Cat--Modin LVP' %}
+            <span id="compareModel" >Compare Models</span>
+            {% endif %}
+            
+          {% if product.title == 'Modin LVP 2-Model Comparison Kit' or product.title == 'Modin LVP 3-Model Comparison Kit' or product.title == 'Modin LVP 4-Model Comparison Kit' %}
+              <span id="compareModel" >Compare Models</span>
+            {% endif %}
+          </div>
+
+          <div class="select-menu {% unless swatch %} hidden{% endunless %}">
+            <select
+              id="option-{{ product_option.name | handleize }}"
+              class="js-product-form__select"
+              name="{{ product_option.name | handleize }}"
+              autocomplete="off"
+              required
+            >
+              {% if product_option.name == 'Color' %}
+                <option id="placeholder-option" value="Please select a color" disabled selected></option>
+              {% endif %}
+              {% for value in product_option.values %}
+                <option
+                  data-option-index="{{ optionIndex }}"
+                  value="{{ value | escape }}"
+                >
+                  {{ value }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <ul class="pdp-atc__group__buttons {{ product_option.name }} {% if swatch %}hidden{% endif %}">
+            {% for value in product_option.values %}
+              {%- liquid
+                assign product_handle = value | handleize
+
+                assign product_meta_namespace = optionHandle | prepend: 'product_'
+
+                if optionHandle == 'width'
+                  assign product_meta_namespace = 'product_model'
+                endif
+
+                assign product_meta = shop.metaobjects[product_meta_namespace][product_handle]
+
+                assign product_description = product_meta.description
+                assign product_option_icon = product_meta.image
+
+                assign cost_per_sqft = product_meta.cost_per_sqft
+                assign type_cost = product_meta.cost
+                assign compare_cost_per_sqft = product_meta.compare_cost_per_sqft
+                if value contains '(Archive)'
+                  continue
+                endif
+              -%}
+
+               {% assign val_handle = value | handleize %}
+                {% assign meta_ogj_handle = product_meta.name | handleize %}
+
+              <li style="{% if value == 'Box' %}display:none;{% endif %}" class="{% if product_option.name == 'Type' %}{{ product_option.name | downcase }} {{ value | downcase }}{% endif %}">
+               
+
+                
+
+                <input
+                  class="js-product-form__button {{ product_option.name | handleize }} reset"
+                  data-option-index="{{ optionIndex }}"
+                  name="{{ product_option.name }}"
+                  id="{{ product.handle }}__option{{ optionIndex }}__{{ value | handleize }}"
+                  {% if first_available_option == value %}
+                    checked
+                  {% endif %}
+                  value="{{ value | escape }}"
+                  title="{{ product_option.name }}: {{ value }}"
+                  type="radio"
+                  data_value="{{ value.variant.id }}"
+                  data-cost-per-sqft="{{ cost_per_sqft.value }}"
+                  data-compare-cost-per-sqft="{{ compare_cost_per_sqft.value }}"
+                >
+                <label
+                  for="{{ product.handle }}__option{{ optionIndex }}__{{ value | handleize }}"
+                  class="product-option product-option--{{ value | handleize }} {% if val_handle contains 'sample' %}show_free_shipping{% endif %}"
+                >
+
+
+                  {%- comment -%} Find variant with exact option match {%- endcomment -%}
+                  {%- liquid
+                    assign current_variant = null
+                    assign current_selections = product.selected_or_first_available_variant.options
+                    
+                    for variant in product.variants
+                      assign match = true
+                      for i in (1..3)
+                        assign option_key = 'option' | append: i
+                        if i == optionIndex
+                          unless variant[option_key] == value
+                            assign match = false
+                            break
+                          endunless
+                        else
+                          unless variant[option_key] == current_selections[forloop.index0]
+                            assign match = false  
+                            break
+                          endunless
+                        endif
+                      endfor
+                      
+                      if match
+                        assign current_variant = variant
+                        break
+                      endif
+                    endfor
+                  -%}
+
+                  {%- comment -%} Display swatch image {%- endcomment -%}
+                  {%- if current_variant.metafields.custom.swatch_image != blank -%}
+                    <span class="product-option__swatch">
+                      <img 
+                        src="{{ current_variant.metafields.custom.swatch_image.value | img_url: '100x' }}" 
+                        alt="{{ value }}" 
+                        width="100%" 
+                        height="100%"
+                        loading="lazy"
+                      >
+                    </span>
+                  {%- endif -%}
+
+                   {% comment %}Tags in model options{% endcomment %}
+                  {%- if value == 'Base' or value == 'Signature' or value == 'Craftsman' or value == 'Herringbone' %}
+                    <span class="tags-float">
+                    {%- if value == 'Base' %}Best Value{% endif -%}
+                    {%- if value == 'Signature' %}Most Popular{% endif -%}
+                    {%- if value == 'Craftsman' %}Designer's Choice{% endif -%}
+                    {%- if value == 'Herringbone' %}New Design{% endif -%}
+                    </span>
+                  {% endif -%}
+               
+                    {% comment %} <span class="sample_free_shipping">Free Shipping</span> {% endcomment %}
+                  {% if product.template_suffix == 'pdp-variation-2' and optionHandle == 'type'  %} {% endif %}
+
+                  {%- if product_option_icon != blank -%}
+                    <span class="product-option__icon">
+                      <img src="{{ product_option_icon | img_url: '50x' }}" width="" height="" alt="{{ value }}">
+                    </span>
+                  {%- endif -%}
+                  <div class="product-option__details">
+                    <span class="product-option__name">
+                      
+
+                       
+                       {%- comment -%} Inline Add to Cart for this specific option {%- endcomment -%}
+                        <button
+                          type="button"
+                          class="option-atc-btn"
+                          data-option-index="{{ optionIndex }}"
+                          data-option-value="{{ value | escape }}"
+                        >
+                          <span class="dynamic-option-price"></span>
+                          {% if value == 'Cut Sample' %}
+                            Cut Sample
+                          {% elsif value == 'Plank Sample' %}
+                            Full Length Plank Sample
+                          {% endif %}
+                        </button>
+
+                      {% comment %} {% if type_cost %}<span class="prd_type_cost">{{ type_cost.value | money }}</span>{% endif %} {% endcomment %}
+                    </span>
+                    {%- if product_meta.width != blank
+                      and product_meta.length != blank
+                      or product_meta.thickness != blank
+                      or product_meta.bevel_style != blank
+                    -%}
+                      <ul class="product-option__meta">
+                        {%- if product_meta.width != blank and product_meta.length != blank -%}
+                          <li>
+                            {{-
+                              product_meta.width.value
+                              | append: ' x '
+                              | append: product_meta.length.value
+                              | replace: ' in', '"'
+                            -}}
+                             {% comment %} | append: product_meta.length.value {% endcomment %}
+                          </li>
+                        {%- endif -%}
+
+                        {%- if product_meta.thickness != blank -%}
+                          <li>{{ product_meta.thickness | append: ' Mil' }}</li>
+                        {%- endif -%}
+
+                        {%- if product_meta.bevel_style != blank -%}
+                          {% comment %} <li>{{ product_meta.bevel_style | append: ' Bevels' }}</li> {% endcomment %}
+                          <li>{{ product_meta.bevel_style }}</li>
+                        {%- endif -%}
+                      </ul>
+                    {%- endif -%}
+
+                    
+                  </div>
+
+                  {%- if cost_per_sqft and false -%}
+                    <div class="label--const_per_sq_ft">
+                      <span class="product-option__cost-per-sqft"> {{ cost_per_sqft.value | money }} / SF </span>
+                      {% if product.template_suffix == 'pdp-variation-2' %}<span class="for_box">(for box)</span>{% endif %}
+                    </div>
+                  {%- endif -%}
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+          {% if product_option.name == 'Model' %}
+            {% assign base_model = false %}
+            {% for value in product_option.values %}
+              {% if value == 'Base Glue Down' %}
+                {% assign base_model = true %}
+              {% endif %}
+            {% endfor %}
+            {% if base_model %}
+              <div class="base_available">*Base Glue Down - Available 12/6/24</div>
+            {% endif %}
+          {% endif %}
+        </div>
+        {% else %}  
+        <div class="js-product-form__group pdp-atc__group pdp-atc__group--{{ product_option.name | handleize }} {% if swatch %}pdp-atc__group--swatches{% endif %}">
+          <div class="pdp-atc__group__title {% if product_option.name == 'Type' %}type-d-flex{% endif %} {% if product_option.name == 'Model' and product.tags contains 'Cat--Modin LVP' %}flex-fix{% endif %}">
+            <label for="{{ product_option.name | handleize }}" class=" {% if product_option.name == 'Color' or product_option.name == 'Kit' %}color-label-ds{% endif %}">
+              {% if product_option.name == 'Color' %}
+                Choose your color:
+              {% elsif product_option.name == 'Kit' %}
+                Choose your collection:
+              {% else %}
+              {{ product_option.name }}
+              {% endif %}
+            </label>
+            {% if product_option.name == 'Type' %}
+              <div class="pdp_type--tab_list">
+                  <div data-items="sample" class="pdp_type--tab pdp_tab--active"><span>Order by Sample</span></div>
+                  <div data-items="box" class="pdp_type--tab"><span>Order by Box</span></div>
+              </div>
+            {% endif %}
+            
+               {% if product_option.name == 'Model' and product.tags contains 'Cat--Modin LVP' %}
+            <span id="compareModel" >Compare Models</span>
+            {% endif %}
+            
+          {% if product.title == 'Modin LVP 2-Model Comparison Kit' or product.title == 'Modin LVP 3-Model Comparison Kit' or product.title == 'Modin LVP 4-Model Comparison Kit' %}
+              <span id="compareModel" >Compare Models</span>
+            {% endif %}
+          </div>
+
+          <div class="select-menu {% unless swatch %} hidden{% endunless %}">
+            <select
+              id="option-{{ product_option.name | handleize }}"
+              class="js-product-form__select"
+              name="{{ product_option.name | handleize }}"
+              autocomplete="off"
+              required
+            >
+              {% if product_option.name == 'Color' %}
+                <option id="placeholder-option" value="Please select a color" disabled selected></option>
+              {% endif %}
+              {% for value in product_option.values %}
+                <option
+                  data-option-index="{{ optionIndex }}"
+                  value="{{ value | escape }}"
+                >
+                  {{ value }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <ul class="pdp-atc__group__buttons {{ product_option.name }} {% if swatch %}hidden{% endif %}">
+            {% for value in product_option.values %}
+              {%- liquid
+                assign product_handle = value | handleize
+
+                assign product_meta_namespace = optionHandle | prepend: 'product_'
+
+                if optionHandle == 'width'
+                  assign product_meta_namespace = 'product_model'
+                endif
+
+                assign product_meta = shop.metaobjects[product_meta_namespace][product_handle]
+
+                assign product_description = product_meta.description
+                assign product_option_icon = product_meta.image
+
+                assign cost_per_sqft = product_meta.cost_per_sqft
+                assign type_cost = product_meta.cost
+                assign compare_cost_per_sqft = product_meta.compare_cost_per_sqft
+                if value contains '(Archive)'
+                  continue
+                endif
+              -%}
+
+               {% assign val_handle = value | handleize %}
+                {% assign meta_ogj_handle = product_meta.name | handleize %}
+
+              <li style="{% if value == 'Box' %}display:none;{% endif %}" class="{% if product_option.name == 'Type' %}{{ product_option.name | downcase }} {{ value | downcase }}{% endif %}">
+               
+
+                
+
+                <input
+                  class="js-product-form__button {{ product_option.name | handleize }} reset"
+                  data-option-index="{{ optionIndex }}"
+                  name="{{ product_option.name }}"
+                  id="{{ product.handle }}__option{{ optionIndex }}__{{ value | handleize }}"
+                  {% if first_available_option == value %}
+                    checked
+                  {% endif %}
+                  value="{{ value | escape }}"
+                  title="{{ product_option.name }}: {{ value }}"
+                  type="radio"
+                  data_value="{{ value.variant.id }}"
+                  data-cost-per-sqft="{{ cost_per_sqft.value }}"
+                  data-compare-cost-per-sqft="{{ compare_cost_per_sqft.value }}"
+                >
+                <label
+                  for="{{ product.handle }}__option{{ optionIndex }}__{{ value | handleize }}"
+                  class="product-option product-option--{{ value | handleize }} {% if val_handle contains 'sample' %}show_free_shipping{% endif %}"
+                >
+
+
+                  {%- comment -%} Find variant with exact option match {%- endcomment -%}
+                  {%- liquid
+                    assign current_variant = null
+                    assign current_selections = product.selected_or_first_available_variant.options
+                    
+                    for variant in product.variants
+                      assign match = true
+                      for i in (1..3)
+                        assign option_key = 'option' | append: i
+                        if i == optionIndex
+                          unless variant[option_key] == value
+                            assign match = false
+                            break
+                          endunless
+                        else
+                          unless variant[option_key] == current_selections[forloop.index0]
+                            assign match = false  
+                            break
+                          endunless
+                        endif
+                      endfor
+                      
+                      if match
+                        assign current_variant = variant
+                        break
+                      endif
+                    endfor
+                  -%}
+
+                  {%- comment -%} Display swatch image {%- endcomment -%}
+                  {%- if current_variant.metafields.custom.swatch_image != blank -%}
+                    <span class="product-option__swatch">
+                      <img 
+                        src="{{ current_variant.metafields.custom.swatch_image.value | img_url: '100x' }}" 
+                        alt="{{ value }}" 
+                        width="100%" 
+                        height="100%"
+                        loading="lazy"
+                      >
+                    </span>
+                  {%- endif -%}
+
+                   {% comment %}Tags in model options{% endcomment %}
+                  {%- if value == 'Base' or value == 'Signature' or value == 'Craftsman' or value == 'Herringbone' %}
+                    <span class="tags-float">
+                    {%- if value == 'Base' %}Best Value{% endif -%}
+                    {%- if value == 'Signature' %}Most Popular{% endif -%}
+                    {%- if value == 'Craftsman' %}Designer's Choice{% endif -%}
+                    {%- if value == 'Herringbone' %}New Design{% endif -%}
+                    </span>
+                  {% endif -%}
+               
+                    <span class="sample_free_shipping">Free Shipping</span>
+                  {% if product.template_suffix == 'pdp-variation-2' and optionHandle == 'type'  %} {% endif %}
+
+                  {%- if product_option_icon != blank -%}
+                    <span class="product-option__icon">
+                      <img src="{{ product_option_icon | img_url: '50x' }}" width="" height="" alt="{{ value }}">
+                    </span>
+                  {%- endif -%}
+                  <div class="product-option__details">
+                    <span class="product-option__name">
+                      {%- if value == 'Base Glue Down' %}*{% endif -%}
+                      {% if value == 'Plank Sample' %}Full Length&nbsp;{{- value -}}
+                      {% elsif value == 'Plank Samples' %}6" x 46" Plank Sample
+
+                      {% else %}{{- value -}}{% endif %}
+
+                       <span class="dynamic-option-price"></span>
+                       {%- comment -%} Inline Add to Cart for this specific option {%- endcomment -%}
+                        <button
+                          type="button"
+                          class="option-atc-btn"
+                          data-option-index="{{ optionIndex }}"
+                          data-option-value="{{ value | escape }}"
+                        >
+                          Add to cart
+                        </button>
+
+                      {% comment %} {% if type_cost %}<span class="prd_type_cost">{{ type_cost.value | money }}</span>{% endif %} {% endcomment %}
+                    </span>
+                    {%- if product_meta.width != blank
+                      and product_meta.length != blank
+                      or product_meta.thickness != blank
+                      or product_meta.bevel_style != blank
+                    -%}
+                      <ul class="product-option__meta">
+                        {%- if product_meta.width != blank and product_meta.length != blank -%}
+                          <li>
+                            {{-
+                              product_meta.width.value
+                              | append: ' x '
+                              | append: product_meta.length.value
+                              | replace: ' in', '"'
+                            -}}
+                             {% comment %} | append: product_meta.length.value {% endcomment %}
+                          </li>
+                        {%- endif -%}
+
+                        {%- if product_meta.thickness != blank -%}
+                          <li>{{ product_meta.thickness | append: ' Mil' }}</li>
+                        {%- endif -%}
+
+                        {%- if product_meta.bevel_style != blank -%}
+                          {% comment %} <li>{{ product_meta.bevel_style | append: ' Bevels' }}</li> {% endcomment %}
+                          <li>{{ product_meta.bevel_style }}</li>
+                        {%- endif -%}
+                      </ul>
+                    {%- endif -%}
+
+                    {%- if product_description != blank and val_handle != 'plank-sample' -%}
+                      <span class="product-option__description">{{ product_description }}</span>
+                    {%- endif -%}
+                  </div>
+
+                  {%- if cost_per_sqft and false -%}
+                    <div class="label--const_per_sq_ft">
+                      <span class="product-option__cost-per-sqft"> {{ cost_per_sqft.value | money }} / SF </span>
+                      {% if product.template_suffix == 'pdp-variation-2' %}<span class="for_box">(for box)</span>{% endif %}
+                    </div>
+                  {%- endif -%}
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+          {% if product_option.name == 'Model' %}
+            {% assign base_model = false %}
+            {% for value in product_option.values %}
+              {% if value == 'Base Glue Down' %}
+                {% assign base_model = true %}
+              {% endif %}
+            {% endfor %}
+            {% if base_model %}
+              <div class="base_available">*Base Glue Down - Available 12/6/24</div>
+            {% endif %}
+          {% endif %}
+        </div>
+        {% endif %}
+      {% endunless %}
+    {% endfor %}
+  </div>
+</div>
+
+{% comment %} 
+{% if product.title == 'Copy Dev Modin LVP 4-Model Comparison Kit' or product.title == "Modin LVP 4-Model Comparison Kit" or product.title == "Modin LVP 3-Model Comparison Kit" or product.title == "Modin LVP 2-Model Comparison Kit" or product.title == "Silvan Hardwood 2-Width Comparison Kit" or product.title == "Modin LVP Signature Sample Kits" or product.title == "Bestsellers Sample Kits" %}
+
+  <div class="product-description v2" >
+    {{ product.description }}
+  </div>
+
+{% endif %} {% endcomment %}
+
+<div id="message" class="hidden" style="margin-top: 1rem;"></div>
+
+
+
+
+
+{% if product.tags contains 'Cat--Accessories' %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const select = document.getElementsByClassName('js-product-form__select')[0];
+    const addToCartButton = document.getElementById('addtocart');
+    const messageDiv = document.getElementById('message');
+    const placeholderOption = document.getElementById('placeholder-option');
+
+    if (placeholderOption) {
+      addToCartButton.addEventListener('click', function () {
+        if (select.value === 'Please select a color') {
+          messageDiv.textContent = 'Please select a color first.';
+          messageDiv.classList.remove('hidden');
+          addToCartButton.disabled = true;
+        } else {
+          messageDiv.textContent = '';
+          messageDiv.classList.add('hidden');
+          addToCartButton.disabled = false;
+        }
+      });
+    }
+  });
+</script>
+{% endif %}
+
+
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+  const tabs = document.querySelectorAll('.pdp_type--tab');
+  
+  tabs.forEach(clickedTab => {
+    clickedTab.addEventListener('click', () => {
+      tabs.forEach(tab => {
+        tab.classList.remove('pdp_tab--active');
+      });
+      
+      clickedTab.classList.add('pdp_tab--active');
+      
+      const selectedItemType = clickedTab.dataset.items;
+      const allType = document.querySelectorAll('li.type');
+      const boxOrderModal = document.querySelector('.product-orderby');
+      const addTocatBtn = document.querySelector('.atc-wrap');
+      const uspBelowProduct = document.querySelector('.usp-wrap-minimal');
+      if (selectedItemType === 'box') {
+        allType.forEach((boxTy) => {
+          if (boxTy.classList.contains('box')) {
+            console.log('aaaaaaaaaaaaaaaaaaaaaaaaa')
+            // --- CORRECTED CODE ---
+            // Find the "Box" radio button
+            const boxInput = document.querySelector('.pdp-atc__group__buttons.Type .type.box input');
+            
+            // Safety check to make sure the element exists
+            if (boxInput) {
+              // Directly set its state to checked
+              boxInput.checked = true;
+              
+              // Manually fire the 'change' event to ensure other scripts react
+              boxInput.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            // --- END CORRECTION ---
+            addTocatBtn.style.display = 'block';
+            uspBelowProduct.classList.add('box-active');
+            boxTy.style.display = 'block';
+            if (boxOrderModal) boxOrderModal.style.display = 'block';
+            boxTy.style.opacity = '0';
+            boxTy.style.visibility = 'hidden';
+            boxTy.style.position = 'absolute';
+            boxTy.style.zIndex = '-2';
+          }
+            if (boxTy.classList.contains('sample') || boxTy.classList.contains('samples')) {
+            boxTy.style.display = 'none';
+            console.log(boxTy)
+          }
+        });
+      }
+      
+      if (selectedItemType === 'sample') {
+        allType.forEach((sampTy) => {
+          if (sampTy.classList.contains('sample')) {
+
+            // This now correctly shows all sample elements
+            sampTy.style.display = 'block';
+
+            // REMOVED: Do not programmatically click any radio button here.
+            // This allows all sample options to be visible for the user to choose.
+          }
+          if (sampTy.classList.contains('box')) {
+            // This part correctly hides and resets the box option
+            addTocatBtn.style.display = 'none';
+            uspBelowProduct.classList.remove('box-active');
+            sampTy.style.display = 'none';
+            if (boxOrderModal) boxOrderModal.style.display = 'none';
+            sampTy.style.opacity = '';
+            sampTy.style.visibility = ''; 
+            sampTy.style.overflow = ''; 
+            sampTy.style.zIndex = ''; 
+            sampTy.style.position = '';
+          }
+        });
+        
+        // Optional: After showing all samples, you can check a default one
+        // without hiding the others. Let's select "Plank Sample" if it exists.
+        const plankSampleInput = document.querySelector('.pdp-atc__group__buttons.Type .type.plank.sample input');
+        const cutSampleInput = document.querySelector('.pdp-atc__group__buttons.Type .type.cut.sample input');
+
+        if (plankSampleInput) {
+            plankSampleInput.checked = true;
+            // Dispatch a 'change' event so other scripts know the variant has updated
+            plankSampleInput.dispatchEvent(new Event('change', { bubbles: true }));
+        } else if (cutSampleInput) {
+            cutSampleInput.checked = true;
+            cutSampleInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+    });
+  });
+});
+</script>
+
+<script>
+{% comment %} document.addEventListener('DOMContentLoaded', () => {
+  const productForm = document.querySelector('.pdp-atc__variants');
+  if (!productForm) return;
+
+  const allVariants = window.productInfo["{{product.handle}}"];
+  if (!allVariants) return;
+
+  const numOptions = {{ product.options.size }};
+
+  function updateAllOptionPrices() {
+    // 1. Get the currently selected options as an ordered array
+    const currentSelections = new Array(numOptions);
+    productForm.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+      const index = parseInt(radio.dataset.optionIndex, 10) - 1;
+      if (index >= 0) {
+        currentSelections[index] = radio.value;
+      }
+    });
+
+    // 2. Loop through every single radio button on the page
+    productForm.querySelectorAll('input[type="radio"]').forEach(input => {
+      const pricePlaceholder = input.closest('li').querySelector('.dynamic-option-price');
+      console.log('aaaaaaaaaaaaaaaaaaaa')
+      console.log(pricePlaceholder)
+      if (!pricePlaceholder) return;
+
+      // 3. Create a "potential" selection array as if this input were clicked
+      const potentialSelections = [...currentSelections];
+      const inputIndex = parseInt(input.dataset.optionIndex, 10) - 1;
+      potentialSelections[inputIndex] = input.value;
+
+      // 4. Find the variant that matches this potential combination
+      const variant = findVariantByOptions(potentialSelections);
+
+      // 5. Update the price display for this specific option
+      if (variant) {
+        // THIS IS THE KEY LOGIC: Only show prices for these specific values
+        if (input.value === 'Plank Sample' || input.value === 'Plank Samples' || input.value === 'Cut Sample') {
+          let priceHTML = '';
+          priceHTML += `<span class="price-main">${formatMoney(variant.price)}</span>`;
+
+          if (variant.compare_at_price > variant.price) {
+            priceHTML += `<s class="price-compare">${formatMoney(variant.compare_at_price)}</s>`;
+            const savings = Math.round(((variant.compare_at_price - variant.price) * 100) / variant.compare_at_price);
+            priceHTML += `<span class="price-savings">(${savings}% off)</span>`;
+          }
+          pricePlaceholder.innerHTML = priceHTML;
+        } else {
+          // For all other options (like 'Box'), keep the price area empty.
+          pricePlaceholder.innerHTML = '';
+        }
+      } else {
+        pricePlaceholder.innerHTML = '';
+      }
+    });
+  }
+
+  function findVariantByOptions(selectedOptions) {
+    if (selectedOptions.includes(undefined)) {
+      return null;
+    }
+    return allVariants.find(variant => {
+      return selectedOptions.every((value, index) => {
+        return variant.options[index] === value;
+      });
+    });
+  }
+
+  function formatMoney(cents) {
+    // Basic money formatting, you can customize the currency symbol
+    const amount = (cents / 100).toFixed(2);
+    return `$${amount}`;
+  }
+
+  // --- Attach listener and run on page load ---
+  productForm.addEventListener('change', updateAllOptionPrices);
+  setTimeout(updateAllOptionPrices, 200);
+}); {% endcomment %}
+
+
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', ()=>{
+      if(document.querySelector('#option-type').value === 'Box') {
+        setTimeout(()=>{
+          document.querySelector('[data-items="box"]').click()
+        }, 500)
+      }
+  })
+</script>
+
+
+<style>
+    button.option-atc-btn {
+        display:none;
+    }
+   recipient-form [type=radio], recipient-form [type=checkbox] {
+        border: none;
+    }
+
+    recipient-form [type=radio]:checked:after, recipient-form [type=checkbox]:checked:after {
+        background:none;
+    }
+
+    .recipient-form .icon-checkmark {
+        top: 0.5rem;
+    }
+
+    .recipient-checkbox > span {
+        font-size: 16px;
+    }
+
+    .recipient-checkbox > svg {
+        margin-top: 0px !important;
+    }
+
+    recipient-form.recipient-form {
+        margin-top: 10px;
+    }
+
+    .recipient-fields .recipient-fields__field {
+        margin: 0 0 1rem 0;
+    }
+
+
+    .recipient-fields .recipient-fields__field .field label.field__label {
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .recipient-fields .recipient-fields__field .field input[type="date"] {
+        width: 100%;
+        height: 44.55px;
+        padding: 0px 10px;
+    }
+</style>

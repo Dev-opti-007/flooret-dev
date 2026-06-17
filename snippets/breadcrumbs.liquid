@@ -1,0 +1,42 @@
+<nav class="breadcrumbs">
+
+  <a href="/">Home</a>
+
+  {% unless template == 'index' %}
+
+    {% liquid
+
+      assign breadcrumb_title = page_title | default: 'Unknown Page'
+
+      if breadcrumb_title == 'Luxury Vinyl Planks and Sustainable Resilient Hardwood'
+        assign breadcrumb_title = 'All Products'
+      endif
+      
+    %}
+
+    {% if template == 'product' %}
+      {%- liquid
+        assign feat_collections = 'modin-luxury-vinyl-plank,silvan-hardwood,trim-accessories,sample-kits,arista-laminate' | split: ','
+        for collection in product.collections
+          if feat_collections contains collection.handle
+            assign featured_collection = collection
+          endif
+        endfor
+        unless featured_collection
+          assign featured_collection = product.collections[1]
+        endunless
+      -%}
+      <span>&bull;</span>
+      <a href="{{ featured_collection.url }}">{{ featured_collection.title }}</a>
+    {% endif %}
+
+    {%- unless template == 'product' -%}
+      <span>&bull;</span>
+      <a href="{{ request.path }}">
+        {{ breadcrumb_title }}
+      </a>
+    {%- endunless -%}
+
+  {% endunless %}
+
+</nav>

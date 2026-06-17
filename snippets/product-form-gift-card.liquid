@@ -1,0 +1,400 @@
+{%- liquid
+  assign is_preorder = false
+  assign orderby_class = null
+  assign current_variant = product.selected_or_first_available_variant
+  assign preorder_message = current_variant.metafields.flooret.preorder_message | metafield_tag
+  assign product_options_count = product.options | size
+
+  for product_type in shop.metaobjects.product_type.values
+    if current_variant.options contains product_type.name
+      assign current_product_type = product_type.name
+    endif
+  endfor
+
+  unless current_variant.options contains 'Box'
+    assign orderby_class = 'hidden'
+  endunless
+
+  if current_variant.inventory_management and current_variant.inventory_policy == 'continue' and current_variant.metafields.flooret.preorder_message and current_variant.inventory_quantity < 1
+    assign is_preorder = true
+    else 
+    assign is_preorder = false
+  endif
+-%}
+
+<form
+  class="mproduct__form js-product-form {% if isAddSamplePopup  %}js-product-form--addsample{% else %}js-product-form--main{% endif %}"
+  action="/cart/add"
+  method="post"
+  data-handle="{{product.handle}}"
+>
+  {% if product.variants.size > 1 %}
+    {% render 'product-options-gift-card', product: product, isAddSamplePopup: isAddSamplePopup %}
+  {% else %}
+    <input type="hidden" name="id" value="{{ current_variant.id }}">
+  {% endif %}
+
+  {% comment %} {% if product.selling_plan_groups.size > 0 %}
+    {% render 'custom-subscription' %}
+  {% endif %} {% endcomment %}
+
+  {% comment %} {%- render 'product-orderby', classes: orderby_class -%} {% endcomment %}
+
+{%- if product.gift_card? -%}
+          {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
+     {%- endif -%}
+  
+  {% if product.available %}
+    <div class="atc-wrap">
+      {%- render 'qty-input' -%}
+
+      <div class="atc-wrap__ctas">
+        <div class="mproduct__atc">
+          <button id="addtocart" type="submit" class="btn btn--black">
+            {{- 'global.add_to_cart' | t -}}
+            {%- unless isAddSamplePopup -%}
+              <span>&nbsp; - &nbsp;</span>
+              <span class="js-product__subtotal">
+                {% assign v = product.selected_or_first_available_variant %}
+
+                {% if v.compare_at_price and v.compare_at_price > v.price %}
+                    <span class="compare-at-price" style="text-decoration: line-through;">
+                    {{ v.compare_at_price | money }}
+                    </span>
+                    <span class="sale-price">{{ v.price | money }}</span>
+
+                    {% assign savings = v.compare_at_price | minus: v.price %}
+                    {% assign savings_percent = savings | times: 100.0 | divided_by: v.compare_at_price | round %}
+                    <span class="savings" style="font-size:12px;vertical-align: super;">
+                    Save {{ savings_percent }}%
+                    </span>
+                {% else %}
+                    <span class="sale-price">{{ v.price | money }}</span>
+                {% endif %}
+                </span>
+
+            {%- endunless -%}
+          </button>
+
+          <div class="atc-wrap__meta">
+            {%- unless product_options_count <= 1 -%}
+              <span class="mproduct__atc-optionprice">
+                <span class="js-product__price">{{- current_variant.price | money -}}</span>
+                /
+                <span class="js-product__type">{{ current_product_type }}</span>
+              </span>
+            {%- endunless -%}
+
+            {% if customer.b2b? %}
+              <span class="js-msrp {% if current_variant.metafields.flooret.msrp %}active{% endif %}"
+                >Retail Price:
+                <span class="js-msrp__price">
+                  {{- current_variant.metafields.flooret.msrp | times: 100 | money -}}
+                </span></span
+              >
+            {% endif %}
+          </div>
+        </div>
+
+        {%- if isAddSamplePopup -%}
+          <div class="mproduct__moredetails">
+            <a href="{{product.url }}" class="btn btn--outline">{{- 'global.view_details' | t -}}</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+  {%- else -%}
+    <p>This product is Out of Stock</p>
+  {% endif %}
+  {%- unless isAddSamplePopup -%}
+    {%- render 'sticky-atc', product: product -%}
+  {%- endunless -%}
+    <div class="product-preorder js-preorder-notification {% unless is_preorder %}hidden{% endunless %}">
+    {%- render 'preorder-notification', message: preorder_message -%}
+  </div>
+  
+</form>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const productForm = document.querySelector('.pdp-atc__variants');
+  if (!productForm) return;
+
+  const allVariants = window.productInfo['{{product.handle}}'];
+  if (!allVariants) return;
+
+  const numOptions = {{ product.options.size }};
+
+  // Helper: format money
+  {% comment %} function formatMoney(cents) {
+    const amount = (cents / 100).toFixed(2);
+    return `$${amount}`;
+  } {% endcomment %}
+  function formatMoney(cents) {
+    const amount = (cents / 100).toFixed(0); // no decimals if you want 10, 20 style
+    return amount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  // Helper: get current selections from checked radios
+  function getCurrentSelections() {
+    const current = new Array(numOptions);
+    productForm
+      .querySelectorAll('input[type="radio"]:checked')
+      .forEach((radio) => {
+        const index = parseInt(radio.dataset.optionIndex, 10) - 1;
+        if (index >= 0) current[index] = radio.value;
+      });
+    return current;
+  }
+
+  // Helper: find variant by full options array
+  function findVariantByOptions(selectedOptions) {
+    if (selectedOptions.includes(undefined)) return null;
+    return allVariants.find((variant) =>
+      selectedOptions.every((value, index) => variant.options[index] === value)
+    );
+  }
+
+  // Helper: AJAX add to cart (Original working fetch)
+  async function addVariantToCart(variantId, qty = 1) {
+    const root =
+      window.Shopify && Shopify.routes && Shopify.routes.root
+        ? Shopify.routes.root
+        : '/';
+    const res = await fetch(root + 'cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ id: variantId, quantity: qty }),
+    });
+    if (!res.ok) throw new Error('Add to cart failed: ' + res.status);
+    return res.json();
+  }
+
+  // Helper: Manually refresh and open drawer (Replaces shopCart.refresh)
+  function refreshAndOpenDrawer() {
+    // Use jQuery since your theme uses it
+    if (typeof $ === 'undefined') {
+      window.location.reload(); // Fallback if jQuery is missing
+      return;
+    }
+
+    $.ajax({
+      url: '/?sections=pop-cart',
+      dataType: 'json',
+      type: 'get',
+      success: function (res) {
+        // 1. Update Drawer HTML
+        // Theme logic extracts form content from the section response
+        var $newContent = $(res['pop-cart']);
+        // If response wraps it, find the form, otherwise use directly
+        var newFormHtml = $newContent.find('form').length 
+          ? $newContent.find('form').html() 
+          : $newContent.html();
+
+        $('.pop-cart').find('form').html(newFormHtml);
+
+        // 2. Open Drawer & Overlay (Replicating theme's open() logic)
+        $('body').addClass('cart-open overlay-open--under-header');
+        $('.pop-cart').addClass('active');
+        $('.site-overlay').addClass('active');
+      },
+      error: function () {
+        window.location.reload();
+      },
+    });
+  }
+
+  // Inject an inline ATC button into each option label if missing
+  function ensureInlineATCButtons() {
+    productForm.querySelectorAll('input[type="radio"]').forEach((input) => {
+      const li = input.closest('li');
+      if (!li) return;
+      const label = li.querySelector('label');
+      if (!label) return;
+
+      if (label.querySelector('.option-atc-btn')) return;
+
+      const optionIndex = parseInt(input.dataset.optionIndex, 10);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'option-atc-btn';
+      btn.dataset.optionIndex = String(optionIndex);
+      btn.dataset.optionValue = input.value;
+      btn.textContent = 'Add to cart';
+
+      const pricePlaceholder = li.querySelector('.dynamic-option-price');
+      if (pricePlaceholder && pricePlaceholder.parentNode === label) {
+        pricePlaceholder.insertAdjacentElement('afterend', btn);
+      } else {
+        label.appendChild(btn);
+      }
+    });
+  }
+
+  // Pricing updater
+  function formatMoney(cents) {
+    return (cents / 100).toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+  function updateAllOptionPrices() {
+    const currentSelections = getCurrentSelections();
+
+    productForm.querySelectorAll('input[type="radio"]').forEach((input) => {
+      const li = input.closest('li');
+      if (!li) return;
+      const pricePlaceholder = li.querySelector('.dynamic-option-price');
+      if (!pricePlaceholder) return;
+
+      const potentialSelections = [...currentSelections];
+      const inputIndex = parseInt(input.dataset.optionIndex, 10) - 1;
+      potentialSelections[inputIndex] = input.value;
+
+      const variant = findVariantByOptions(potentialSelections);
+
+      if (variant) {
+        if (
+          input.value === 'Plank Sample' ||
+          input.value === 'Plank Samples' ||
+          input.value === 'Cut Sample'
+        ) {
+          let html = `<span class="price-main">$${formatMoney(variant.price)}</span>`;
+          if (variant.compare_at_price > variant.price) {
+            html += `<s class="price-compare">$${formatMoney(variant.compare_at_price)}</s>`;
+            const savings = Math.round(
+              ((variant.compare_at_price - variant.price) * 100) /
+                variant.compare_at_price
+            );
+            {% comment %} html += `<span class="price-savings">(${savings}% off)</span>`; {% endcomment %}
+          }
+          pricePlaceholder.innerHTML = html;
+        } else {
+          pricePlaceholder.innerHTML = '';
+        }
+      } else {
+        pricePlaceholder.innerHTML = '';
+      }
+    });
+  }
+
+  // Delegate click from inline ATC buttons
+  {% comment %} productForm.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.option-atc-btn');
+    if (!btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const optionIndex = parseInt(btn.dataset.optionIndex, 10) - 1;
+    const optionValue = btn.dataset.optionValue;
+    const selections = getCurrentSelections();
+    selections[optionIndex] = optionValue;
+
+    const variant = findVariantByOptions(selections);
+    if (!variant) {
+      alert('This combination is unavailable.');
+      return;
+    }
+    if (
+      Object.prototype.hasOwnProperty.call(variant, 'available') &&
+      !variant.available
+    ) {
+      alert('This variant is sold out.');
+      return;
+    }
+
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Adding...';
+
+    try {
+      // 1. Add to cart
+      await addVariantToCart(variant.id, 1);
+      btn.textContent = 'Added!';
+
+      // 2. Open drawer manually (bypassing private shopCart scope)
+      refreshAndOpenDrawer();
+    } catch (err) {
+      console.error(err);
+      btn.textContent = 'Try again';
+      alert('Could not add to cart.');
+    } finally {
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }, 1500);
+    }
+  }); {% endcomment %}
+  productForm.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.option-atc-btn');
+    if (!btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const optionIndex = parseInt(btn.dataset.optionIndex, 10) - 1;
+    const optionValue = btn.dataset.optionValue;
+    const selections = getCurrentSelections();
+    selections[optionIndex] = optionValue;
+
+    const variant = findVariantByOptions(selections);
+    if (!variant) {
+      alert('This combination is unavailable.');
+      return;
+    }
+    if (
+      Object.prototype.hasOwnProperty.call(variant, 'available') &&
+      !variant.available
+    ) {
+      alert('This variant is sold out.');
+      return;
+    }
+
+    // Keep full HTML, not just text
+    const originalHTML = btn.innerHTML;
+    const originalWidth = btn.offsetWidth; // optional: prevent layout shift
+
+    btn.disabled = true;
+    btn.innerHTML = 'Adding...';
+    btn.style.minWidth = originalWidth + 'px';
+
+    try {
+      // 1. Add to cart
+      await addVariantToCart(variant.id, 1);
+      btn.innerHTML = 'Added!';
+
+      // 2. Open drawer
+      refreshAndOpenDrawer();
+    } catch (err) {
+      console.error(err);
+      btn.innerHTML = 'Try again';
+      alert('Could not add to cart.');
+    } finally {
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = originalHTML; // restore full original HTML
+        btn.style.minWidth = '';      // optional: reset
+      }, 1500);
+    }
+  });
+
+  // Initial setup
+  ensureInlineATCButtons();
+  productForm.addEventListener('change', () => {
+    ensureInlineATCButtons();
+    updateAllOptionPrices();
+  });
+
+  setTimeout(() => {
+    ensureInlineATCButtons();
+    updateAllOptionPrices();
+  }, 200);
+});
+</script>
+

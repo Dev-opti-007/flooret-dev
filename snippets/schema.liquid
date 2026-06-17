@@ -1,0 +1,171 @@
+{% assign socials = 'instagram,facebook,linkedin,tiktok,youtube,twitter,strava,pinterest,yelp' | split: ',' %}
+
+{% comment %} Update the logo below with a link to the stores logo {% endcomment %}
+{% assign logo = 'logo.svg' | asset_url %}
+
+<script type="application/ld+json">
+  {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "{{ shop.name }}",
+      "url": "{{ shop.url }}",
+      "logo": "{{ logo }}",
+      "sameAs": [
+          {%- liquid
+              capture allSocials
+                  for social in socials
+                      assign setting = 'social_' | append: social | append: '_link'
+                      if settings[setting] != blank
+                          echo ',"' | append: settings[setting] | append: '"'
+                      endif
+                  endfor
+              endcapture
+              assign allSocials = allSocials| remove_first: ","
+              echo allSocials
+          -%}
+      ]
+  }
+</script>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "WebSite",
+    "name": "{{ shop.name }}",
+    "url": "{{ shop.url }}"
+  }
+</script>
+
+{% comment %}
+  Only use use this if Shopify is using the default search page instead of  a widget
+  If you are using the default Shopify page, uncomment this code and comment out the website schema above
+  NOTE: the comma before the @type below is neccesary for the JSON format when you uncomment the code
+  <script type="application/ld+json">
+  {
+      "@context": "https://schema.org/",
+      "@type": "WebSite",
+      "name": "{{ shop.name }}",
+      "url": "{{ shop.url }}",
+      "potentialAction": {
+          "@type": "SearchAction",
+          "target": "{{ shop.url }}/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+      }
+  }
+  </script>
+{% endcomment %}
+
+{% if template contains 'product' %}
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org/",
+        "@type": "Product",
+        "name": "{{ product.title | escape }}",
+        "image": "{{ product.selected_or_first_available_variant.featured_image | img_url: 'master' }}",
+        "description": "{{ product.description | strip_newlines | strip_html | escape | strip }}",
+        {% if product.barcode != blank %}
+        "mpn": "{{ product.barcode }}",
+        {% endif %}
+        "brand": {
+            "@type": "Brand",
+            "name": "{{ product.vendor }}"
+        },
+        "sku": "{{ product.selected_or_first_available_variant.sku }}",
+        "offers": {
+            "@type": "Offer",
+            "priceCurrency": "{{ cart.currency.iso_code }}",
+            "price": "{{ product.selected_or_first_available_variant.price | money_without_currency | replace: ','  , ''}}",
+            "itemCondition": "http://schema.org/NewCondition",
+            {%- liquid
+                if product.selected_or_first_available_variant.available
+                    echo '"availability": "http://schema.org/InStock",'
+                else
+                    echo '"availability": "http://schema.org/OutOfStock",'
+                endif
+            %}
+            "url": "{{ product.url }}",
+            "priceValidUntil": "{{ 'now' | date: '%s' | plus: 31536000 | date: '%Y-%m-%d' | uri_encode | replace:'+','%20' }}",
+            "seller": {
+                "@type": "Organization",
+                "name": "{{ product.vendor }}"
+            }
+        }
+    }
+  </script>
+{% endif %}
+
+{% if template contains 'article' %}
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Article",
+        "articleBody": "{{ article.content | strip_newlines | strip_html | escape | strip }}",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ article.url }}"
+        },
+        "headline": "{{ article.title }}",
+        "description": "{{ article.content | strip_newlines | strip_html | escape | strip | truncate: 200 }}",
+        {% if article.image %}
+            "image": [
+                "{{ article.image | img_url: "master" }}"
+            ],
+        {% endif %}
+        "datePublished": "{{ article.published_at | date: '%B %d, %Y' }}",
+        "dateCreated": "{{ article.created_at | date: '%B %d, %Y' }}",
+        "author": {
+            "@type": "Person",
+            "name": "{{ store.name }}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{ store.name }}",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ logo }}"
+            }
+        }
+    }
+  </script>
+{% endif %}
+
+{% comment %}
+  <script type="application/ld+json">
+      {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "{{ store.name }}",
+          {% comment %} Update the image below with a link to the stores featured image{% endcomment %}
+          {% comment %} "image": "", {% endcomment %}
+          "@id": "{{ store.url }}",
+          "url": "{{ store.url }}",
+          "telephone": "",
+          "priceRange": "",
+          "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "",
+              "addressLocality": "",
+              "addressRegion": "",
+              "postalCode": "",
+              "addressCountry": ""
+          },
+          "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": ,
+              "longitude":
+          },
+          "openingHoursSpecification": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday"
+              ],
+              "opens": "00:00",
+              "closes": "00:00"
+          }
+      }
+  </script>
+{% endcomment %}

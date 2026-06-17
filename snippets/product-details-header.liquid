@@ -1,0 +1,321 @@
+{% comment %}
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+
+  for product_model in shop.metaobjects.product_model.values
+    if current_variant.options contains product_model.name
+      assign current_product_model = product_model.name
+
+      assign cost_per_sqft = shop.metaobjects.product_model[current_product_model].cost_per_sqft
+    endif
+  endfor
+-%}
+{% endcomment %}
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+
+
+  for option_value in current_variant.options
+    assign option_handle = option_value | handleize
+
+
+    for product_model in shop.metaobjects.product_model.values
+
+      assign model_handle = product_model.name | handleize
+
+
+      if model_handle == option_handle
+        assign current_product_model = product_model.name
+        assign cost_per_sqft = product_model.cost_per_sqft
+        assign compare_cost_per_sqft = product_model.compare_cost_per_sqft
+
+
+        break
+      endif
+    endfor
+  endfor
+-%}
+
+{%- assign off_percent = 0 -%}
+{%- if compare_cost_per_sqft.value and compare_cost_per_sqft.value > cost_per_sqft.value -%}
+  {%- assign diff = compare_cost_per_sqft.value | minus: cost_per_sqft.value -%}
+  {%- assign raw_percent = diff | times: 100 | divided_by: compare_cost_per_sqft.value -%}
+  {%- assign off_percent = raw_percent | round -%}
+{%- endif -%}
+
+<span style="display:none;">{{ current_variant.title  }}{{ cost_per_sqft }}</span>
+<div class="product-details-header-wrapper">
+ {% comment %} {%- unless isAddSamplePopup -%}
+    {%- render 'breadcrumbs' -%}
+  {%- endunless -%} {% endcomment %}
+  <div class="product-details__header">
+    <div>
+      <h1 class="h4 product-heading">
+        {%- if isAddSamplePopup -%}
+          Select Your {{ product.title }}
+          <span class="js-product__type"></span> Model
+        {%- else -%}
+          {{ product.title }}
+        {%- endif -%}
+      </h1>
+      {% assign skus_array = product.variants | map: 'sku' %}
+      {% assign skus = skus_array | join: ';' %}
+      <a href="#ReviewsWidget-AdEloa1JDYjl4M1JNb__d0a39a86-f6ae-487f-9e8b-bd308e54dea5" class="review-wrapper">
+        <div class="ruk_rating_snippet normal" data-sku="{{ skus }}"></div>
+      </a>
+    </div>
+    {% unless isAddSamplePopup %}
+      {% assign current_variant = product.selected_or_first_available_variant %}
+      {% if current_variant.metafields.custom.low_stock_alert %}
+        <div class="low-stock-alert" data-variant-id="{{ current_variant.id }}">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Low_Stock_Alert.png?v=1723767257"
+            alt="Low Stock"
+            class="low-stock-image"
+            width="auto"
+            height="auto"
+          >
+        </div>
+      {% endif %}
+    {% endunless %}
+    {% comment %} {%- if isAddSamplePopup -%}
+      <span class="product-option__cost-per-sqft js-product__price">
+        {{ product.price | money }}
+      </span>
+    {%- else -%}
+      {%- if cost_per_sqft -%}
+          <span class="product-option__cost-per-sqft js-product__cost-per-sqft"> 
+              <span class='p-r-ice'>
+                  {% assign selected_variant = product.selected_or_first_available_variant %}
+                  {% assign price_used = cost_per_sqft.value %}
+                  {% assign compare_used = compare_cost_per_sqft.value %}
+                  {% if selected_variant.metafields.custom.sqft_price %}
+                    {% assign price_used = selected_variant.metafields.custom.sqft_price.value %}
+                  {% endif %}
+                  {% if selected_variant.metafields.custom.sqft_compare_at_price %}
+                    {% assign compare_used = selected_variant.metafields.custom.sqft_compare_at_price.value %}
+                  {% endif %}
+                  {{ price_used | money }} 
+                  <del>{{ compare_used | money }}</del> / SF 
+                  {%- assign off_percent = 0 -%}
+                  {%- if compare_used and compare_used > price_used -%}
+                    {%- assign diff = compare_used | minus: price_used -%}
+                    {%- assign raw_percent = diff | times: 100 | divided_by: compare_used -%}
+                    {%- assign off_percent = raw_percent | round -%}
+                  {%- endif -%}
+                  {% if off_percent > 0 %}
+                    <span class="off-percent">{{ off_percent }}% Off</span>
+                  {% endif %}
+                </span>
+          </span>
+      {%- endif -%}
+    {%- endif -%} {% endcomment %}
+
+
+
+{% comment %} New code {% endcomment %}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign model_handle = product.title | handleize
+  assign price_used = 0
+  assign compare_used = 0
+  assign found_match = false
+
+  # Loop through metaobjects to find match based on handleized product title
+  for product_model in shop.metaobjects.product_model.values
+    assign current_model_handle = product_model.name | handleize
+    if current_model_handle == model_handle
+      assign price_used = product_model.cost_per_sqft.value
+      # Assuming compare_cost_per_sqft exists on the metaobject; adjust if needed
+      if product_model.compare_cost_per_sqft
+        assign compare_used = product_model.compare_cost_per_sqft.value
+      endif
+      assign found_match = true
+      break  # Stop looping once match is found
+    endif
+  endfor
+
+  # Fallback to variant metafields if no metaobject match
+  if found_match == false
+    if current_variant.metafields.custom.sqft_price
+      assign price_used = current_variant.metafields.custom.sqft_price.value
+    endif
+    if current_variant.metafields.custom.sqft_compare_at_price
+      assign compare_used = current_variant.metafields.custom.sqft_compare_at_price.value
+    endif
+  endif
+-%}
+
+{% if product.tags contains 'show-sqft-price-in-product' %}
+  <span class="product-option__cost-per-sqft js-product__cost-per-sqft main-product-sqft-price"> 
+    <span class='p-r-ice'>
+      {{ price_used | money }} 
+      {% if compare_used > 0 %}
+        <del>{{ compare_used | money }}</del>
+      {% endif %} / SF 
+      {%- assign off_percent = 0 -%}
+      {%- if compare_used and compare_used > price_used -%}
+        {%- assign diff = compare_used | minus: price_used -%}
+        {%- assign raw_percent = diff | times: 100 | divided_by: compare_used -%}
+        {%- assign off_percent = raw_percent | round -%}
+      {%- endif -%}
+      {% if off_percent > 0 %}
+        <span class="off-percent">{{ off_percent }}% Off</span>
+      {% endif %}
+    </span>
+  </span>
+{% endif %}
+
+{% comment %} New code end {% endcomment %}
+
+    {% comment %} {% if product.id == 8964836262163 or product.id == 10050042233107 %}
+      <span class="price sample">
+      {{ product.price | money }} 
+       <del class="compare-at-price">
+          {{ product.compare_at_price | money }}
+        </del>
+        <!-- <span class="off_text">66% OFF</span> -->
+      </span>
+    {% endif %} {% endcomment %}
+
+
+    {%- assign collection_handles = product.collections | map: 'handle' -%}
+
+    {%- if collection_handles contains 'sample-kits' -%}
+
+      <span class="price price-wrap-pro-page">
+        <span class="actual-price" >{{- product.price | money -}}</span>
+
+        {%- if product.compare_at_price > product.price -%}
+          <del class="compare-at-price 2">
+            {{- product.compare_at_price | money -}}
+          </del>
+          
+          {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+          
+          <span class="off_text">{{ savings }}% OFF</span>
+        {%- endif -%}
+      </span>
+
+    {%- endif -%}
+
+    {% comment %} {% if product.title == 'Copy Dev Modin LVP 4-Model Comparison Kit' or product.title == "Modin LVP 4-Model Comparison Kit" or product.title == "Modin LVP 3-Model Comparison Kit" or product.title == "Modin LVP 2-Model Comparison Kit" or product.title == "Silvan Hardwood 2-Width Comparison Kit" or product.title == "Modin LVP Signature Sample Kits" or product.title == "Bestsellers Sample Kits" %}
+        <span class="price price-wrap-pro-page">
+          <span class="actual-price-new" >
+            {{- product.price | money -}}
+          </span>
+        </span>
+      {% endif %} {% endcomment %}
+  </div>
+</div>
+
+{% if product.title == 'Copy Dev Modin LVP 4-Model Comparison Kit' or product.title == "Modin LVP 4-Model Comparison Kit" or product.title == "Modin LVP 3-Model Comparison Kit" or product.title == "Modin LVP 2-Model Comparison Kit" or product.title == "Silvan Hardwood 2-Width Comparison Kit" or product.title == "Modin LVP Signature Sample Kits" or product.title == "Bestsellers Sample Kits" %}
+<script>
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', function() {
+  const subtotalElement = document.querySelector('.js-product__subtotal');
+  const actualPriceElement = document.querySelector('.actual-price-new');
+  
+  if (subtotalElement && actualPriceElement) {
+    // Initial sync
+    actualPriceElement.innerHTML = subtotalElement.innerHTML;
+    
+    // Set up observer
+    const observer = new MutationObserver(() => {
+      actualPriceElement.innerHTML = subtotalElement.innerHTML;
+    });
+    
+    observer.observe(subtotalElement, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+  }
+});
+
+</script>
+<style>
+  .actual-price-new {
+      white-space: nowrap;
+  }
+  .roomvo-slider-container:has(.swiper-wrapper:empty) {
+      display: none;
+  }
+</style>
+{% endif %}
+ {% comment %} {% if product.tags contains 'sample-v2' %} {% endif %} {% endcomment %}
+
+<style>
+  
+  .desktop-only .product-option__cost-per-sqft {
+      position: relative;
+  }
+  
+  .desktop-only .product-option__cost-per-sqft::after {
+      content: "(for box)";
+      display: block;
+      text-align: center;
+      font-weight: 100;
+  }
+  @media (max-width:768px){
+    .reg-section .product-gallery .swiper-controls {
+      position: unset;
+      transform: unset;
+      top: unset;
+    }
+    .reg-section .product-gallery .swiper-controls .button-prev {
+        position: absolute;
+        top: 50%;
+        z-index: 1;
+        transform: translateY(-50%);
+        left: 0;
+    
+    } 
+    .reg-section .product-gallery .swiper-controls .button-next {
+        position: absolute;
+        top: 50%;
+        z-index: 1;
+        transform: translateY(-50%);
+        right: 0;
+    
+    }
+
+  }
+</style>
+
+{% assign has_trim = false %}
+    {% for collection in product.collections %}
+      {% if collection.handle == 'trim-accessories' %}
+        {% assign has_trim = true %}
+      {% endif %}
+    {% endfor %}
+
+    {% if has_trim %}
+      <script type="text/javascript">
+        {% comment %} console.log('Inline script starting for handle: {{ product.handle }}'); {% endcomment %}
+        window.productInfo = window.productInfo || {};
+        window.productInfo["{{ product.handle }}"] = {{ product.variants | json }};
+        window.productInfo['selectedVariant'] = {{ product.selected_or_first_available_variant | json }};
+        {% comment %} console.log('window.productInfo set for {{ product.handle }} with ' + window.productInfo["{{ product.handle }}"].length + ' variants'); {% endcomment %}
+
+        // Your forloop for preorder_message and msrp...
+        {%- for variant in product.variants -%}
+        {% assign preorder_message = variant.metafields.flooret.preorder_message
+                                      | metafield_tag
+                                      | json %}
+        {% if preorder_message != 'null' %}
+          window.productInfo["{{ product.handle }}"][{{ forloop.index0 }}]
+            .preorder_message = {{ preorder_message }};
+        {% endif %}
+
+              {%- if msrp != blank -%}
+                window.productInfo["{{product.handle}}"][{{ forloop.index0 }}]["msrp"] = {{ msrp | times: 100 }};
+              {%- endif -%}
+
+          {%- endfor -%}
+
+          // Rest of your script (updateVariantInURL, etc.)...
+          {% comment %} console.log('Inline script completed for {{ product.handle }}'); {% endcomment %}
+      </script>
+    {% endif %}

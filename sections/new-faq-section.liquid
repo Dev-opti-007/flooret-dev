@@ -1,0 +1,880 @@
+{% comment %}
+  FAQ Section
+  Layout:
+  — Section title (left-aligned)
+  — Filter tag pills: All | TrueStep | TruePlank | Installation (+ any custom tags)
+  — Full-width accordion list — each item: question (left) + plus/minus icon (right)
+    → expanded shows answer below with smooth height animation
+  — Each FAQ block has a "tag" that matches filter pills
+  — Filtering hides non-matching rows instantly
+{% endcomment %}
+
+<section class="faq faq--{{ section.id }}{% if section.settings.full_width %} faq--full-width{% endif %}">
+
+  {%- comment -%} ══ HEADER ══ {%- endcomment -%}
+  {%- if section.settings.section_title != blank -%}
+    <h2 class="faq__title">{{ section.settings.section_title }}</h2>
+  {%- endif -%}
+
+  {%- comment -%} ══ FILTER PILLS ══ {%- endcomment -%}
+  {%- assign raw_tags = section.settings.filter_tags | default: 'All,TrueStep,TruePlank,Installation' -%}
+  {%- assign tag_list = raw_tags | split: ',' -%}
+
+  {%- if tag_list.size > 1 -%}
+    <div class="faq__filters" role="group" aria-label="Filter FAQs by category">
+      {%- for tag in tag_list -%}
+        {%- assign tag_trimmed = tag | strip -%}
+        <button
+          class="faq__filter-pill{% if forloop.first %} is-active{% endif %}"
+          type="button"
+          data-filter="{{ tag_trimmed | downcase }}"
+          aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+          {% if tag_trimmed == "TrueStep" %}
+            TrueStep™
+            {% elsif tag_trimmed == "TruePlank" %}
+              TruePlank™
+            {% else %}
+            {{ tag_trimmed }}
+          {% endif %}
+        </button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ══ ACCORDION LIST ══ {%- endcomment -%}
+  <div class="faq__list" role="list">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'faq_item' -%}
+        {%- assign item_tag = block.settings.tag | strip | downcase | default: 'all' -%}
+        <div
+          class="faq__item"
+          data-tag="{{ item_tag }}"
+          role="listitem"
+          {{ block.shopify_attributes }}>
+
+          <button
+            class="faq__question"
+            type="button"
+            aria-expanded="false"
+            aria-controls="faq-answer-{{ section.id }}-{{ forloop.index }}">
+            <span class="faq__question-text">{{ block.settings.question }}</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg class="faq__icon-plus"  width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <svg class="faq__icon-minus" width="20" height="20" viewBox="0 0 20 20" fill="none" style="display:none"><path d="M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+
+          <div
+            class="faq__answer"
+            id="faq-answer-{{ section.id }}-{{ forloop.index }}"
+            role="region"
+            aria-hidden="true"
+            hidden>
+            <div class="faq__answer-inner">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+</section>
+
+<style>
+
+/* ══ CUSTOM PROPERTIES ══ */
+.faq--{{ section.id }} {
+  --faq-accent:          {{ section.settings.accent_color | default: '#f5a623' }};
+  --faq-accent-hover:    {{ section.settings.accent_hover_color | default: '#d48f0f' }};
+  --faq-bg:              {{ section.settings.section_bg | default: '#f5f3ef' }};
+  --faq-text:            {{ section.settings.text_color | default: '#1a1a1a' }};
+  --faq-text-muted:      {{ section.settings.text_muted | default: '#6b6b6b' }};
+  --faq-divider:         {{ section.settings.divider_color | default: '#d8d4cc' }};
+  --faq-pill-bg:         {{ section.settings.pill_inactive_bg | default: 'transparent' }};
+  --faq-pill-text:       {{ section.settings.pill_inactive_text | default: '#1a1a1a' }};
+  --faq-pill-border:     {{ section.settings.pill_border_color | default: '#c8c3bb' }};
+  --faq-pill-active-bg:  {{ section.settings.pill_active_bg | default: '#f5a623' }};
+  --faq-pill-active-text:{{ section.settings.pill_active_text | default: '#111111' }};
+  --faq-answer-bg:       {{ section.settings.answer_bg | default: 'transparent' }};
+  --faq-icon-color:      {{ section.settings.icon_color | default: '#1a1a1a' }};
+  --faq-font-heading:    '{{ section.settings.font_heading | default: 'system-ui' }}', sans-serif;
+  --faq-font-body:       '{{ section.settings.font_body | default: 'system-ui' }}', sans-serif;
+}
+
+/* ══ WRAPPER ══ */
+.faq--{{ section.id }} {
+  width: 100%;
+  background: var(--faq-bg);
+  font-family: var(--faq-font-body);
+  color: var(--faq-text);
+  {% unless section.settings.full_width %}
+    max-width: {{ section.settings.section_max_width | default: 1200 }}px;
+    margin-inline: auto;
+  {% endunless %}
+  padding: {{ section.settings.padding_top | default: 60 }}px
+           {{ section.settings.padding_h | default: 24 }}px
+           {{ section.settings.padding_bottom | default: 60 }}px;
+  box-sizing: border-box;
+}
+
+/* ══ TITLE ══ */
+.faq--{{ section.id }} .faq__title {
+  margin: 0 0 {{ section.settings.title_mb | default: 24 }}px;
+  font-family: var(--faq-font-heading);
+  font-size: {{ section.settings.title_size | default: 36 }}px;
+  font-weight: {{ section.settings.title_weight | default: 700 }};
+  line-height: 1.15;
+  color: var(--faq-text);
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 30px;
+  leading-trim: NONE;
+  line-height: 36px;
+  letter-spacing: 0.4px;
+  color:#000;
+}
+
+/* ══ FILTER PILLS ══ */
+.faq--{{ section.id }} .faq__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: {{ section.settings.pill_gap | default: 8 }}px;
+  margin-bottom: {{ section.settings.filters_mb | default: 32 }}px;
+}
+
+.faq--{{ section.id }} .faq__filter-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content:center;
+  height: {{ section.settings.pill_height | default: 36 }}px;
+  padding: 0 {{ section.settings.pill_padding_h | default: 18 }}px;
+  border-radius: {{ section.settings.pill_radius | default: 50 }}px;
+  border: {{ section.settings.pill_border_width | default: 1 }}px solid #000000;
+  background: transparent;
+  color: var(--faq-pill-text);
+  font-family: var(--faq-font-body);
+  font-size: {{ section.settings.pill_font_size | default: 14 }}px;
+  font-weight: {{ section.settings.pill_font_weight | default: 400 }};
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+  min-height: 44px;
+  font-family: Inter;
+  font-weight: 500;
+    font-style: Medium;
+    font-size: 14px;
+    leading-trim: NONE;
+    line-height: 20px;
+    letter-spacing: -0.15px;
+    text-align: center;
+    color:#000000;
+    min-width:80px;
+}
+
+.faq--{{ section.id }} .faq__filter-pill:hover {
+  border-color: var(--faq-accent);
+  color: var(--faq-text);
+}
+
+.faq--{{ section.id }} .faq__filter-pill.is-active {
+  {% comment %} background: var(--faq-pill-active-bg);
+  color: var(--faq-pill-active-text);
+  border-color: var(--faq-pill-active-bg); {% endcomment %}
+    background: #FAAF4F;
+  color: #000000;
+  border-color: #FAAF4F;
+}
+
+/* ══ ACCORDION LIST ══ */
+.faq--{{ section.id }} .faq__list {
+  border-top: {{ section.settings.divider_width | default: 1 }}px solid #000;
+}
+
+/* ══ ITEM ══ */
+.faq--{{ section.id }} .faq__item {
+  border-bottom: {{ section.settings.divider_width | default: 1 }}px solid #000;
+  transition: opacity 0.18s ease;
+}
+
+.faq--{{ section.id }} .faq__item.is-hidden {
+  display: none;
+}
+
+/* ══ QUESTION BUTTON ══ */
+.faq--{{ section.id }} .faq__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: {{ section.settings.item_padding_v | default: 22 }}px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--faq-text);
+  font-family: var(--faq-font-body);
+  outline: none;
+  min-height: 44px;
+}
+
+.faq--{{ section.id }} .faq__question:focus-visible {
+  outline: 2px solid var(--faq-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.faq--{{ section.id }} .faq__question-text {
+  font-size: {{ section.settings.question_size | default: 16 }}px;
+  font-weight: {{ section.settings.question_weight | default: 400 }};
+  line-height: 1.45;
+  flex: 1;
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 24px;
+  letter-spacing: 0px;
+  color:#000000;
+}
+
+{% comment %} .faq--{{ section.id }} .faq__question[aria-expanded="true"] .faq__question-text {
+  font-weight: {{ section.settings.question_weight_open | default: 600 }};
+} {% endcomment %}
+
+/* Icon */
+.faq--{{ section.id }} .faq__icon {
+  flex-shrink: 0;
+  color: var(--faq-icon-color);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+/* ══ ANSWER PANEL — smooth height animation via max-height ══ */
+.faq--{{ section.id }} .faq__answer {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height {{ section.settings.anim_duration | default: 340 }}ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq--{{ section.id }} .faq__answer:not([hidden]) {
+  max-height: 1000px;
+}
+
+/* Override hidden to allow animation */
+.faq--{{ section.id }} .faq__answer[hidden] {
+  display: block !important;
+  max-height: 0;
+}
+
+.faq--{{ section.id }} .faq__answer-inner {
+  padding: 0 0 {{ section.settings.answer_padding_bottom | default: 20 }}px;
+  font-size: {{ section.settings.answer_size | default: 15 }}px;
+  line-height: {{ section.settings.answer_line_height | default: 1.65 }};
+  color: {{ section.settings.answer_text_color | default: '#4a4a4a' }};
+  background: var(--faq-answer-bg);
+  max-width: {{ section.settings.answer_max_width | default: 80 }}ch;
+}
+
+.faq--{{ section.id }} .faq__answer-inner p { margin: 0 0 0.75em; }
+.faq--{{ section.id }} .faq__answer-inner p:last-child { margin-bottom: 0; }
+.faq--{{ section.id }} .faq__answer-inner a { color: var(--faq-accent); text-decoration: underline; }
+.faq--{{ section.id }} .faq__answer-inner ul,
+.faq--{{ section.id }} .faq__answer-inner ol { margin: 0 0 0.75em 1.25em; }
+
+/* ══ MOBILE ══ */
+@media (max-width: 768px) {
+  .faq--{{ section.id }} {
+    padding: {{ section.settings.padding_top_mob | default: 32 }}px
+             {{ section.settings.padding_h_mob | default: 16 }}px
+             {{ section.settings.padding_bottom_mob | default: 32 }}px;
+  }
+
+  .faq--{{ section.id }} .faq__title {
+    font-size: {{ section.settings.title_size_mob | default: 26 }}px !important;
+  }
+
+  .faq--{{ section.id }} .faq__question-text {
+    font-size: {{ section.settings.question_size_mob | default: 15 }}px !important;
+  }
+
+  .faq--{{ section.id }} .faq__answer-inner {
+    font-size: {{ section.settings.answer_size_mob | default: 14 }}px !important;
+  }
+}
+
+</style>
+
+<script>
+(function () {
+  var sec = document.querySelector('.faq--{{ section.id }}');
+  if (!sec) return;
+
+  var items   = sec.querySelectorAll('.faq__item');
+  var pills   = sec.querySelectorAll('.faq__filter-pill');
+
+  /* ── Filtering ── */
+  function applyFilter(tag) {
+    pills.forEach(function(p) {
+      var active = p.dataset.filter === tag;
+      p.classList.toggle('is-active', active);
+      p.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+
+    items.forEach(function(item) {
+      var itemTag = item.dataset.tag || 'all';
+      var show = tag === 'all' || itemTag === tag;
+      item.classList.toggle('is-hidden', !show);
+    });
+  }
+
+  pills.forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      applyFilter(pill.dataset.filter);
+    });
+  });
+
+  /* ── Accordion ── */
+  function closeAll(except) {
+    items.forEach(function(item) {
+      var btn    = item.querySelector('.faq__question');
+      var answer = item.querySelector('.faq__answer');
+      var plus   = item.querySelector('.faq__icon-plus');
+      var minus  = item.querySelector('.faq__icon-minus');
+      if (item === except) return;
+      if (btn && btn.getAttribute('aria-expanded') === 'true') {
+        btn.setAttribute('aria-expanded', 'false');
+        answer.setAttribute('aria-hidden', 'true');
+        answer.setAttribute('hidden', '');
+        if (plus)  plus.style.display  = '';
+        if (minus) minus.style.display = 'none';
+      }
+    });
+  }
+
+  items.forEach(function(item) {
+    var btn    = item.querySelector('.faq__question');
+    var answer = item.querySelector('.faq__answer');
+    var plus   = item.querySelector('.faq__icon-plus');
+    var minus  = item.querySelector('.faq__icon-minus');
+    if (!btn || !answer) return;
+
+    btn.addEventListener('click', function() {
+      var isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+      if ({{ section.settings.close_others | default: true }}) {
+        closeAll(item);
+      }
+
+      if (isOpen) {
+        btn.setAttribute('aria-expanded', 'false');
+        answer.setAttribute('aria-hidden', 'true');
+        answer.setAttribute('hidden', '');
+        if (plus)  plus.style.display  = '';
+        if (minus) minus.style.display = 'none';
+      } else {
+        btn.setAttribute('aria-expanded', 'true');
+        answer.removeAttribute('hidden');
+        answer.setAttribute('aria-hidden', 'false');
+        if (plus)  plus.style.display  = 'none';
+        if (minus) minus.style.display = '';
+      }
+    });
+  });
+
+  /* ── Open item if URL hash matches ── */
+  if (window.location.hash) {
+    var target = sec.querySelector(window.location.hash);
+    if (target && target.classList.contains('faq__item')) {
+      var btn = target.querySelector('.faq__question');
+      if (btn) btn.click();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // Init — apply 'all' filter
+  applyFilter('all');
+})();
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Section New",
+  "settings": [
+
+    { "type": "header", "content": "Section Layout" },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "min": 600, "max": 1600, "step": 20,
+      "label": "Max Width (px)",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0, "max": 120, "step": 4,
+      "label": "Padding Top — Desktop (px)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0, "max": 120, "step": 4,
+      "label": "Padding Bottom — Desktop (px)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_h",
+      "min": 0, "max": 80, "step": 4,
+      "label": "Padding Horizontal — Desktop (px)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "min": 0, "max": 80, "step": 4,
+      "label": "Padding Top — Mobile (px)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "min": 0, "max": 80, "step": 4,
+      "label": "Padding Bottom — Mobile (px)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_h_mob",
+      "min": 0, "max": 40, "step": 4,
+      "label": "Padding Horizontal — Mobile (px)",
+      "default": 16
+    },
+
+    { "type": "header", "content": "Colors" },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section Background",
+      "default": "#f5f3ef"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Primary Text Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_muted",
+      "label": "Muted Text Color",
+      "default": "#6b6b6b"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#f5a623"
+    },
+    {
+      "type": "color",
+      "id": "accent_hover_color",
+      "label": "Accent Hover Color",
+      "default": "#d48f0f"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider Line Color",
+      "default": "#d8d4cc"
+    },
+    {
+      "type": "range",
+      "id": "divider_width",
+      "min": 1, "max": 3, "step": 1,
+      "label": "Divider Line Width (px)",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Plus / Minus Icon Color",
+      "default": "#1a1a1a"
+    },
+
+    { "type": "header", "content": "Section Title" },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Title",
+      "default": "Frequently asked questions"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20, "max": 60, "step": 2,
+      "label": "Title Size — Desktop (px)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "title_size_mob",
+      "min": 16, "max": 40, "step": 2,
+      "label": "Title Size — Mobile (px)",
+      "default": 26
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "title_mb",
+      "min": 8, "max": 60, "step": 4,
+      "label": "Title Margin Bottom (px)",
+      "default": 24
+    },
+
+    { "type": "header", "content": "Filter Pills" },
+    {
+      "type": "text",
+      "id": "filter_tags",
+      "label": "Filter Tags (comma separated)",
+      "default": "All,TrueStep,TruePlank,Installation",
+      "info": "First tag is always 'All'. Must match exactly what you enter in each FAQ block's Tag field."
+    },
+    {
+      "type": "color",
+      "id": "pill_inactive_bg",
+      "label": "Pill Background — Inactive",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pill_inactive_text",
+      "label": "Pill Text — Inactive",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "pill_border_color",
+      "label": "Pill Border Color",
+      "default": "#c8c3bb"
+    },
+    {
+      "type": "color",
+      "id": "pill_active_bg",
+      "label": "Pill Background — Active",
+      "default": "#f5a623"
+    },
+    {
+      "type": "color",
+      "id": "pill_active_text",
+      "label": "Pill Text — Active",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "pill_height",
+      "min": 28, "max": 56, "step": 2,
+      "label": "Pill Height (px)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "pill_padding_h",
+      "min": 8, "max": 40, "step": 2,
+      "label": "Pill Horizontal Padding (px)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "pill_radius",
+      "min": 0, "max": 50, "step": 2,
+      "label": "Pill Border Radius (px)",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "pill_border_width",
+      "min": 0, "max": 3, "step": 1,
+      "label": "Pill Border Width (px)",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "pill_font_size",
+      "min": 11, "max": 18, "step": 1,
+      "label": "Pill Font Size (px)",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "pill_font_weight",
+      "label": "Pill Font Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "pill_gap",
+      "min": 4, "max": 20, "step": 2,
+      "label": "Pill Gap (px)",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "filters_mb",
+      "min": 8, "max": 60, "step": 4,
+      "label": "Filters Row Margin Bottom (px)",
+      "default": 32
+    },
+
+    { "type": "header", "content": "Accordion Items" },
+    {
+      "type": "range",
+      "id": "item_padding_v",
+      "min": 12, "max": 40, "step": 2,
+      "label": "Item Vertical Padding (px)",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "question_size",
+      "min": 13, "max": 24, "step": 1,
+      "label": "Question Font Size — Desktop (px)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "question_size_mob",
+      "min": 12, "max": 20, "step": 1,
+      "label": "Question Font Size — Mobile (px)",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "question_weight",
+      "label": "Question Font Weight (closed)",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "select",
+      "id": "question_weight_open",
+      "label": "Question Font Weight (open)",
+      "options": [
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "answer_text_color",
+      "label": "Answer Text Color",
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "color",
+      "id": "answer_bg",
+      "label": "Answer Background",
+      "default": "#f5f3ef",
+      "info": "Usually matches section background for seamless look"
+    },
+    {
+      "type": "range",
+      "id": "answer_size",
+      "min": 12, "max": 20, "step": 1,
+      "label": "Answer Font Size — Desktop (px)",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "answer_size_mob",
+      "min": 11, "max": 18, "step": 1,
+      "label": "Answer Font Size — Mobile (px)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "answer_line_height",
+      "min": 1, "max": 2, "step": 0.1,
+      "label": "Answer Line Height",
+      "default": 1.6
+    },
+    {
+      "type": "range",
+      "id": "answer_padding_bottom",
+      "min": 8, "max": 40, "step": 2,
+      "label": "Answer Bottom Padding (px)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "answer_max_width",
+      "min": 40, "max": 120, "step": 4,
+      "label": "Answer Max Width (ch)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "anim_duration",
+      "min": 100, "max": 600, "step": 20,
+      "label": "Open/Close Animation Duration (ms)",
+      "default": 340
+    },
+    {
+      "type": "checkbox",
+      "id": "close_others",
+      "label": "Close other items when one opens",
+      "default": true
+    },
+
+    { "type": "header", "content": "Font Families" },
+    {
+      "type": "select",
+      "id": "font_heading",
+      "label": "Heading Font",
+      "options": [
+        { "value": "system-ui",        "label": "Default (Theme Font)" },
+        { "value": "Montserrat",       "label": "Montserrat" },
+        { "value": "Roboto",           "label": "Roboto" },
+        { "value": "Helvetica Neue",   "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Georgia",          "label": "Georgia" }
+      ],
+      "default": "system-ui"
+    },
+    {
+      "type": "select",
+      "id": "font_body",
+      "label": "Body Font",
+      "options": [
+        { "value": "system-ui",        "label": "Default (Theme Font)" },
+        { "value": "Montserrat",       "label": "Montserrat" },
+        { "value": "Roboto",           "label": "Roboto" },
+        { "value": "Helvetica Neue",   "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Georgia",          "label": "Georgia" }
+      ],
+      "default": "system-ui"
+    }
+
+  ],
+
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "tag",
+          "label": "Category Tag",
+          "options": [
+            { "value": "all",          "label": "All (always visible)" },
+            { "value": "truestep",     "label": "TrueStep™" },
+            { "value": "trueplank",    "label": "TruePlank™" },
+            { "value": "installation", "label": "Installation" }
+          ],
+          "default": "all",
+          "info": "Must match the filter tag labels above (lowercase)"
+        },
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Can I use TrueStep on any type of stairs?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Yes, TrueStep is compatible with all standard stair types including closed riser, open riser, and landing steps. It works with any Flooret flooring collection.</p>"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "FAQ Section New",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "tag": "truestep",
+            "question": "Can I use TrueStep on any type of stairs?",
+            "answer": "<p>Yes, TrueStep is compatible with all standard stair types including closed riser, open riser, and landing steps. It works with any Flooret flooring collection.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "tag": "truestep",
+            "question": "What's the difference between TrueStep Flush and Overlapping?",
+            "answer": "<p>Flush sits level with the tread surface for a seamless look, while Overlapping extends slightly over the edge to cover the nosing. Choose Overlapping for a more traditional stair appearance.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "tag": "trueplank",
+            "question": "Does TruePlank work with open riser stairs?",
+            "answer": "<p>TruePlank is primarily designed for closed riser and full tread replacement applications. For open riser stairs, TrueStep is the recommended solution.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "tag": "all",
+            "question": "How many pieces do I need for a standard staircase?",
+            "answer": "<p>A standard staircase typically has 13–15 steps. Each step requires one tread piece. We recommend ordering 10% extra to account for cuts and any mistakes during installation.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "tag": "installation",
+            "question": "Can I install this myself, or do I need a professional?",
+            "answer": "<p>Both TrueStep and TruePlank are designed for DIY installation and can be completed in under an hour per step with basic tools. No special skills are required. Watch our installation video for a full walkthrough.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

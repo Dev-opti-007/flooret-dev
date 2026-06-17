@@ -1,0 +1,121 @@
+<div class="expert-recommendations container" id="expert-recommendations">
+  <div class="expert-recommendations__container">
+    <div class="heading--wrapper">
+      {% if section.settings.main_icon != blank %}
+        {{ section.settings.main_icon | image_url: width: 25 | image_tag: alt: section.settings.main_icon.alt }}
+      {% endif %}
+      <h2 class="budget-products__heading">{{ section.settings.main_title | default: 'Popular Flooring Types' }}</h2>
+    </div>
+    <p class="expert-recommendations__intro">
+      {{ section.settings.intro_text }}
+    </p>
+    <div class="expert-recommendations__cards">
+      {% for block in section.blocks %}
+        <div>
+          <div class="expert-recommendations__card" {{ block.shopify_attributes }}>
+            {% if block.settings.card_image %}
+              {{ block.settings.card_image | img_url: '400x' | img_tag: '', 'expert-recommendations__card-image' }}
+            {% endif %}
+            <div class="recommendations-wrapper">
+              <h3 class="expert-recommendations__card-title">{{ block.settings.title }}</h3>
+              <h4 class="expert-recommendations__card-subtitle">{{ block.settings.card_subtitle }}</h4>
+              <p class="expert-recommendations__card-text">
+                {{ block.settings.card_description }}
+              </p>
+            </div>
+          </div>
+          {% if block.settings.card_button_text != blank and block.settings.card_button_link != blank %}
+            <a href="{{ block.settings.card_button_link }}" class="expert-recommendations__card-button">
+              {{ block.settings.card_button_text }}
+            </a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Expert Recommendations",
+  "tag": "section",
+  "class": "expert-recommendations",
+  "settings": [
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main Title",
+      "default": "Expert Recommendations"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_icon",
+      "label": "Main Icon"
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Introduction Text",
+      "default": "By following this guide, you can make an informed decision and choose flooring that fits your style, budget, and lifestyle. Your floors are the foundation of your home—select them with care!"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "recommendation_card",
+      "name": "Recommendation Card",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Recommendation Title"
+        },
+        {
+          "type": "text",
+          "id": "card_subtitle",
+          "label": "Subtitle",
+          "default": "Recommendation Subtitle"
+        },
+        {
+          "type": "textarea",
+          "id": "card_description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "card_button_text",
+          "label": "Button Text",
+          "default": "Shop Products"
+        },
+        {
+          "type": "url",
+          "id": "card_button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Expert Recommendations",
+      "blocks": [
+        {
+          "type": "recommendation_card"
+        },
+        {
+          "type": "recommendation_card"
+        },
+        {
+          "type": "recommendation_card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

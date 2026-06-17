@@ -1,0 +1,99 @@
+{%- liquid
+  assign meta = product.metafields
+
+  assign feat_img = product.featured_image
+  assign variant_images = ''
+  assign hover_img = product.selected_or_first_available_variant.featured_image
+
+  for variant in product.variants
+    assign variant_images = variant_images | append: ',' | append: variant.featured_image
+
+    if variant[optionIndex] == value and feat_img == blank
+      assign feat_img = variant.featured_image
+    endif
+  endfor
+
+  assign variant_images = variant_images | remove_first: ',' | split: ','
+  assign found = false
+
+  for media in product.media
+    if feat_img == media
+      assign found = true
+    endif
+
+    if found == true
+      unless variant_images contains media
+        assign feat_img = media
+        break
+      endunless
+    endif
+  endfor
+
+  assign gallery = false
+  assign gallery_size = 0
+
+  for obj in shop.metaobjects.gallery.values
+    if obj.product.value.handle == product.handle
+      assign gallery = obj.images.value
+      for img in gallery
+        assign gallery_size = gallery_size | plus: 1
+      endfor
+      break
+    endif
+  endfor
+-%}
+
+<div id="gallery-product-popup">
+  <div class="container container--large">
+    <section class="gallery-popup">
+      <div class="gallery-popup__content">
+        <div class="row">
+          <div class="col col--left">
+            <div class="swiper">
+              <div class="swiper-wrapper">
+                <div class="gallery-popup__featured-image swiper-slide">
+                  <div class="positioner">
+                    {%- render 'lazy-image', image: feat_img, width: 1000 -%}
+                  </div>
+                </div>
+
+                {% if gallery %}
+                  {% for img in gallery %}
+                    <div class="gallery-popup__featured-image swiper-slide">
+                      <div class="positioner">
+                        {%- render 'lazy-image', image: img, width: 1000 -%}
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+              </div>
+              <div class="lightbox-card">
+                <div class="custom-card">
+                  <div>
+                    <div class="card-headline">
+                      {%- render 'lazy-image', image: hover_img, width: 500 -%}
+                      {{ product.title }}
+                    </div>
+                    <div class="total-photos">
+                      {{ product.metafields.flooret.product_color.value.name }}
+                    </div>
+                  </div>
+                  <a class="btn btn--black" href="{{ product.url }}">View Details</a>
+                </div>
+                <div class="swiper-controls">
+                  <div class="swiper-button-prev"></div>
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-scrollbar"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col col--right">
+            {%- render 'product-card', product: product -%}
+            <a class="btn btn--outline" href="{{ product.url }}">View Details</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

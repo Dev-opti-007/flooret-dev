@@ -1,0 +1,58 @@
+{%- comment -%}
+  ** Media Snippet **
+  Renders a Shopify media object, correctly handling images and videos.
+  Now accepts a variable named 'media' or 'image'.
+{%- endcomment -%}
+
+{%# FIX: This line makes the snippet work whether you pass 'media' or 'image' as the variable. %}
+{%- assign media_object = media | default: image -%}
+
+{%- liquid
+  assign loading = 'lazy'
+  if lazy == false
+    assign loading = 'eager'
+  endif
+
+  unless alt != blank
+    assign alt = media_object.alt
+  endunless
+-%}
+
+{%# Check the media type to decide what to render #%}
+{%- if media_object.media_type == 'image' -%}
+
+  {%- assign image_tag_object = media_object -%}
+  {%- if image_tag_object != blank -%}
+    {%- if width != blank and height != blank -%}
+      {{ image_tag_object | image_url: width: width, height: height | image_tag: alt: alt, class: class, crop: crop, loading: loading }}
+    {%- elsif width != blank -%}
+      {{ image_tag_object | image_url: width: width | image_tag: alt: alt, class: class, crop: crop, loading: loading }}
+    {%- elsif height != blank -%}
+      {{ image_tag_object | image_url: height: height | image_tag: alt: alt, class: class, crop: crop, loading: loading }}
+    {%- else -%}
+      {{ image_tag_object | image_url: width: 2000 | image_tag: alt: alt, class: class, crop: crop, loading: loading }}
+    {%- endif -%}
+  {%- endif -%}
+
+{%- elsif media_object.media_type == 'video' -%}
+
+  {%# Renders a Shopify-hosted video #%}
+{{- media_object
+  | video_tag:
+    autoplay: true,
+    muted: true,
+    playsinline: true,
+    loop: true,
+    controls: false,
+    preload: 'metadata',
+    class: class
+-}}
+
+
+
+{%- elsif media_object.media_type == 'external_video' -%}
+
+  {%# Renders a YouTube or Vimeo video embed #%}
+  {{- media_object | external_video_tag: class: class -}}
+
+{%- endif -%}

@@ -1,0 +1,46 @@
+{% assign _blocks = section.blocks %}
+{% if _blocks != blank %}
+   <div class="faq-sticky-main">
+      {% for block in _blocks %}
+        {% if block.settings.sticky_nav_link != blank and block.settings.sticky_nav_text != blank %}
+          <a href="{{ block.settings.sticky_nav_link }}" class="btn btn--plain">{{ block.settings.sticky_nav_text }}</a>
+        {% endif %}
+      {% endfor %}
+    <a class="btn" href="/pages/contact">Contact Us</a>
+    </div> 
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "FAQs Sticky Nav",
+  "class": "shopify-block faqs-sticky-wrapper",
+  "settings": [
+
+  ],
+  "blocks": [
+     {
+       "name": "Nav",
+       "type": "nav",
+       "settings": [
+         {
+           "type": "text",
+           "id": "sticky_nav_text",
+           "label": "Nav Text"
+         },
+         {
+           "type": "text",
+           "id": "sticky_nav_link",
+           "label": "Nav Link"
+         }
+       ]
+     }
+  ],  
+  "presets": [
+    {
+      "name": "FAQs Sticky Nav",
+      "category": "Content / FAQs Nav"
+    }
+  ]
+}
+{% endschema %}

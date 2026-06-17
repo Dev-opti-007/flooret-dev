@@ -1,0 +1,88 @@
+{%- liquid
+  assign product_models = blank
+  assign models = shop.metaobjects.product_model
+
+  if module.product != blank
+    assign prod_handle = module.product | handleize
+    assign product = all_products[prod_handle]
+  endif
+
+  for product_option in product.options_with_values
+    if product_option.name == 'Model'
+      assign product_models = product_option.values
+      break
+    endif
+  endfor
+
+  assign model_exists = false
+  for model in product_models
+    if models[model] != blank
+      assign model_exists = true
+      break
+    endif
+  endfor
+-%}
+
+{%- unless product.tags contains 'Cat--Silvan'
+  or product_models == blank
+  or module.heading == blank
+  or model_exists == false
+-%}
+  <section class="model-compare">
+    <div class="container">
+      <div class="section__header">
+        <h2>{{ module.heading }}</h2>
+
+        <p style="text-align: center;">
+          Photos below: &nbsp;
+          {%- liquid
+            for model in product_models
+              if models[model] != blank
+                if forloop.first
+                  echo product.title | append: ' ' | append: model
+                else
+                  echo ', ' | append: product.title | append: ' ' | append: model
+                endif
+              endif
+            endfor
+          -%}
+        </p>
+      </div>
+      <div class="section__content swiper compareModels">
+        <div class="swiper-wrapper">
+          {%- for model in product_models -%}
+            {%- if models[model] != blank -%}
+              <div class="swiper-slide">
+                <div class="model-compare__model">
+                  {%- render 'prodspec-card', model: model, product: product -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="swiper-controls mob-only">
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-scrollbar"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endunless -%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', ()=>{
+     var swiper = new Swiper('.compareModels', {
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      spaceBetween: 16,
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      },
+      autoplay: false, // Added here
+    });
+  })
+</script>
+

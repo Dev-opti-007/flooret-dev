@@ -1,0 +1,192 @@
+<style>
+  .innovation-section-{{ section.id }} {
+     padding-top:{{ section.settings.padding-top }}px;
+     padding-bottom:{{ section.settings.padding-bottom }}px;
+  }
+.innovation-section .heading-wrap h2 {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-size: 52px;
+  line-height: 89.6px;
+  letter-spacing: -1.12px;
+  text-align: center;
+  vertical-align: middle;
+  color: #2D4A3A;
+  margin-bottom: 60px;
+}
+
+.innovation-section .in-wrap {
+  display: flex;
+  width: 100%;
+  gap: 60px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.innovation-section .left-wrap {
+  max-width: 525px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.innovation-section .left-wrap h3 {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 51.2px;
+  vertical-align: middle;
+  white-space: pre-wrap;
+  margin-bottom: 5px;
+}
+
+.innovation-section .left-wrap .box {
+  border: 2px solid #2D4A3A;
+  box-shadow: 0px 0px 24px 0px #C4C4C440;
+  height: 60px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+.innovation-section .left-wrap .box p {
+  font-family: Montserrat;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25.6px;
+  vertical-align: middle;
+}
+
+.innovation-section .right-wrap {
+  width: calc(100% - 525px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 672px;
+  min-height: 400px;
+}
+
+.innovation-section .right-wrap img {
+  border-radius: 24px;
+  box-shadow: 0px 20px 60px 0px #2D4A3A26;
+}
+
+.innovation-section .desc p {
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 32px;
+  letter-spacing: 0%;
+  text-align: START;
+  vertical-align: middle;
+}
+</style>
+
+<div class="innovation-section innovation-section-{{ section.id }}" >
+  <div class="page-width" >
+    <div class="heading-wrap">
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="in-wrap" >
+        <div class="left-wrap" >
+          <h3>{{ section.settings.left-title }}</h3>
+          <div class="desc">
+            {{ section.settings.desc }}
+          </div>
+          {% for block in section.blocks %}
+            <div class="box" >
+              {{ block.settings.title }}
+            </div>
+          {% endfor %}
+        </div>
+        <div class="right-wrap" >
+           
+            <a href="{{ section.settings.link }}" >
+
+              <img src="{{ section.settings.image | img_url:'672x' }}" alt="{{ section.settings.image.alt }}" >
+            </a>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Innovation LP Section",
+    "settings": [
+       {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+       },
+        {
+          "type":"header",
+          "content": "Left Content"
+        },
+      {
+        "type": "html",
+        "id": "left-title",
+        "label": "Title"
+      },
+      {
+        "type": "richtext",
+        "id": "desc",
+        "label": "Desc"
+      },
+       {
+          "type":"header",
+          "content": "Right Content"
+        },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      },
+       {
+        "type": "range",
+        "id": "padding-top",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Top",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "padding-bottom",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Bottom",
+        "default": 2
+      }
+    ],
+    "blocks":[
+        {
+          "type": "plank",
+          "name":"Plank",
+          "settings": [
+            {
+              "type": "richtext",
+              "id":"title",
+              "label": "Plank Title"
+            }
+          ]
+        }
+    ],
+    "presets": [
+      {
+        "name": "Innovation LP Section"
+      }
+    ]
+  }
+{% endschema %}

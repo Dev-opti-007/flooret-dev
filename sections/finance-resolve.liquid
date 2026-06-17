@@ -1,0 +1,393 @@
+<section id="resolve-section" class="finance-option">
+  <div class="finance-option__container">
+    <div class="finance-option__content">
+      <h2 class="finance-option__title">{{ section.settings.heading }}</h2>
+      <p class="finance-option__subtitle">{{ section.settings.subtitle }}</p>
+      <p class="finance-option__description">
+        {{ section.settings.desc }}
+      </p>
+    </div>
+    <div class="finance-option__features">
+      <div class="finance-option__logo">
+        {% comment %} <img
+          src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/finance-logo-resolve.png?v=1724370680"
+          alt="Resolve logo"
+          class="finance-option__logo-image"
+        > {% endcomment %}
+          <img
+            src="{{ section.settings.image | img_url:'150x' }}"
+            alt="Resolve logo"
+            class="finance-option__logo-image"
+          >
+      </div>
+      <ul class="finance-option__feature-list">
+        <li class="finance-option__feature-item">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/finance-logo-calendar.png?v=1724371169"
+            alt=""
+            class="finance-option__feature-icon"
+          >
+          <div class="finance-option__feature-content">
+            <h3 class="finance-option__feature-title">{{ section.settings.feature-text-one }}</h3>
+            <p class="finance-option__feature-description">
+              {{ section.settings.feature-subtet-one }}
+            </p>
+          </div>
+        </li>
+        <li class="finance-option__feature-item">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/finance-logo-check.png?v=1724371169"
+            alt=""
+            class="finance-option__feature-icon"
+          >
+          <div class="finance-option__feature-content">
+            <h3 class="finance-option__feature-title">{{ section.settings.feature-text-two }}</h3>
+            <p class="finance-option__feature-description">{{ section.settings.feature-subtet-two }}</p>
+          </div>
+        </li>
+        <li class="finance-option__feature-item">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/finance-logo-bust.png?v=1724371169"
+            alt=""
+            class="finance-option__feature-icon"
+          >
+          <div class="finance-option__feature-content">
+            <h3 class="finance-option__feature-title">{{ section.settings.feature-text-three }}</h3>
+            <p class="finance-option__feature-description">
+              {{ section.settings.feature-subtet-three }}
+            </p>
+          </div>
+        </li>
+      </ul>
+      <div class="finance-option__buttons">
+         <a
+          href="{{ section.settings.btn-url-one }}"
+          class="finance-option__button finance-option__button--primary"
+          >{{ section.settings.btn-text-one }}</a
+        >
+        <a href="{{ section.settings.btn-url-two }}" class="finance-option__button finance-option__button--secondary"
+          >{{ section.settings.btn-text-two }}</a
+        >
+        {% comment %} <a
+          href="https://app.resolvepay.com/flooret?view=account_creation"
+          class="finance-option__button finance-option__button--primary"
+          >Apply Now</a
+        >
+        <a href="/pages/partner-plus" class="finance-option__button finance-option__button--secondary"
+          >Become A Partner</a
+        > {% endcomment %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .finance-option {
+    padding: 80px 0;
+    background-color: #fff;
+  }
+
+  .finance-option__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 20px;
+  }
+
+  .finance-option__content {
+    flex: 1;
+    padding-right: 60px;
+  }
+
+  .finance-option__title {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .finance-option__subtitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .finance-option__description {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .finance-option__features {
+    flex: 1;
+  }
+
+  .finance-option__logo {
+    margin-bottom: 30px;
+  }
+
+  .finance-option__logo-image {
+    max-width: 150px;
+  }
+
+  .finance-option__feature-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+  }
+
+  .finance-option__feature-list::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 24px;
+    bottom: 24px;
+    width: 1px;
+    border-left: 1px dashed #faaf4f;
+  }
+
+  .finance-option__feature-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .finance-option__feature-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 20px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    background-color: #fff;
+  }
+
+  .finance-option__feature-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+
+  .finance-option__feature-description {
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .finance-option__buttons {
+    display: flex;
+    gap: 20px;
+  }
+
+  .finance-option__button {
+    padding: 5px;
+    font-family: Montserrat, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    text-decoration: none;
+    border-radius: 24px;
+    transition: all 0.3s ease;
+    display: inline-block;
+    min-width: 200px;
+    text-align: center;
+  }
+
+  .finance-option__button--primary,
+  .finance-option__button--secondary {
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #000;
+  }
+
+  .finance-option__button--primary:hover,
+  .finance-option__button--secondary:hover {
+    background-color: transparent;
+    color: #000;
+  }
+
+  .finance-option--affirm {
+    background-color: #f6f9fc;
+  }
+
+  .finance-option--affirm .finance-option__title {
+    font-size: 56px;
+    line-height: 1.1;
+  }
+
+  .finance-option--affirm .finance-option__feature-icon {
+    background-color: #faaf4f;
+    border-radius: 50%;
+  }
+
+  .finance-option--affirm .finance-option__feature-list::before {
+    border-left-color: #faaf4f;
+  }
+
+  @media (max-width: 992px) {
+    .finance-option__container {
+      flex-direction: column;
+    }
+
+    .finance-option__content {
+      padding-right: 0;
+      margin-bottom: 40px;
+    }
+
+    .finance-option__features {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .finance-option {
+      padding: 60px 0;
+    }
+
+    .finance-option__title {
+      font-size: 36px;
+    }
+
+    .finance-option__subtitle {
+      font-size: 20px;
+    }
+
+    .finance-option__buttons {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .finance-option__button {
+      width: 100%;
+    }
+
+    .finance-option__feature-list::before {
+      bottom: auto;
+      height: calc(100% - 78px); /* Adjusted to account for the last item's margin */
+    }
+
+    .finance-option__feature-item:last-child {
+      margin-bottom: 30px;
+    }
+
+    .finance-option--affirm .finance-option__title {
+      font-size: 40px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Finance Resolve",
+  "settings": [
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default":"Partner+ Program with Resolve"
+    },
+    {
+      "type": "html",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default":"Best for Commercial Customers"
+    },
+    {
+      "type": "html",
+      "id": "desc",
+      "label": "Description",
+      "default":"For our commercial customers enrolled in our Partner+ Program—such as interior designers, contractors, and architects—we offer financing through Resolve. This option provides more flexible terms to support your business needs."
+    },
+    {
+      "type": "image_picker",
+      "id":"image",
+      "label":"Finance option logo"
+    },
+    {
+      "type": "header",
+      "content": "Feature Content One"
+    },
+    {
+      "type": "html",
+      "id":"feature-text-one",
+      "label": "Feature text One",
+      "default":"60 DAY TERMS"
+    },
+    {
+      "type": "html",
+      "id":"feature-subtet-one",
+      "label": "Feature Subtext One",
+      "default":"Enjoy extended payment terms to manage your cash flow better."
+    },
+    {
+      "type": "header",
+      "content": "Feature Content Two"
+    },
+    {
+      "type": "html",
+      "id":"feature-text-two",
+      "label": "Feature text Two",
+      "default":"STREAMLINED PROCESS"
+    },
+    {
+      "type": "html",
+      "id":"feature-subtet-two",
+      "label": "Feature Subtext Two",
+      "default":"Easy integration with your purchasing system."
+    },
+    {
+      "type": "header",
+      "content": "Feature Content Three"
+    },
+    {
+      "type": "html",
+      "id":"feature-text-three",
+      "label": "Feature text Three",
+      "default":"Exclusive to Partner+ Members"
+    },
+    {
+      "type": "html",
+      "id":"feature-subtet-three",
+      "label": "Feature Subtext Three",
+      "default":"Tailored specifically for our repeat commercial customers."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "btn-text-one",
+      "label": "Button Text One",
+      "default":"Apply Now"
+    },
+    {
+      "type": "url",
+      "id": "btn-url-one",
+      "label": "Button URL One"
+    },
+    {
+      "type": "text",
+      "id": "btn-text-two",
+      "label": "Button Text Two",
+      "default":"Become A Partner"
+    },
+    {
+      "type": "url",
+      "id": "btn-url-two",
+      "label": "Button URL Two"
+    }
+  ],  
+  "presets": [
+    {
+      "name": "Finance Resolve",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,20 @@
+<a href="{{ article.url }}" class="slider-article-card">
+  <div class="slider-article-card__image">
+    <div class="thumb">
+      <div class="positioner">
+        {% render 'lazy-image', image: article.image, height: 400 %}
+      </div>
+    </div>
+  </div>
+
+  <div class="slider-article-card__content">
+    {% if article.tags.size > 0 %}
+      {% for tag in article.tags %}
+        <span class="pill-btn pill-btn--lblue">{{ tag | replace: 'Cat - ', '' | replace : 'Filter - ', '' }}</span>
+      {% endfor %}
+    {% endif %}
+    <h3 class="h6">
+      {{ article.title }}
+    </h3>
+  </div>
+</a>

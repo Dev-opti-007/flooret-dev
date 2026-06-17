@@ -1,0 +1,126 @@
+<div class="popular-flooring-types container" id="popular-flooring-types">
+  <div class="heading--wrapper">
+    {% if section.settings.main_icon != blank %}
+      {{ section.settings.main_icon | image_url: width: 25 | image_tag: alt: section.settings.main_icon.alt }}
+    {% endif %}
+    <h2 class="budget-products__heading">{{ section.settings.main_title | default: 'Popular Flooring Types' }}</h2>
+  </div>
+
+  <div class="popular-flooring-types__grid">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'flooring_type' %}
+          <div class="flooring-type" {{ block.shopify_attributes }}>
+            {% if block.settings.flooring_image %}
+              {{ block.settings.flooring_image | img_url: '400x' | img_tag: '', 'flooring-type__image' }}
+            {% endif %}
+            <h3 class="flooring-type__title">{{ block.settings.title }}</h3>
+            <p class="flooring-type__description">
+              {{ block.settings.flooring_description }}
+            </p>
+          </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+
+  <div class="popular-flooring-types__cta">
+    {% if section.settings.cta_button_1_text != blank and section.settings.cta_button_1_link != blank %}
+      <a href="{{ section.settings.cta_button_1_link }}" class="btn btn--secondary">
+        {{ section.settings.cta_button_1_text }}
+      </a>
+    {% endif %}
+    {% if section.settings.cta_button_2_text != blank and section.settings.cta_button_2_link != blank %}
+      <a href="{{ section.settings.cta_button_2_link }}" class="btn btn--secondary">
+        {{ section.settings.cta_button_2_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Popular Flooring Types",
+  "class": "popular-flooring-types-section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main Title",
+      "default": "Popular Flooring Types"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_icon",
+      "label": "Main Icon"
+    },
+    {
+      "type": "header",
+      "content": "CTA Buttons"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_1_text",
+      "label": "First Button Text",
+      "default": "See Modin Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_1_link",
+      "label": "First Button Link"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_2_text",
+      "label": "Second Button Text",
+      "default": "See Silvan Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_2_link",
+      "label": "Second Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "flooring_type",
+      "name": "Flooring Type",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "flooring_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Flooring Type"
+        },
+        {
+          "type": "textarea",
+          "id": "flooring_description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Popular Flooring Types",
+      "blocks": [
+        {
+          "type": "flooring_type"
+        },
+        {
+          "type": "flooring_type"
+        },
+        {
+          "type": "flooring_type"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

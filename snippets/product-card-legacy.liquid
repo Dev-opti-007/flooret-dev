@@ -1,0 +1,549 @@
+{%- liquid
+  assign meta = product.metafields
+  assign featured_collections = 'modin-luxury-vinyl-plank,silvan-hardwood,trim-accessories,sample-kit' | split: ','
+  assign selected_variant = product.selected_or_first_available_variant
+
+  for tag in product.tags
+    if tag contains 'Badge--'
+      assign badge = tag | split: 'Badge--'
+      break
+    endif
+  endfor
+
+  for collection in product.collections
+    if featured_collections contains collection.handle
+      assign featured_collection = collection
+      break
+    endif
+  endfor
+
+  for product_model in shop.metaobjects.product_model.values
+    if selected_variant.options contains product_model.name
+      assign cost_per_sqft = product_model.cost_per_sqft
+      assign compare_cost_per_sqft = product_model.compare_cost_per_sqft
+      assign product_length = product_model.length
+      assign product_width = product_model.width
+      assign wear_layer_thickness = product_model.thickness
+    endif
+  endfor
+
+  assign link = product.url
+  if color_link != blank
+    assign link = link | append: '?select-color=' | append: color_link
+  endif
+-%}
+
+{%- assign off_percent = 0 -%}
+{%- if compare_cost_per_sqft.value and compare_cost_per_sqft.value > cost_per_sqft.value -%}
+  {%- assign diff = compare_cost_per_sqft.value | minus: cost_per_sqft.value -%}
+  {%- assign raw_percent = diff | times: 100 | divided_by: compare_cost_per_sqft.value -%}
+  {%- assign off_percent = raw_percent | round -%}
+{%- endif -%}
+
+<style>
+  .model-images-group {
+    position: absolute;
+    z-index: 5;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .hover-image-wrapper {
+    position: relative;
+    display: block;
+    overflow: hidden;
+  }
+  
+  .product-card__product-img,
+  .product-card__product-img-hover {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: opacity 0.3s ease;
+  }
+  
+  .product-card__product-img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none; /* prevent accidental hover issues */
+  }
+  
+  .hover-image-wrapper:hover .product-card__product-img-hover {
+    opacity: 1;
+  }
+  
+  .hover-image-wrapper:hover .product-card__product-img {
+    opacity: 0;
+  }
+
+  .custom-hover-image img {
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+
+<div class="product-card {{ class }}" data-options="{{ product.selected_or_first_available_variant.options }}">
+  <div class="product-card__image-container">
+    <div class="model-images-group image-has-filter hidden">
+      {%- assign model_option_index = 0 -%}
+      {%- assign unique_model_names = '' -%}
+    
+      {%- for option in product.options_with_values -%}
+        {%- if option.name == 'Model' -%}
+          {%- assign model_option_index = forloop.index0 -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    
+      {%- for variant in product.variants -%}
+        {%- assign model_name = variant.options[model_option_index] | strip -%}
+        {%- unless unique_model_names contains model_name -%}
+          {%- assign unique_model_names = unique_model_names | append: model_name | append: ',' -%}
+    
+          {%- assign model_meta = null -%}
+          {%- for meta in shop.metaobjects.product_model.values -%}
+            {%- if meta.name == model_name -%}
+              {%- assign model_meta = meta -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+    
+          {%- assign first_image = variant.featured_image -%}
+          {%- assign last_image = null -%}
+          {%- for v in product.variants reversed -%}
+            {%- assign v_model = v.options[model_option_index] | strip -%}
+            {%- if v_model == model_name and v.featured_image != blank -%}
+              {%- assign last_image = v.featured_image -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+    
+          {%- if model_meta and first_image -%}
+            <div class="model-image model-card-image model-image--{{ model_name | handle }}" target="{{ model_meta.width.value | replace: ' in', '' }}">
+              <a href="{{ variant.url }}" class="hover-image-wrapper">
+                <!-- Primary image -->
+                {% render 'lazy-image',
+                  image: first_image,
+                  width: 500,
+                  alt: product.title,
+                  class: 'product-card__product-img' %}
+    
+                <!-- Custom hover image (no JS interference) -->
+                {% if last_image %}
+                  <div class="custom-hover-image">
+                    {% render 'lazy-image',
+                      image: last_image,
+                      width: 500,
+                      alt: product.title,
+                      class: 'product-card__product-img-hover' %}
+                  </div>
+                {% endif %}
+              </a>
+            </div>
+          {%- endif -%}
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+
+    {% if product.tags contains 'new color' or product.tags contains 'New color' %}
+      <div class="new--badge">{{ settings.custom_badge }}</div>
+    {% endif %}
+    {%  if product.metafields.custom.seasonal_discount %}
+      <div class="seasonal_discount--badge">{{ product.metafields.custom.seasonal_discount }}</div>
+    {%  endif %}
+    <div class="product-card__low-stock-alert" style="display: none;">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Low_Stock_Alert.png?v=1723767257"
+        alt="Low Stock"
+        class="low-stock-image"
+        width="auto"
+        height="auto"
+      >
+    </div>
+    <div class="product-card__image image-no-filter">
+      {%- if badge != blank -%}
+        <div class="product-card__tags">
+          <span class="product-card__badge btn btn--small btn--white btn--badge">{{ badge }}</span>
+        </div>
+      {%- endif -%}
+      <a href="{{ link }}">
+        {% if selected_variant.featured_image != blank %}
+          {% assign image = selected_variant.featured_image %}
+        {% else %}
+          {% assign image = product.featured_image %}
+        {% endif %}
+        {% render 'lazy-image', image: image, width: 500, alt: product.title, class: 'product-card__product-img' %}
+        <div class="product-card__hover-image js-product-card-hover-image"></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="product-card__content">
+    <div class="product-card__header">
+      {%- if featured_collection != blank -%}
+        <div class="product-card__collection">
+          <a href="{{ featured_collection.url }}" class="btn btn--small btn--white">
+            {% if featured_collection.handle == 'modin-luxury-vinyl-plank' %}
+              Modin
+            {% elsif featured_collection.handle == 'silvan-hardwood' %}
+              Silvan
+            {% elsif featured_collection.handle == 'trim-accessories' %}
+              Accessories
+            {% elsif featured_collection.handle == 'sample-kit' %}
+              Sample Kits
+            {% else %}
+              {{ featured_collection.title }}
+            {% endif %}
+          </a>
+          {% unless featured_collection.handle == 'modin-luxury-vinyl-plank'
+            or featured_collection.handle == 'silvan-hardwood'
+          %}
+            {% if product.metafields.custom.product_collection contains 'Silvan' %}
+              <a href="?sort_by=manual&filter.p.m.custom.product_collection=Silvan" class="btn btn--small btn--white">
+                Silvan
+              </a>
+            {% elsif product.metafields.custom.product_collection contains 'Modin' %}
+              <a href="?sort_by=manual&filter.p.m.custom.product_collection=Modin" class="btn btn--small btn--white">
+                Modin
+              </a>
+            {% endif %}
+          {% endunless %}
+        </div>
+      {%- endif -%}
+      {%- render 'add-sample', product: product -%}
+    </div>
+    <h3 class="product-card__title h5">
+      <a href="{{ link }}">{{ product.title }}</a>
+    </h3>
+    {% assign skus_array = product.variants | map: 'sku' %}
+    {% assign skus = skus_array | join: ';' %}
+    <div class="collection-reviews-wrapper">
+      <div class="ruk_rating_snippet collection" data-sku="{{ skus }}" data-done="false"></div>
+    </div>
+    {%- unless product.tags contains 'Cat--Accessories' -%}
+      <div class="product-card__meta no-filter">
+        <div class="product-card__model-info">
+            {%- if product.variants.size > 1 -%}
+              <span class="product-card__variant js-product__variant">
+                {{- product.selected_or_first_available_variant.option1 -}}
+              </span>
+            {%- endif -%}
+    
+            <!-- Adding variant size in product on collection page  -->
+            {%- if product_width != blank and product_length != blank -%}
+              <span class="product-card__csm_width_length-{{ product.id }} product-card__csm_width_length {% unless wear_layer_thickness.value %}product-card__variant product-card__csm_thickness{% endunless %}">
+                {{- product_width.value | append: ' x ' | append: product_length.value | replace: ' in', '"' }}
+              </span>
+            {%- endif -%}
+            {%- if product_width != blank and product_length != blank and wear_layer_thickness.value -%}
+              <div class="csm_before_thickness">
+                |
+              </div>
+            {%- endif -%}
+            {%- if wear_layer_thickness.value -%}
+              <span class="product-card__csm_thickness-{{ product.id }} product-card__variant product-card__csm_thickness">
+                {{- wear_layer_thickness.value | append: ' Mil' }}
+              </span>
+            {%- endif -%}
+            <!--  end -->
+    
+            {%- if cost_per_sqft.value -%}
+              <span class="product-card__cost-per-sqft js-product-card__cost-per-sqft">
+                {{- cost_per_sqft.value | money }} <del>{{ compare_cost_per_sqft.value | money }}</del> SF
+                {%- if off_percent > 0 -%} <span class="off-percent">{{ off_percent }}% Off</span> {%- endif -%}
+              </span>
+            {%- else -%}
+              {%- render 'product-price', product: product -%}
+            {%- endif -%}
+        </div>
+      </div>
+
+      <div class="product-card__meta has-filter hidden">
+        {%- assign model_option_index = 0 -%}
+        {%- assign unique_model_names = '' -%}
+      
+        {%- for option in product.options_with_values -%}
+          {%- if option.name == 'Model' -%}
+            {%- assign model_option_index = forloop.index0 -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      
+        {%- for variant in product.variants -%}
+          {%- assign model_name = variant.options[model_option_index] | strip -%}
+          {%- unless unique_model_names contains model_name -%}
+            {%- assign unique_model_names = unique_model_names | append: model_name | append: ',' -%}
+      
+            {%- for model in shop.metaobjects.product_model.values -%}
+              {%- if model.name == model_name -%}
+                <div class="product-card__model-info has-filter" target="{{ model.width.value | replace: ' in', ''}}">
+                  <!-- Model name -->
+                  <span class="product-card__variant">
+                    {{ model_name }}
+                  </span>
+      
+                  <!-- Width x Length -->
+                  {%- if model.width and model.length -%}
+                    <span class="product-card__csm_width_length-{{ product.id }} product-card__csm_width_length {% unless model.thickness %}product-card__variant product-card__csm_thickness{% endunless %}">
+                      {{ model.width.value | append: ' x ' | append: model.length.value | replace: ' in', '"' }}
+                    </span>
+                  {%- endif -%}
+      
+                  <!-- Separator if both size & thickness -->
+                  {%- if model.width and model.length and model.thickness -%}
+                    <div class="csm_before_thickness">|</div>
+                  {%- endif -%}
+      
+                  <!-- Thickness -->
+                  {%- if model.thickness -%}
+                    <span class="product-card__csm_thickness-{{ product.id }} product-card__variant product-card__csm_thickness">
+                      {{ model.thickness.value | append: ' Mil' }}
+                    </span>
+                  {%- endif -%}
+      
+                    {%- assign off_percent_below = 0 -%}
+                    {%- if compare_cost_per_sqft.value and compare_cost_per_sqft.value > cost_per_sqft.value -%}
+                      {%- assign diff = compare_cost_per_sqft.value | minus: cost_per_sqft.value -%}
+                      {%- assign raw_percent = diff | times: 100 | divided_by: compare_cost_per_sqft.value -%}
+                      {%- assign off_percent_below = raw_percent | round -%}
+                    {%- endif -%}
+                  <!-- Cost per sqft -->
+                  {%- if model.cost_per_sqft -%}
+                    <span class="product-card__cost-per-sqft-static">
+                      {{ model.cost_per_sqft.value | money }} <del>{{ model.compare_cost_per_sqft.value | money }}</del> / SF
+                      {%- if off_percent_below > 0 -%}<span class="off-percent" >{{ off_percent_below }}% off</span>{%- endif -%}
+    
+                    </span>
+                  {%- endif -%}
+                </div>
+      
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    {%- endunless -%}
+    <div class="product-card-swatches">
+      {% render 'product-card-swatches', product: product %}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        const element = mutation.target;
+
+        if (element.tagName === 'IMG') {
+          const src = element.getAttribute('src');
+          const srcset = element.getAttribute('srcset');
+
+          if (src && src.includes('400x')) {
+            const newSrc = src.replace('400x', '500x');
+            element.setAttribute('src', newSrc);
+          }
+
+          if (srcset && srcset.includes('400x')) {
+            const newSrcset = srcset.replace(/400x/g, '500x');
+            element.setAttribute('srcset', newSrcset);
+          }
+        } else if (element.classList.contains('product-card__hover-image')) {
+          const dataBg = element.getAttribute('data-bg');
+          const backgroundImage = element.style.backgroundImage;
+
+          if (dataBg && dataBg.includes('400x')) {
+            const newDataBg = dataBg.replace('400x', '500x');
+            element.setAttribute('data-bg', newDataBg);
+          }
+
+          if (backgroundImage && backgroundImage.includes('400x')) {
+            const newBackgroundImage = backgroundImage.replace('400x', '500x');
+            element.style.backgroundImage = newBackgroundImage;
+          }
+        }
+      });
+    });
+
+    const images = document.querySelectorAll('.product-card__hover-image, .product-card__product-img');
+    images.forEach(function (image) {
+      observer.observe(image, { attributes: true });
+    });
+  });
+</script>
+
+
+<script>
+// Pre-render variant metafields using Liquid
+  const variantMetafields = {
+    {%- for variant in product.variants -%}
+      "{{ variant.id }}": {
+        "sqft_price": {{ variant.metafields.custom.sqft_price.value | money_without_currency | json }},
+        "sqft_compare_at_price": {{ variant.metafields.custom.sqft_compare_at_price.value | money_without_currency | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  };
+</script>
+
+<style>
+  .csm_before_thickness {
+    margin: 0 4px;
+  } 
+  .product-card__image-container {
+    position: relative;
+  }
+  .new--badge {
+    background: rgb(220, 234, 218, 0.9);
+    color: #40826d;
+    padding: 5px 15px;
+    border-radius: 4px;
+    font-size: 10px;
+    border: 1px solid #40826d;
+    line-height: normal;
+  }
+  .product-card__low-stock-alert,
+  .new--badge {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .product-card__low-stock-alert .low-stock-image {
+    width: auto;
+    height: 24px;
+  }
+  .product-card__image {
+    position: relative;
+  }
+
+  .seasonal_discount--badge {
+    background: #ead3d6 !important;
+    color: #b13663 !important;
+    padding: 5px 15px;
+    border-radius: 4px;
+    font-size: 10px;
+    border: 1px solid #b76d88 !important;
+    line-height: normal;
+    z-index: 8;
+  }
+  .product-card__low-stock-alert,
+  .seasonal_discount--badge {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    z-index: 8;
+    pointer-events: none;
+  }
+
+  .product-card__meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .product-card__model-info {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .product-card-swatches {
+    padding-top: 6px;
+  }
+
+  .product-card__meta, .product-card__model-info, .product-card-swatches {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .visible {
+    opacity: 1;
+    visibility: visible;
+  }
+</style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const formatCollectionRatingDisplay = () => {
+    const ratingSnippets = document.querySelectorAll('.ruk_rating_snippet.collection');
+    ratingSnippets.forEach(snippet => {
+      // Check for existing rating span
+      const existingRating = snippet.querySelector('.ruk-rating-snippet-rating');
+      if (existingRating) {
+        // If there are multiple rating spans, remove extras
+        const allRatingSpans = snippet.querySelectorAll('.ruk-rating-snippet-rating');
+        if (allRatingSpans.length > 1) {
+          // Keep first one, remove the rest
+          for (let i = 1; i < allRatingSpans.length; i++) {
+            allRatingSpans[i].remove();
+          }
+        }
+        return;
+      }
+
+      if (snippet.title) {
+        // Extract rating and review count from title
+        const matches = snippet.title.match(/(\d+(?:\.\d+)?)\s+Stars?\s+-\s+(\d+)\s+Reviews?/i);
+        if (matches) {
+          const [_, rating, reviewCount] = matches;
+          
+          // Find the review count span
+          const countSpan = snippet.querySelector('.ruk-rating-snippet-count');
+          if (countSpan) {
+            // Update format to: rating (count Reviews)
+            countSpan.textContent = `(${reviewCount} Reviews)`;
+            
+            // Insert single rating span before the count
+            const ratingSpan = document.createElement('span');
+            ratingSpan.textContent = `${rating} `;
+            ratingSpan.classList.add('ruk-rating-snippet-rating');
+            countSpan.parentNode.insertBefore(ratingSpan, countSpan);
+          }
+        }
+      }
+    });
+  };
+
+  // Run on initial load
+  formatCollectionRatingDisplay();
+
+  // Create observer to handle dynamically loaded snippets
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-done') {
+        formatCollectionRatingDisplay();
+      }
+    });
+  });
+
+  // Observe document body for changes
+  observer.observe(document.body, {
+    attributes: true,
+    subtree: true,
+    attributeFilter: ['data-done']
+  });
+});
+</script>
+
+
+<script src="https://widget.reviews.io/rating-snippet/dist.js" defer></script>
+<link rel="stylesheet" href="https://widget.reviews.io/rating-snippet/dist.css" defer/>
+<script>
+ratingSnippet("ruk_rating_snippet", {
+  store: "flooret",
+  mode: "default",
+  color: "#faaf4f",
+  linebreak: false,
+  text: "Reviews",
+  singularText: "Review",
+  lang: "en",
+  usePolaris: true,
+  showEmptyStars: false,
+});
+</script>

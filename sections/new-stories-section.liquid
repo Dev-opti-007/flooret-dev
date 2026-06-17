@@ -1,0 +1,1465 @@
+{%- liquid
+  assign grid_columns_desktop = section.settings.grid_columns_desktop | default: 3
+  assign grid_columns_tablet = section.settings.grid_columns_tablet | default: 2
+  assign grid_columns_mobile = section.settings.grid_columns_mobile | default: 1
+-%}
+
+<style>
+  /* Prevent initial flash for heading and top button */
+  .stories-grid--{{ section.id }} .stories-grid__heading,
+  .stories-grid--{{ section.id }} .top-heading-wrap .stories-grid__button {
+    opacity: 0;
+    transform: translateY(50px);
+    will-change: transform, opacity;
+  }
+
+
+.stories-grid {
+  padding: var(--sg-padding, 60px 20px);
+  background: var(--sg-bg-color, #ffffff);
+  max-width: var(--sg-max-width, 1200px);
+  margin: 0 auto;
+  padding-top:var(--sg-padding-top);
+  padding-bottom:var(--sg-padding-bottom);
+}
+
+.top-heading-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: var(--sg-heading-margin, 40px);
+}
+
+.stories-grid__heading {
+  text-align: var(--sg-heading-align, center);
+  margin: 0;
+  font-family: var(--sg-heading-font-family, 'system-ui'), sans-serif;
+  font-size: var(--sg-heading-size-d, 36px);
+  color: var(--sg-heading-color, #000000);
+  font-weight: var(--sg-heading-weight, 600);
+  line-height: 1.2;
+  flex: 1;
+  min-width: 0;
+}
+
+.stories-grid__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--sg-button-margin, 0);
+  padding: var(--sg-button-padding, 12px 24px);
+  background: var(--sg-button-bg, #000000);
+  color: var(--sg-button-color, #ffffff);
+  border: var(--sg-button-border, none);
+  border-radius: var(--sg-button-radius, 4px);
+  font-family: var(--sg-button-font-family, 'system-ui'), sans-serif;
+  font-size: var(--sg-button-size-d, 16px);
+  font-weight: var(--sg-button-weight, 500);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.stories-grid__button:hover {
+  background: var(--sg-button-hover-bg, #333333);
+  color: var(--sg-button-hover-color, #ffffff);
+  transform: translateY(-2px);
+}
+
+.stories-grid__grid {
+  display: grid;
+  grid-template-columns: repeat({{ grid_columns_desktop }}, 1fr);
+  gap: var(--sg-grid-gap, 30px);
+  margin-top: var(--sg-grid-margin, 0);
+}
+
+.stories-grid__story {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--sg-story-radius, 8px);
+  height: var(--sg-story-height, 300px);
+  background: var(--sg-story-bg, #f5f5f5);
+}
+
+.stories-grid__story-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.stories-grid__story:hover .stories-grid__story-image {
+  transform: scale(1.05);
+}
+
+.stories-grid__story-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--sg-overlay-height, 60%);
+  background: linear-gradient(transparent, var(--sg-overlay-bg, rgba(0,0,0,0.8)));
+  color: var(--sg-overlay-text-color, #ffffff);
+  padding: var(--sg-overlay-padding, 20px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+  box-sizing: border-box;
+}
+
+.slick-slide.slick-current.slick-active .stories-grid__story .stories-grid__story-overlay,
+.stories-grid__story:hover .stories-grid__story-overlay {
+  transform: translateY(0);
+}
+
+.stories-grid__story-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--sg-name-font-family, 'system-ui'), sans-serif;
+  font-size: var(--sg-name-size-d, 18px);
+  font-weight: var(--sg-name-weight, 600);
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.stories-grid__customer-img {
+  width: var(--sg-customer-img-size, 40px);
+  height: var(--sg-customer-img-size, 40px);
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.stories-grid__story-name span {
+  flex: 1;
+}
+
+.stories-grid__story-quote {
+  font-family: var(--sg-quote-font-family, 'system-ui'), sans-serif;
+  font-size: var(--sg-quote-size-d, 14px);
+  font-weight: var(--sg-quote-weight, 400);
+  line-height: 1.4;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.stories-grid__story-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  text-decoration: none;
+}
+
+.desk-hide.stories-grid__button {
+  display:none;
+}
+
+/* Responsive Grid */
+
+@media (max-width: 1024px) {
+
+
+  .top-heading-wrap {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .desk-hide.stories-grid__button {
+      display: flex;
+      margin-top: 20px;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 244px;
+  }
+  
+  .stories-grid__grid {
+    display:block;
+    grid-template-columns: repeat({{ grid_columns_tablet }}, 1fr);
+    gap: calc(var(--sg-grid-gap, 30px) * 0.8);
+  }
+  
+  .stories-grid {
+    --sg-story-height: 250px;
+  }
+  
+  .stories-grid__heading {
+    font-size: var(--sg-heading-size-t, 32px);
+  }
+  
+  .stories-grid__button {
+    font-size: var(--sg-button-size-t, 15px);
+    padding: var(--sg-button-padding-t, 10px 20px);
+  }
+  
+  .stories-grid__story-name {
+    font-size: var(--sg-name-size-t, 16px);
+  }
+  
+  .stories-grid__story-quote {
+    font-size: var(--sg-quote-size-t, 13px);
+  }
+  
+  .stories-grid__customer-img {
+    --sg-customer-img-size: 35px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .stories-grid__story-overlay {
+      transform: translateY(130%)
+  }
+  .stories-grid__grid .slick-track .slick-slide {
+      margin: 0px 10px;
+  }
+  .top-heading-wrap a.stories-grid__button {
+      display: none;
+  }
+
+  .stories-grid {
+    padding: var(--sg-mobile-padding, 40px 15px);
+    --sg-story-height: 200px;
+  }
+  
+  .top-heading-wrap {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .stories-grid__grid {
+    grid-template-columns: repeat({{ grid_columns_mobile }}, 1fr);
+    gap: calc(var(--sg-grid-gap, 30px) * 0.6);
+  }
+  
+  .stories-grid__heading {
+    font-size: var(--sg-heading-size-m, 28px);
+   
+  }
+  .top-heading-wrap { 
+   margin-bottom: var(--sg-heading-margin-m, 30px);
+  }
+  .stories-grid__button {
+    font-size: var(--sg-button-size-m, 14px);
+    padding: var(--sg-button-padding-m, 10px 18px);
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .stories-grid__story-overlay {
+    padding: var(--sg-overlay-padding-m, 15px);
+    --sg-overlay-height: 75%;
+  }
+  
+  .stories-grid__story-name {
+    font-size: var(--sg-name-size-m, 15px);
+  }
+  
+  .stories-grid__story-quote {
+    font-size: var(--sg-quote-size-m, 12px);
+  }
+  
+  .stories-grid__customer-img {
+    --sg-customer-img-size: 30px;
+  }
+}
+
+/* Section-specific dynamic styles */
+.stories-grid--{{ section.id }} {
+  --sg-padding-top:{{ section.settings.padding-top }}px;
+  --sg-padding-bottom:{{ section.settings.padding-bottom }}px;
+  --sg-padding: {{ section.settings.padding }}px {{ section.settings.padding_horizontal }}px;
+  --sg-mobile-padding: {{ section.settings.mobile_padding }}px {{ section.settings.mobile_padding_horizontal }}px;
+  --sg-bg-color: {{ section.settings.bg_color }};
+  --sg-max-width: {{ section.settings.max_width }}px;
+  --sg-heading-align: {{ section.settings.heading_align }};
+  --sg-heading-margin: {{ section.settings.heading_margin }}px;
+  --sg-heading-margin-m: {{ section.settings.heading_margin_mobile }}px;
+  --sg-heading-font-family: '{{ section.settings.heading_font_family }}', sans-serif;
+  --sg-heading-size-d: {{ section.settings.heading_size_desktop }}px;
+  --sg-heading-size-t: {{ section.settings.heading_size_tablet }}px;
+  --sg-heading-size-m: {{ section.settings.heading_size_mobile }}px;
+  --sg-heading-color: {{ section.settings.heading_color }};
+  --sg-heading-weight: {{ section.settings.heading_weight }};
+  --sg-button-margin: {{ section.settings.button_margin }}px;
+  --sg-button-padding: {{ section.settings.button_padding_vertical }}px {{ section.settings.button_padding_horizontal }}px;
+  --sg-button-padding-t: {{ section.settings.button_padding_vertical_tablet }}px {{ section.settings.button_padding_horizontal_tablet }}px;
+  --sg-button-padding-m: {{ section.settings.button_padding_vertical_mobile }}px {{ section.settings.button_padding_horizontal_mobile }}px;
+  --sg-button-font-family: '{{ section.settings.button_font_family }}', sans-serif;
+  --sg-button-size-d: {{ section.settings.button_size_desktop }}px;
+  --sg-button-size-t: {{ section.settings.button_size_tablet }}px;
+  --sg-button-size-m: {{ section.settings.button_size_mobile }}px;
+  --sg-button-weight: {{ section.settings.button_weight }};
+  --sg-button-bg: {{ section.settings.button_bg }};
+  --sg-button-color: {{ section.settings.button_color }};
+  --sg-button-hover-bg: {{ section.settings.button_hover_bg }};
+  --sg-button-hover-color: {{ section.settings.button_hover_color }};
+  --sg-button-border: {{ section.settings.button_border_width }}px solid {{ section.settings.button_border_color }};
+  --sg-button-radius: {{ section.settings.button_border_radius }}px;
+  --sg-grid-gap: {{ section.settings.grid_gap }}px;
+  --sg-grid-margin: {{ section.settings.grid_margin }}px;
+  --sg-story-height: {{ section.settings.story_height }}px;
+  --sg-story-radius: {{ section.settings.story_border_radius }}px;
+  --sg-story-bg: {{ section.settings.story_bg }};
+  --sg-overlay-height: {{ section.settings.overlay_height }}%;
+  --sg-overlay-bg: {{ section.settings.overlay_bg }};
+  --sg-overlay-text-color: {{ section.settings.overlay_text_color }};
+  --sg-overlay-padding: {{ section.settings.overlay_padding_vertical }}px {{ section.settings.overlay_padding_horizontal }}px;
+  --sg-overlay-padding-m: {{ section.settings.overlay_padding_vertical_mobile }}px {{ section.settings.overlay_padding_horizontal_mobile }}px;
+  --sg-customer-img-size: {{ section.settings.customer_img_size }}px;
+  --sg-name-font-family: '{{ section.settings.name_font_family }}', sans-serif;
+  --sg-name-size-d: {{ section.settings.name_size_desktop }}px;
+  --sg-name-size-t: {{ section.settings.name_size_tablet }}px;
+  --sg-name-size-m: {{ section.settings.name_size_mobile }}px;
+  --sg-name-weight: {{ section.settings.name_weight }};
+  --sg-quote-font-family: '{{ section.settings.quote_font_family }}', sans-serif;
+  --sg-quote-size-d: {{ section.settings.quote_size_desktop }}px;
+  --sg-quote-size-t: {{ section.settings.quote_size_tablet }}px;
+  --sg-quote-size-m: {{ section.settings.quote_size_mobile }}px;
+  --sg-quote-weight: {{ section.settings.quote_weight }};
+}
+</style>
+
+<div class="stories-grid--{{ section.id }} stories-grid">
+  <div class="top-heading-wrap">
+    {% if section.settings.heading != blank %}
+      <h2 class="stories-grid__heading">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+    {% if section.settings.button_label != blank %}
+      <a href="{{ section.settings.button_url }}" class="stories-grid__button">
+        {{ section.settings.button_label }}
+      </a>
+    {% endif %}
+  </div>
+  {% if section.blocks.size > 0 %}
+    <div class="stories-grid__grid">
+      {% for block in section.blocks %}
+        <div class="stories-grid__story" {{ block.shopify_attributes }}>
+          {% if block.settings.image != blank %}
+            <img src="{{ block.settings.image | image_url: width: 600 }}" 
+                 alt="{{ block.settings.image.alt | escape | default: 'Story image' }}" 
+                 class="stories-grid__story-image" 
+                 loading="lazy">
+          {% endif %}
+          
+          <a href="{{ block.settings.link | default: '#' }}" class="stories-grid__story-link"></a>
+          
+          <div class="stories-grid__story-overlay">
+            {% if block.settings.name != blank %}
+              <h3 class="stories-grid__story-name">
+                {% if block.settings.customer-image != blank %}
+                  <img src="{{ block.settings.customer-image | image_url: width: 100 }}" 
+                       alt="{{ block.settings.customer-image.alt | escape | default: 'Customer image' }}" 
+                       class="stories-grid__customer-img">
+                {% endif %}
+                <span>{{ block.settings.name }}</span>
+              </h3>
+            {% endif %}
+            
+            {% if block.settings.quote != blank %}
+              <div class="stories-grid__story-quote">
+                {{ block.settings.quote }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="stories-grid__grid">
+      {% for i in (1..6) %}
+        <div class="stories-grid__story">
+          <div style="width: 100%; height: 100%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #999;">Add a story block</div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% if section.settings.button_label != blank %}
+      <a href="{{ section.settings.button_url }}" class="desk-hide stories-grid__button">
+        {{ section.settings.button_label }}
+      </a>
+    {% endif %}
+</div>
+
+<style>
+  .stories-grid__story-quote > p > a {
+      font-size: 18.5px;
+  }
+
+  @media (max-width:768px){
+      .stories-grid__story-quote > p > a {
+          font-size: 14.8px;
+      }
+  }
+</style>
+
+{% if section.settings.enable-mob-slider != blank %}
+<script>
+  document.addEventListener("DOMContentLoaded", (event) => { 
+    if(window.innerWidth < 768){
+      $('.stories-grid__grid').slick({
+        infinite: true,
+        arrows:false,
+        dots:false,
+        slidesToShow: 1,
+        slidesToScroll:1,
+        centerMode: true,
+        centerPadding: '40px'
+      });
+    }
+  })
+  
+    
+</script>
+{% endif %}
+
+
+{% comment %} <script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  const root = document.querySelector('.stories-grid--{{ section.id }}');
+  if (!root) return;
+
+  // Mid-page refresh guard
+  scrollTriggerManager.revealIfInViewAll(
+    '.stories-grid--{{ section.id }} .stories-grid__heading, ' +
+    '.stories-grid--{{ section.id }} .top-heading-wrap .stories-grid__button'
+  );
+
+  // 1) Top heading + optional button
+  const heading = root.querySelector('.stories-grid__heading');
+  const topBtn  = root.querySelector('.top-heading-wrap .stories-grid__button');
+  const topTargets = [heading, topBtn].filter(Boolean);
+
+  if (topTargets.length) {
+    gsap.to(topTargets, {
+      scrollTrigger: {
+        trigger: root,
+        start: 'clamp(top 80%)',
+        toggleActions: 'play none none none',
+        once: true,
+        markers: false
+      },
+      y: 0,
+      opacity: 1,
+      duration: 0.9,
+      ease: 'power3.out',
+      stagger: 0.12
+    });
+  }
+
+  // 2) OPTIONAL: Per-card overlay/name/quote animations (uncomment to enable)
+  /*
+  root.querySelectorAll('.stories-grid__story').forEach((card) => {
+    const overlay = card.querySelector('.stories-grid__story-overlay');
+    const name    = card.querySelector('.stories-grid__story-name');
+    const quote   = card.querySelector('.stories-grid__story-quote');
+    
+    if (!overlay && !name && !quote) return;
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: card,
+        start: 'clamp(top 80%)',
+        toggleActions: 'play none none none',
+        once: true,
+        markers: false
+      }
+    });
+
+    if (overlay) tl.to(overlay, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0);
+    if (name)    tl.to(name,    { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0.10);
+    if (quote)   tl.to(quote,   { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0.20);
+  });
+  */
+
+  // 3) Safe refresh sequence
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      scrollTriggerManager.safeRefresh();
+    }, 100);
+  });
+
+  // 4) If mobile slick slider is enabled, refresh after init
+  {% if section.settings.enable-mob-slider != blank %}
+  if (window.innerWidth < 768) {
+    // Slick initializes on DOMContentLoaded; refresh after it lays out
+    setTimeout(() => {
+      ScrollTrigger.refresh(true);
+    }, 300);
+  }
+  {% endif %}
+});
+</script> {% endcomment %}
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Stories Grid GSAP Script - DOMContentLoaded triggered for section {{ section.id }}');
+  
+  if (!window.gsap || !window.ScrollTrigger) {
+    console.error('Stories Grid GSAP Script - GSAP or ScrollTrigger not loaded');
+    console.log('window.gsap:', !!window.gsap);
+    console.log('window.ScrollTrigger:', !!window.ScrollTrigger);
+    return;
+  }
+
+  console.log('Stories Grid GSAP Script - GSAP and ScrollTrigger are available');
+  gsap.registerPlugin(ScrollTrigger);
+  console.log('Stories Grid GSAP Script - ScrollTrigger plugin registered');
+
+  const root = document.querySelector('.stories-grid--{{ section.id }}');
+  console.log('Stories Grid GSAP Script - Section ID:', '{{ section.id }}');
+  console.log('Stories Grid GSAP Script - Section Root selector used:', '.stories-grid--{{ section.id }}');
+  console.log('Stories Grid GSAP Script - Section Root found:', !!root);
+  
+  if (!root) {
+    console.error('Stories Grid GSAP Script - Section root not found');
+    console.log('Available stories-grid elements:', document.querySelectorAll('.stories-grid').length);
+    console.log('Available sections with similar patterns:', document.querySelectorAll('[class*="stories-grid"]').length);
+    return;
+  }
+
+  console.log('Stories Grid GSAP Script - Section root found successfully');
+  console.log('Stories Grid GSAP Script - Section root classes:', root.className);
+  console.log('Stories Grid GSAP Script - Section root children count:', root.children.length);
+
+  // Check for scrollTriggerManager availability
+  if (typeof scrollTriggerManager === 'undefined') {
+    console.warn('Stories Grid GSAP Script - scrollTriggerManager is not available');
+  } else {
+    console.log('Stories Grid GSAP Script - scrollTriggerManager is available');
+    console.log('scrollTriggerManager methods:', Object.keys(scrollTriggerManager));
+  }
+
+  // Mid-page refresh guard
+  console.log('Stories Grid GSAP Script - Attempting scrollTriggerManager.revealIfInViewAll');
+  const revealTargets = '.stories-grid--{{ section.id }} .stories-grid__heading, ' +
+                        '.stories-grid--{{ section.id }} .top-heading-wrap .stories-grid__button';
+  
+  console.log('Stories Grid GSAP Script - Reveal targets string:', revealTargets);
+  
+  const revealElements = document.querySelectorAll(revealTargets);
+  console.log('Stories Grid GSAP Script - Reveal target elements found:', revealElements.length);
+  
+  revealElements.forEach((el, index) => {
+    console.log(`Stories Grid GSAP Script - Reveal target ${index + 1}:`, {
+      tagName: el.tagName,
+      className: el.className,
+      id: el.id,
+      text: el.textContent.substring(0, 50) + (el.textContent.length > 50 ? '...' : '')
+    });
+  });
+
+  if (typeof scrollTriggerManager !== 'undefined' && scrollTriggerManager.revealIfInViewAll) {
+    try {
+      scrollTriggerManager.revealIfInViewAll(revealTargets);
+      console.log('Stories Grid GSAP Script - scrollTriggerManager.revealIfInViewAll executed successfully');
+    } catch (error) {
+      console.error('Stories Grid GSAP Script - Error in revealIfInViewAll:', error);
+    }
+  } else {
+    console.warn('Stories Grid GSAP Script - scrollTriggerManager.revealIfInViewAll not available, skipping');
+  }
+
+  // 1) Top heading + optional button
+  console.log('Stories Grid GSAP Script - Setting up top heading and button animations');
+  const heading = root.querySelector('.stories-grid__heading');
+  const topBtn = root.querySelector('.top-heading-wrap .stories-grid__button');
+  
+  console.log('Stories Grid GSAP Script - Top elements found:', {
+    heading: !!heading,
+    topButton: !!topBtn
+  });
+
+  const topTargets = [heading, topBtn].filter(Boolean);
+  console.log('Stories Grid GSAP Script - Top targets after filtering:', topTargets.length);
+
+  topTargets.forEach((target, index) => {
+    console.log(`Stories Grid GSAP Script - Top target ${index + 1}:`, {
+      selector: target.matches('.stories-grid__heading') ? '.stories-grid__heading' : '.top-heading-wrap .stories-grid__button',
+      className: target.className,
+      text: target.textContent.substring(0, 30) + (target.textContent.length > 30 ? '...' : '')
+    });
+  });
+
+  if (topTargets.length > 0) {
+    console.log('Stories Grid GSAP Script - Creating top targets animation');
+    console.log('Stories Grid GSAP Script - Top targets initial state:');
+    topTargets.forEach((target, index) => {
+      console.log(`  Target ${index + 1}:`, {
+        opacity: window.getComputedStyle(target).opacity,
+        transform: window.getComputedStyle(target).transform
+      });
+    });
+
+    const topTween = gsap.to(topTargets, {
+      scrollTrigger: {
+        trigger: root,
+        start: 'clamp(top 80%)',
+        toggleActions: 'play none none none',
+        once: true,
+        markers: false,
+        id: `stories-grid-top-{{ section.id }}`,
+        onEnter: () => console.log('Stories Grid GSAP Script - Top animation ScrollTrigger onEnter'),
+        onLeave: () => console.log('Stories Grid GSAP Script - Top animation ScrollTrigger onLeave'),
+        onToggle: (self) => console.log('Stories Grid GSAP Script - Top animation ScrollTrigger toggled, isActive:', self.isActive),
+        onRefresh: (self) => console.log('Stories Grid GSAP Script - Top animation ScrollTrigger refreshed, progress:', self.progress)
+      },
+      y: 0,
+      opacity: 1,
+      duration: 0.9,
+      ease: 'power3.out',
+      stagger: 0.12,
+      onStart: () => console.log('Stories Grid GSAP Script - Top animation started'),
+      onComplete: () => console.log('Stories Grid GSAP Script - Top animation completed')
+    });
+
+    console.log('Stories Grid GSAP Script - Top tween created:', topTween);
+  } else {
+    console.warn('Stories Grid GSAP Script - No top targets found, skipping animation');
+    console.log('Available elements in section root:');
+    const allElements = root.querySelectorAll('*');
+    console.log('Total elements:', allElements.length);
+    Array.from(allElements).slice(0, 10).forEach((el, index) => {
+      if (el.classList.contains('stories-grid__heading') || 
+          el.classList.contains('stories-grid__button') || 
+          el.closest('.top-heading-wrap')) {
+        console.log(`Potentially relevant element ${index + 1}:`, {
+          tagName: el.tagName,
+          className: el.className,
+          text: el.textContent.substring(0, 30)
+        });
+      }
+    });
+  }
+
+  // 2) OPTIONAL: Per-card overlay/name/quote animations (uncomment to enable)
+  console.log('Stories Grid GSAP Script - Checking for per-card animations');
+  const storyCards = root.querySelectorAll('.stories-grid__story');
+  console.log('Stories Grid GSAP Script - Story cards found:', storyCards.length);
+  
+  if (storyCards.length === 0) {
+    console.warn('Stories Grid GSAP Script - No .stories-grid__story elements found');
+    console.log('Available story elements with similar selectors:', root.querySelectorAll('[class*="story"], [class*="card"]'));
+  } else {
+    console.log('Stories Grid GSAP Script - Per-card animations are commented out (OPTIONAL section)');
+    console.log('Stories Grid GSAP Script - To enable, uncomment the per-card animation code block');
+    
+    // For debugging, log what would be animated if enabled
+    storyCards.forEach((card, cardIndex) => {
+      const overlay = card.querySelector('.stories-grid__story-overlay');
+      const name = card.querySelector('.stories-grid__story-name');
+      const quote = card.querySelector('.stories-grid__story-quote');
+      
+      console.log(`Card ${cardIndex + 1} potential elements:`, {
+        overlay: !!overlay,
+        name: !!name,
+        quote: !!quote
+      });
+      
+      if (overlay || name || quote) {
+        console.log(`Card ${cardIndex + 1} would have animations if uncommented`);
+      }
+    });
+  }
+
+  // 3) Safe refresh sequence
+  console.log('Stories Grid GSAP Script - Setting up safe refresh sequence');
+  window.addEventListener('load', () => {
+    console.log('Stories Grid GSAP Script - Window load event fired');
+    setTimeout(() => {
+      if (typeof scrollTriggerManager !== 'undefined' && scrollTriggerManager.safeRefresh) {
+        scrollTriggerManager.safeRefresh();
+        console.log('Stories Grid GSAP Script - scrollTriggerManager.safeRefresh executed');
+      } else {
+        // Fallback refresh
+        if (ScrollTrigger) {
+          ScrollTrigger.refresh();
+          console.log('Stories Grid GSAP Script - Fallback ScrollTrigger.refresh executed');
+        }
+      }
+      
+      console.log('Stories Grid GSAP Script - Post-refresh ScrollTriggers count:', ScrollTrigger ? ScrollTrigger.getAll().length : 0);
+    }, 100);
+  });
+
+  // 4) If mobile slick slider is enabled, refresh after init
+  console.log('Stories Grid GSAP Script - Checking mobile slider setting');
+  {% if section.settings.enable-mob-slider != blank %}
+  console.log('Stories Grid GSAP Script - Mobile slider is enabled in schema');
+  if (window.innerWidth < 768) {
+    console.log('Stories Grid GSAP Script - Mobile view detected, setting up slider refresh');
+    // Slick initializes on DOMContentLoaded; refresh after it lays out
+    setTimeout(() => {
+      if (ScrollTrigger) {
+        ScrollTrigger.refresh(true);
+        console.log('Stories Grid GSAP Script - Mobile slider ScrollTrigger.refresh executed');
+      }
+    }, 300);
+  } else {
+    console.log('Stories Grid GSAP Script - Desktop view, no mobile slider refresh needed');
+  }
+  {% else %}
+  console.log('Stories Grid GSAP Script - Mobile slider is disabled in schema');
+  {% endif %}
+
+  // Additional refresh on resize with debouncing
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (ScrollTrigger) {
+        ScrollTrigger.refresh();
+        console.log('Stories Grid GSAP Script - ScrollTrigger refreshed on resize');
+      }
+    }, 250);
+  });
+
+  // Final debug summary
+  console.log('Stories Grid GSAP Script - Final debug summary:');
+  console.log('- Section root:', !!root);
+  console.log('- Reveal targets found:', revealElements.length);
+  console.log('- Top animation targets:', topTargets.length);
+  console.log('- Story cards found:', storyCards.length);
+  console.log('- Total ScrollTriggers created:', ScrollTrigger ? ScrollTrigger.getAll().filter(st => st.vars.id && st.vars.id.includes('stories-grid')).length : 0);
+  
+  if (ScrollTrigger) {
+    const allTriggers = ScrollTrigger.getAll();
+    console.log('- All ScrollTriggers in page:', allTriggers.length);
+    allTriggers.slice(0, 5).forEach((st, index) => {
+      console.log(`  Trigger ${index + 1}: ID=${st.vars.id}, Trigger=${st.vars.trigger?.className || 'no-trigger'}, Active=${st.isActive}`);
+    });
+  }
+});
+</script>
+
+
+
+{% schema %}
+{
+  "name": "Stories Grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "Real Homes, Real Stories"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_margin",
+      "label": "Heading Bottom Margin (px)",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_mobile",
+      "label": "Heading Bottom Margin Mobile (px)",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Heading Font Family",
+      "options": [
+        { "value": "system-ui", "label": "Default" },
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "system-ui"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading Size Desktop (px)",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "heading_size_tablet",
+      "label": "Heading Size Tablet (px)",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading Size Mobile (px)",
+      "min": 18,
+      "max": 36,
+      "step": 2,
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "View All Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "View all stories"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "range",
+      "id": "button_margin",
+      "label": "Button Margin (px)",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "info": "Margin around the button in top wrap"
+    },
+    {
+      "type": "select",
+      "id": "button_font_family",
+      "label": "Button Font Family",
+      "options": [
+        { "value": "system-ui", "label": "Default" },
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "system-ui"
+    },
+    {
+      "type": "range",
+      "id": "button_size_desktop",
+      "label": "Button Size Desktop (px)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_size_tablet",
+      "label": "Button Size Tablet (px)",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "button_size_mobile",
+      "label": "Button Size Mobile (px)",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "button_weight",
+      "label": "Button Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Button Hover Background",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button Hover Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "label": "Button Border Width (px)",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button Border Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button Border Radius (px)",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "label": "Button Vertical Padding Desktop (px)",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "label": "Button Horizontal Padding Desktop (px)",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical_tablet",
+      "label": "Button Vertical Padding Tablet (px)",
+      "min": 6,
+      "max": 25,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal_tablet",
+      "label": "Button Horizontal Padding Tablet (px)",
+      "min": 10,
+      "max": 50,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical_mobile",
+      "label": "Button Vertical Padding Mobile (px)",
+      "min": 6,
+      "max": 25,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal_mobile",
+      "label": "Button Horizontal Padding Mobile (px)",
+      "min": 10,
+      "max": 50,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Grid Layout"
+    },
+    {
+      "type": "range",
+      "id": "grid_columns_desktop",
+      "label": "Columns Desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "grid_columns_tablet",
+      "label": "Columns Tablet",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "grid_columns_mobile",
+      "label": "Columns Mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid Gap (px)",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "grid_margin",
+      "label": "Grid Top Margin (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "story_height",
+      "label": "Story Card Height (px)",
+      "min": 200,
+      "max": 500,
+      "step": 10,
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "story_border_radius",
+      "label": "Story Border Radius (px)",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "story_bg",
+      "label": "Story Background (if no image)",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "range",
+      "id": "overlay_height",
+      "label": "Overlay Height (%)",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "overlay_bg",
+      "label": "Overlay Background",
+      "default": "rgba(0,0,0,0.8)"
+    },
+    {
+      "type": "color",
+      "id": "overlay_text_color",
+      "label": "Overlay Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "overlay_padding_vertical",
+      "label": "Overlay Vertical Padding Desktop (px)",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "overlay_padding_horizontal",
+      "label": "Overlay Horizontal Padding Desktop (px)",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "overlay_padding_vertical_mobile",
+      "label": "Overlay Vertical Padding Mobile (px)",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "overlay_padding_horizontal_mobile",
+      "label": "Overlay Horizontal Padding Mobile (px)",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Customer Image"
+    },
+    {
+      "type": "range",
+      "id": "customer_img_size",
+      "label": "Customer Image Size (px)",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "default": 40,
+      "info": "Size of circular customer avatar in overlay"
+    },
+    {
+      "type": "header",
+      "content": "Story Name"
+    },
+    {
+      "type": "select",
+      "id": "name_font_family",
+      "label": "Name Font Family",
+      "options": [
+        { "value": "system-ui", "label": "Default" },
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "system-ui"
+    },
+    {
+      "type": "range",
+      "id": "name_size_desktop",
+      "label": "Name Size Desktop (px)",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "name_size_tablet",
+      "label": "Name Size Tablet (px)",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "name_size_mobile",
+      "label": "Name Size Mobile (px)",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "name_weight",
+      "label": "Name Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "Story Quote"
+    },
+    {
+      "type": "select",
+      "id": "quote_font_family",
+      "label": "Quote Font Family",
+      "options": [
+        { "value": "system-ui", "label": "Default" },
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "system-ui"
+    },
+    {
+      "type": "range",
+      "id": "quote_size_desktop",
+      "label": "Quote Size Desktop (px)",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "quote_size_tablet",
+      "label": "Quote Size Tablet (px)",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "quote_size_mobile",
+      "label": "Quote Size Mobile (px)",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "quote_weight",
+      "label": "Quote Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header",
+      "content": "Section Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Desktop Top Padding (px)",
+      "min": 20,
+      "max": 150,
+      "step": 5,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding-top",
+      "label": "Desktop Top Padding (px)",
+      "min": 20,
+      "max": 150,
+      "step": 5,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding-bottom",
+      "label": "Desktop Bottom Padding (px)",
+      "min": 20,
+      "max": 150,
+      "step": 5,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Desktop Left/Right Padding (px)",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding",
+      "label": "Mobile Top/Bottom Padding (px)",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_horizontal",
+      "label": "Mobile Left/Right Padding (px)",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max Width (px)",
+      "min": 800,
+      "max": 1400,
+      "step": 50,
+      "default": 1200
+    },
+    {
+      "type": "header",
+      "content": "Slider on mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-mob-slider",
+      "label": "Slider on Mobile",
+      "default":false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "story",
+      "name": "Story",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Story Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "customer-image",
+          "label": "Customer Image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Nancy D."
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "default": "<p>Not surprisingly strong in this area. Read full story →</p>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Story Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stories Grid",
+      "blocks": [
+        {
+          "type": "story",
+          "settings": {
+            "name": "Nancy D.",
+            "quote": "<p>Not surprisingly strong in this area. Read full story →</p>"
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "name": "John S.",
+            "quote": "<p>Amazing transformation. Read full story →</p>"
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "name": "Sarah L.",
+            "quote": "<p>Loved the design process. Read full story →</p>"
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "name": "Mike R.",
+            "quote": "<p>Perfect for our family. Read full story →</p>"
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "name": "Emma W.",
+            "quote": "<p>Exceeded expectations. Read full story →</p>"
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "name": "David K.",
+            "quote": "<p>Highly recommend. Read full story →</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

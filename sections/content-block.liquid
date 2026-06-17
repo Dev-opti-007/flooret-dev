@@ -1,0 +1,30 @@
+{% assign settings = section.settings %}
+
+<section class="content-block">
+  <div class="container">
+    {{ settings.content }}
+  </div>
+</section> 
+
+
+{% schema %}
+{
+  "name": "Content Block",
+  "class": "shopify-block",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    }
+
+  ],
+  "presets": [
+    {
+      "name": "Content Block",
+      "blocks": [
+      ]
+    }
+  ]
+}
+{% endschema %}

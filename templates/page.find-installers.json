@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "global-store-locator": {
+      "type": "global-store-locator",
+      "settings": {
+        "heading": "Find An Installer",
+        "content": "<p>Flooret does not offer installation services, but anyone with flooring installation experience will be more than qualified to install our products. More than half our customers install the floor themselves. If you would like help finding an installer, we would be happy to recommend someone in your area who we think would do a great job. We maintain a growing list of installers that have worked with our products before and come highly recommended by previous customers.</p><p>Take a look at the map below and check out the recommended installers in your area! Still need help? Fill out our <a href=\"https://flooret.typeform.com/to/IhorXSsI\" target=\"_blank\" title=\"https://flooret.typeform.com/to/IhorXSsI\">installer request form </a>and we will get in touch within 1 business day.</p><p><em>Please note that these installers do not work with and are in no way affiliated with Flooret. Flooret does not control the pricing or quality of their work, and all customers should determine for themselves who to entrust with the installation of their product.</em></p>"
+      }
+    },
+    "two_column_3BQNML": {
+      "type": "two-column",
+      "settings": {
+        "bg_color": "#343334",
+        "text_color": "#ffffff",
+        "row_reverse": false,
+        "align_center": false,
+        "helper_classes": "",
+        "image": "shopify://shop_images/0fd0d0166f67c1533e4e5ce4b36751bc.jpg",
+        "contain_image": false,
+        "sub_heading": "",
+        "heading": "Become an installer",
+        "content": "<p>Ready to become a part of our recommended installers network? Get in touch with us and apply today.</p>",
+        "link_text": "Contact Us",
+        "link_url": "shopify://pages/contact"
+      }
+    }
+  },
+  "order": [
+    "global-store-locator",
+    "two_column_3BQNML"
+  ]
+}

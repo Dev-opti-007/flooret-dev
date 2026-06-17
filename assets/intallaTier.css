@@ -1,0 +1,132 @@
+.install-tiers-section {
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  max-width: 1232px;
+  margin: 0 auto;
+}
+.install-tiers-heading {
+  font-family: "Playfair Display", serif;
+  text-align: center;
+  font-size: 48px;
+  margin-bottom: 4rem;
+}
+
+.tier-card {
+  /* max-width: 400px; */
+  /* width: 100%; */
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  overflow: visible;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+
+.install-tiers-section .tier-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  height: 149px;
+  padding: 8px;
+}
+.tier-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.badge {
+  position: absolute;
+  z-index: 9;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tier-content {
+  padding: 16px;
+  padding-top: 0;
+}
+.features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.features li {
+  display: flex;
+  justify-content: start;
+  padding: 8px 0;
+  font-size: 16px;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+.features li:last-child {
+  border-bottom: none;
+}
+.available {
+  color: green;
+  font-weight: bold;
+}
+.unavailable {
+  color: red;
+  font-weight: bold;
+}
+.features small {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #111111;
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+}
+.features em {
+  font-style: italic;
+  color: #555;
+}
+
+.install_tier_cta {
+  text-align: center;
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.custom-primary-button {
+  background-color: #236a99;
+  color: #fff;
+}
+
+.new-tier-design-button {
+  max-width: 200px;
+  width: 100%;
+  justify-content: center;
+}
+
+.custom-primary-button:hover {
+  background-color: #000;
+}
+
+
+@media (max-width: 768px) {
+  .install-tiers-heading {
+    font-size: 32px;
+    margin-bottom: 3rem;
+  }
+  .myTier .swiper-pagination {
+    margin-bottom: 4rem;
+  }
+}

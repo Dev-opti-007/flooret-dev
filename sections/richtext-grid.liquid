@@ -1,0 +1,162 @@
+{% comment %}
+  Specs Bar (blocks)
+{% endcomment %}
+
+<div
+  class="specs-bar"
+  style="
+    --specs-bg: {{ section.settings.bg_color }};
+    --specs-text: {{ section.settings.text_color }};
+    --specs-muted: {{ section.settings.muted_color }};
+    --specs-border: {{ section.settings.border_color }};
+    --specs-max: {{ section.settings.max_width }}px;
+    --specs-pad-y: {{ section.settings.pad_y }}px;
+    --specs-pad-x: {{ section.settings.pad_x }}px;
+    --specs-gap: {{ section.settings.gap }}px;
+  "
+>
+  <div class="specs-bar__inner page-width">
+    <div class="specs-bar__grid">
+      {% for block in section.blocks %}
+        <div class="specs-bar__item" {{ block.shopify_attributes }}>
+          {% if block.settings.label != blank %}
+            <div class="specs-bar__label">{{ block.settings.label }}</div>
+          {% endif %}
+          {% if block.settings.value != blank %}
+            <div class="specs-bar__value">{{ block.settings.value }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .specs-bar{
+    background: var(--specs-bg);
+    color: var(--specs-text);
+    border-top: 1px solid var(--specs-border);
+    border-bottom: 1px solid var(--specs-border);
+  }
+  .specs-bar__inner{
+    max-width: var(--specs-max);
+    margin: 0 auto;
+    padding: var(--specs-pad-y) var(--specs-pad-x);
+  }
+
+  .specs-bar__grid{
+    display: grid;
+    gap: var(--specs-gap);
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .specs-bar__item{
+    padding: emphasize({{ section.settings.item_pad_y }}px) {{ section.settings.item_pad_x }}px;
+  }
+
+    .specs-bar__label {
+        font-family: Montserrat;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 12px;
+        leading-trim: NONE;
+        line-height: 18px;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+        color: var(--specs-muted);
+    }
+
+  .specs-bar__value {
+        font-family: Montserrat;
+        font-weight: 500;
+        font-style: Medium;
+        font-size: 16px;
+        leading-trim: NONE;
+        line-height: 24px;
+        letter-spacing: -0.31px;
+            color: var(--specs-text);
+    }
+
+  /* Vertical separators like the screenshot */
+  {% if section.settings.show_dividers %}
+    .specs-bar__item{
+      border-right: 1px solid var(--specs-border);
+    }
+    .specs-bar__item:last-child{
+      border-right: 0;
+    }
+  {% endif %}
+
+  @media (max-width: 990px){
+    .specs-bar__grid{
+      grid-template-columns: repeat({{ section.settings.columns_tablet }}, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 749px){
+    .specs-bar__grid{
+      grid-template-columns: repeat({{ section.settings.columns_mobile }}, minmax(0, 1fr));
+    }
+    {% if section.settings.show_dividers %}
+      .specs-bar__item{
+        border-right: 0;
+        border-bottom: 1px solid var(--specs-border);
+      }
+      .specs-bar__item:last-child{
+        border-bottom: 0;
+      }
+    {% endif %}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Specs bar (blocks)",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#f5f2ee" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#111111" },
+    { "type": "color", "id": "muted_color", "label": "Muted label text", "default": "#8a8a8a" },
+    { "type": "color", "id": "border_color", "label": "Border / dividers", "default": "#e4e1db" },
+
+    { "type": "range", "id": "max_width", "label": "Max width (px)", "min": 900, "max": 1800, "step": 10, "default": 1400 },
+
+    { "type": "range", "id": "pad_y", "label": "Section padding Y (px)", "min": 0, "max": 60, "step": 2, "default": 18 },
+    { "type": "range", "id": "pad_x", "label": "Section padding X (px)", "min": 0, "max": 60, "step": 2, "default": 18 },
+
+    { "type": "range", "id": "gap", "label": "Column gap (px)", "min": 0, "max": 40, "step": 2, "default": 18 },
+
+    { "type": "checkbox", "id": "show_dividers", "label": "Show vertical dividers (desktop)", "default": true },
+
+    { "type": "range", "id": "columns_desktop", "label": "Columns (desktop)", "min": 2, "max": 6, "step": 1, "default": 5 },
+    { "type": "range", "id": "columns_tablet", "label": "Columns (tablet)", "min": 1, "max": 4, "step": 1, "default": 2 },
+    { "type": "range", "id": "columns_mobile", "label": "Columns (mobile)", "min": 1, "max": 3, "step": 1, "default": 1 },
+
+    { "type": "range", "id": "item_pad_y", "label": "Item padding Y (px)", "min": 0, "max": 40, "step": 2, "default": 8 },
+    { "type": "range", "id": "item_pad_x", "label": "Item padding X (px)", "min": 0, "max": 40, "step": 2, "default": 6 }
+  ],
+  "blocks": [
+    {
+      "type": "spec",
+      "name": "Spec item",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label (top)", "default": "Material" },
+        { "type": "text", "id": "value", "label": "Value (bold)", "default": "European White Oak" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Specs bar",
+      "blocks": [
+        { "type": "spec" },
+        { "type": "spec" },
+        { "type": "spec" },
+        { "type": "spec" },
+        { "type": "spec" }
+      ]
+    }
+  ]
+}
+{% endschema %}

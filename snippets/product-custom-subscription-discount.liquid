@@ -1,0 +1,17 @@
+
+{% comment %} <script>
+    console.log('Subcription price');
+    console.log({{ discount }});
+    console.log({{ plan | json }});
+    console.log({{ plan.price_adjustments | json }});
+</script> {% endcomment %}
+
+{%- liquid
+  capture output
+    if discount != 0 and discount != blank
+      echo ' & Save '
+      echo discount | append: '%'
+    endif
+  endcapture
+-%}
+{{- output -}}

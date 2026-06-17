@@ -1,0 +1,48 @@
+<table role="table" class="order-history">
+    <thead role="rowgroup">
+        <tr role="row">
+            <th id="ColumnOrder" scope="col" role="columnheader">Order Number</th>
+            <th id="Products" scope="col" role="columnheader">Products</th>
+            <th id="ColumnDate" scope="col" role="columnheader">Date</th>
+            <th id="ColumnPayment" scope="col" role="columnheader">Payment Status</th>
+            <th id="ColumnFulfillment" scope="col" role="columnheader">Fullfillment</th>
+            <th id="ColumnTotal" scope="col" role="columnheader">Total</th>
+        </tr>
+    </thead>
+    <tbody role="rowgroup">
+        {%- for order in customer.orders -%}
+            <tr role="row">
+                <td>
+                    {% comment %} <a
+                    href="{{ order.customer_url }}"
+                    aria-label="{{ 'customer.orders.order_number_link' | t: number: order.name }}"
+                    > {% endcomment %}
+                    {{ order.name }}
+                    {% comment %} </a> {% endcomment %}
+                </td>
+                <td class="product">
+                    <table>
+                        {% for item in order.line_items %}
+                            <tr>
+                                <td>{% render 'lazy-image', image: item.image, width: 50, height: 50, crop: 'center' %}</td>
+                                <td>{{ item.title }} <br/> {{ item.price | money }} (x{{ item.quantity }})</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+                <td>
+                    {{ order.created_at | time_tag: format: 'date' }}
+                </td>
+                <td>
+                    {{ order.financial_status_label }}
+                </td>
+                <td>
+                    {{ order.fulfillment_status_label }}
+                </td>
+                <td>
+                    {{ order.total_net_amount | money_with_currency }}
+                </td>
+            </tr>
+        {%- endfor -%}
+    </tbody>
+</table>

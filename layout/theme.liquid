@@ -1,0 +1,1230 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <script type="text/javascript">
+    var script = document.createElement('script');
+    script.src = 'https://xp2023-pix.s3.amazonaws.com/px_dgRZk.js';
+    document.getElementsByTagName('head')[0].appendChild(script);
+  </script>
+  <head>
+    {% render 'visually_io_sdk' %}
+
+    <title>
+      {{ page_title }}
+      -
+      {{ shop.name }}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    
+    <script type="text/javascript">
+      if (window.location.pathname == '/cart/' || window.location.pathname == '/cart') {
+        window.location.href = '/?cart=open';
+      }
+      if (window.location.pathname == '/collections/' || window.location.pathname == '/collections') {
+        window.location.href = '/collections/all';
+      }
+    </script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ 'apple-touch-icon.png' | asset_url }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ 'favicon-32x32.png' | asset_url }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ 'favicon-16x16.png' | asset_url }}">
+    <link rel="icon" type="image/x-icon" href="{{ 'favicon.ico' | asset_url }}">
+    <link rel="manifest" href="{{ 'site.webmanifest' | asset_url }}">
+    <link rel="mask-icon" href="{{ 'safari-pinned-tab.svg' | asset_url }}" color="#5bbad5">
+    <link rel="shortcut icon" href="{{ 'favicon.ico' | asset_url }}">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="{{ 'browserconfig.xml' | asset_url }}">
+    <meta name="theme-color" content="#ffffff">
+
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+    
+    {% render 'schema' %}
+
+    {{ content_for_header }}
+
+    <script>
+      window.currencySymbol = '{{ cart.currency.symbol }}';
+      window.price_format = '{{ shop.money_format }}';
+    </script>
+
+    <script type="text/javascript">
+      window.__lo_site_id = 330977;
+      (function () {
+        var wa = document.createElement('script');
+        wa.type = 'text/javascript';
+        wa.async = true;
+        wa.src = 'https://d10lpsik1i8c69.cloudfront.net/w.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(wa, s);
+      })();
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-KQXSR8SZ');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <script>
+      !(function () {
+        try {
+          !(function (t, i) {
+            if (!i.version) {
+              (window.tatari = i),
+                (i.init = function (t, n) {
+                  var e = function (t, n) {
+                    i[n] = function () {
+                      t.push([n].concat(Array.prototype.slice.call(arguments, 0)));
+                    };
+                  };
+                  'track pageview identify'.split(' ').forEach(function (t) {
+                    e(i, t);
+                  }),
+                    (i._i = t),
+                    (i.config = n),
+                    i.pageview();
+                }),
+                (i.version = '1.2.1');
+              var n = t.createElement('script');
+              (n.type = 'text/javascript'),
+                (n.async = !0),
+                (n.src =
+                  'https://d2hrivdxn8ekm8.cloudfront.net/tag-manager/fabc3eba-95f7-4486-bd8e-a3215d470213-latest.js');
+              var e = t.getElementsByTagName('script')[0];
+              e.parentNode.insertBefore(n, e);
+            }
+          })(document, window.tatari || []);
+        } catch (t) {
+          console.log(t);
+        }
+      })();
+      tatari.init('fabc3eba-95f7-4486-bd8e-a3215d470213');
+    </script>
+
+    {% if customer %}
+      <script>
+        tatari.identify('{{ customer.id }}');
+      </script>
+    {% endif %}
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', 'ojkgxefd1w');
+    </script>
+    <script>
+      !(function () {
+        var o = (window.tdl = window.tdl || []);
+        if (o.invoked)
+          window.console && console.error && console.error('Tune snippet has been included more than once.');
+        else {
+          (o.invoked = !0),
+            (o.methods = ['init', 'identify', 'convert']),
+            (o.factory = function (n) {
+              return function () {
+                var e = Array.prototype.slice.call(arguments);
+                return e.unshift(n), o.push(e), o;
+              };
+            });
+          for (var e = 0; e < o.methods.length; e++) {
+            var n = o.methods[e];
+            o[n] = o.factory(n);
+          }
+          o.init = function (e) {
+            var n = document.createElement('script');
+            (n.type = 'text/javascript'), (n.async = !0), (n.src = 'https://js.go2sdk.com/v2/tune.js');
+            var t = document.getElementsByTagName('script')[0];
+            t.parentNode.insertBefore(n, t), (o.domain = e);
+          };
+        }
+      })();
+      tdl.init('https://aspireiq.go2cloud.org');
+      tdl.identify();
+    </script>
+
+    <!-- Hotjar Tracking Code for https://www.flooret.com/ -->
+    <script>
+      (function (h, o, t, j, a, r) {
+        h.hj =
+          h.hj ||
+          function () {
+            (h.hj.q = h.hj.q || []).push(arguments);
+          };
+        h._hjSettings = { hjid: 5059087, hjsv: 6 };
+        a = o.getElementsByTagName('head')[0];
+        r = o.createElement('script');
+        r.async = 1;
+        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+    </script>
+
+    {{- 'custom-styles.css' | asset_url | stylesheet_tag: preload: true -}}
+
+    <!-- begin Convert Experiences code -->
+    <script type="text/javascript">
+      var _conv_page_type = "{{ request.page_type }}";
+      var _conv_category_id = "{{ collection.id }}";
+      var _conv_category_name = "{{ collection.title }}";
+      var _conv_product_sku = "{{ product.selected_variant.sku }}";
+      var _conv_product_name = "{{ product.title }}";
+      var _conv_product_price = "{{ product.price_min | money_without_currency }}";
+      var _conv_customer_id = "{{ customer.id }}";
+      var _conv_custom_v1 = "{{ product.tags.first }}";
+      var _conv_custom_v2 = "{{ collection.current_type }}";
+      var _conv_custom_v3 = "{{ cart.item_count }}";
+      var _conv_custom_v4 = "{{ cart.total_price | money_without_currency }}";
+    </script>
+    <script type="text/javascript" src="//cdn-4.convertexperiments.com/v1/js/1002628-10025654.js"></script>
+    <!-- end Convert Experiences code -->
+
+
+    {% comment %} Statsig script {% endcomment %}
+    <script defer
+      src="https://cdn.jsdelivr.net/npm/@statsig/js-client@1/build/statsig-js-client+session-replay+web-analytics.min.js?apikey=client-i62c4Y52XyvAPg56NovfQ2YLNMOCYlCd2w058uq6ytW"
+    ></script>
+
+    {% comment %} Swiper {% endcomment %}
+    {% comment %} <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> {% endcomment %}
+    <script async src="{{ 'swiper-bundle.min.js' | asset_url }}"></script>
+
+    {% comment %} Installation service asset URLs {% endcomment %}
+    <script>
+      window.shopSettings = {
+        currency: "{{ shop.currency }}", // e.g. USD
+        locale: "{{ shop.locale }}"      // e.g. en-US
+      };
+    </script>
+    <script>
+       // Adjust input padding for installation service
+      function adjustInputPaddingForUnits() {
+        document.querySelectorAll('.sf-input-wrapper').forEach(wrapper => {
+          const input = wrapper.querySelector('input[type="number"]');
+          const unit = wrapper.querySelector('.unit');
+      
+          if (input && unit) {
+            // Measure actual width of the unit span
+            const unitWidth = unit.offsetWidth;
+            const extraSpacing = 20; // Add some spacing to avoid touching
+            input.style.paddingRight = `${unitWidth + extraSpacing}px`;
+          }
+        });
+      }
+    </script>
+    {% assign handles = 'custom-service' | split: ',' %}
+    <script id="install-catalogue" type="application/json">[
+      {% for h in handles %}
+        {% assign p = all_products[h] %}
+        {% if p %}
+          {
+            "handle": "{{ h }}", 
+            "productType": "{{ product.type }}",
+            "gallery": {{ p.metafields.custom.installation_gallery_images.value | json }},
+            "variants": [
+              {% for v in p.variants %}
+                {
+                  "handle":"{{ h }}",
+                  "title":{{ v.title | json }},
+                  "sku":{{ v.sku | json }},
+                  "id":{{ v.id }},
+                  "price":{{ v.price | divided_by: 100.0 }},
+                  "plan":{{ v.option1 | downcase | json }},
+                  "installationType": "{{ v.metafields.custom.installation_service_type.value }}",
+                  "installationInfo": {{ v.metafields.custom.installation_info.value | json }}
+                }{% unless forloop.last and forloop.parentloop.last %},{% endunless %}
+              {% endfor %}
+              ]
+          }
+        {% endif %}
+      {% endfor %}
+    ]</script>
+    {% comment %} <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/> {% endcomment %}
+    {{- 'slick.css' | asset_url | stylesheet_tag: preload: true -}}
+    {{ 'custom-collection-design.css' | asset_url | stylesheet_tag }}
+     <script src="https://cdn.noibu.com/collect-core.js" ></script>
+  </head>
+
+  <body class="template-{{ template | handleize | split: '.' | first }}{% if template == 'product' %} {{ product.handle }}{% endif %} {% if template == 'collection' %} {{ collection.handle }}{% endif %} {% if current_tags %}tag{% endif %}">
+   
+
+    <script>
+    // Enhanced Global ScrollTrigger Manager
+    (function() {
+      'use strict';
+
+      let scrollManagerInitialized = false;
+
+      // Robust reveal for elements already in view
+      function revealIfInViewAll(selector, sectionRoot = null) {
+        const root = sectionRoot || document;
+        const elements = root.querySelectorAll(selector);
+        
+        elements.forEach((el) => {
+          if (!el) return;
+          
+          // Check if element is in viewport
+          const rect = el.getBoundingClientRect();
+          const inView = rect.top < window.innerHeight && rect.bottom > 0;
+          
+          // If in view, reveal immediately
+          if (inView) {
+            gsap.set(el, {
+              opacity: 1,
+              y: 0
+            });
+          }
+        });
+      }
+
+      // Initialize ScrollTrigger with production settings
+      function safeScrollTriggerInit() {
+        if (scrollManagerInitialized) return;
+        
+        // Respect user's motion preferences
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+          gsap.set('[class*="heading"], [class*="sub"], [class*="button"], [class*="btn"]', {
+            opacity: 1,
+            y: 0
+          });
+          return;
+        }
+
+        ScrollTrigger.config({
+          autoRefreshEvents: 'visibilitychange,load,resize',
+          ignoreMobileResize: true
+        });
+
+        // Normalize scroll behavior
+        {% comment %} ScrollTrigger.normalizeScroll(true); {% endcomment %}
+
+        scrollManagerInitialized = true;
+      }
+
+      // Enhanced safe refresh with forced recalculation
+      function safeRefresh(delay = 0) {
+        safeScrollTriggerInit();
+        
+        setTimeout(() => {
+          ScrollTrigger.getAll().forEach((trigger) => {
+            trigger.refresh(false, true); // refresh=false means don't kill, true=force update
+          });
+          ScrollTrigger.refresh(true);
+        }, delay);
+      }
+
+      // Enhanced reveal with GSAP state check
+      function revealIfInViewAllEnhanced(selector, sectionRoot = null) {
+        const root = sectionRoot || document;
+        const elements = root.querySelectorAll(selector);
+        
+        elements.forEach((el) => {
+          if (!el) return;
+          
+          const rect = el.getBoundingClientRect();
+          const inView = rect.top < window.innerHeight && rect.bottom > 0;
+          
+          // Check if element is already animated by ScrollTrigger
+          const st = ScrollTrigger.getById(el);
+          if (inView && (!st || !st.isActive())) {
+            gsap.set(el, {
+              opacity: 1,
+              y: 0
+            });
+          }
+        });
+      }
+
+      // Make available globally
+      window.scrollTriggerManager = {
+        safeScrollTriggerInit: safeScrollTriggerInit,
+        safeRefresh: safeRefresh,
+        revealIfInViewAll: revealIfInViewAll,
+        revealIfInViewAllEnhanced: revealIfInViewAllEnhanced
+      };
+
+      // Initialize on DOM ready
+      document.addEventListener('DOMContentLoaded', safeScrollTriggerInit);
+    })();
+    </script>
+   
+    {% section 'announcement-bar-new-section' %}
+    {% section 'header' %}
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-KQXSR8SZ"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <main id="dev">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+
+    <div class="site-overlay js-site-overlay"></div>
+
+    {% section 'pop-cart' %}
+
+    {% section 'site-search' %}
+
+    {% render 'pdm-lightbox' %}
+
+     
+    {% comment %} <script
+      defer
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script> {% endcomment %}
+
+    <script defer src="{{ 'jquery-3.3.1.min.js' | asset_url }}"></script>
+
+    {%- if template.directory == 'customers' -%}
+      <script async src="{{ 'shopify_common.js' | shopify_asset_url }}"></script>
+      <script async src="{{ 'customer_area.js' | shopify_asset_url }}"></script>
+    {%- endif -%}
+
+    <script defer src="{{ 'api.jquery.js' | shopify_asset_url }}"></script>
+
+    {%- if template.directory == 'customers' -%}
+      <script defer src="{{ 'customer.js' | asset_url }}"></script>
+    {%- endif -%}
+
+    {% if template.name == 'index' or page.handle == 'about' or page.handle == 'sustainability'  or template.suffix == 'bfcm-2025' or page.handle == "memorial-day-savings" %}
+      <script src="{{ 'gsap.min.js' | asset_url }}"></script>
+      <script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+    {% endif %}
+
+    <script type="text/javascript" src="https://cdn.roomvo.com/static/scripts/b2b/flooret.js" async></script>
+
+   {% comment %} <script defer src="{{ 'bundle.min.js' | asset_url }}"></script> {% endcomment %}
+     <script defer src="{{ 'theme.min.js' | asset_url }}"></script>
+    <script defer src="{{ 'vendor.min.js' | asset_url }}"></script>
+
+    <script defer src="{{ 'slick.min.js' | asset_url }}"></script> 
+
+    <script src="//embed.typeform.com/next/embed.js"></script>
+
+    <script src="https://cdn.attn.tv/flooret/dtag.js"></script>
+
+   
+
+    <script>
+      !(function (c, n, r, t) {
+        if (!c[r]) {
+          var i,
+            d,
+            p = [];
+          (d =
+            'PROD' !== t && t
+              ? 'STAGING' === t
+                ? 'https://cdn.gladly.qa/gladly/chat-sdk/widget.js'
+                : t
+              : 'https://cdn.gladly.com/chat-sdk/widget.js'),
+            (c[r] = {
+              init: function () {
+                i = arguments;
+                var e = {
+                  then: function (t) {
+                    return p.push({ type: 't', next: t }), e;
+                  },
+                  catch: function (t) {
+                    return p.push({ type: 'c', next: t }), e;
+                  },
+                };
+                return e;
+              },
+            }),
+            (c.__onHelpAppHostReady__ = function (t) {
+              if ((delete c.__onHelpAppHostReady__, ((c[r] = t).loaderCdn = d), i))
+                for (var e = t.init.apply(t, i), n = 0; n < p.length; n++) {
+                  var a = p[n];
+                  e = 't' === a.type ? e.then(a.next) : e.catch(a.next);
+                }
+            }),
+            (function () {
+              try {
+                var t = n.getElementsByTagName('script')[0],
+                  e = n.createElement('script');
+                (e.async = !0), (e.src = d + '?q=' + new Date().getTime()), t.parentNode.insertBefore(e, t);
+              } catch (t) {}
+            })();
+        }
+      })(window, document, 'Gladly', 'PROD');
+      window.gladlyConfig = {
+        appId: 'flooret.com',
+      };
+    </script>
+
+    <script
+      type="text/javascript"
+      src="https://www.bugherd.com/sidebarv2.js?apikey=kkoldlm7hajx9ybodctdgq"
+      async="true"
+    ></script>
+
+    {% if template contains 'product' %}
+      {% render 'fixed-atc' %}
+    {% endif %}
+    <script src="https://widget.reviews.io/rating-snippet/dist.js"></script>
+    <link rel="stylesheet" href="https://widget.reviews.io/rating-snippet/dist.css">
+    <script>
+      ratingSnippet('ruk_rating_snippet', {
+        store: 'flooret',
+        mode: 'default',
+        color: '#0E1311',
+        linebreak: false,
+        text: 'Reviews',
+        singularText: 'Review',
+        lang: 'en',
+        usePolaris: true,
+        showEmptyStars: false,
+      });
+    </script>
+
+      <script>
+      document.addEventListener('DOMContentLoaded', function() {
+       $('.announcement-wrap-out').slick({
+           infinite: true,
+           slidesToShow: 1,
+           slidesToScroll: 1,
+           arrows:true,
+           autoplay: true,
+           adaptiveHeight: true,
+           autoplaySpeed: 5000,
+           pauseOnFocus:false,
+           pauseOnHover:false,
+           prevArrow: "<button class='slick-arrow prev'><svg xmlns='http://www.w3.org/2000/svg' width='6' height='11' viewBox='0 0 6 11' fill='none'> <path d='M5.94496 0.883335L5.06079 1.90735e-06L0.244959 4.81417C0.16733 4.89131 0.105723 4.98304 0.0636827 5.08408C0.0216428 5.18512 0 5.29348 0 5.40292C0 5.51236 0.0216428 5.62071 0.0636827 5.72176C0.105723 5.8228 0.16733 5.91453 0.244959 5.99167L5.06079 10.8083L5.94413 9.925L1.42413 5.40417L5.94496 0.883335Z' fill='white'/> </svg></button>", 
+           nextArrow: "<button class='slick-arrow next'><svg xmlns='http://www.w3.org/2000/svg' width='6' height='11' viewBox='0 0 6 11' fill='none'> <path d='M-1.23978e-05 0.883335L0.884154 1.90735e-06L5.69999 4.81417C5.77762 4.89131 5.83922 4.98304 5.88126 5.08408C5.9233 5.18512 5.94495 5.29348 5.94495 5.40292C5.94495 5.51236 5.9233 5.62071 5.88126 5.72176C5.83922 5.8228 5.77762 5.91453 5.69999 5.99167L0.884154 10.8083L0.000820637 9.925L4.52082 5.40417L-1.23978e-05 0.883335Z' fill='white'/> </svg></button>"
+        });
+      });
+    </script>
+
+    <script>
+      {% comment %} document.addEventListener('DOMContentLoaded', function() {
+        const dropdown = document.getElementById('worryFreeDropdown');
+        const subnav = document.getElementById('subnavWorryFree');
+        document.querySelector('button[data-menu="worry-free-installation"]').style.display = "none";
+
+        setTimeout(function() {
+          var blocks = document.querySelectorAll('.fr_21_silvan_anchor');
+          blocks.forEach(function(block) {
+            var badge = document.createElement('span');
+            badge.textContent = 'new';
+            badge.classList.add('custom-badge-new');
+            block.appendChild(badge);
+          });
+          setTimeout(function() {
+            var silvanBlock = document.querySelector('#subnavSilvan');
+            var modinBlock = document.querySelector('#subnavModin')
+            var newHtml = `<a href="https://www.flooret.com/pages/silvan-landing-page" class="fr_21_subnav_link">Meet Silvan 6" <span class="custom-badge-new">new</span></a>`;
+            var newHtmlModin = `<a href="https://www.flooret.com/pages/modin-learn-more" class="fr_21_subnav_link">Meet Modin </a>`;
+            modinBlock.insertAdjacentHTML('afterbegin', newHtmlModin);
+            silvanBlock.insertAdjacentHTML('afterbegin', newHtml);
+          }, 500);
+        }, 1000);
+        
+
+        let timeout;
+  
+        dropdown.addEventListener('mouseover', function() {
+          clearTimeout(timeout); 
+          subnav.style.display = 'block'; 
+        });
+  
+        dropdown.addEventListener('mouseout', function(event) {
+          timeout = setTimeout(function() {
+            if (!subnav.contains(event.relatedTarget)) {
+              subnav.style.display = 'none';
+            }
+          }, 200); 
+        });
+  
+        subnav.addEventListener('mouseover', function() {
+          clearTimeout(timeout); 
+          subnav.style.display = 'block'; 
+        });
+  
+        subnav.addEventListener('mouseout', function(event) {
+          timeout = setTimeout(function() {
+            if (!dropdown.contains(event.relatedTarget)) {
+              subnav.style.display = 'none';
+            }
+          }, 200); 
+        });
+      }); {% endcomment %}
+    </script>
+    <style>
+      .fr_21_nav_block {
+        position: relative;
+      }
+
+      .fr_21_subnav_link {
+            position: relative;
+        }
+        
+        .fr_21_subnav_link .custom-badge-new {
+            position: absolute;
+        } 
+
+      .fr_21_subnav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: white;
+        border: 1px solid #ccc;
+        z-index: 1000;
+        min-width: 200px; 
+      }
+
+      .fr_21_subnav_link {
+        display: block;
+        padding: 15px;
+        text-decoration: none;
+        color: #000;
+        background-color: #fff;
+        text-align: start;
+      }
+
+      .fr_21_subnav_link:hover {
+        background-color: #ddd;
+      }
+
+      .fr_21_nav_block:hover .fr_21_subnav {
+        display: block;
+      }
+      .custom-badge-new {
+        display: inline-block;
+        border: 1px solid currentColor;
+        padding: 2px 6px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        background-color: #226B99;
+        color: #fff;
+        border-radius: 0.25rem;
+        line-height: 1;
+        vertical-align: middle;
+        position: absolute;
+        right: -15px;
+        top: -11px;
+        border-radius: 6px;
+        font-family: Montserrat;
+        font-weight: 500;
+        font-style: Medium;
+        font-size: 8px;
+        leading-trim: NONE;
+        line-height: 100%;
+        letter-spacing: -5%;
+        font-variant: small-caps;
+    }
+    </style>
+
+    {{ 'custom-mw.js' | asset_url | script_tag }}
+
+    {% comment %} {% if request.page_type == 'product' %}
+      {% render 'installation-modal' %}
+      {{ 'installation-modal.css' | asset_url | stylesheet_tag }}
+      {{ 'installation-modal.js' | asset_url | script_tag }}
+    {% endif %} {% endcomment %}
+    
+    {% if template.suffix == 'get-started' %}
+        <script>
+            document.addEventListener('DOMContentLoaded', ()=>{
+              if(window.innerWidth < 768) {
+                const initialSlideIndex = $('.tier_card .active').parent().index();
+                $('.tier-grid').slick({
+                    dots: true,
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    initialSlide: initialSlideIndex,
+                    autoplay: false,
+                    arrows: false,
+                    swipeToSlide: true,
+                    draggable: true,
+                   adaptiveHeight: true
+                });
+              }
+            })
+      </script>
+    {% endif %}
+
+   {% if template.suffix == 'silvan-landing-page' or template.suffix == 'modin-landing-page' or template.suffix == 'flooret-x-rene-ceretto' or template.suffix == 'flooret-x-agar-family' %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Select all links with the href "#free-samples"
+        const sampleLinks = document.querySelectorAll('a[href="#free-samples"]');
+        
+        // Select the target button you want to click
+        const targetButton = document.querySelector('.collection-modal-section button');
+      
+        // Make sure the target button exists before adding event listeners
+        if (targetButton && sampleLinks.length > 0) {
+          sampleLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+              // Prevent the default link behavior (like jumping to an anchor)
+              event.preventDefault();
+              
+              // Programmatically click the target button
+              targetButton.click();
+            });
+          });
+        }
+      });
+    </script>
+   {% endif %} 
+
+    <script>
+     
+      function updateHeaderPositions() {
+        const mainHead = document.querySelector('.gheader.sticky');
+        const announcement = document.querySelector('.announcement-wrap-out');
+        const topUsp = document.querySelector('.top_usp');
+        const colModelSilvan = document.querySelector('.collection-modal-section');
+
+        if (!mainHead || !announcement) return;
+
+        const announcementHeight = announcement.getBoundingClientRect().height;
+        const isMobile = window.innerWidth < 768;
+
+        if (isMobile) {
+          if (topUsp) {
+            const topUspHeight = topUsp.getBoundingClientRect().height;
+            topUsp.style.top = `${announcementHeight}px`;
+            mainHead.style.top = `${announcementHeight + topUspHeight}px`;
+
+            const mainHeadHeight = mainHead.getBoundingClientRect().height;
+            if (colModelSilvan) {
+              colModelSilvan.style.top = `${mainHeadHeight + announcementHeight + topUspHeight}px`;
+            }
+          } else {
+            mainHead.style.top = `${announcementHeight}px`;
+            const mainHeadHeight = mainHead.getBoundingClientRect().height;
+            if (colModelSilvan) {
+              colModelSilvan.style.top = `${mainHeadHeight + announcementHeight}px`;
+            }
+          }
+        } else {
+          mainHead.style.top = `${announcementHeight}px`;
+          const mainHeadHeight = mainHead.getBoundingClientRect().height;
+          if (colModelSilvan) {
+            colModelSilvan.style.top = `${mainHeadHeight + announcementHeight}px`;
+          }
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(updateHeaderPositions, 2000);
+      });
+      window.addEventListener('resize', updateHeaderPositions);
+
+    </script>
+
+
+{% if template.name == 'product' %}
+  <script>
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  {% comment %} console.log('1231231313213132341234sfsgsgsfgsgsfsfdsf') {% endcomment %}
+  setTimeout(()=>{
+        var mainHead = document.querySelector('.gheader.sticky');
+        var announcement = document.querySelector('.announcement-wrap-out');
+        var productImgWrap = document.querySelector('.swiper.customGallery');
+      {% comment %} console.log('1231231313213132341234sfsgsgsfgsgsfsfdsf') {% endcomment %}
+        // Exit if the essential elements don't exist
+        if (!mainHead || !announcement) {
+          return;
+        }
+          
+        var announcementHeight = announcement.clientHeight;
+        mainHead.style.top = `${announcementHeight}px`;
+        {% comment %} console.log('1231231313213132341234sfsgsgsfgsgsfsfdsf') {% endcomment %}
+        var mainHeadHeight = mainHead.clientHeight;
+        if (productImgWrap) {
+          productImgWrap.style.top = `${mainHeadHeight + announcementHeight}px`;
+        }
+  }, 2000)    
+})   
+ </script>
+{% endif %}
+    <script>
+      // A reusable function to add or remove the class
+      function handleScrollClass() {
+        if (window.scrollY > 5) {
+          document.body.classList.add('body-scrolled');
+        } else {
+          document.body.classList.remove('body-scrolled');
+        }
+      }
+
+      // 1. Run the check when the user scrolls
+      window.addEventListener('scroll', handleScrollClass);
+
+      // 2. Run the check once the page has loaded
+      document.addEventListener('DOMContentLoaded', handleScrollClass);
+
+      (function() {
+        const userAgent = navigator.userAgent;
+        
+        // Check for Safari while excluding Chrome and other WebKit browsers
+        const isSafari = userAgent.includes('Safari') && !userAgent.includes('Chrome');
+
+        if (isSafari) {
+          document.documentElement.classList.add('is-safari');
+        }
+      })();
+    </script>
+
+
+
+   <script>
+
+          // Assuming Swiper is already included via CDN or script tag
+          // This is a clean, readable version of your Swiper initialization
+          // It handles mobile/desktop breakpoints with different controls
+
+          document.addEventListener("DOMContentLoaded", function () {
+            // Select all sections with class 'ft-prod-col'
+            const sections = document.querySelectorAll(".ft-prod-col");
+
+            sections.forEach((section) => {
+              // Find the slider within this section
+              const slider = section.querySelector(".ft-prod-col__slider");
+              if (!slider) return; // Skip if no slider found
+
+              // Define Swiper options with breakpoints
+              const swiperOptions = {
+                slidesPerView: 1.2, // Default for small screens
+                spaceBetween: 16,
+                // Mobile-specific scrollbar and navigation (default)
+                scrollbar: {
+                  el: section.querySelector(".swiper-controls.mob-only .swiper-scrollbar"),
+                  draggable: true,
+                },
+                navigation: {
+                  nextEl: section.querySelector(".swiper-controls.mob-only .swiper-button-next"),
+                  prevEl: section.querySelector(".swiper-controls.mob-only .swiper-button-prev"),
+                },
+                // Responsive breakpoints
+                breakpoints: {
+                  // When window width >= 720px (desktop)
+                  720: {
+                    slidesPerView: 2, // Show 2 slides on desktop
+                    // Switch to desktop-specific scrollbar and navigation
+                    scrollbar: {
+                      el: section.querySelector(".swiper-controls.desk-only .swiper-scrollbar"),
+                      draggable: true,
+                    },
+                    navigation: {
+                      nextEl: section.querySelector(".swiper-controls.desk-only .swiper-button-next"),
+                      prevEl: section.querySelector(".swiper-controls.desk-only .swiper-button-prev"),
+                    },
+                  },
+                },
+              };
+
+              // Initialize Swiper
+              const swiper = new Swiper(slider, swiperOptions);
+
+              // Show controls if Swiper is enabled (e.g., multiple slides)
+              if (swiper.enabled) {
+                const controls = slider.parentElement.querySelector(".swiper-controls");
+                if (controls) controls.style.display = "block"; // Or use classList.add('visible') if you prefer CSS
+              }
+
+              // Optional: Update on resize (in case of dynamic changes)
+              window.addEventListener("resize", () => swiper.update());
+            });
+          });
+
+
+          document.addEventListener("DOMContentLoaded", function () {
+            // Select all sliders with class 'image-card-slider'
+            const sliders = document.querySelectorAll(".image-card-slider");
+
+            if (sliders.length === 0) {
+              console.log("No image-card-slider found.");
+              return; // Exit if no sliders
+            }
+
+            sliders.forEach((slider) => {
+              // Find the parent section (assumes one section per slider or shared)
+              const section = slider.closest(".image-card-block") || document.querySelector(".image-card-block");
+              if (!section) {
+                console.error("No .image-card-block found for slider:", slider);
+                return; // Skip if no section
+              }
+
+              // Define Swiper options
+              const swiperOptions = {
+                slidesPerView: 1, // Show 1 slide by default
+                spaceBetween: 0, // No space between slides
+                scrollbar: {
+                  el: section.querySelector(".swiper-scrollbar"), // Scrollbar from section
+                  draggable: true, // Allow dragging the scrollbar
+                },
+                navigation: {
+                  nextEl: section.querySelector(".swiper-button-next"), // Next button from section
+                  prevEl: section.querySelector(".swiper-button-prev"), // Prev button from section
+                },
+                // Optional: Add breakpoints if needed (e.g., for responsiveness)
+                // breakpoints: {
+                //   768: { slidesPerView: 2 } // Example: Show 2 slides on larger screens
+                // }
+              };
+
+              // Initialize Swiper
+              const swiper = new Swiper(slider, swiperOptions);
+
+              // Optional: Log for debugging
+              swiper.on("init", () => {
+                console.log("Image Card Swiper initialized:", slider);
+              });
+
+              // Optional: Update on resize
+              window.addEventListener("resize", () => swiper.update());
+            });
+          });
+
+
+          // Assuming Swiper is already included via CDN or script tag
+          // This is a clean, readable vanilla JS version of your Swiper initializations
+          // It handles multiple sliders with error handling and resize updates
+
+          document.addEventListener("DOMContentLoaded", function () {
+            // Helper function to init a Swiper with error handling
+            function initSwiper(container, options) {
+              try {
+                const swiper = new Swiper(container, options);
+                swiper.on("init", () => console.log("Swiper initialized:", container.className));
+                return swiper;
+              } catch (error) {
+                console.error("Swiper init failed:", error);
+                return null;
+              }
+            }
+
+            // 1. Recent Blog Wrapper Slider
+            function initRecentBlogSlider() {
+              const sliders = document.querySelectorAll(".recent-blog-wrapper__slider");
+              const section = document.querySelector(".recent-posts"); // Shared section for controls
+
+              if (sliders.length === 0) {
+                console.log("No recent-blog-wrapper__slider found.");
+                return;
+              }
+
+              sliders.forEach((slider) => {
+                if (!section) {
+                  console.error("No .recent-posts found for controls.");
+                  return;
+                }
+
+                const swiperOptions = {
+                  slidesPerView: 1.1,
+                  spaceBetween: 32,
+                  scrollbar: { el: ".swiper-scrollbar", draggable: true }, // Assumes global or per-slider scrollbar
+                  navigation: {
+                    nextEl: section.querySelector(".swiper-button-next"),
+                    prevEl: section.querySelector(".swiper-button-prev"),
+                  },
+                  breakpoints: {
+                    960: { slidesPerView: 2 },
+                  },
+                };
+
+                const swiper = initSwiper(slider, swiperOptions);
+                window.addEventListener("resize", () => swiper?.update());
+              });
+            }
+            initRecentBlogSlider();
+
+            // 2. Customer Stories Loop (cstories__loop)
+            function initCstoriesSlider() {
+              const sliders = document.querySelectorAll(".cstories__loop");
+
+              if (sliders.length === 0) {
+                console.log("No cstories__loop found.");
+                return;
+              }
+
+              sliders.forEach((slider) => {
+                const swiperOptions = {
+                  slidesPerView: 1.4,
+                  centeredSlides: true,
+                  loop: true,
+                  navigation: {
+                    nextEl: slider.querySelector(".swiper-button-next"), // Assumes controls inside each slider
+                    prevEl: slider.querySelector(".swiper-button-prev"),
+                  },
+                  breakpoints: {
+                    960: { slidesPerView: 2.8 },
+                    1400: { slidesPerView: 3.25 },
+                    1600: { slidesPerView: 4 },
+                  },
+                };
+
+                const swiper = initSwiper(slider, swiperOptions);
+                window.addEventListener("resize", () => swiper?.update());
+              });
+            }
+            initCstoriesSlider();
+
+            // 3. Testimonials Slider
+            function initTestimonialsSlider() {
+              const sliders = document.querySelectorAll(".testimonials-slider");
+              const section = document.querySelector(".testimonials-block"); // Shared section for controls
+
+              if (sliders.length === 0) {
+                console.log("No testimonials-slider found.");
+                return;
+              }
+
+              sliders.forEach((slider) => {
+                if (!section) {
+                  console.error("No .testimonials-block found for controls.");
+                  return;
+                }
+
+                const swiperOptions = {
+                  slidesPerView: 1,
+                  spaceBetween: 0,
+                  autoHeight: true,
+                  scrollbar: { el: section.querySelector(".swiper-scrollbar"), draggable: true },
+                  navigation: {
+                    nextEl: section.querySelector(".swiper-button-next"),
+                    prevEl: section.querySelector(".swiper-button-prev"),
+                  },
+                };
+
+                const swiper = initSwiper(slider, swiperOptions);
+                window.addEventListener("resize", () => swiper?.update());
+              });
+            }
+            initTestimonialsSlider();
+
+            // 4. Image Card Slider (from your query, already handled similarly in previous response)
+            function initImageCardSlider() {
+              const sliders = document.querySelectorAll(".image-card-slider");
+              const section = document.querySelector(".image-card-block"); // Shared section
+
+              if (sliders.length === 0) {
+                console.log("No image-card-slider found.");
+                return;
+              }
+
+              sliders.forEach((slider) => {
+                if (!section) {
+                  console.error("No .image-card-block found for controls.");
+                  return;
+                }
+
+                const swiperOptions = {
+                  slidesPerView: 1,
+                  spaceBetween: 0,
+                  scrollbar: { el: section.querySelector(".swiper-scrollbar"), draggable: true },
+                  navigation: {
+                    nextEl: section.querySelector(".swiper-button-next"),
+                    prevEl: section.querySelector(".swiper-button-prev"),
+                  },
+                };
+
+                const swiper = initSwiper(slider, swiperOptions);
+                window.addEventListener("resize", () => swiper?.update());
+              });
+            }
+            initImageCardSlider();
+          });
+
+          // Assuming Swiper is already included via CDN or script tag
+          // This is an updated custom gallery Swiper: shows 1 slide at a time, scrolls 1 slide on button click
+          // Fixed selectors to match your HTML: ".button-next" and ".button-prev" for navigation
+
+          document.addEventListener("DOMContentLoaded", function () {
+            // Select all custom gallery sliders (adjust selector as needed, e.g., '.custom-gallery-slider')
+            const sliders = document.querySelectorAll(".custom-gallery-slider"); // Change this to your actual class
+
+            if (sliders.length === 0) {
+              console.log("No custom-gallery-slider found.");
+              return; // Exit if no sliders
+            }
+
+            sliders.forEach((slider) => {
+              // Find the parent section or controls container (assumes controls are siblings or inside)
+              const controls = slider.closest(".swiper-controls") || document.querySelector(".swiper-controls");
+              // If controls are not found, log and skip navigation
+              if (!controls) {
+                console.warn("No .swiper-controls found for navigation buttons.");
+              }
+
+              // Define Swiper options
+              const swiperOptions = {
+                slidesPerView: 1, // Show only 1 slide at a time
+                slidesPerGroup: 1, // Scroll 1 slide per navigation click or swipe
+                spaceBetween: 0, // No space between slides (adjust if needed)
+                loop: true, // Optional: Enable infinite looping
+                navigation: {
+                  // Use your exact class names from HTML
+                  nextEl: controls ? controls.querySelector(".button-next") : null,
+                  prevEl: controls ? controls.querySelector(".button-prev") : null,
+                },
+                // Optional: Add scrollbar if you want drag-to-scroll (add <div class="swiper-scrollbar"></div> to HTML)
+                // scrollbar: {
+                //   el: '.swiper-scrollbar', // Add this class to your HTML if needed
+                //   draggable: true,
+                // },
+                // Optional: Add breakpoints for responsiveness (e.g., still 1 slide on mobile/desktop)
+                breakpoints: {
+                  768: { slidesPerView: 1 }, // Keep 1 slide on larger screens (customize as needed)
+                },
+              };
+
+              // Initialize Swiper
+              try {
+                const swiper = new Swiper(slider, swiperOptions);
+                swiper.on("init", () => {
+                  console.log("Custom Gallery Swiper initialized:", slider);
+                });
+
+                // Test navigation manually (for debugging)
+                if (swiper.navigation.nextEl) {
+                  swiper.navigation.nextEl.addEventListener("click", () => swiper.slideNext());
+                }
+                if (swiper.navigation.prevEl) {
+                  swiper.navigation.prevEl.addEventListener("click", () => swiper.slidePrev());
+                }
+
+                // Update on resize
+                window.addEventListener("resize", () => swiper.update());
+              } catch (error) {
+                console.error("Custom Gallery Swiper init failed:", error);
+              }
+            });
+          });
+
+
+
+    </script>
+
+    <script>
+      // Watch for .pop-cart active class and update cart count
+(function() {
+  function updateCartCount() {
+    fetch('/cart.js')
+      .then(res => res.json())
+      .then(cart => {
+        document.querySelectorAll('.js-cart-count').forEach(el => {
+          el.textContent = cart.item_count;
+        });
+
+        const cartCountWrapper = document.querySelector('.cart-count');
+        if (cartCountWrapper) {
+          if (cart.item_count > 0) {
+            cartCountWrapper.classList.remove('cart-empty');
+          } else {
+            cartCountWrapper.classList.add('cart-empty');
+          }
+        }
+      })
+      .catch(err => {
+        console.error('Failed to fetch cart count:', err);
+      });
+  }
+
+  // ✅ Monitor .pop-cart for 'active' class changes
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        const target = mutation.target;
+        if (target.classList.contains('pop-cart') && target.classList.contains('active')) {
+          updateCartCount();
+        }
+      }
+    });
+  });
+
+  // Start observing .pop-cart element
+  const popCart = document.querySelector('.pop-cart');
+  if (popCart) {
+    observer.observe(popCart, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+
+  // Also watch for newly added .pop-cart elements
+  const bodyObserver = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      mutation.addedNodes.forEach(function(node) {
+        if (node.nodeType === 1) { // Element node
+          if (node.matches && node.matches('.pop-cart')) {
+            observer.observe(node, {
+              attributes: true,
+              attributeFilter: ['class']
+            });
+          }
+          // Check children too
+          node.querySelectorAll('.pop-cart').forEach(el => {
+            observer.observe(el, {
+              attributes: true,
+              attributeFilter: ['class']
+            });
+          });
+        }
+      });
+    });
+  });
+
+  bodyObserver.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+  // jQuery fallback (if you prefer)
+  $(document).on('DOMNodeInserted', function(e) {
+    if ($(e.target).hasClass('pop-cart') || $(e.target).find('.pop-cart').length) {
+      $('.pop-cart').each(function() {
+        if ($(this).hasClass('active')) {
+          updateCartCount();
+        }
+      });
+    }
+  });
+
+})();
+
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,57 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "blocks": {
+        "b6b16057-94fe-409b-8dc9-1beafeda142c": {
+          "type": "usp",
+          "settings": {
+            "icon": "shopify://shop_images/Icons.svg",
+            "label": "Free Shipping & Returns"
+          }
+        },
+        "0a907a30-0540-4e1d-b3ac-d813b24f791b": {
+          "type": "usp",
+          "settings": {
+            "icon": "shopify://shop_images/Icons_2.svg",
+            "label": "All Taxes Included"
+          }
+        },
+        "18e5f0ee-d559-4ca4-a226-f4ae300fa607": {
+          "type": "usp",
+          "settings": {
+            "icon": "shopify://shop_images/Icons_1.svg",
+            "label": "International Warranty"
+          }
+        },
+        "316d18b7-e353-4221-847c-da7c9d066655": {
+          "type": "accordion",
+          "settings": {
+            "label": "Contact Us",
+            "content": "<p>Contact us on <a href=\"https://wa.me/message/M2764FAWGZTUM1\" target=\"_blank\" title=\"Norqain WhatsApp\">WhatsApp</a></p>"
+          }
+        },
+        "9b86acc6-a4d3-4b0b-a56b-246cede2773a": {
+          "type": "accordion",
+          "settings": {
+            "label": "Return Policy",
+            "content": "<p>View our <a href=\"/policies/terms-of-service\" target=\"_blank\" title=\"Terms of Service\">return policy</a>.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "b6b16057-94fe-409b-8dc9-1beafeda142c",
+        "0a907a30-0540-4e1d-b3ac-d813b24f791b",
+        "18e5f0ee-d559-4ca4-a226-f4ae300fa607",
+        "316d18b7-e353-4221-847c-da7c9d066655",
+        "9b86acc6-a4d3-4b0b-a56b-246cede2773a"
+      ],
+      "settings": {
+        "payment_options": "shopify://shop_images/Frame_14781.png"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

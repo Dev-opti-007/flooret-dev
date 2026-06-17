@@ -1,0 +1,15 @@
+{%- liquid
+  assign model_name = value_name | handleize
+
+  if model_name == 'signature'
+    render 'svg-signature'
+  endif
+
+  if model_name == 'base'
+    render 'svg-base'
+  endif
+
+  if model_name == 'craftsman'
+    render 'svg-craftsman'
+  endif
+-%}

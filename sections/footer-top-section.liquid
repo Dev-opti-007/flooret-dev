@@ -1,0 +1,385 @@
+<style>
+  .footer-top-sec-sus img {
+      max-height: 480px;
+      object-fit: cover;
+  }
+  .footer-top-sec-sus .img {
+    position:relative;
+  }
+  .footer-top-sec-sus .img::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #00000045;
+}
+  
+  .footer-top-sec-sus {
+      position: relative;
+  }
+
+ 
+      .footer-top-sec-sus .content-div {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 1200px;
+        margin: auto;
+        right: 0;
+        left: 0;
+    }
+
+    .footer-top-sec-sus .content-div p:empty {
+      display: none;
+    }
+    
+    .content-div p:empty {
+        display: none;
+    }
+
+    .content-div > h2 {
+      color: #fff;
+      font-family: Montserrat;
+      font-weight: 800;
+      font-style: ExtraBold;
+      font-size: 48px;
+      leading-trim: NONE;
+      line-height: 72px;
+      letter-spacing: 0%;
+      text-align: center;
+      vertical-align: middle;
+  }
+    
+   .content-div p {
+      color: #fff;
+      font-family: Montserrat;
+      font-weight: 500;
+      font-style: Medium;
+      font-size: 18px;
+      leading-trim: NONE;
+      line-height: 28.8px;
+      letter-spacing: 0%;
+      text-align: center;
+      vertical-align: middle;
+  }
+    .btns-wrap {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:fit-content;
+      margin: 30px auto;
+    }
+
+    .content-div > h4 {
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    color: #fff;
+}
+    
+  .content-div  .btn {
+      background: #B8956A;
+      border: 1px solid #B8956A;
+      border-radius: 8px;
+      color: #fff;
+      display: flex;
+      font-family: Montserrat;
+      font-weight: 700;
+      font-style: Bold;
+      font-size: 14px;
+      leading-trim: NONE;
+      line-height: 22.4px;
+      letter-spacing: 0%;
+      vertical-align: middle;
+      gap: 10px;
+  }
+    
+      .content-div .btn:hover {
+        background: #25393d;
+        border-color: #25393d;
+    }
+    
+     .content-div .btn.trans-bg {
+    background: none;
+    border: 1px solid #FFFFFF;
+    margin: 0px;
+    color: #fff;
+}
+    
+    .content-div .btn.trans-bg:hover {
+        color: #000;
+      background:#fff;
+    }
+}
+  
+</style>
+
+<div class="footer-top-sec-sus footer-top-sec-sus-{{ section.id }}" >
+
+    <div class="img">
+    <img width="100%" height="480" src="{{ section.settings.background-img | img_url:'1500x' }}" alt="{{ section.settings.background-img.alt }}" >
+    </div>
+    <div class="content-div">
+      {% if section.settings.heading != blank %}
+      <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+       {% if section.settings.text != blank %}
+      <p>{{ section.settings.text }}</p>
+       {% endif %}
+      <div class="btns-wrap">
+        {% if section.settings.btn-one-text != blank %}
+      <a class="btn" href="{{ section.settings.btn-one-link }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"> <path d="M6.53516 0.130859C6.83594 0.0214844 7.16406 0.0214844 7.4375 0.130859L13.125 2.26367C13.6445 2.45508 13.9727 2.94727 13.9727 3.49414V9.64648C13.9727 10.1387 13.6992 10.6035 13.2617 10.8223L7.57422 13.666C7.19141 13.8574 6.78125 13.8574 6.39844 13.666L0.710938 10.8223C0.273438 10.6035 0 10.1387 0 9.64648V3.49414C0 2.94727 0.328125 2.45508 0.847656 2.26367L6.53516 0.130859ZM7 1.82617L1.75 3.79492V3.82227L7 5.95508L12.25 3.82227V3.79492L7 1.82617ZM7.875 11.5605L12.25 9.37305V5.70898L7.875 7.48633V11.5605Z" fill="white"/> </svg>
+          {{ section.settings.btn-one-text }}</a>
+        {% endif %}
+         {% if section.settings.btn-two-text != blank %}
+      <a class="btn trans-bg" href="{{ section.settings.btn-two-link }}">{{ section.settings.btn-two-text }} </a>
+         {% endif %}
+      </div>
+
+  </div>
+</div>
+
+<style>
+  .footer-top-sec-sus-{{ section.id }} .content-div > h2 {
+     font-family:{{ section.settings.font-heading }};
+      font-size:{{ section.settings.font_size_heading_desk }}px;
+      {% if section.settings.heading-color != blank %} color:{{ section.settings.heading-color }}; {% endif %}
+  }
+  .footer-top-sec-sus-{{ section.id }} .content-div > p {
+        font-family:{{ section.settings.font-body }};
+    font-size:{{ section.settings.font_size_body_desk }}px;
+    {% if section.settings.body-color != blank %} color:{{ section.settings.body-color }}; {% endif %}
+  }
+  .footer-top-sec-sus-{{ section.id }} .content-div .btn {
+      font-family:{{ section.settings.font-button }};
+    font-size:{{ section.settings.font_size_button_desk }}px;
+    {% if section.settings.button-bg-color != blank %} background:{{ section.settings.button-bg-color }}; {% endif %}
+    {% if section.settings.button-font-color != blank %} color:{{ section.settings.button-font-color }}; {% endif %}
+  }
+  @media (max-width:768px) {
+    .footer-top-sec-sus-{{ section.id }} .content-div > h2 {
+      font-size:{{ section.settings.font_size_heading_mob }}px;
+    }
+    .footer-top-sec-sus-{{ section.id }} .content-div > p {
+       font-size:{{ section.settings.font_size_body_mob }}px;
+    }
+    .footer-top-sec-sus-{{ section.id }} .content-div .btn {
+        font-size:{{ section.settings.font_size_button_mob }}px;
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Footer Top",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id":"background-img",
+        "label": "Background Image"
+      },
+      {
+        "type": "html",
+        "id":"heading",
+        "label":"Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text"
+      },
+      {
+        "type": "text",
+        "id": "btn-one-text",
+        "label": "Button One Text"
+      },
+      {
+        "type": "url",
+        "id": "btn-one-link",
+        "label": "Button One Link"
+      },
+      {
+        "type": "text",
+        "id": "btn-two-text",
+        "label": "Button Two Text"
+      },
+      {
+        "type": "url",
+        "id": "btn-two-link",
+        "label": "Button Two Link"
+      },
+      {
+        "type": "header",
+        "content": "Font family"
+      },
+      {
+        "type": "select",
+        "id": "font-heading",
+        "label": "Font Family Heading",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+      {
+        "type": "select",
+        "id": "font-body",
+        "label": "Font Family Subtext",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+      {
+        "type": "select",
+        "id": "font-button",
+        "label": "Font Family Button",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+      {
+        "type": "header",
+        "content": "Font Sizes Desktop"
+      },
+      {
+        "type": "range",
+        "id": "font_size_heading_desk",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Heading Desktop",
+        "default": 42
+      },
+      {
+        "type": "range",
+        "id": "font_size_body_desk",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Body Desktop",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "font_size_button_desk",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Button Desktop",
+        "default": 14
+      },
+      {
+        "type": "header",
+        "content": "Font Sizes Mobile"
+      },
+      {
+        "type": "range",
+        "id": "font_size_heading_mob",
+        "min": 1,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Heading Mobile",
+        "default": 35
+      },
+      {
+        "type": "range",
+        "id": "font_size_body_mob",
+        "min": 1,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Body Mobile",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "font_size_button_mob",
+        "min": 1,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Button Mobile",
+        "default": 14
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id":"heading-color",
+        "label": "Heading Color"
+      },
+      {
+        "type": "color",
+        "id":"body-color",
+        "label": "Body Color"
+      },
+      {
+        "type": "color",
+        "id": "button-bg-color",
+        "label": "Button Background Color"
+      },
+      {
+        "type": "color",
+        "id": "button-font-color",
+        "label": "Button Font Color"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Footer Top"
+      }
+    ]
+  }
+{% endschema %}

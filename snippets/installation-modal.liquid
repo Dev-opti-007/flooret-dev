@@ -1,0 +1,9 @@
+{% comment %} Modal for installation service {% endcomment %}
+<div id="install-modal" class="install-modal-overlay hidden">
+  <div class="install-modal">
+    <button class="install-modal__close" type="button" aria-label="Close">×</button>
+    {% render 'calculator',
+     isPDP: true,
+     show_gallery: false %}
+  </div>
+</div>

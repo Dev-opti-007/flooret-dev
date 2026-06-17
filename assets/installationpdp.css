@@ -1,0 +1,1500 @@
+
+/* ─────────── 1. DESIGN TOKENS ─────────── */
+:root{
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --c-text-main: #111827;          /* gray-900  */
+  --c-text-muted: #6b7280;         /* gray-500  */
+  --c-border:     #d1d5db;         /* gray-300  */
+  --c-border-sub: #e5e7eb;         /* gray-200  */
+  --c-accent:     #0f609b;         /* blue-700  */
+  --c-accent-light:#1e70b5;        /* blue-600  */
+  --c-info-bg:    #fef9e6;         /* soft yellow */
+  --c-bronze:     #c79a5b;
+  --c-silver:     #a5a5a5;
+  --c-gold:       #d4a62b;
+}
+
+/* ─────────── 2. GENERIC RESET WITHIN THE SECTION ─────────── */
+#installation-calculator-demo{
+  font-family:var(--font-body);
+  color:var(--c-text-main);
+}
+#installation-calculator-demo h1{
+  color: #000;
+  font-family:var(--font-heading);
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.installation-services.is-pdp h1 {
+  text-align: center;
+}
+#installation-calculator-demo h2{
+  color: #000;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+#installation-calculator-demo h3{
+  font-size:.9375rem;
+  font-weight:600;
+  margin:1.5rem 0 .5rem;
+}
+
+/* ─────────── 3. OUTER CARD WRAPPER ─────────── */
+.get-started-container{
+  background:#fff;
+  margin:0 auto;
+  display: flex;
+  gap: 24px;
+}
+
+.installation-services {
+  min-width: 842px;
+  width: 100%;
+}
+/* ─────────── 4. ACCORDION-LIKE SECTION PANELS ─────────── */
+.main__section p {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 27px;
+  margin: 0;
+  margin-top: 6px;
+}
+/* Above CTA text */
+
+.above-cta-text {
+  margin: 0px 0px 10px;
+    font-family: Montserrat;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 27px;
+}
+
+.above-cta-text span.counter {
+    color: #000;
+    font-family: Montserrat;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 27px;
+}
+
+.above-cta-text span.plus-sign {vertical-align: super;}
+
+.installation-services  .ruk_rating_snippet .ruk-rating-snippet-count {
+    font-family: 'Montserrat';
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    color: #000;
+}
+
+#install-modal .above-cta-text span.counter {
+    color: #000;
+    font-family: Montserrat;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 27px;
+}
+
+#install-modal .above-cta-text {
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.installation-services.is-pdp .main__section p {
+  text-align: center;
+}
+
+.zipcode__section,
+.tier__section,
+.address__section,
+.demolition__section,
+.additional_services__section{
+  border:1px solid var(--c-border-sub);
+  border-radius:6px;
+  border-radius: 10px;
+  border: 1px solid #BCCAD7;
+  background: #FFF;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+  margin-bottom:1.5rem;
+  position:relative;
+}
+.tier__section::after,
+.demolition__section::after,
+.additional_services__section::after{
+  content:"";
+  width:10px; height:10px;
+  border-right:2px solid var(--c-text-muted);
+  border-bottom:2px solid var(--c-text-muted);
+  transform:rotate(-135deg);
+  position:absolute;
+  top: 32px;
+  right: 32px;
+}
+
+/* ─────────── 5. INSTALLATION PACKAGE CARDS ─────────── */
+.tier__section .tier-grid label{
+  display: flex;
+  flex: 1 1 0;
+  font-weight:600;
+  vertical-align:top;
+  position:relative;
+  transition:border-color .25s, box-shadow .25s;
+  min-width: 205px;
+  width:100%;
+  border:1px solid var(--c-border);
+  border-radius:10px;
+  padding:1.15rem 1.25rem 1.25rem;
+  background:#fff;
+  cursor:pointer;
+}
+.tier__section .tier-grid input.tier-input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+/* tier colour ribbons */
+.tier__section .tier-grid label::before{
+  content:attr(data-tier-badge);
+  position:absolute;
+  top:-10px; left:50%; translate:-50% 0;
+  font-size:.65rem; font-weight:700; letter-spacing:.03em;
+  padding:.1rem .45rem .2rem; border-radius:3px;
+  color:#fff; white-space:nowrap;
+}
+.tier__section .tier-grid label[data-tier="Bronze"]::before{background:var(--c-bronze);}
+.tier__section .tier-grid label[data-tier="Silver"]::before{background:var(--c-silver);}
+.tier__section .tier-grid label[data-tier="Gold"]::before  {background:var(--c-gold);}
+.zipcode__section .header,
+.tier__section .header,
+.demolition__section .header,
+.additional_services__section .header,
+.address__section .header
+{
+  border-bottom: 1px solid #D9D9D9;
+  padding: 16px 20px 12px;
+  cursor: pointer;
+  padding-right: 48px;
+}
+
+.zipcode__section .header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 20px;
+}
+
+.zipcode__section .header > h2,
+.tier__section .header > h2 {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.zipcode__section .header > h2 {
+  font-weight: 600 !important;
+}
+.zipcode__section .header > #installation_zipcode {
+  display: flex;
+  flex: 1;
+  max-width: 344px;
+}
+
+.tier__section .header > span,
+.demolition__section .header > span,
+.additional_services__section .header > span,
+.address__section .header > span {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.tier-grid {
+  display: none;
+  flex-wrap: wrap;
+  padding: 37px 25px;
+  gap: 20px;
+}
+
+.tier_install {
+  padding: 0 38px;
+  padding-bottom: 40px;
+}
+
+.tier_install h3 {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 22px !important;
+  font-style: normal;
+  font-weight: 800 !important;
+  line-height: normal;
+  letter-spacing: 1.1px;
+}
+
+.tier_card {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  background: #fff;
+  position: relative;
+  transition: border-color 0.3s;
+}
+
+.tier_card:hover {
+  border-color:var(--c-accent);
+  box-shadow:0 0 0 2px var(--c-accent-light);
+}
+
+.tier_card.active {
+  border-color:var(--c-accent);
+  box-shadow:0 0 0 2px var(--c-accent-light);
+}
+
+.tier_card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tier-header {
+  padding-left: 12px;
+}
+
+.tier_card .badge {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  display: inline-block;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: absolute;
+  top: -12px;
+  right: 38px;
+  color: #FFF;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 0.27px;
+  text-transform: uppercase;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.badge.bronze { border-radius: 4px; background: linear-gradient(90deg, #5B442F 0%, #D09762 24.04%, #CB935D 49.04%, #E5A974 75%, #66492C 100%); }
+.badge.silver { border-radius: 4px; background: linear-gradient(90deg, #8C8D8D 0%, #969696 24.04%, #E9E9E9 49.04%, #939393 75%, #BDBDBD 100%); }
+.badge.gold   { border-radius: 4px; background: linear-gradient(90deg, #FBDB5E 0%, #FAF3C2 38.46%, #D2A748 71.15%, #F1DD94 100%);
+              color: #1B1B1B; font-size: 9px; font-weight: 700;}
+
+.tier-header h3 {
+  margin: 0;
+  color: #000;
+  font-family: Montserrat;
+  font-size: 22px !important;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.tier-features {
+  margin: 0;
+  margin-top: 12px;
+  list-style: none;
+  padding: 0;
+}
+
+.tier-features li {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 0.5em;
+  position: relative;
+  color: #000;
+  font-family: Montserrat;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.tier-features li img {
+  width: 16px;
+  height: 16px;
+}
+
+.address__section h2 {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 18px !important;
+  font-style: normal;
+  font-weight: 800 !important;
+  line-height: normal;
+  letter-spacing: 0.9px;
+}
+
+.address-desc {
+  padding-top: 10px;
+  color: #0B0B0B;
+  font-family: Montserrat;
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: normal;
+  align-items: center;
+  display: flex;
+  gap: 16px
+}
+
+.address-desc span {
+  flex: 1;
+}
+
+.address-desc .diff {
+  color: #AA5946;
+  font-weight: 700;
+}
+
+/* ─────────── 6. SERVICE-ITEM GRID & INPUTS ─────────── */
+.service-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:.75rem;
+  margin:.5rem 0;
+}
+.service-item label{
+  flex:1 1 auto;
+  font-size:.875rem;
+  line-height:1.3;
+  color:var(--c-text-muted);
+}
+.service-item input[type=number]{
+  width:7rem;
+  border:1px solid var(--c-border);
+  border-radius:4px;
+  padding:.4rem .5rem;
+  font-size:.875rem;
+  text-align:right;
+}
+.service-item input[type=number]:focus{
+  border-color:var(--c-accent);
+  outline:2px solid var(--c-accent-light);
+  outline-offset:1px;
+}
+
+/* ─────────── 7. TOTAL SF BAR ─────────── */
+.service-subtotal{
+  background:#d5dde4;
+  color:#000;
+  border-radius:4px;
+  padding:.8rem 1rem;
+  margin-top:1rem;
+  font-weight:600;
+  display:flex;
+  justify-content:space-between;
+}
+
+/* ─────────── 8. EXTENDED WARRANTY INLINE OPTIONS ─────────── */
+.warranty-input{
+  accent-color:var(--c-accent);
+}
+
+/* ─────────── 9. PRICE SUMMARY CARD ─────────── */
+#detailed-subtotal{
+  background:#fff;
+  border:1px solid var(--c-border);
+  border-radius:8px;
+  padding:1.25rem 1.5rem;
+  border-radius: 10px;
+  background: #FFF;
+  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.25);
+}
+#detailed-subtotal h3{
+  margin-top:0;
+  color: #000;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+#detailed-subtotal-list {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+#detailed-subtotal-list li{
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  color: #000;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+#detailed-total{
+  border-top:1px solid var(--c-border-sub);
+  color: #000;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 24px;
+  margin-top: 22px;
+}
+
+/* disclaimer strip */
+#detailed-subtotal p.warning{
+  padding:.35rem .6rem;
+  font-size: 10px;
+  font-style: italic;
+  font-weight: 700;
+  line-height:1.35;
+  border-radius: 10px;
+  border: 1px solid #FCFBE7;
+  background: #FEFCE8;
+  color: #984D13;
+  font-family: Montserrat;
+  line-height: 19px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  margin-top: 22px;
+}
+
+/* ─────────── 10. ADD-TO-CART BTN & CHECKBOX ─────────── */
+.terms-checkbox {
+  border-radius: 7px;
+  border: 1px solid #E9ECEF;
+  background: #F8F9FA;
+  display: flex;
+  width: 100%;
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  gap: 10px;
+}
+.terms-checkbox input{accent-color:var(--c-accent);}
+.terms-checkbox label {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19px;
+  flex: 1;
+}
+.terms-checkbox label a{
+  color: #236A99;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19px;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
+
+.address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 13px 22px 19px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.input-block,
+.input-half,
+.input-third {
+  padding: 14px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 3px;
+  background: #fff;
+  font-size: 14px;
+  width: 100%;
+  transition: border 0.2s, box-shadow 0.2s;
+  appearance: none;
+}
+
+.input-block:focus,
+.input-half:focus,
+.input-third:focus,
+select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.input-half {
+  flex: 1 1 calc(50% - 8px);
+}
+
+.input-third {
+  flex: 1 1 calc(33.333% - 10.66px);
+}
+
+/* Dropdown styling fix */
+select {
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='none' stroke='%23444' stroke-width='1.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1em;
+  padding-right: 2rem;
+  cursor: pointer;
+}
+
+/* Optional: phone input icon (right-aligned help icon) */
+input[type="tel"] + .phone-help {
+  position: relative;
+  margin-left: auto;
+}
+
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #fff;
+  transition: .4s;
+  border-radius: 24px;
+  border: 1px solid #757575;
+}
+
+.toggle-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 16px; width: 16px;
+  left: 4px;
+  bottom: 3px;
+  background-color: #757575;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked + .slider {
+  border: 1px solid #0a66c2;
+}
+
+.toggle-switch input:checked + .slider:before {
+  transform: translateX(18px);
+  background-color: #0a66c2;
+}
+
+
+/* Demolition section */
+/* Grid layout */
+.tier_install .service-selector,
+.demolition__section .service-selector,
+.additional_services_addons .service-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.demolition__section .service-selector {
+  padding-top: 32px;
+}
+.demolition__section .demolition_service {
+  padding: 0px 38px 40px;
+}
+.additional_services_addons {
+  padding: 0px 38px 40px;
+}
+
+.additional_services_addons .service-selector {
+  padding: 32px 0px 0px;
+}
+.additional_services_warranty {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 30px;
+  border-top: 1px solid #D9D9D9;
+  margin-top: 28px;
+}
+.additional_services_warranty .service-selector {
+  display: flex;
+  gap: 16px;
+  padding: 12px 0px 0px;
+  flex-direction: column;
+}
+
+.additional_services_warranty .service-selector label {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19px;
+}
+
+.additional_services_warranty .service-selector label > .money {
+  font-weight: 600;
+}
+
+/* Text + input wrapper */
+.tier_install .service-item,
+.demolition__section .service-item,
+.additional_services_addons .service-item{
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  align-items: flex-start;
+}
+
+.tier_install .service-item label,
+.demolition__section .service-item label,
+.additional_services_addons .service-item label {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+/* SF wrapper */
+.tier_install .sf-input-wrapper,
+.demolition__section .sf-input-wrapper,
+.additional_services_addons .sf-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Styled input */
+.tier_install .sf-input-wrapper input[type="number"],
+.demolition__section .sf-input-wrapper input[type="number"],
+.additional_services_addons .sf-input-wrapper input[type="number"] {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 3px;
+  background: #fff;
+  font-size: 14px;
+  box-sizing: border-box;
+  text-align: left;
+  font-family: Montserrat;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+/* "SF" suffix */
+.tier_install .sf-input-wrapper .unit,
+.demolition__section .sf-input-wrapper .unit,
+.additional_services_addons .sf-input-wrapper .unit {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #757575;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  pointer-events: none;
+}
+
+.product-summary-container {
+  background-color: #D4DEE5;
+  border-radius: 8px;
+  padding: 20px;
+  font-family: Montserrat, sans-serif;
+  color: #000;
+  width: 100%;
+  margin-top: 24px;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  display: none;
+}
+
+.product-summary {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product-summary .summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.product-summary .label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-summary .price {
+  min-width: 60px;
+  text-align: right;
+}
+
+.product-summary-container .total-square-foot {
+  background: #B5CBDA;
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 16px;
+  color: #000;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.8px;
+}
+
+.detailed-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.detailed-info .deposit{
+  margin-top: 8px;
+  color: #7E7E7E;
+  font-family: Montserrat;
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+  width: 100%;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Landing Gallery Scroller */
+.service_gallery {
+  display: none;
+  max-width: 480px;
+  width: 100%;
+}
+
+.service_gallery.active {
+  display: block;
+}
+
+.thumbnail-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.thumbnail-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  padding: 4px 0;
+}
+
+.thumb {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: transform 0.3s ease, opacity 0.3s;
+  scroll-snap-align: start;
+}
+
+.thumb:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+.thumb.active {
+  outline: 1px solid #000;
+  opacity: 1;
+}
+
+.thumb-nav {
+  /* position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1;
+  padding: 6px 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); */
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ffffffd9;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 1;
+  padding: 30px 4px;
+}
+
+.thumb-nav.left {
+  left: 0;
+}
+
+.thumb-nav.right {
+  right: 0;
+}
+
+/* Accordion helper  */
+.tier__section,
+.demolition__section,
+.additional_services__section {
+  max-height: 9999px;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+#installation-calculator-demo .is-collapsed::after{
+  transform:rotate(45deg);
+}
+
+/* Collapsed state */
+.tier__section.is-collapsed > *:not(h2):not(span),
+.demolition__section.is-collapsed > *:not(h2):not(span),
+.additional_services__section.is-collapsed > *:not(h2):not(span) {
+  display: none;
+}
+
+.tier__section.is-collapsed > h2,
+.demolition__section.is-collapsed > h2,
+.additional_services__section.is-collapsed > h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tier__section.is-collapsed::after,
+.demolition__section.is-collapsed::after,
+.additional_services__section.is-collapsed::after {
+  transform: rotate(-135deg);
+}
+
+.tier__section.is-collapsed > .header,
+.demolition__section.is-collapsed > .header,
+.additional_services__section.is-collapsed > .header{
+  display: block;
+  border-bottom: none;
+}
+
+.install-guarantee,.install-next,.install-help {
+  display:none;
+}
+.carousel-container .install-guarantee, .carousel-container .install-next, .carousel-container .install-help {
+  display: flex;
+  margin: 15px 0px;
+  padding: 15px 15px;
+  background: #F4F3F1;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 8px;
+}
+.service_group_container.is-pdp {
+  display: flex;
+  gap: 22px;
+}
+.service_group.is-pdp {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.service_group.is-pdp .tier__section,
+.service_group.is-pdp .address__section,
+.service_group.is-pdp .demolition__section,
+.service_group.is-pdp .additional_services__section {
+  margin-bottom: 0px;
+}
+
+.installation-services.is-pdp #detailed-subtotal{
+  border-radius: 8px;
+  border: 1px solid #F4F3F1;
+  background: #F4F3F1;
+  width: 360px;
+}
+.installation-services.is-pdp #detailed-subtotal h3 {
+  font-size: 14px;
+}
+
+.installation-services.is-pdp #detailed-subtotal-list li {
+  font-size: 12px;
+}
+
+.installation-services.is-pdp #detailed-total {
+  border-color: #000;
+}
+.installation-services.is-pdp #detailed-subtotal p.warning {
+  line-height: 16px;
+}
+
+.installation-services.is-pdp .terms-checkbox label {
+  font-size: 12px;
+}
+.installation-services.is-pdp .detailed-info {
+  align-items: flex-start;
+}
+.installation-services.is-pdp .detailed-info .deposit {
+  font-size: 11px;
+  line-height: 16px
+}
+.installation-services.is-pdp .install-guarantee,
+.installation-services.is-pdp .install-next,
+.installation-services.is-pdp .install-help{
+  border-radius: 8px;
+  background: #FFF;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+.install-guarantee > .guarantee-title,
+.install-help > .help-title,
+.install-next > .next-title {
+  display: flex;
+  gap: 8px;
+  color: #000;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  align-items: center;
+}
+.install-guarantee > p,
+.install-help > p,
+.install-next > p {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0;
+}
+
+ .install-help > p a {
+   color: #236A99;
+ }
+
+.installation-services.is-pdp .tier__section .header > span,
+.installation-services.is-pdp .demolition__section .header > span,
+.installation-services.is-pdp .additional_services__section .header > span,
+.installation-services.is-pdp .address-desc {
+  color: #236A99;
+}
+
+
+/* Loader styles */
+.gallery-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #0a66c2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 1;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.carousel-container {
+  width: 420px;
+  margin: 30px auto;
+  font-family: Arial, sans-serif;
+}
+.main-image {
+  width: 100%;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  display: none;
+}
+.main-image.active {
+  display: block;
+}
+.thumbnail-strip-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.arrow {
+  background: white;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 18px 5px;
+  user-select: none;
+}
+.thumbnails {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  flex: 1;
+  scroll-behavior: smooth;
+  padding: 5px 0;
+}
+.thumbnails::-webkit-scrollbar {
+  display: none;
+}
+.thumbnail {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border: 1px solid transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.thumbnail.active {
+  border-color: black;
+}
+.loader {
+position: absolute;
+top: 50%;
+left: 50%;
+width: 30px;
+height: 30px;
+border: 4px solid #ccc;
+border-top: 4px solid #333;
+border-radius: 50%;
+animation: spin 0.8s linear infinite;
+transform: translate(-50%, -50%);
+z-index: 1;
+}
+
+@keyframes spin {
+to {
+  transform: translate(-50%, -50%) rotate(360deg);
+}
+}
+
+.additional-flooring {
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.additional-flooring img {
+transform: rotate(180deg);
+}
+
+/*Dev Install New Css*/
+
+button#addToCartInstallation,
+#addToCartDemolition,
+#addToCartAddOn,
+#addDepositToCart {
+    width: 100%;
+    margin-top: 24px;
+    background: #236A99;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background .25s;
+    color: #FFF;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    text-transform: uppercase;
+    width: 408px;
+    height: 48px;
+}
+
+#addDepositToCart {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+#install-modal #addDepositToCart {
+    font-size: 12px;
+}
+
+button#addToCartInstallation:hover,
+#addToCartDemolition:hover,
+#addToCartAddOn:hover {
+  background:var(--c-accent-light);
+}
+
+button#addToCartInstallation.disabled,
+#addToCartDemolition.disabled,
+#addToCartAddOn.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+p.addCartWarning {
+  display: none;
+  margin: 0;
+  font-size: 12px;
+  font-style: italic;
+  color: #ce3434;
+  margin-top: 4px;
+}
+
+
+
+/* Responsivness */
+/* ------------------- More Extra Small Devices (Portrait phones) ------------------- */
+@media (max-width: 480px) {
+  .tier_install .service-selector,
+  .demolition__section .service-selector,
+  .additional_services_addons .service-selector {
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  }
+
+  button#addToCartInstallation,
+  #addToCartDemolition,
+  #addToCartAddOn {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+/* ------------------- Extra Small Devices (Portrait phones) ------------------- */
+@media (max-width: 579px) {
+  /* e.g., iPhone SE, Galaxy Fold */
+  .get-started-container {
+    flex-direction: column;
+  }
+
+  .carousel-container {
+    width: 100% !important;
+  }
+  .installation-services {
+    min-width: 100%;
+  }
+  .service_gallery {
+    margin: 0px auto;
+  }
+
+  
+  button#addToCartInstallation,
+  #addToCartDemolition,
+  #addToCartAddOn {
+    width: 100%;
+    font-size: 16px;
+  }
+  .additional_services_warranty {
+    gap: 8px;
+  }
+  .additional_services_warranty .service-selector {
+    flex-direction: column;
+    gap: 8px;
+  }
+  /* PDP page */
+  .service_group_container.is-pdp {
+    flex-direction: column;
+  }
+  .installation-services.is-pdp #detailed-subtotal {
+    width: 100% !important;
+  }
+  .installation-services.is-pdp #detailed-subtotal-list li {
+    font-size: 14px !important;
+  }
+}
+
+
+/* ------------------- Small Devices (Phones landscape) ------------------- */
+@media (min-width: 580px) and (max-width: 639px) {
+  /* e.g., iPhone 12, Pixel 5 landscape */
+  .get-started-container {
+    flex-direction: column;
+  }
+  .carousel-container {
+    width: 100% !important;
+  }
+  .installation-services {
+    min-width: auto;
+  }
+
+  button#addToCartInstallation,
+  #addToCartDemolition,
+  #addToCartAddOn {
+    width: 100%;
+    font-size: 16px;
+  }
+  .additional_services_warranty {
+    gap: 8px;
+  }
+  .additional_services_warranty .service-selector {
+    flex-direction: column;
+    gap: 8px;
+  }
+  /* PDP page */
+  .service_group_container.is-pdp {
+    flex-direction: column;
+  }
+  .installation-services.is-pdp #detailed-subtotal {
+    width: 100% !important;
+  }
+  .installation-services.is-pdp #detailed-subtotal-list li {
+    font-size: 14px !important;
+  }
+}
+
+
+/* ------------------- Medium Devices (Tablets, small laptops) ------------------- */
+@media (min-width: 640px) and (max-width: 767px) {
+  /* e.g., iPad Mini, Kindle Fire */
+  .carousel-container {
+    width: 250px !important;
+  }
+  .installation-services {
+    min-width: auto;
+  }
+  
+  button#addToCartInstallation,
+  #addToCartDemolition,
+  #addToCartAddOn {
+    width: 100%;
+    font-size: 16px;
+  }
+  .additional_services_warranty {
+    gap: 8px;
+  }
+  .additional_services_warranty .service-selector {
+    flex-direction: column;
+    gap: 8px;
+  }
+  /* PDP page */
+  .service_group_container.is-pdp {
+    flex-direction: column;
+  }
+  .installation-services.is-pdp #detailed-subtotal {
+    width: 100% !important;
+  }
+  .installation-services.is-pdp #detailed-subtotal-list li {
+    font-size: 14px !important;
+  }
+}
+
+
+/* ------------------- Large Devices (Tablets landscape) ------------------- */
+@media (min-width: 768px) and (max-width: 879px) {
+  /* e.g., iPad, Surface Go */
+  .carousel-container {
+    width: 280px;
+  }
+  .installation-services {
+    min-width: auto;
+  }
+
+  button#addToCartInstallation,
+  #addToCartDemolition,
+  #addToCartAddOn {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .additional_services_warranty {
+    gap: 8px;
+  }
+  .additional_services_warranty .service-selector {
+    flex-direction: column;
+    gap: 8px;
+  }
+  /* PDP page */
+  .service_group_container.is-pdp {
+    flex-direction: column;
+  }
+  .installation-services.is-pdp #detailed-subtotal {
+    width: 100% !important;
+  }
+  .installation-services.is-pdp #detailed-subtotal-list li {
+    font-size: 14px !important;
+  }
+}
+
+@media (min-width: 880px) and (max-width: 1024px) {
+  /* e.g., iPad, Surface Go */
+  .carousel-container {
+    width: 260px;
+  }
+  .installation-services {
+    min-width: auto;
+  }
+  .additional_services_warranty {
+    gap: 8px;
+  }
+  .additional_services_warranty .service-selector {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+
+/* ------------------- Extra Large Devices (Small desktops) ------------------- */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  /* e.g., MacBook Air, small monitors */
+  .carousel-container {
+    width: 320px;
+  }
+  .installation-services {
+    min-width: auto;
+  }
+}
+
+
+/* ------------------- 2XL Devices (Standard desktops) ------------------- */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  /* e.g., 1080p monitors */
+  .carousel-container {
+    width: 320px;
+  }
+  .installation-services {
+    min-width: auto;
+  }
+}
+
+
+/* ------------------- 3XL Devices (Large desktops, 2K) ------------------- */
+@media (min-width: 1536px) and (max-width: 1919px) {
+  /* e.g., iMacs, 2K monitors */
+}
+
+
+/* ------------------- 4XL Devices (Widescreen 4K monitors) ------------------- */
+@media (min-width: 1920px) {
+  /* e.g., UHD 4K monitors */
+}
+
+@media (max-width:768px){
+  .tier-grid {
+        padding: 35px 15px;
+    }
+  .tier_install {
+      padding: 0 16px 35px;
+  }
+  .tier_install .total-square-foot .sq_text {
+        width: 37%;
+    }
+    
+    .tier_install .total-square-foot .sq_text + div {
+      width: 63%;
+      text-align: right;
+      display: inline-block;
+  }
+  .total-square-foot span.unit {
+      text-wrap-mode: nowrap;
+  }
+}
+/* Responsivness new dev */
+
+@media (max-width:768px){
+  .tier__section .tier-grid {
+    display:none;
+  }
+  #addDepositToCart {
+      font-size: 12px;
+  }
+
+  .above-cta-text {
+      margin-top: 15px;
+      font-size: 13px;
+  }
+  .zipcode__section .header {
+      flex-direction: column;
+      align-items: self-start;
+  }
+  #install-modal #installation-calculator-demo {
+      padding: 0px;
+  }
+  .installation-services.is-pdp #detailed-subtotal {
+      padding: 1rem 1rem;
+  }
+
+}
+
+.zipcode__section,
+.additional_services_addons .additional_services_warranty {
+    display: none;
+}
+
+.detailed-info .deposit > p {
+    margin: 0px;
+}

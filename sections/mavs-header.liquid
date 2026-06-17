@@ -1,0 +1,274 @@
+<div class="mavs-header-wrapper">
+  <section class="mavs-header">
+    <div class="mavs-header__background">
+      {% if section.settings.background_image %}
+        {{
+          section.settings.background_image
+          | image_url: width: 2000
+          | image_tag:
+            loading: 'lazy',
+            class: 'mavs-header__background-image',
+            alt: section.settings.background_image.alt
+          | escape
+        }}
+      {% endif %}
+    </div>
+
+    <div class="mavs-header__content">
+      <div class="mavs-header__logos">
+        {% if section.settings.flooret_logo %}
+          {{
+            section.settings.flooret_logo
+            | image_url: width: 200
+            | image_tag:
+              loading: 'lazy',
+              class: 'mavs-header__logo mavs-header__logo--flooret',
+              alt: section.settings.flooret_logo.alt
+            | escape
+          }}
+        {% endif %}
+
+        <div class="mavs-header__divider"></div>
+
+        {% if section.settings.mavs_logo %}
+          {{
+            section.settings.mavs_logo
+            | image_url: width: 200
+            | image_tag:
+              loading: 'lazy',
+              class: 'mavs-header__logo mavs-header__logo--mavs',
+              alt: section.settings.mavs_logo.alt
+            | escape
+          }}
+        {% endif %}
+      </div>
+
+      {% if section.settings.main_title != blank %}
+        <div class="mavs-header__title">{{ section.settings.main_title }}</div>
+      {% endif %}
+      {% if section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="btn btn--white">{{ section.settings.button_label }}</a>
+      {% endif %}
+    </div>
+  </section>
+  {% if section.settings.subtitle != blank %}
+    <section class="mavs-header__paragraphs-section">
+      <h2 class="mavs-header__subtitle">{{ section.settings.subtitle }}</h2>
+
+      <div class="mavs-header__paragraphs">
+        {% if section.settings.paragraph_1 != blank %}
+          <p class="mavs-header__paragraph">{{ section.settings.paragraph_1 }}</p>
+        {% endif %}
+
+        {% if section.settings.paragraph_2 != blank %}
+          <p class="mavs-header__paragraph">{{ section.settings.paragraph_2 }}</p>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+</div>
+
+<style>
+  .mavs-header-wrapper {
+    width: 100%;
+  }
+
+  .mavs-header {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .mavs-header__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .mavs-header__background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mavs-header__content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #ffffff;
+  }
+
+  .mavs-header__logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  @media screen and (min-width: 768px) {
+    .mavs-header__logos {
+      gap: 2rem;
+    }
+  }
+
+  .mavs-header__logo {
+    max-width: 200px;
+    height: auto;
+  }
+
+  .mavs-header__divider {
+    width: 2px;
+    height: 180px;
+    background-color: #ffffff;
+  }
+
+  .mavs-header__title {
+    font-size: 2.3rem;
+    margin-bottom: 0;
+    font-weight: 500;
+    max-width: 632px;
+  }
+
+  .mavs-header__paragraphs-section {
+    background-color: #3e769e;
+    padding: 4rem 2rem;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .mavs-header__subtitle {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 3rem;
+    color: #ffffff;
+  }
+
+  .mavs-header__paragraphs {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .mavs-header__paragraph {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  @media screen and (max-width: 768px) {
+    .mavs-header {
+      min-height: 400px;
+    }
+
+    .mavs-header__logo {
+      max-width: 150px;
+    }
+
+    .mavs-header__title {
+      font-size: 1.8rem;
+      max-width: 300px;
+      margin: auto;
+    }
+
+    .mavs-header__subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .mavs-header__content {
+      padding: 1rem;
+    }
+
+    .mavs-header__paragraphs-section {
+      padding: 2rem 1rem;
+    }
+
+    .mavs-header__paragraph {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Mavs Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image",
+      "info": "Recommended size: 2000px x 1000px"
+    },
+    {
+      "type": "image_picker",
+      "id": "flooret_logo",
+      "label": "Flooret Logo",
+      "info": "Recommended size: 200px width"
+    },
+    {
+      "type": "image_picker",
+      "id": "mavs_logo",
+      "label": "Mavericks Logo",
+      "info": "Recommended size: 200px width"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main Title",
+      "default": "Exclusive Flooring Partner of the Dallas Mavericks"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "A SLAM-DUNK PARTNERSHIP"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_1",
+      "label": "First Paragraph",
+      "default": "We are proud to partner with the Dallas Mavericks, a team that exemplifies both athletic excellence and a strong commitment to the community. Just as the Mavericks pursue greatness on and off the court, Flooret is committed to providing floors that not only look beautiful but also perform at the highest standard."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_2",
+      "label": "Second Paragraph",
+      "default": "We believe the spaces where you live and work should reflect your values and inspire your best. At the Mavericks' headquarters, our floors stand as a testament to the team's hard work, passion, and dedication to excellence. This partnership isn't just about flooring—it's about creating an environment that embodies their mission and supports their success, every step of the way."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button url"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mavs Header",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

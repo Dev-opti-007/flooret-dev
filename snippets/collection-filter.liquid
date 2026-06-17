@@ -1,0 +1,1553 @@
+{%- liquid
+  assign total_active_values = 0
+  assign sort_by = collection.sort_by | default: 'manual'
+
+  for filter in collection.filters
+    assign total_active_values = total_active_values | plus: filter.active_values.size
+    if filter.min_value.value != null or filter.max_value.value != null
+      assign total_active_values = total_active_values | plus: 1
+    endif
+  endfor
+-%}
+
+<style>
+  .col-facets__filters .filter {
+    width: auto;
+  }
+
+  @media screen and (min-width: 960px){
+    .col-facets__filters {
+      gap: 26px;
+    }
+    .col-facets__filters, .col-facets__filters .filter__content ul {
+      flex-direction: row;
+    }
+  }
+</style>
+
+<div class="col-filters js-header-sticky">
+  <div class="container collection-filter">
+    <button class="reset show-filters mob-only" type="button">
+      {% render 'svg-filter' %}
+      {{ 'global.show_all_filters' | t }}
+    </button>
+
+    <form class="col-facets js-adjust-to-header js-header-sticky" id="col-facets">
+      <input id="sort_by" type="hidden" name="sort_by" value="{{ sort_by }}">
+      {%- if collection.terms -%}
+        <input type="hidden" name="q" value="{{ collection.terms | escape }}">
+        <input name="options[prefix]" type="hidden" value="last">
+      {%- endif -%}
+
+      <button type="submit" class="col-facets__submit hidden">Submit</button>
+      <div class="overflow">
+        <div class="col-facets__mob-header mob-only">
+          <span>{{ collection.products_count }} Results</span>
+          <button class="reset col-facets__close show-filters" type="button">{% render 'svg-close' %}</button>
+        </div>
+        <div class="wrap-filter-inner">
+          <div class="container">
+            <div class="col-facets__filters devtest">
+              {%- for filter in collection.filters -%}
+                {% liquid
+                  assign listClass = 'one-col'
+                  if filter.values.size > 3 and filter.values < 7
+                    assign listClass = 'two-col'
+                  elsif filter.values.size > 6
+                    assign listClass = 'three-col'
+                  endif
+
+                  if filter.values.size == 0
+                    continue
+                  endif
+                  if filter.values.size == 1
+                    continue
+                  endif
+
+                  # if filter.label == 'Model' and collection.handle != 'modin-luxury-vinyl-plank'
+                  # continue
+                  # endif
+
+                  # if filter.label == 'Plank Width' and collection.handle != 'all'
+                  # continue
+                  # endif
+
+                  if filter.label == 'Plank Width' and collection.handle == 'sample-kits'
+                    continue
+                  endif
+
+                  assign showCollectionFilterIn = 'trim-accessories,inspiration' | split: ','
+                %}
+                {%- assign eligible_values = 0 -%}
+                {%- for value in filter.values -%}
+                  {%- if value.label != 'Hidden' and value.label != 'show-sqft-price-in-product' -%}
+                    {%- assign eligible_values = eligible_values | plus: 1 -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if eligible_values > 1 -%}
+                  {% assign filter_label = filter.label | handleize %}
+                  {% unless filter_label == 'character' %}
+                    <fieldset class="filter filter--{{ filter.label | handleize }}">
+                      <div class="wrap-filter-fieldset">
+                        <legend data-label="{{ filter.label | handleize }}">
+                          {% assign label = filter.label | handleize %}
+                          {% if label == 'plank-width' %}
+                            Size
+                          {% else %}
+                            {{ filter.label }}
+                            {% render 'svg-chevron' %}
+                          {% endif %}
+                        </legend>
+                        <div class="filter__content">
+                          <div class="container">
+                            {% if filter.type == 'price_range' %}
+                              <div class="price-range">
+                                <label for="Mobile-Filter-{{ filter.label | escape }}-GTE">
+                                  Min
+                                  <input
+                                    class="field__input"
+                                    name="{{ filter.min_value.param_name }}"
+                                    id="Mobile-Filter-{{ filter.label | escape }}-GTE"
+                                    {%- if filter.min_value.value -%}
+                                      {%- if uses_comma_decimals -%}
+                                        value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                      {%- else -%}
+                                        value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                                      {%- endif %}
+                                    {%- endif -%}
+                                    type="number"
+                                    placeholder="0"
+                                    min="0"
+                                    inputmode="decimal"
+                                    {%- if uses_comma_decimals -%}
+                                      max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                    {%- else -%}
+                                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                    {% endif %}
+                                  >
+                                </label>
+                                <label for="Mobile-Filter-{{ filter.label | escape }}-LTE">
+                                  Max
+                                  <input
+                                    class="field__input"
+                                    name="{{ filter.max_value.param_name }}"
+                                    id="Mobile-Filter-{{ filter.label | escape }}-LTE"
+                                    {%- if filter.max_value.value -%}
+                                      {%- if uses_comma_decimals -%}
+                                        value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                      {%- else -%}
+                                        value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                                      {%- endif %}
+                                    {%- endif -%}
+                                    type="number"
+                                    min="0"
+                                    inputmode="decimal"
+                                    {%- if uses_comma_decimals -%}
+                                      placeholder="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                      max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                    {%- else -%}
+                                      placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                    {% endif %}
+                                  >
+                                </label>
+                              </div>
+                            {% elsif filter.label == 'Plank Size' %}
+                              <ul class="filter-group--{{ filter.label | handleize }}" id="plank-size">
+                                {% for value in filter.values %}
+                                  {{ value }}
+                                  {%- liquid
+                                    assign filter_handle = blank
+                                    assign filter_img = blank
+
+                                    if value.label == 'Hidden'
+                                      continue
+                                    endif
+
+                                    if value.display.type == 'image'
+                                      assign filter_handle = value.display.value | handleize
+                                      assign filter_img = value.display.value
+                                    endif
+
+                                    if filter.label == 'Plank Size' or filter.label == 'Model'
+                                      assign filter_handle = value.label | handleize
+                                      assign filter_img = shop.metaobjects.product_model[filter_handle].image
+                                    endif
+                                  -%}
+
+                                  <li class="filter-option--{{ value.value | handleize }}">
+                                    <input
+                                      type="radio"
+                                      id="{{ filter.param_name | escape }}-{{ forloop.index }}"
+                                      class="hidden"
+                                      name="{{ value.param_name }}"
+                                      value="{{ value.value }}"
+                                      {% if value.active %}
+                                        checked
+                                      {% endif %}
+                                      {% if value.count == 0 and value.active == false %}
+                                        disabled
+                                      {% endif %}
+                                    >
+                                    <label
+                                      class="col-facets__item"
+                                      title="{{ value.label }}"
+                                      for="{{ filter.param_name | escape }}-{{ forloop.index }}"
+                                    >
+                                      {%- if filter_img != blank -%}
+                                        <span class="col-facets__icon {{ filter.param_name | escape }}-{{ forloop.index }}">
+                                          <img
+                                            src="{{ filter_img | image_url: width: 100, height: 100 }}"
+                                            width="auto"
+                                            height="auto"
+                                          >
+                                        </span>
+                                      {%- endif -%}
+                                      <span class="col-facets__label">
+                                        
+                                        {% if value.label == '4.2" herringbone' %}
+                                          4.2"
+                                        {% else %}
+                                          {{- value.label }}
+                                        {% endif %}
+                                        <span class="count">({{ value.count }})</span></span
+                                      >
+                                    </label>
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            {% else %}
+                              <ul class="filter-group--{{ filter.label | handleize }}">
+                                {% for value in filter.values %}
+                                  {%- liquid
+                                    assign filter_handle = blank
+                                    assign filter_img = blank
+
+                                    if value.label == 'Hidden'
+                                      continue
+                                    endif
+
+                                    if value.display.type == 'image'
+                                      assign filter_handle = value.display.value | handleize
+                                      assign filter_img = value.display.value
+                                    endif
+
+                                    if filter.label == 'Plank Size' or filter.label == 'Model'
+                                      assign filter_handle = value.label | handleize
+                                      assign filter_img = shop.metaobjects.product_model[filter_handle].image
+                                    endif
+                                  -%}
+                                  {% unless value.value == 'Cat--Arista' or value.value == 'new color' %}
+                                    <li
+                                      id="plank_input"
+                                      
+                                      {% comment %} value="{{ value.value | handleize }}" {% endcomment %}
+                                      value="{{ value.label | remove:'"' }}"
+                                      123123
+                                      class="filter-option--{{ value.value | handleize }}"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                        id="{{ filter.param_name | escape }}-{{ forloop.index }}"
+                                        class="hidden"
+                                        name="{{ value.param_name }}"
+                                        value="{{ value.value }}"
+                                        {% comment %} value="{{ value.label | remove:'"' }}" {% endcomment %}
+                                        {% if value.active %}
+                                          checked
+                                        {% endif %}
+                                        {% if value.count == 0 and value.active == false %}
+                                          disabled
+                                        {% endif %}
+                                      >
+                                      <label
+                                        class="col-facets__item"
+                                        title="{{ value.label }}"
+                                        for="{{ filter.param_name | escape }}-{{ forloop.index }}"
+                                      >
+                                        {%- if filter_img != blank -%}
+                                          <span class="col-facets__icon {{ filter.param_name | escape }}-{{ forloop.index }}">
+                                            <img src="{{ filter_img | image_url: width: 100, height: 100 }}" width="100" height="100">
+                                          </span>
+                                        {%- endif -%}
+                                        <span class="col-facets__label">
+                                           {% if value.label == '4.2" herringbone' %}
+                                          4.2"
+                                        {% else %}
+                                          {{- value.label }}
+                                        {% endif %}
+                                          <span class="count">({{ value.count }})</span></span
+                                        >
+                                      </label>
+                                    </li>
+                                  {% endunless %}
+                                {% endfor %}
+                              </ul>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                  {% endunless %}
+                {% endif %}
+              {% endfor %}
+            </div>
+            <div class="filter filter--sortby">
+              <label>Sort By </label>
+              <div class="select-menu">
+                <select
+                  name="facet-filter__sort"
+                  class="facet-filters__sort select__select caption-large"
+                  id="SortBy"
+                  aria-describedby="a11y-refresh-page-message"
+                >
+                  {%- for option in collection.sort_options -%}
+                    {% comment %} {% unless option.value == 'price-ascending' or option.value == 'price-descending' %}   {% endcomment %}
+                    <option
+                      value="{{ option.value | escape }}"
+                      {% if option.value == sort_by %}
+                        selected="selected"
+                      {% endif %}
+                    >
+                      {{ option.name | escape }}
+                    </option>
+                    {% comment %} {% endunless %} {% endcomment %}
+                  {%- endfor -%}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if total_active_values > 0 %}
+          <div class="selected-filters">
+            <div class="container filter-group">
+              {% comment %} <span class="selected-filters__label">My Filters: </span> {% endcomment %}
+              <div class="selected-filters__selected">
+                {%- for filter in collection.filters -%}
+                  {%- for filter_value in filter.active_values -%}
+                    <button
+                      class="remove-filter"
+                      type="button"
+                      data-ftype="{{ filter_value }}"
+                      data-remove="{{ filter_value.url_to_remove }}"
+                    >
+                      <span> x </span>
+                      {{ filter_value.label | escape }}
+                    </button>
+                  {%- endfor -%}
+                  {%- if filter.type == 'price_range' -%}
+                    {%- if filter.min_value.value != null or filter.max_value.value != null -%}
+                      <button class="remove-filter" type="button" data-remove="{{ filter.url_to_remove }}">
+                        <span></span>
+                        {%- liquid
+                          if filter.min_value.value
+                            echo filter.min_value.value | money
+                          else
+                            echo 0 | money
+                          endif
+                          echo '-'
+                          if filter.max_value.value
+                            echo filter.max_value.value | money
+                          else
+                            echo filter.range_max | money
+                          endif
+                        %}
+                      </button>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+
+{% comment %} <script>
+  let lastClickTime = 0;
+  const DEBOUNCE_TIME = 100; // milliseconds
+
+  function getSelectionOrder() {
+    return JSON.parse(localStorage.getItem('TRACK_ORDER')) || [];
+  }
+
+  function saveSelectionOrder(order) {
+    localStorage.setItem('TRACK_ORDER', JSON.stringify(order));
+  }
+
+  function handlePlankClick(value) {
+    // Check if enough time has passed since last click
+    const now = Date.now();
+    if (now - lastClickTime < DEBOUNCE_TIME) {
+      return; // Ignore clicks that are too close together
+    }
+    lastClickTime = now;
+
+    let currentOrder = getSelectionOrder();
+    const isAlreadySelected = currentOrder.includes(value);
+
+    // Toggle the value
+    if (isAlreadySelected) {
+      currentOrder = currentOrder.filter((v) => v !== value);
+    } else {
+      currentOrder.push(value);
+    }
+
+    // Save immediately
+    saveSelectionOrder(currentOrder);
+  }
+
+  // Use requestAnimationFrame to ensure we're not fighting with other handlers
+  document.addEventListener('click', (e) => {
+    const plank = e.target.closest('li[id^="plank_input"]');
+    if (plank) {
+      const value = plank.getAttribute('value');
+      if (value) {
+        requestAnimationFrame(() => {
+          handlePlankClick(value.trim());
+        });
+      }
+    }
+  });
+
+  // Function to check the filter.p.tag values and update the display styles for multiple model info elements
+  function checkTagsAndUpdateDisplay() {
+    // Get the query string from the current URL
+    const queryString = window.location.search;
+
+    // Create a URLSearchParams instance
+    const urlParams = new URLSearchParams(queryString);
+
+    // Get all values for filter.p.tag (if there are multiple values)
+    const tags = urlParams.getAll('filter.p.tag');
+
+    const parsedTags = tags
+      .map((str) => parseFloat(str.match(/[\d.]+/)))
+      .filter((num) => !isNaN(num))
+      .map((num) => num.toString());
+
+    // Get all product card elements
+    const productMetaList = document.querySelectorAll('.product-card__meta.no-filter');
+    const productMetaHasFilterList = document.querySelectorAll('.product-card__meta.has-filter');
+    const productCardSwatchesList = document.querySelectorAll('.product-card-swatches');
+
+    // Get all product card image elements
+    const productImageHasFilterItems = document.querySelectorAll('.image-has-filter');
+    //  const productImageHasNoFilterItems = document.querySelectorAll('.image-no-filter');
+
+    // Get all .product -card__model-info elements with the 'has-filter' class
+    const modelInfoElements = document.querySelectorAll('.product-card__model-info.has-filter');
+
+    // Get all card image elements
+    const cardImageElements = document.querySelectorAll('.model-card-image');
+
+    // Check if filter.p.tag is present and has any value
+    if (parsedTags.length > 0) {
+      // Show all .product-card__meta.has-filter elements
+      productMetaHasFilterList.forEach((element) => {
+        //console.log("productMetaHasFilterList")
+        element.classList.remove('hidden');
+        element.classList.add('visible');
+        //let elements = document.querySelectorAll('.product-card__image.image-no-filter ul.slick-dots');
+        //elements.forEach((element)=>{
+          //element.style.display = 'none';
+        //});
+        //$('.product-card__image.image-no-filter').css({'display':'none'})
+      });
+
+      // Hide all .product-card__meta elements (no filter case)
+      productMetaList.forEach((element) => {
+        element.classList.remove('visible');
+        element.classList.add('hidden');
+      });
+
+      // Hide all .product-card-swatches elements (if needed)
+      {% comment %} productCardSwatchesList.forEach((element) => {
+        element.classList.remove('visible');
+        element.classList.add('hidden');
+      }); {% endcomment %}
+
+      // Show all filtered elements (if needed)
+      productImageHasFilterItems.forEach((element) => {
+        element.classList.remove('hidden');
+        element.classList.add('visible');
+      });
+
+      // Hide all no filtered elements (if needed)
+      //      productImageHasNoFilterItems.forEach(element => {
+      //        element.classList.remove('visible');
+      //        element.classList.add('hidden');
+      //      });
+
+      // Loop through all .product-card__model-info elements with the 'has-filter' class
+      modelInfoElements.forEach((modelInfoElement) => {
+        // Get the target value from the element's target attribute, removing ' in'
+        const targetValue = modelInfoElement.getAttribute('target').replace(' in', '');
+        const sanitizedTags = tags.map((tag) => tag.replace(/"/g, ''));
+
+        // Show the element if the target matches any of the filter.p.tag values
+        if (sanitizedTags?.includes(targetValue)) {
+          modelInfoElement.classList.remove('hidden');
+          modelInfoElement.classList.add('visible');
+        } else {
+          // Hide the element if the target does not match
+          modelInfoElement.classList.remove('visible');
+          modelInfoElement.classList.add('hidden');
+        }
+      });
+
+      cardImageElements.forEach((cardImageElement, index) => {
+        const targetValue = cardImageElement.getAttribute('target').replace(' in', '');
+        const sanitizedTags = parsedTags.map((tag) => tag.replace(/"/g, ''));
+
+        const showElement = () => {
+          cardImageElement.classList.remove('hidden');
+          cardImageElement.classList.add('visible');
+          cardImageElement.setAttribute('target-visible', 'true');
+        };
+
+        const hideElement = () => {
+          cardImageElement.classList.remove('visible');
+          cardImageElement.classList.add('hidden');
+          cardImageElement.setAttribute('target-visible', 'false');
+        };
+
+        if (sanitizedTags?.length > 1) {
+          const currentOrder = JSON.parse(localStorage.getItem('TRACK_ORDER')) || [];
+          const parsedOrder = currentOrder
+            .filter((item) => /^\d+(-\d+)?-quot$/.test(item))
+            .map((item) => item.replace('-quot', '').replace('-', '.'));
+
+          if (parsedOrder.at(-1) == targetValue) {
+            showElement();
+          } else {
+            hideElement();
+          }
+        } else if (sanitizedTags[0]) {
+          if (sanitizedTags[0] == targetValue || targetValue == '7.7') {
+            showElement();
+          } else {
+            hideElement();
+          }
+        }
+      });
+    } else {
+      // No filter tag, hide all .product-card__meta.has-filter elements and show all .product-card__meta elements
+      productMetaHasFilterList.forEach((element) => {
+        element.classList.remove('visible');
+        element.classList.add('hidden');
+      });
+
+      productMetaList.forEach((element) => {
+        element.classList.remove('hidden');
+        element.classList.add('visible');
+      });
+
+      // Show all .product-card-swatches elements (if needed)
+      productCardSwatchesList.forEach((element) => {
+        element.classList.remove('hidden');
+        element.classList.add('visible');
+      });
+
+      // Hide all filtered elements (if needed)
+      productImageHasFilterItems.forEach((element) => {
+        element.classList.remove('visible');
+        element.classList.add('hidden');
+      });
+
+      // Show all no filtered elements (if needed)
+      //        productImageHasNoFilterItems.forEach(element => {
+      //        element.classList.remove('hidden');
+      //        element.classList.add('visible');
+      //      });
+
+      // Hide all .product-card__model-info.has-filter elements if no filter is applied
+      modelInfoElements.forEach((modelInfoElement) => {
+        modelInfoElement.classList.remove('visible');
+        modelInfoElement.classList.add('hidden');
+      });
+    }
+  }
+
+  // Set an interval to check every 0.5 seconds
+  setInterval(checkTagsAndUpdateDisplay, 500);
+</script> {% endcomment %}
+
+<script>
+  function normalizeValue(value = '') {
+    return value
+      .toString()
+      .replace(/"/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+  }
+
+  function getSelectedPlankValues() {
+    const checkedInputs = document.querySelectorAll(
+      '.filter-group--plank-width input[name="filter.p.tag"]:checked'
+    );
+
+    return Array.from(checkedInputs)
+      .map((input) => input.closest('li'))
+      .filter(Boolean)
+      .map((li) => normalizeValue(li.getAttribute('value')))
+      .filter(Boolean);
+  }
+
+  function updatePlankMatchedContent() {
+    const selectedValues = getSelectedPlankValues();
+
+    {% comment %} console.log('selectedValues:', selectedValues); {% endcomment %}
+
+    const noFilterMeta = document.querySelectorAll('.product-card__meta.no-filter');
+    const hasFilterMeta = document.querySelectorAll('.product-card__meta.has-filter');
+    const allModelInfos = document.querySelectorAll('.product-card__model-info.has-filter');
+
+    if (selectedValues.length === 0) {
+      noFilterMeta.forEach((el) => {
+        el.classList.remove('hidden');
+        el.classList.add('visible');
+      });
+
+      hasFilterMeta.forEach((el) => {
+        el.classList.remove('visible');
+        el.classList.add('hidden');
+      });
+
+      allModelInfos.forEach((el) => {
+        el.classList.remove('visible');
+        el.classList.add('hidden');
+      });
+
+      return;
+    }
+
+    noFilterMeta.forEach((el) => {
+      el.classList.remove('visible');
+      el.classList.add('hidden');
+    });
+
+    hasFilterMeta.forEach((el) => {
+      el.classList.remove('hidden');
+      el.classList.add('visible');
+    });
+
+    allModelInfos.forEach((el) => {
+      const targetValue = normalizeValue(el.getAttribute('target'));
+      const matched = selectedValues.includes(targetValue);
+
+      console.log('target:', targetValue, 'matched:', matched);
+
+      el.classList.toggle('visible', matched);
+      el.classList.toggle('hidden', !matched);
+    });
+  }
+
+  document.addEventListener('change', function (e) {
+    if (e.target.matches('.filter-group--plank-width input[name="filter.p.tag"]')) {
+      setTimeout(updatePlankMatchedContent, 150);
+    }
+  });
+
+  updatePlankMatchedContent();
+
+  setInterval(updatePlankMatchedContent, 500);
+</script>
+
+{% comment %} 
+{% assign active_collection_filter = '' %}
+{% for filter in collection.filters %}
+  {% if filter.param_name == 'filter.p.m.custom.product_collection' %}
+    {% for value in filter.active_values %}
+      {% assign active_collection_filter = value.value %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
+{% if active_collection_filter == 'Modin' %}
+    {% for block in section.blocks  %}
+      {% case block.type %}
+          {% when 'true-plank' %}
+            {%- liquid
+  assign tab1_features_count = 3
+  assign tab2_features_count = 3
+-%}
+
+<section class="pcs pcs--{{ section.id }}{% if block.settings.full_width %} pcs--full-width{% endif %}">
+
+  {%- comment -%} ══ HEADER ROW ══ {%- endcomment -%}
+  <div class="pcs__header">
+    <div class="pcs__header-left">
+      {%- if block.settings.step_number != blank -%}
+        <span class="pcs__step-number" aria-hidden="true">{{ block.settings.step_number }}</span>
+      {%- endif -%}
+      <div class="pcs__header-meta">
+        {%- if block.settings.step_label != blank -%}
+          <p class="pcs__step-label">{{ block.settings.step_label }}</p>
+        {%- endif -%}
+        {%- if block.settings.section_title != blank -%}
+          <h2 class="pcs__title">{{ block.settings.section_title }}</h2>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- if block.settings.header_description != blank -%}
+      <div class="pcs__header-right">
+        <p class="pcs__header-desc">{{ block.settings.header_description }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ══ TAB SWITCHER ══ {%- endcomment -%}
+  <div class="pcs__tabs-row">
+    <div class="pcs__tabs" role="tablist">
+      <button
+        class="pcs__tab pcs__tab--1 is-active"
+        role="tab"
+        aria-selected="true"
+        aria-controls="pcs-panel-{{ section.id }}"
+        data-tab="1"
+        id="pcs-tab1-{{ section.id }}">
+        {{ block.settings.tab1_label | default: 'TrueStep' }}
+      </button>
+      <button
+        class="pcs__tab pcs__tab--2"
+        role="tab"
+        aria-selected="false"
+        aria-controls="pcs-panel-{{ section.id }}"
+        data-tab="2"
+        id="pcs-tab2-{{ section.id }}">
+        {{ block.settings.tab2_label | default: 'TruePlank' }}
+      </button>
+    </div>
+    {%- if block.settings.tabs_tagline != blank -%}
+      <p class="pcs__tabs-tagline">{{ block.settings.tabs_tagline }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ══ MAIN PANEL ══ {%- endcomment -%}
+  <div class="pcs__panel" id="pcs-panel-{{ section.id }}" role="tabpanel">
+
+    {%- comment -%} ── LEFT: Single image per tab ── {%- endcomment -%}
+    <div class="pcs__image-col">
+
+      <div class="pcs__slides" aria-live="polite">
+
+        {%- comment -%} TAB 1 IMAGE {%- endcomment -%}
+        <div class="pcs__slide pcs__slide--tab1 is-active" data-tab="1">
+          {%- if block.settings.tab1_slide1_image != blank -%}
+            <img
+              src="{{ block.settings.tab1_slide1_image | image_url: width: block.settings.slide_image_width | default: 800 }}"
+              alt="{{ block.settings.tab1_slide1_image.alt | escape }}"
+              loading="lazy"
+              width="800"
+              height="600">
+          {%- else -%}
+            <div class="pcs__slide-placeholder">
+              <span>Image or drawings</span>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} TAB 2 IMAGE {%- endcomment -%}
+        <div class="pcs__slide pcs__slide--tab2" data-tab="2" style="display:none;">
+          {%- if block.settings.tab2_slide1_image != blank -%}
+            <img
+              src="{{ block.settings.tab2_slide1_image | image_url: width: block.settings.slide_image_width | default: 800 }}"
+              alt="{{ block.settings.tab2_slide1_image.alt | escape }}"
+              loading="lazy"
+              width="800"
+              height="600">
+          {%- else -%}
+            <div class="pcs__slide-placeholder">
+              <span>Image or drawings</span>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} TAB 1 HOTSPOTS {%- endcomment -%}
+        {%- for i in (1..3) -%}
+          {%- liquid
+            assign dot_top_key  = 'tab1_s1_dot' | append: i | append: '_top'
+            assign dot_left_key = 'tab1_s1_dot' | append: i | append: '_left'
+          -%}
+          <button
+            class="pcs__hotspot pcs__hotspot--tab1"
+            data-tab="1"
+            style="top:{{ block.settings[dot_top_key] | default: 30 }}%;left:{{ block.settings[dot_left_key] | default: 25 }}%;"
+            aria-label="Feature {{ i }}">
+            {{ i }}
+          </button>
+        {%- endfor -%}
+
+        {%- comment -%} TAB 2 HOTSPOTS {%- endcomment -%}
+        {%- for i in (1..3) -%}
+          {%- liquid
+            assign dot_top_key  = 'tab2_s1_dot' | append: i | append: '_top'
+            assign dot_left_key = 'tab2_s1_dot' | append: i | append: '_left'
+          -%}
+          <button
+            class="pcs__hotspot pcs__hotspot--tab2"
+            data-tab="2"
+            style="top:{{ block.settings[dot_top_key] | default: 30 }}%;left:{{ block.settings[dot_left_key] | default: 25 }}%;"
+            aria-label="Feature {{ i }}"
+            hidden>
+            {{ i }}
+          </button>
+        {%- endfor -%}
+
+      </div>
+
+      {%- comment -%} Pagination dots now switch tabs {%- endcomment -%}
+      <div class="pcs__pagination" role="tablist" aria-label="Product navigation">
+        <button
+          class="pcs__dot is-active"
+          data-tab-dot="1"
+          role="tab"
+          aria-selected="true"
+          aria-label="Show {{ block.settings.tab1_label | default: 'Tab 1' }}">
+        </button>
+        <button
+          class="pcs__dot"
+          data-tab-dot="2"
+          role="tab"
+          aria-selected="false"
+          aria-label="Show {{ block.settings.tab2_label | default: 'Tab 2' }}">
+        </button>
+      </div>
+
+    </div>
+
+    {%- comment -%} ── RIGHT: Product Info ── {%- endcomment -%}
+    <div class="pcs__info-col">
+
+      {%- comment -%} TAB 1 CONTENT {%- endcomment -%}
+      <div class="pcs__tab-content pcs__tab-content--1 is-active" data-content="1">
+        {%- if block.settings.tab1_product_title != blank -%}
+          <h3 class="pcs__product-title">{{ block.settings.tab1_product_title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.tab1_product_desc != blank -%}
+          <p class="pcs__product-desc">{{ block.settings.tab1_product_desc }}</p>
+        {%- endif -%}
+
+        <div class="pcs__features">
+          {%- for i in (1..3) -%}
+            {%- liquid
+              assign feat_img_key    = 'tab1_feat' | append: i | append: '_image'
+              assign feat_title_key  = 'tab1_feat' | append: i | append: '_title'
+              assign feat_detail_key = 'tab1_feat' | append: i | append: '_detail'
+              assign feat_img        = block.settings[feat_img_key]
+              assign feat_title      = block.settings[feat_title_key]
+              assign feat_detail     = block.settings[feat_detail_key]
+            -%}
+            {%- if feat_title != blank -%}
+              <div class="pcs__feature">
+                <div class="pcs__feature-img">
+                  {%- if feat_img != blank -%}
+                    <img src="{{ feat_img | image_url: width: 160 }}" alt="{{ feat_img.alt | escape }}" loading="lazy" width="80" height="80">
+                  {%- else -%}
+                    <div class="pcs__feature-img-placeholder"></div>
+                  {%- endif -%}
+                </div>
+                <div class="pcs__feature-text">
+                  <p class="pcs__feature-title">{{ feat_title }}</p>
+                  {%- if feat_detail != blank -%}
+                    <p class="pcs__feature-detail">{{ feat_detail }}</p>
+                  {%- endif -%}
+                </div>
+                <span class="pcs__feature-badge" aria-hidden="true">{{ i }}</span>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if block.settings.tab1_btn_text != blank -%}
+          <a class="pcs__cta" href="{{ block.settings.tab1_btn_url }}">
+            {{ block.settings.tab1_btn_text }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} TAB 2 CONTENT {%- endcomment -%}
+      <div class="pcs__tab-content pcs__tab-content--2" data-content="2" style="display:none;">
+        {%- if block.settings.tab2_product_title != blank -%}
+          <h3 class="pcs__product-title">{{ block.settings.tab2_product_title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.tab2_product_desc != blank -%}
+          <p class="pcs__product-desc">{{ block.settings.tab2_product_desc }}</p>
+        {%- endif -%}
+
+        <div class="pcs__features">
+          {%- for i in (1..3) -%}
+            {%- liquid
+              assign feat_img_key    = 'tab2_feat' | append: i | append: '_image'
+              assign feat_title_key  = 'tab2_feat' | append: i | append: '_title'
+              assign feat_detail_key = 'tab2_feat' | append: i | append: '_detail'
+              assign feat_img        = block.settings[feat_img_key]
+              assign feat_title      = block.settings[feat_title_key]
+              assign feat_detail     = block.settings[feat_detail_key]
+            -%}
+            {%- if feat_title != blank -%}
+              <div class="pcs__feature">
+                <div class="pcs__feature-img">
+                  {%- if feat_img != blank -%}
+                    <img src="{{ feat_img | image_url: width: 160 }}" alt="{{ feat_img.alt | escape }}" loading="lazy" width="80" height="80">
+                  {%- else -%}
+                    <div class="pcs__feature-img-placeholder"></div>
+                  {%- endif -%}
+                </div>
+                <div class="pcs__feature-text">
+                  <p class="pcs__feature-title">{{ feat_title }}</p>
+                  {%- if feat_detail != blank -%}
+                    <p class="pcs__feature-detail">{{ feat_detail }}</p>
+                  {%- endif -%}
+                </div>
+                <span class="pcs__feature-badge" aria-hidden="true">{{ i }}</span>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if block.settings.tab2_btn_text != blank -%}
+          <a class="pcs__cta" href="{{ block.settings.tab2_btn_url }}">
+            {{ block.settings.tab2_btn_text }}
+          </a>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<style>
+  .pcs--{{ section.id }} {
+    --pcs-font-heading: '{{ block.settings.font_heading }}', sans-serif;
+    --pcs-font-body: '{{ block.settings.font_body }}', sans-serif;
+    --pcs-accent: {{ block.settings.accent_color | default: '#f5a623' }};
+    --pcs-accent-hover: {{ block.settings.accent_hover_color | default: '#d48f0f' }};
+    --pcs-bg: {{ block.settings.section_bg | default: '#ffffff' }};
+    --pcs-panel-bg: {{ block.settings.panel_bg | default: '#f5f3ef' }};
+    --pcs-feature-bg: {{ block.settings.feature_bg | default: '#ffffff' }};
+    --pcs-text: {{ block.settings.text_color | default: '#1a1a1a' }};
+    --pcs-text-muted: {{ block.settings.text_muted_color | default: '#000000' }};
+    --pcs-step-number-color: {{ block.settings.step_number_color | default: '#e8e3db' }};
+    --pcs-tab-active-bg: {{ block.settings.tab_active_bg | default: '#1a1a1a' }};
+    --pcs-tab-active-text: {{ block.settings.tab_active_text | default: '#ffffff' }};
+    --pcs-tab-inactive-bg: {{ block.settings.tab_inactive_bg | default: '#ffffff' }};
+    --pcs-tab-inactive-text: {{ block.settings.tab_inactive_text | default: '#1a1a1a' }};
+    --pcs-radius: {{ block.settings.panel_radius | default: 16 }}px;
+    --pcs-feature-radius: {{ block.settings.feature_radius | default: 12 }}px;
+  }
+
+  .pcs--{{ section.id }} {
+    width: 100%;
+    background: var(--pcs-bg);
+    font-family: var(--pcs-font-body, sans-serif);
+    color: var(--pcs-text);
+    {% unless block.settings.full_width %}
+      max-width: {{ block.settings.section_max_width | default: 1200 }}px;
+      margin-inline: auto;
+    {% endunless %}
+    padding: {{ block.settings.section_padding_top | default: 60 }}px
+             {{ block.settings.section_padding_h | default: 24 }}px
+             {{ block.settings.section_padding_bottom | default: 60 }}px;
+  }
+
+  .pcs--{{ section.id }} .pcs__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: {{ block.settings.header_gap | default: 40 }}px;
+    margin-bottom: {{ block.settings.header_mb | default: 40 }}px;
+  }
+
+  .pcs--{{ section.id }} .pcs__header-left {
+    display: flex;
+    align-items: flex-start;
+    gap: {{ block.settings.step_gap | default: 20 }}px;
+    flex: 1;
+  }
+
+  .pcs--{{ section.id }} .pcs__step-number {
+    font-family: var(--pcs-font-heading, sans-serif);
+    font-size: {{ block.settings.step_number_size | default: 110 }}px;
+    font-weight: {{ block.settings.step_number_weight | default: 700 }};
+    line-height: 0.85;
+    color: var(--pcs-step-number-color);
+    letter-spacing: -2px;
+    user-select: none;
+    flex-shrink: 0;
+    font-family: Playfair;
+    font-weight: 600;
+    font-size: 200px;
+    line-height: 50.4px;
+    vertical-align: middle;
+  }
+
+  .pcs--{{ section.id }} .pcs__header-meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 4px;
+  }
+
+  .pcs--{{ section.id }} .pcs__step-label {
+    margin: 0 0 4px;
+    font-size: {{ block.settings.step_label_size | default: 12 }}px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pcs-text-muted);
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.6px;
+    color: #4A5565;
+  }
+
+  .pcs--{{ section.id }} .pcs__title {
+    margin: 0;
+    font-family: var(--pcs-font-heading, sans-serif);
+    font-size: {{ block.settings.title_size_desktop | default: 36 }}px;
+    font-weight: {{ block.settings.title_weight | default: 700 }};
+    line-height: 1.1;
+    color: var(--pcs-text);
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: 0.4px;
+  }
+
+  .pcs--{{ section.id }} .pcs__header-right {
+    max-width: {{ block.settings.header_desc_max_width | default: 300 }}px;
+    flex-shrink: 0;
+  }
+
+  .pcs--{{ section.id }} .pcs__header-desc {
+    margin: 0;
+    font-size: {{ block.settings.header_desc_size | default: 15 }}px;
+    line-height: 1.6;
+    color: var(--pcs-text-muted);
+    text-align: left;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.31px;
+  }
+
+  .pcs--{{ section.id }} .pcs__tabs-row {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.tabs_gap | default: 20 }}px;
+    margin-bottom: {{ block.settings.tabs_mb | default: 20 }}px;
+  }
+
+  .pcs--{{ section.id }} .pcs__tabs {
+    display: flex;
+    background: {{ block.settings.tabs_track_bg | default: '#eeebe5' }};
+    border-radius: {{ block.settings.tab_radius | default: 50 }}px;
+    padding: {{ block.settings.tabs_track_padding | default: 4 }}px;
+    gap: 0;
+  }
+
+  .pcs--{{ section.id }} .pcs__tab {
+    padding: {{ block.settings.tab_padding_v | default: 10 }}px {{ block.settings.tab_padding_h | default: 22 }}px;
+    border-radius: {{ block.settings.tab_radius | default: 50 }}px;
+    font-family: var(--pcs-font-body, sans-serif);
+    font-size: {{ block.settings.tab_font_size | default: 15 }}px;
+    font-weight: {{ block.settings.tab_font_weight | default: 500 }};
+    background: var(--pcs-tab-inactive-bg);
+    color: var(--pcs-tab-inactive-text);
+    border: none;
+    cursor: pointer;
+    transition: background 0.22s ease, color 0.22s ease;
+    outline: none;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 19.5px;
+    text-align: center;
+  }
+
+  .pcs--{{ section.id }} .pcs__tab[aria-selected="true"],
+  .pcs--{{ section.id }} .pcs__tab.is-active {
+    background: var(--pcs-tab-active-bg);
+    color: var(--pcs-tab-active-text);
+  }
+
+  .pcs--{{ section.id }} .pcs__tabs-tagline {
+    margin: 0;
+    font-size: {{ block.settings.tagline_size | default: 14 }}px;
+    color: var(--pcs-text-muted);
+    font-family: Montserrat;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21.6px;
+  }
+
+  .pcs--{{ section.id }} .pcs__panel {
+    display: grid;
+    grid-template-columns: {{ block.settings.panel_left_width | default: 47 }}% 1fr;
+    gap: {{ block.settings.panel_gap | default: 0 }}px;
+    background: var(--pcs-panel-bg);
+    border-radius: var(--pcs-radius);
+    overflow: hidden;
+    min-height: {{ block.settings.panel_min_height | default: 560 }}px;
+  }
+
+  .pcs--{{ section.id }} .pcs__image-col {
+    position: relative;
+    background: {{ block.settings.image_col_bg | default: '#e8e4dc' }};
+    border-radius: var(--pcs-radius) 0 0 var(--pcs-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pcs--{{ section.id }} .pcs__slides {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    margin: 15px 0 15px 15px;
+  }
+
+  .pcs--{{ section.id }} .pcs__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .pcs--{{ section.id }} .pcs__slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .pcs--{{ section.id }} .pcs__slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+  }
+
+  .pcs--{{ section.id }} .pcs__slide-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: {{ block.settings.slide_placeholder_bg | default: '#ddd8ce' }};
+    color: {{ block.settings.slide_placeholder_text | default: '#999' }};
+    font-size: 14px;
+  }
+
+  .pcs--{{ section.id }} .pcs__hotspot {
+    position: absolute;
+    width: {{ block.settings.hotspot_size | default: 36 }}px;
+    height: {{ block.settings.hotspot_size | default: 36 }}px;
+    border-radius: 50%;
+    background: var(--pcs-accent);
+    color: {{ block.settings.hotspot_text_color | default: '#ffffff' }};
+    font-size: {{ block.settings.hotspot_font_size | default: 14 }}px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    transition: transform 0.2s ease, background 0.2s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  .pcs--{{ section.id }} .pcs__hotspot:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: var(--pcs-accent-hover);
+  }
+
+  .pcs--{{ section.id }} .pcs__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: {{ block.settings.dot_gap | default: 8 }}px;
+    padding: {{ block.settings.dot_padding | default: 16 }}px;
+    background: transparent;
+    flex-shrink: 0;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+  }
+
+  .pcs--{{ section.id }} .pcs__dot {
+    width: {{ block.settings.dot_size | default: 32 }}px;
+    height: {{ block.settings.dot_height | default: 4 }}px;
+    border-radius: {{ block.settings.dot_radius | default: 4 }}px;
+    background: {{ block.settings.dot_inactive_color | default: '#c0bab0' }};
+    border: none;
+    cursor: pointer;
+    transition: background 0.22s ease, width 0.22s ease;
+    padding: 0;
+  }
+
+  .pcs--{{ section.id }} .pcs__dot.is-active {
+    background: var(--pcs-accent);
+    width: {{ block.settings.dot_active_width | default: 36 }}px;
+  }
+
+  .pcs--{{ section.id }} .pcs__info-col {
+    padding: {{ block.settings.info_padding_v | default: 40 }}px {{ block.settings.info_padding_h | default: 40 }}px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pcs--{{ section.id }} .pcs__tab-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .pcs--{{ section.id }} .pcs__product-title {
+    margin: 0 0 {{ block.settings.product_title_mb | default: 12 }}px;
+    font-family: var(--pcs-font-heading, sans-serif);
+    font-size: {{ block.settings.product_title_size | default: 30 }}px;
+    font-weight: {{ block.settings.product_title_weight | default: 700 }};
+    line-height: 1.15;
+    color: var(--pcs-text);
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: 0.4px;
+  }
+
+  .pcs--{{ section.id }} .pcs__product-desc {
+    margin: 0 0 {{ block.settings.product_desc_mb | default: 24 }}px;
+    font-size: {{ block.settings.product_desc_size | default: 15 }}px;
+    line-height: 1.6;
+    color: var(--pcs-text-muted);
+    max-width: 56ch;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.31px;
+  }
+
+  .pcs--{{ section.id }} .pcs__features {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.feature_gap | default: 12 }}px;
+    margin-bottom: {{ block.settings.features_mb | default: 28 }}px;
+  }
+
+  .pcs--{{ section.id }} .pcs__feature {
+    display: grid;
+    grid-template-columns: {{ block.settings.feature_img_size | default: 116 }}px 1fr {{ block.settings.badge_size | default: 36 }}px;
+    align-items: center;
+    gap: {{ block.settings.feature_inner_gap | default: 16 }}px;
+    background: var(--pcs-feature-bg);
+    border-radius: var(--pcs-feature-radius);
+    padding: 10px 20px 10px 10px;
+    border: 1px solid {{ block.settings.feature_border_color | default: '#eeebe5' }};
+  }
+
+  .pcs--{{ section.id }} .pcs__feature-img {
+    width: {{ block.settings.feature_img_size | default: 116 }}px;
+    height: {{ block.settings.feature_img_height | default: 116 }}px;
+    border-radius: {{ block.settings.feature_img_radius | default: 8 }}px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: {{ block.settings.feature_img_placeholder_bg | default: '#e8e4dc' }};
+  }
+
+  .pcs--{{ section.id }} .pcs__feature-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pcs--{{ section.id }} .pcs__feature-img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: {{ block.settings.feature_img_placeholder_bg | default: '#e8e4dc' }};
+  }
+
+  .pcs--{{ section.id }} .pcs__feature-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .pcs--{{ section.id }} .pcs__feature-title {
+    margin: 0;
+    font-size: {{ block.settings.feature_title_size | default: 15 }}px;
+    font-weight: {{ block.settings.feature_title_weight | default: 600 }};
+    color: var(--pcs-text);
+    line-height: 1.3;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .pcs--{{ section.id }} .pcs__feature-detail {
+    margin: 0;
+    font-size: {{ block.settings.feature_detail_size | default: 13 }}px;
+    color: var(--pcs-text-muted);
+    line-height: 1.4;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    color: #4A5565;
+  }
+
+  .pcs--{{ section.id }} .pcs__feature-badge {
+    width: {{ block.settings.badge_size | default: 36 }}px;
+    height: {{ block.settings.badge_size | default: 36 }}px;
+    border-radius: 50%;
+    background: #FAAF4F;
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: Montserrat;
+    line-height: 24px;
+  }
+
+  .pcs--{{ section.id }} .pcs__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    margin-top: auto;
+    padding: {{ block.settings.cta_padding_v | default: 14 }}px {{ block.settings.cta_padding_h | default: 28 }}px;
+    background: var(--pcs-accent);
+    color: {{ block.settings.cta_text_color | default: '#111111' }};
+    font-family: var(--pcs-font-body, sans-serif);
+    font-size: {{ block.settings.cta_font_size | default: 16 }}px;
+    font-weight: {{ block.settings.cta_font_weight | default: 600 }};
+    border-radius: {{ block.settings.cta_border_radius | default: 50 }}px;
+    text-decoration: none;
+    min-height: 48px;
+    transition: background 0.25s ease, transform 0.2s ease;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.15px;
+  }
+
+  .pcs--{{ section.id }} .pcs__cta:hover {
+    background: var(--pcs-accent-hover);
+    color: {{ block.settings.cta_text_color | default: '#111111' }};
+    transform: translateY(-2px);
+  }
+
+  .pcs__header:has(.pcs__header-meta:empty) {
+    display: none;
+  }
+  .pcs__hotspot[hidden] {
+      display: none;
+  }
+
+  @media (max-width: 768px) {
+    .pcs--{{ section.id }} {
+      padding: {{ block.settings.section_padding_top_mob | default: 32 }}px
+               {{ block.settings.section_padding_h_mob | default: 16 }}px
+               {{ block.settings.section_padding_bottom_mob | default: 32 }}px;
+    }
+
+    .pcs--{{ section.id }} .pcs__cta {
+      width: 100%;
+    }
+
+    .pcs--{{ section.id }} .pcs__header {
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .pcs--{{ section.id }} .pcs__header-right {
+      max-width: 100%;
+    }
+
+    .pcs--{{ section.id }} .pcs__header-desc {
+      text-align: left;
+    }
+
+    .pcs--{{ section.id }} .pcs__step-number {
+      font-size: {{ block.settings.step_number_size_mob | default: 72 }}px;
+    }
+
+    .pcs--{{ section.id }} .pcs__title {
+      font-size: {{ block.settings.title_size_mobile | default: 26 }}px !important;
+    }
+
+    .pcs--{{ section.id }} .pcs__tabs-row {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pcs--{{ section.id }} .pcs__panel {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      border-radius: {{ block.settings.panel_radius_mob | default: 12 }}px;
+    }
+
+    .pcs--{{ section.id }} .pcs__image-col {
+      border-radius: {{ block.settings.panel_radius_mob | default: 12 }}px {{ block.settings.panel_radius_mob | default: 12 }}px 0 0;
+      min-height: {{ block.settings.image_col_height_mob | default: 280 }}px;
+    }
+
+    .pcs--{{ section.id }} .pcs__slides {
+      min-height: {{ block.settings.image_col_height_mob | default: 280 }}px;
+      margin: 0;
+    }
+
+    .pcs--{{ section.id }} .pcs__info-col {
+      padding: {{ block.settings.info_padding_v_mob | default: 24 }}px {{ block.settings.info_padding_h_mob | default: 20 }}px;
+    }
+
+    .pcs--{{ section.id }} .pcs__product-title {
+      font-size: {{ block.settings.product_title_size_mob | default: 22 }}px !important;
+    }
+
+    .pcs--{{ section.id }} .pcs__feature {
+      grid-template-columns: 80px 1fr 32px;
+    }
+
+    .pcs--{{ section.id }} .pcs__feature-img {
+      width: 80px;
+      height: 80px;
+    }
+    .pcs--{{ section.id }} .pcs__hotspot { 
+      width:18px;
+      height:18px;
+      font-size:12px;  
+    }
+
+  .pcs--{{ section.id }} .pcs__feature-title { 
+      font-size: 16px;
+     line-height: 18px;
+    }
+    .pcs--{{ section.id }} .pcs__feature-detail {
+        font-size: 14px;
+    line-height: 20px;
+    }
+    .pcs--{{ section.id }} .pcs__feature {
+    padding: 10px 12px;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  const sec = document.querySelector('.pcs--{{ section.id }}');
+  if (!sec) return;
+
+  const tabs = sec.querySelectorAll('.pcs__tab');
+  const contents = sec.querySelectorAll('.pcs__tab-content');
+  const tabDots = sec.querySelectorAll('.pcs__dot');
+  const tab1Slide = sec.querySelector('.pcs__slide--tab1');
+  const tab2Slide = sec.querySelector('.pcs__slide--tab2');
+  const tab1Hotspots = sec.querySelectorAll('.pcs__hotspot--tab1');
+  const tab2Hotspots = sec.querySelectorAll('.pcs__hotspot--tab2');
+
+  function switchTab(tabNumber) {
+    tabs.forEach(tab => {
+      const isActive = parseInt(tab.dataset.tab, 10) === tabNumber;
+      tab.classList.toggle('is-active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    tabDots.forEach(dot => {
+      const isActive = parseInt(dot.dataset.tabDot, 10) === tabNumber;
+      dot.classList.toggle('is-active', isActive);
+      dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    contents.forEach(content => {
+      const isActive = parseInt(content.dataset.content, 10) === tabNumber;
+      content.style.display = isActive ? 'flex' : 'none';
+      content.classList.toggle('is-active', isActive);
+    });
+
+    if (tab1Slide) {
+      const active = tabNumber === 1;
+      tab1Slide.style.display = active ? '' : 'none';
+      tab1Slide.classList.toggle('is-active', active);
+    }
+
+    if (tab2Slide) {
+      const active = tabNumber === 2;
+      tab2Slide.style.display = active ? '' : 'none';
+      tab2Slide.classList.toggle('is-active', active);
+    }
+
+    tab1Hotspots.forEach(h => {
+      if (tabNumber === 1) {
+        h.removeAttribute('hidden');
+      } else {
+        h.setAttribute('hidden', '');
+      }
+    });
+
+    tab2Hotspots.forEach(h => {
+      if (tabNumber === 2) {
+        h.removeAttribute('hidden');
+      } else {
+        h.setAttribute('hidden', '');
+      }
+    });
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      switchTab(parseInt(tab.dataset.tab, 10));
+    });
+  });
+
+  tabDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      switchTab(parseInt(dot.dataset.tabDot, 10));
+    });
+  });
+
+  sec.querySelectorAll('.pcs__hotspot').forEach(hs => {
+    hs.addEventListener('click', () => {
+      const idx = parseInt(hs.textContent.trim(), 10) - 1;
+      const tab = parseInt(hs.dataset.tab, 10);
+      const features = sec.querySelectorAll('.pcs__tab-content--' + tab + ' .pcs__feature');
+
+      features.forEach((f, i) => {
+        f.style.outline = i === idx ? '2px solid var(--pcs-accent)' : '';
+      });
+
+      setTimeout(() => {
+        features.forEach(f => f.style.outline = '');
+      }, 1800);
+    });
+  });
+
+  switchTab(1);
+})();
+</script>
+
+      {% endcase %}
+    {% endfor %}
+{% endif %} {% endcomment %}

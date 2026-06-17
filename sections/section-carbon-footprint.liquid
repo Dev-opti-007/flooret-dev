@@ -1,0 +1,304 @@
+<style>
+  .carbon-footprint-{{ section.id }} {
+     padding-top:{{ section.settings.padding-top }}px;
+     padding-bottom:{{ section.settings.padding-bottom }}px;
+  }
+  .carbon-footprint {
+  background: #F7F3EF;
+}
+
+.carbon-footprint .heading h2 {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-size: 56px;
+  line-height: 79.6px;
+  letter-spacing: 3px;
+  text-align: center;
+  vertical-align: middle;
+  color: #2D4A3A;
+}
+
+.carbon-footprint .heading .desc {
+  max-width: 668px;
+  margin: 10px auto auto;
+}
+
+.carbon-footprint .heading .desc p {
+  /* font-family: Montserrat;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
+  letter-spacing: 3px;
+  vertical-align: middle;
+  color: #000;
+  margin: 0px;
+  position: relative;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px; */
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 16px;
+    leading-trim: NONE;
+    line-height: 32px;
+    letter-spacing: 0%;
+    text-align: START;
+    vertical-align: middle;
+}
+
+.carbon-footprint .heading .desc p:before {
+  content: none;
+  color: #2D4A3A;
+  position: relative;
+  top: 4px;
+}
+
+.carbon-footprint .pointer {
+  max-width: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.carbon-footprint .pointer-wrap {
+  display: flex;
+  margin-top: 120px;
+  position: relative;
+}
+
+.carbon-footprint .pointer .number {
+  font-family: Montserrat;
+  font-weight: 700;
+  font-size: 52px;
+  line-height: 100%;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #BFDDDA;
+  border-radius: 50%;
+}
+
+.carbon-footprint .pointer:nth-child(3) .number {
+  background: #EDE0C1;
+}
+
+.carbon-footprint .pointer:nth-child(4) .number {
+  background: #D6C08B;
+}
+
+.carbon-footprint .pointer:nth-child(5) .number {
+  background: #937E4E;
+}
+
+.carbon-footprint .pointer:nth-child(2) img.img-pointer {
+  width: 89px;
+  left: -12px;
+  position: relative;
+}
+
+.carbon-footprint .pointer:nth-child(3) {
+  padding-top: 7%;
+  position: relative;
+}
+
+.carbon-footprint .pointer:nth-child(4) {
+  padding-top: 17%;
+}
+
+.carbon-footprint .pointer:nth-child(5) {
+  padding-top: 28%;
+}
+
+.carbon-footprint img.img-pointer {
+  width: 89px;
+}
+
+.carbon-footprint .pointer:nth-child(4) .text {
+  padding: 0px 20px;
+  display: block;
+}
+
+.carbon-footprint .text p {
+  font-family: Montserrat;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 29px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.carbon-footprint .text {
+  max-width: 280px;
+  margin-top: 10px;
+}
+
+.carbon-footprint img.bg-wrap {
+  position: absolute;
+  top: -13%;
+  left: 11%;
+  z-index: 0;
+  width: 76%;
+}
+
+.carbon-footprint .m-wrap {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.carbon-footprint .pointer:nth-child(3) .m-wrap {
+  position: absolute;
+  margin: 0px;
+  top: 0;
+  right: -65%;
+}
+
+.carbon-footprint .logos {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 60px;
+}
+
+.carbon-footprint .logo:nth-child(3) img {
+  max-width: 130px;
+}
+
+@media (max-width:768px){
+  .carbon-footprint .heading .desc p {
+      text-align: center;
+  }
+}  
+</style>
+
+<div class="carbon-footprint carbon-footprint-{{ section.id }}">
+  <div class="page-width">
+    <div class="heading">
+      <h2>{{ section.settings.heading }}</h2>
+      <div class="desc">
+        {{ section.settings.sub-text }}
+      </div>
+    </div>
+    <div class="pointer-wrap">
+      <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Vector_2.png" class="bg-wrap" >
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'pointer' %}
+            <div class="pointer">
+              <span class="number" >{{ block.settings.number }}</span>
+              <div class="m-wrap">
+                <img src="{{ block.settings.image | img_url:'100x' }}" alt="{{ block.settings.image.alt }}" class="img-pointer" >
+                <div class="text">
+                  {{ block.settings.subtext }}
+                </div>
+              </div>
+            </div>
+            
+        {% endcase %}
+      {% endfor %}
+    </div>
+    <div class="logos">
+      {% for block in section.blocks %}
+        {% case block.type %}
+           {% when 'imgae' %}
+            <div class="logo">
+                <img src="{{ block.settings.image-logo | img_url:'250x' }}" alt="{{ block.settings.image-logo.alt }}" > 
+            </div>
+          {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script defer >
+      document.addEventListener('DOMContentLoaded', ()=>{
+              // if(window.innerWidth < 768) {
+              // $('.logos').slick({
+              //   infinite: true,
+              //     arrows: false,
+              //   slidesToShow: 2,
+              //   slidesToScroll: 1
+              // });
+              // }
+            })
+</script>
+
+{% schema %}
+  {
+    "name": "Carbon Footprint",
+    "settings": [
+      {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+       },
+      {
+         "type": "richtext",
+          "id": "sub-text",
+          "label": "Sub Text"
+      },
+      {
+        "type": "range",
+        "id": "padding-top",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Top",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "padding-bottom",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Bottom",
+        "default": 2
+      }      
+    ],
+    "blocks": [
+      {
+        "type":"pointer",
+        "name":"Pointer",
+        "settings": [
+          {
+            "type": "number",
+            "id": "number",
+            "label": "Number"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image/Icon"
+          },
+          {
+            "type": "richtext",
+            "id": "subtext",
+            "label": "Subtext"
+          }
+        ]
+      },
+      {
+        "type": "imgae",
+        "name":"Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image-logo",
+            "label": "Image"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Carbon Footprint"
+      }
+    ]
+    
+  }
+{% endschema %}

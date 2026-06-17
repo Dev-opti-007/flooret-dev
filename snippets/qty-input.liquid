@@ -1,0 +1,48 @@
+{%- liquid
+  assign input_name = 'quantity'
+  assign input_label = 'Quantity'
+  assign input_min = 1
+  assign input_value = 1
+
+  if name != blank
+    assign input_name = name
+  endif
+
+  if min != blank
+    assign input_min = min
+    assign input_value = min
+  endif
+
+  if value != blank
+    assign input_value = value
+  endif
+
+  if label != blank
+    assign input_label = label
+  endif
+-%}
+
+<div class="qty-input {{ classes }}">
+  <label class="qty-input__label hidden" for="{{input_name}}">{{ input_label }}</label>
+  <div class="qty-input__inputs js-qty">
+    <button
+      class="qty-input__button js-qty__button"
+      data-action="subtract"
+      type="button"
+      {%- if input_min != blank and input_value == input_min -%}
+        disabled="disabled"
+      {%- endif -%}
+    >
+      &minus;
+    </button>
+    <input
+      class="qty-input__input js-qty__input {{ input_classes }}"
+      id="{{input_name}}"
+      name="{{input_name}}"
+      size="2"
+      value="{{input_value}}"
+      data-min="{{input_min}}"
+    >
+    <button class="qty-input__button js-qty__button" data-action="add" type="button">&plus;</button>
+  </div>
+</div>

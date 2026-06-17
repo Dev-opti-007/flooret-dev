@@ -1,0 +1,66 @@
+<script>
+    {% comment %}
+      //console.log({{ product | json }});
+      console.log({{ product.selling_plan_groups | json }});
+      group.selling_plans[0].price_adjustments[0].value
+    {% endcomment %}
+</script>
+    
+    <div class="custom-subscription">
+      
+      {% for group in product.selling_plan_groups %}
+        <div class="custom-subscription__option custom-subscription__option--subscription">
+
+          <input type="radio" value="true" name="subcription" checked id="subscription" data-discount="{{ group.selling_plans[0].price_adjustments[0].value }}">
+
+          <label for="subscription">
+
+            <span class="custom-subscription__option__title">Subscribe {% render 'product-custom-subscription-discount', discount:20 %} </span>
+            
+            {% assign discAmt =  product.selected_or_first_available_variant.price | times : 0.20 %}
+            {% assign discAmt =  product.selected_or_first_available_variant.price | minus : discAmt %}
+  
+            <span class="custom-subscription__option__title" style="padding-top:0;padding-bottom:0.8rem;">{{ discAmt | money }}</span>
+            
+            {% if group.selling_plans > 1 %}
+
+              <div class="custom-subscription__plan select-menu">
+
+                <select class="js-custom-subscription-plan" name="selling_plan" id="{{ group.id }}">
+                  {% for plan in group.selling_plans %}
+                    <option value="{{ plan.id }}">{{ plan.name }}</option>
+                  {% endfor %}
+                </select>
+
+              </div>
+
+            {% else %}
+
+              <input type="hidden" class="js-custom-subscription-plan" name="selling_plan" value="{{ group.selling_plans[0].id }}">
+
+            {% endif %}
+
+          </label>
+
+        </div>
+      {% endfor %}
+  
+      {% unless product.requires_selling_plan %}
+        <div class="custom-subscription__option">
+          
+          <input type="radio" name="subcription" id="one-time" value="false">
+          <label for="one-time">
+            <span class="custom-subscription__option__title">One-Time </span> 
+            <span class="custom-subscription__option__price js-product-price">
+              {{ product.selected_or_first_available_variant.price | money }}
+              {% if product.price < product.compare_at_price_max %}
+                <del class="product-price__compare">{{ product.compare_at_price_max | money }}</del>
+              {% endif %}
+            </span>
+          </label>
+          
+        </div>
+      {% endunless %}
+  
+    </div>
+    

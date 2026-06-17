@@ -1,0 +1,45 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {}
+    },
+    "product_specs": {
+      "type": "product-specs",
+      "settings": {
+        "heading": "{{ product.metafields.flooret.product_specs_heading.value }}",
+        "content": "{{ product.metafields.flooret.product_specs_content | metafield_tag }}"
+      }
+    },
+    "0b42df32-e063-4ecf-9352-3f3f05cee610": {
+      "type": "product-feat-products",
+      "settings": {
+        "heading": "{{ product.metafields.flooret.product_featured_products_heading.value }}"
+      }
+    },
+    "0503629f-c5c9-4207-b63b-937fa06aa43b": {
+      "type": "recent-posts",
+      "settings": {
+        "heading": "Latest Posts",
+        "content": "<p>Need some inspiration? Ready to learn more about flooring? Check out these blogs.</p>",
+        "link_text": "View More Posts",
+        "link_url": "shopify://blogs/all"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product_specs",
+    "0b42df32-e063-4ecf-9352-3f3f05cee610",
+    "0503629f-c5c9-4207-b63b-937fa06aa43b"
+  ]
+}

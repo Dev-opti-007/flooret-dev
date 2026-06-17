@@ -1,0 +1,126 @@
+{% assign _settings = section.settings %}
+{% assign _cards = section.blocks %}
+
+<section>
+  <div class="container">
+    <h3 class="">{{ _settings.heading }}</h3>
+    {% if _cards != blank %}
+      <div class="collection-card-row">
+        {% for block in _cards %}
+          <div class="collection-card">
+            <div class="thumb">
+              <div class="gradient"></div>
+
+              <div class="positioner">
+                {% render 'lazy-image', image: block.settings.image, width: '650' %}
+                <div class="collection-card__content">
+                  <span class="h4">{{ block.settings.title }}</span>
+                  <div class="collection-card-btns">
+                    {% if block.settings.link_text_1 != blank and block.settings.link_url_1 != blank %}
+                      <a
+                        href="{{ block.settings.link_url_1 }}"
+                        class="btn btn--outline-white"
+                      >
+                        {{- block.settings.link_text_1 -}}
+                      </a>
+                    {% endif %}
+
+                    {% if block.settings.link_text_2 != blank and block.settings.link_url_2 != blank %}
+                      <a
+                        href="{{ block.settings.link_url_2 }}"
+                        class="btn btn--primary btn--white"
+                      >
+                        {{- block.settings.link_text_2 -}}
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% style %}
+  @media (min-width: 1120px) {
+    .two-columns-cards.collection-cards .collection-card-row .collection-card .collection-card-btns .btn {
+      padding-left: 15%;
+      padding-right: 15%;
+    }
+  }
+  .two-columns-cards.collection-cards .collection-card-row .collection-card:last-child {
+    margin-top: 0;
+  }
+  .two-columns-cards h3 {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .two-columns-cards.collection-cards .collection-card-row .collection-card .thumb .positioner img {
+    object-fit: cover;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Two columns cards",
+  "class": "shopify-block collection-cards two-columns-cards",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Card",
+      "type": "Card",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "link_text_1",
+          "label": "Link Text 1"
+        },
+        {
+          "type": "url",
+          "id": "link_url_1",
+          "label": "Link URL 1"
+        },
+        {
+          "type": "text",
+          "id": "link_text_2",
+          "label": "Link Text 2"
+        },
+        {
+          "type": "url",
+          "id": "link_url_2",
+          "label": "Link URL 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two columns cards",
+      "category": "Cards"
+    }
+  ]
+}
+{% endschema %}

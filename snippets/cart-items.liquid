@@ -1,0 +1,804 @@
+<style>
+  .install-product {
+    display: flex;
+    gap: 16px;
+    position: relative;
+    border-radius: 10px;
+    background: #F4F3F1;
+    padding: 20px 14px;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+  .install-product h3 {
+    color: #000;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+  .install-product .install-product-image-box {
+    position: relative;
+    width: 113px;
+    height: 113px;
+  }
+
+  .install-product .install-product-image-box .install-tier {
+    position: absolute;
+    top: -7px;
+    border-radius: 4px;
+    text-align: center;
+    color: #1B1B1B;
+    font-family: "Playfair Display";
+    font-size: 9px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.27px;
+    text-transform: uppercase;
+    width: 83px;
+    height: 15px;
+    left: 15px;
+    right: 15px;
+  }
+
+  .install-product-image-box .install-tier.bronze {
+    background: linear-gradient(90deg, #5B442F 0%, #D09762 24.04%, #CB935D 49.04%, #E5A974 75%, #66492C 100%);
+  }
+  
+  .install-product-image-box .install-tier.silver {
+    background: linear-gradient(90deg, #8C8D8D 0%, #969696 24.04%, #E9E9E9 49.04%, #939393 75%, #BDBDBD 100%);
+  }
+  .install-product-image-box .install-tier.gold {
+    background: linear-gradient(90deg, #FBDB5E 0%, #FAF3C2 38.46%, #D2A748 71.15%, #F1DD94 100%);
+  }
+
+  .bundle-container {
+    display: flex;
+    gap: 16px;
+  }
+
+  .cart-item-hidden {
+    display: none !important;
+  }
+  
+  .bundle-summary {
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+  
+  .bundle-summary ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 12px;
+  }
+
+  .cart-remove-bundle {
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 8px;
+    background: transparent;
+    padding: 0;
+    position: absolute;
+    top: -2px;
+    right: 6px;
+  }
+
+  .cart-remove-bundle:hover {
+  }
+  .cart-installation-details {
+    display: flex;
+    flex-direction: column;
+    float: right;
+  }
+  .cart-installation-details summary {
+    color: #1050D0;
+    text-align: right;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  .cart-installation-details summary {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: #1050D0;
+    text-align: right;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    cursor: pointer;
+    padding-right: 16px;
+    position: relative;
+  }
+
+  .cart-installation-details summary>.chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Hide ::marker */
+  .cart-installation-details summary::marker {
+    content: '';
+  }
+
+  /* Rotate arrow when open */
+  .cart-installation-details[open] summary>.chevron {
+    transform: rotate(0deg);
+  }
+
+  .bundle-service-included {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 4px;
+    color: #000;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+  }
+  .bundle-cost-summary {
+    color: #000;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    padding-top: 4px;
+  }
+  .remaining-info {
+    color: #A3A3A3;
+    font-style: italic;
+    font-size: 11px;
+  }
+  .bundle-breakdown li {
+    border-bottom: 1px solid #6D6D6D;
+    color: #6D6D6D;
+    font-family: "Helvetica Neue";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .bundle-breakdown li:last-child {
+    border-bottom: none;
+  }
+
+  .bundle-breakdown .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+  }
+
+  .bundle-breakdown .breakdown-item .price {
+    font-size: 12px;
+  }
+
+    .cart-card__content.fix_install_item .cart-card__meta li::before {
+        content: "-";
+        position:relative;
+    }
+
+    .cart-card__content.fix_install_item .cart-card__meta li {
+        margin-left: 0px;
+        font-size: 12px;
+        font-weight: 500;
+        display:flex;
+        gap:5px;
+    }
+
+    .cart-card.js-cart-card.fix_install_item_card {
+        display: flex;
+        gap: 16px;
+        position: relative;
+        border-radius: 10px;
+        background: #F4F3F1;
+        padding: 20px 14px;
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+
+    .cart-card.js-cart-card.fix_install_item_card .cart-card__quantity {
+          display: none;
+      }
+
+    @media (max-width:768px){
+      .cart-card__content.fix_install_item {
+          padding-top: 20px;
+      }
+    }
+    .cart-card__meta li.on {
+        display: none;
+    }
+
+    .cart-card__meta li.on + li::before {
+        content: "";
+    }
+
+    .cart-card__meta li.\33 30 {
+        display: none;
+    }
+</style>
+
+<div class="js-cart-item-wrap">
+  {% assign processed_bundles = '' | split: ',' %}
+  {% assign box_items = '' %}
+  {% assign sample_items = '' %}
+  {% assign other_items = '' %}
+
+  {% for item in cart.items %}
+    {% assign bundle_id = item.properties._bundle_id %}
+    {% assign is_bundle_item = false %}
+    {% if bundle_id != blank %}
+      {% assign is_bundle_item = true %}
+    {% endif %}
+
+    {% if is_bundle_item %}
+      {% unless processed_bundles contains bundle_id %}
+        {% assign processed_bundles = processed_bundles | append: bundle_id | append: ',' %}
+
+        {% assign main_service_item = null %}
+        {% assign bundle_total = 0 %}
+        {% assign bundle_deposit = 0 %}
+        {% assign bundle_service = 'Installation' %}
+        {% assign bundle_name = 'Worry-Free Installation' %}
+
+        {% for bundle_item in cart.items %}
+          {% if bundle_item.properties._bundle_id == bundle_id %}
+            {% assign total_amount_string = bundle_item.properties._total_amount %}
+            {% assign deposit_amount_string = bundle_item.properties._deposit_amount %}
+
+            {% assign total_amount_cents = total_amount_string | times: 100 %}
+            {% assign deposit_amount_cents = deposit_amount_string | times: 100 %}
+
+            {% assign bundle_total = bundle_total | plus: total_amount_cents %}
+            {% assign bundle_deposit = bundle_deposit | plus: deposit_amount_cents %}
+
+            {% assign bundle_service = bundle_item.properties._service_type %}
+            {% assign bundle_name = bundle_item.properties._service_name %}
+
+            {% if bundle_item.properties._is_main_service == 'true' %}
+              {% assign main_service_item = bundle_item %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+        {% if main_service_item %}
+          <div class="install-bundle-card" data-bundle-id="{{ bundle_id }}">
+            <!-- your existing bundle HTML stays exactly here -->
+          </div>
+        {% endif %}
+      {% endunless %}
+
+    {% else %}
+      {% capture cart_item_markup %}
+        <div class="cart-card js-cart-card {% if item.product.title == 'Flooret Installation Service' %}fix_install_item_card{% endif %}" data-id="{{ item.variant.id }}" data-price="{{ item.price }}" >
+          <div class="cart-card__wrap">
+            <a class="cart-card__image" href="{{ item.url }}">
+              <div class="spacer">
+                {% render 'lazy-image', image: item.image, width: 200 %}
+              </div>
+            </a>
+
+            <div class="cart-card__content {% if item.product.title == 'Flooret Installation Service' %}fix_install_item{% endif %}">
+             
+              <div class="cart-card__title_wrap">
+  <span class="cart-card__title">
+    <a href="{{ item.url }}">{{ item.product.title }} {% if item.selling_plan_allocation != blank %}(Subscription){% endif %}</a>
+  </span>
+
+  {% unless item.variant.title contains "Default" %}
+    <ul class="cart-card__meta">
+      {% for option in item.variant.options %}
+        {% if option == 'Box' or option == 'Cut Sample' or option == 'Plank Sample' %}
+        {% else %}
+          <li>{{ option }}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  {% endunless %}
+
+  {% unless item.properties == empty %}
+    <ul class="cart-card__meta">
+      {% for property in item.properties %}
+        {% unless property.last == empty %}
+          <li class="{{ property.last | handleize }}">{{ property.last }}</li>
+        {% endunless %}
+      {% endfor %}
+    </ul>
+  {% endunless %}
+
+  {% assign is_box_variant = false %}
+  {% assign coverage_model_name = blank %}
+  {% assign coverage_per_box = blank %}
+
+  {% for option in item.variant.options %}
+    {% if option == 'Box' %}
+      {% assign is_box_variant = true %}
+    {% elsif option == 'Cut Sample' or option == 'Plank Sample' %}
+    {% else %}
+      {% assign coverage_model_name = option | strip %}
+    {% endif %}
+  {% endfor %}
+
+  {% if item.title contains "Nakan - Base" %}
+     {% assign coverage_model_name = "Base" %}
+  {% elsif item.title contains "Nakan - Signature" %}
+    {% assign coverage_model_name = "Signature" %}
+  {% elsif item.title contains "Nakan - Signature" %}
+    {% assign coverage_model_name = "Signature" %}
+  {% elsif item.title contains "Nakan - Craftsman" %}
+    {% assign coverage_model_name = "Craftsman" %}
+  {% elsif item.title contains "Nakan - Herringbone" %}
+    {% assign coverage_model_name = "Herringbone" %}
+  {% endif %}
+
+  {% if is_box_variant and coverage_model_name != blank %}
+    {% for p_model in shop.metaobjects.product_model.values %}
+      {% if p_model.name == coverage_model_name %}
+        {% assign coverage_per_box = p_model.coverage_per_box %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+
+    {% if coverage_per_box != blank %}
+      {% assign total_coverage = coverage_per_box.value | times: item.quantity %}
+      <div class="covers_feet">
+        Covers <span class="feet_number">{{ total_coverage | round: 2 }}</span><span class="fr_86_feet_unit"> SQFT</span>
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+             
+             
+              {% comment %} <div class="cart-card__title_wrap">
+                <span class="cart-card__title">
+                  <a href="{{ item.url }}">{{ item.product.title }} {% if item.selling_plan_allocation != blank %}(Subscription){% endif %}</a>
+                </span>
+                {% unless item.variant.title contains "Default" %}
+                  <ul class="cart-card__meta">
+                    {% for option in item.variant.options %}
+                      {% if option == 'Box' or option == 'Cut Sample'  or option == 'Plank Sample' %}
+                      {% else %}
+                        <li>{{ option }}</li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                {% endunless %}
+
+                {% unless item.properties == empty %}
+                  <ul class="cart-card__meta">
+                    {% for property in item.properties %}
+                      {% unless property.last == empty %}
+                        <li class="{{ property.last | handleize }}">{{ property.last }}</li>
+                      {% endunless %}
+                    {% endfor %}
+                  </ul>
+                {% endunless %}
+              </div> {% endcomment %}
+              <a class="cart-card__remove {% unless drawer == false %}js-remove-cart-item{% endunless %}" href="/cart/change?line={{ forloop.index }}&amp;quantity=0">{% render 'svg-trash-two' %}</a>
+
+
+              <div class="cart-card__quantity">
+                <label for="updates_{{ item.id }}">Quantity:</label>
+                <div class="js-qty">
+                  <button type="button" class="js-qty__button" data-action="subtract">-</button>
+                  <input class="js-qty__input" id="updates_{{ item.id }}" name="updates[]" size="2" value="{{ item.quantity }}" data-min="0">
+                  <button type="button" class="js-qty__button" data-action="add">+</button>
+                </div>
+              </div>
+            </div>
+                          <div class="bottom-wrap" >
+
+                <span class="qty-number">
+                  <span class="qty-count">{{ item.quantity }}</span>
+                 
+                  {% for option in item.variant.options %}
+                      {% if option == 'Box' %}
+                        {% if item.quantity > 1 %}
+                          <span class="qty-number--box">Boxes</span>
+                        {% else %}
+                          <span class="qty-number--box">Box</span>
+                        {% endif %}
+                      {% elsif option == 'Cut Sample'  or option == 'Plank Sample' %}  
+                        {% if item.quantity > 1 %}
+                         <span class="qty-number--sample">Samples</span>
+                         {% else %}
+                          <span class="qty-number--sample">Sample</span>
+                         {% endif %}
+                         {% elsif item.title contains 'T-Molding' %}
+                            <span class="qty-number--sample">T-Molding</span>
+
+                          {% elsif item.title contains 'Reducer' %}
+                            <span class="qty-number--sample">Reducer</span>
+
+                          {% elsif item.title contains 'Quarter-Round' %}
+                            <span class="qty-number--sample">Quarter-Round</span>
+
+                          {% elsif item.title contains 'Quarter Round' %}
+                            <span class="qty-number--sample">Quarter Round</span>
+
+                          {% elsif item.title contains 'End Cap' %}
+                            <span class="qty-number--sample">End Cap</span>
+
+                          {% elsif item.title contains 'Nosing Round' %}
+                            <span class="qty-number--sample">Nosing Round</span>
+
+                          {% elsif item.title contains 'Nosing Square' %}
+                            <span class="qty-number--sample">Nosing Square</span>
+
+                          {% elsif item.title contains 'Round Nosing' %}
+                            <span class="qty-number--sample">Round Nosing</span>
+
+                          {% elsif item.title contains 'Square Nosing' %}
+                            <span class="qty-number--sample">Square Nosing</span>
+
+                          {% elsif item.title contains 'Stair Tread and Riser' %}
+                            <span class="qty-number--sample">Stair Tread and Riser</span>
+
+                          {% elsif item.title contains 'Full Stair Tread' %}
+                            <span class="qty-number--sample">Full Stair Tread</span>
+
+                          {% elsif item.title contains 'Overlapping Stair Nose' %}
+                            <span class="qty-number--sample">Overlapping Stair Nose</span>
+
+                          {% elsif item.title contains 'Stair Nose' %}
+                            <span class="qty-number--sample">Stair Nose</span>
+
+                          {% elsif item.title contains 'Vapor Barrier' %}
+                            <span class="qty-number--sample">Vapor Barrier</span>
+
+                          {% elsif item.title contains 'White Riser - 3 Pack' %}
+                            <span class="qty-number--sample">White Riser - 3 Pack</span>
+
+                          {% elsif item.title contains 'Freight Return Kit' %}
+                            <span class="qty-number--sample">Freight Return Kit</span>
+                          {% elsif item.title contains 'Acoustic Underlayment with Vapor Barrier' %}
+                            <span class="qty-number--sample">Acoustic Underlayment with Vapor Barrier</span>
+
+                          {% elsif item.title contains 'Vapor Barrier' %}
+                            <span class="qty-number--sample">Vapor Barrier</span>
+                          
+                      {% else %}
+                      {% endif %}
+                    {% endfor %}
+                  
+                </span>
+                <span class="sign-multiply">&#215;</span>
+                {% if item.variant.compare_at_price and item.variant.compare_at_price > item.variant.price %}
+                    {% assign float_difference = item.variant.compare_at_price | minus: item.variant.price | times: 100.0 %}
+                    {% assign raw_save = float_difference | divided_by: item.variant.compare_at_price %}
+                    {% assign save_percent = raw_save | round %}
+                    <p class="cart-price-item">
+                      {{ item.price | money }}
+                      <del>{{ item.variant.compare_at_price | money }}</del>
+                      <span class="save-percentage">{{ save_percent }}% Off</span>
+                    </p>
+                  {% else %}
+                    <p>{{ item.price | money }}</p>
+                  {% endif %}
+
+                  <p class="total_price">{{ item.price | times: item.quantity | money }}</p>
+              </div>
+
+          </div>
+        </div>
+      {% endcapture %}
+      {% if item.variant.title contains 'Box' %}
+        {% assign box_items = box_items | append: cart_item_markup %}
+      {% elsif item.variant.title contains 'Cut Sample' or item.variant.title contains 'Plank Sample' %}
+        {% assign sample_items = sample_items | append: cart_item_markup %}
+      {% elsif item.product.type == 'trim' or item.product.type == 'accessories' or item.product.type == 'Accessories' or item.product.type == 'Trim' %}
+        {% assign trim_items = trim_items | append: cart_item_markup %}
+      {% elsif item.product.title contains 'Kit' or item.product.title contains 'Kits' %}
+        {% assign sample_kit_items = sample_kit_items | append: cart_item_markup %}
+      {% else %}  
+      {% else %}
+        {% assign other_items = other_items | append: cart_item_markup %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  {% if box_items != blank %}
+    <div class="cart-group cart-group--box">
+      <h3>Box Items</h3>
+      {{ box_items }}
+    </div>
+  {% endif %}
+
+  {% if sample_items != blank %}
+    <div class="cart-group cart-group--sample">
+      <h3>Sample</h3>
+      {{ sample_items }}
+    </div>
+  {% endif %}
+
+  {% if trim_items != blank %}
+    <div class="cart-group cart-group--accessories">
+      <h3>Accessories</h3>
+      {{ trim_items }}
+    </div>
+  {% endif %}
+
+  {% if sample_kit_items != blank %}
+    <div class="cart-group cart-group--sample-kit">
+      <h3>Sample Kit</h3>
+      {{ sample_kit_items }}
+    </div>
+  {% endif %}
+
+  {% if other_items != blank %}
+    <div class="cart-group cart-group--other">
+      <h3>Other</h3>
+      {{ other_items }}
+    </div>
+  {% endif %}
+</div>
+
+
+
+
+{% comment %} <div class="js-cart-item-wrap">
+    {% assign processed_bundles = '' | split: ',' %}
+    {% for item in cart.items %}
+      {% assign bundle_id = item.properties._bundle_id %}
+      {% assign is_bundle_item = false %}
+      {% if bundle_id != blank %}
+        {% assign is_bundle_item = true %}
+      {% endif %}
+      
+      {% if is_bundle_item %}
+        {% unless processed_bundles contains bundle_id %}
+          {% assign processed_bundles = processed_bundles | append: bundle_id | append: ',' %}
+          
+          <!-- Find the main service item for this bundle -->
+          {% assign main_service_item = null %}
+          {% assign bundle_total = 0 %}
+          {% assign bundle_deposit = 0 %}
+          {% assign bundle_service = 'Installation' %}
+          {% assign bundle_name = 'Worry-Free Installation' %}
+          
+          {% for bundle_item in cart.items %}
+            {% if bundle_item.properties._bundle_id == bundle_id %}
+              {% assign total_amount_string = bundle_item.properties._total_amount %}
+              {% assign deposit_amount_string = bundle_item.properties._deposit_amount %}
+
+              {% assign total_amount_cents = total_amount_string | times: 100 %}
+              {% assign deposit_amount_cents = deposit_amount_string | times: 100 %}
+          
+              {% assign bundle_total = bundle_total | plus: total_amount_cents %}
+              {% assign bundle_deposit = bundle_deposit | plus: deposit_amount_cents %}
+              
+              {% assign bundle_service = bundle_item.properties._service_type %}
+              {% assign bundle_name = bundle_item.properties._service_name %}
+
+              {% if bundle_item.properties._is_main_service == 'true' %}
+                {% assign main_service_item = bundle_item %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          
+          {% if main_service_item %}
+            <!-- Display the bundled installation service -->
+            
+            <div class="install-bundle-card" data-bundle-id="{{ bundle_id }}">
+              <div class='install-product'>
+                <div class="bundle-container">
+                  <div class='install-product-image-box'>
+                      {% case bundle_service %}
+                        {% when 'Installation' %}
+                        <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/installation_bundle.png" alt="{{ main_service_item.title }}" width="113px" height="113px"/>
+                        {% when 'Demolition' %}
+                        <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/demolition_bundle.png" alt="{{ main_service_item.title }}" width="113px" height="113px"/>
+                        {% when 'Add-Ons' %}
+                        <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/addons_bundle.png" alt="{{ main_service_item.title }}" width="113px" height="113px"/>
+                      {% endcase %}
+              </div>
+                  <div class="bundle-info">
+                  <h3>{{ bundle_name }}</h3>
+                  <div class="bundle-service-included">
+                    {% for bundle_item in cart.items %}
+                      {% if bundle_item.properties._bundle_id == bundle_id %}
+                        {% assign summary = bundle_item.properties._service_included | split: ';' %}
+                        {% assign ordered_types = "installation,demolition,addons,warranty" | split: ',' %}
+                          <span><strong>+</strong> 1 Year Warranty Included</span>
+                        
+                        {% case bundle_service %}
+                          {% when 'Installation' %}
+                            <span><strong>+</strong> Clean Worksite Pledge</span>
+                            <span><strong>+</strong> Pre & Post Install Consultation</span>
+                            <span><strong>+</strong> Free Cleaning Kit</span>
+                            <span><strong>+</strong> Dedicated Support Contact</span>
+                          {% when 'Demolition' %}
+                            <span><strong>+</strong> Clean Worksite Pledge</span>
+                            <span><strong>+</strong> Pre & Post Install Consultation</span>
+                            <span><strong>+</strong> Dedicated Support Contact</span>
+                            <span><strong>+</strong> Pre-Vetted Professionals</span>
+                          {% when 'Add-Ons' %}
+                            <span><strong>+</strong> Clean Worksite Pledge</span>
+                            <span><strong>+</strong> Pre & Post Install Consultation</span>
+                            <span><strong>+</strong> Dedicated Support Contact</span>
+                            <span><strong>+</strong> Pre-Vetted Professionals</span>
+                        {% endcase %}
+
+                        {% for type in ordered_types %}
+                          {% for entry in summary %}
+                            {% assign parts = entry | split: '|' %}
+                            {% assign entry_type = parts[0] %}
+                            {% assign quantity = parts[1] %}
+                            {% assign label = parts[2] %}
+                      
+                            {% if entry_type == type %}
+                              <span>
+                                <strong>+</strong> {{ label }}
+                              </span>
+                            {% endif %}
+                          {% endfor %}
+                        {% endfor %}
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+
+                  {% assign bundle_remaining = bundle_total | minus: bundle_deposit %}
+
+                  <div class="bundle-cost-summary">
+                    <strong>Total Cost:</strong> {{ bundle_total | money }}<br>
+                    <strong>Due today (50% Deposit):</strong> <span>{{ bundle_deposit | money }}</span><br>
+                    <span class="remaining-info">Remaining {{ bundle_remaining | money }} to be collected after installation</span>
+                  </div>
+  
+                  <button type="button" class="cart-remove-bundle" data-bundle-id="{{ bundle_id }}">
+                    <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/thrash.png" width="33" height="42" alt="Remove"/>
+                  </button>
+  
+                </div>
+                </div>
+            
+                  <details class="cart-installation-details">
+                    <summary>Details <img class="chevron" src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/chevron_blue.png" width="20" height="20"/></summary>
+            
+                    <div class="bundle-summary">
+                      {% comment %}
+                        Detailed Summary Printout
+                      {% endcomment %}
+                      <ul class="bundle-breakdown">
+                        {% for bundle_item in cart.items %}
+                            {% if bundle_item.properties._bundle_id == bundle_id %}
+                              {% assign raw_items = bundle_item.properties._bundle_items | split: ";" %}
+                              
+                                {% for line in raw_items reversed %}
+                                  {% assign parts = line | split: "::" %}
+                                  {% assign name_price = parts[0] %}
+                                  {% assign price = parts[2] | times: 100 %}
+                                  <li><div class="breakdown-item"><span>{{ name_price }}</span><span class="price">{{ price | money }}</span></div></li>
+                                {% endfor %}
+                            {% endif %}
+                          {% endfor %}   
+                      </ul>        
+                    </div>
+                  </details>
+              </div>
+            </div>
+          {% endif %}
+        {% endunless %}
+      
+
+      {% else %}
+      <!-- Regular product display (existing code) -->
+        <div class="cart-card js-cart-card {% if item.product.title == 'Flooret Installation Service' %}fix_install_item_card{% endif %}" data-id="{{ item.variant.id }}" data-price="{{ item.price }}">
+            <div class="cart-card__wrap">
+
+                <a class="cart-card__image" href="{{ item.url }}" >
+                    <div class="spacer">
+                        {% render 'lazy-image', image:item.image, width: 200 %}
+                    </div>
+                </a>
+                
+                <div class="cart-card__content {% if item.product.title == 'Flooret Installation Service' %}fix_install_item{% endif %}">
+                   
+                    <span class="cart-card__title">
+                        <a href="{{ item.url }}">{{ item.product.title }} {% if item.selling_plan_allocation != blank %}(Subscription){% endif %}</a>
+                    </span>
+    
+                    <a class="cart-card__remove {% unless drawer == false %}js-remove-cart-item{% endunless %}" href="/cart/change?line={{ forloop.index }}&amp;quantity=0">{% render 'svg-trash' %}</a>
+                    
+                    {% unless item.variant.title contains "Default" %}
+                        <ul class="cart-card__meta">
+                            {% for option in item.variant.options %}
+                                <li>{{ option }}</li> 
+                            {% endfor %}
+                        </ul> 
+                    {% endunless %}
+                    
+                    {% unless item.properties == empty %}
+                        <ul class="cart-card__meta">
+                            {% for property in item.properties %}
+                                {% unless property.last == empty %}
+                                    {%- liquid
+                                        assign class = ''
+                                    -%}
+                                    <li class="{{ class }} {{ property.last | handleize }}">{{ property.last }}</li>
+                                {% endunless %}
+                            {% endfor %}
+                        </ul>
+                    {% endunless %}
+
+                      {% if item.variant.compare_at_price and item.variant.compare_at_price > item.variant.price %}
+                      {% assign float_difference = item.variant.compare_at_price | minus: item.variant.price | times: 100.0 %}
+                      {% assign raw_save = float_difference | divided_by: item.variant.compare_at_price %}
+                      {% assign save_percent = raw_save | round %}
+                      <p class="cart-price-item">
+                        {{ item.price | money }}
+                        <del>{{ item.variant.compare_at_price | money }}</del>
+                        <span class="save-percentage">{{ save_percent }}% Off</span>
+                      </p>
+                    {% else %}
+                      <p>{{ item.price | money }}</p>
+                    {% endif %}
+
+                    <div class="cart-card__quantity">
+                        <label for="updates_{{ item.id }}">Quantity:</label>
+                        <div class="js-qty">
+                            <button type="button" class="js-qty__button" data-action="subtract">-</button>
+                            <input class="js-qty__input" id="updates_{{item.id}}" name="updates[]" size="2" value="{{ item.quantity }}" data-min="0">
+                            <button type="button" class="js-qty__button" data-action="add">+</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+</div> {% endcomment %}
+<script>
+  // Handle bundle removal
+  document.querySelectorAll('.cart-remove-bundle').forEach(button => {
+    button.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const button = e.target.closest('.cart-remove-bundle');
+      const bundleId = button?.dataset.bundleId;
+      
+      if (!confirm('Remove the service bundle?')) return;
+      
+      try {
+        // Get current cart
+        const cartResponse = await fetch('/cart.js');
+        const cart = await cartResponse.json();
+        
+        // Find all items with this bundle ID and set quantity to 0
+        const updates = {};
+        cart.items.forEach((item, index) => {
+          if (item.properties && item.properties._bundle_id === bundleId) {
+            updates[item.key] = 0;
+          }
+        });
+
+        // Remove all bundle items
+        for (const [key, quantity] of Object.entries(updates)) {
+          await fetch('/cart/change.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: key, quantity: quantity })
+          });
+        }
+        
+        window.location.reload();
+      } catch (error) {
+        console.error('Error removing bundle:', error);
+        alert('Error removing installation service. Please try again.');
+      }
+    });
+  });
+</script>

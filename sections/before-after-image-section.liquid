@@ -1,0 +1,894 @@
+<div class="before-after-slider">
+    <div class="page-width">
+        <div class="heading-wrap" >
+            <h2>{{ section.settings.heading }}</h2>
+            <div class="desc" >
+                {{ section.settings.subtext }}
+            </div>
+        </div>
+        <div class="slick-slider">
+            {% for block in section.blocks %}
+            <div class="slide" {{ block.shopify_attributes }} >
+                <div class="before-after-container">
+                    <div class="before-after ba-container">
+                        <img class="after ba-image ba-base" src="{{ block.settings.after_image | img_url: 'master' }}" alt="After">
+                        <span class="floating-text after-text">After</span>
+                        <div class="before-wrapper ba-overlay">
+                            <img class="before ba-image ba-gray" src="{{ block.settings.before_image | img_url: 'master' }}" alt="Before">
+                             <span class="floating-text before-text">Before</span>
+                        </div>
+                        <div class="slider-handle ba-handle"></div>
+                    </div>
+                    {% if forloop.index == 1 %}
+                    <span class="before-pointer before-pointer-one">
+                      <span class="line" ><span></span></span>
+                      <span class="pointer-text" >{{ block.settings.pointer-one-before }}</span>
+                    </span>
+                    <span class="before-pointer before-pointer-two">
+                      <span class="line" ><span></span></span>
+                      <span class="pointer-text" >{{ block.settings.pointer-two-before }}</span>
+                    </span>
+                    <span class="before-pointer before-pointer-three">
+                      <span class="line" ><span></span></span>
+                      <span class="pointer-text" >{{ block.settings.pointer-three-before }}</span>
+                    </span>
+                    <span class="after-pointer after-pointer-one">
+                      <span class="line" ><span></span></span>
+                      <span class="pointer-text" >{{ block.settings.pointer-one-after }}</span>
+                    </span>
+                    <span class="after-pointer after-pointer-two">
+                      <span class="line" ><span></span></span>
+                      <span class="pointer-text" >{{ block.settings.pointer-two-after }}</span>
+                    </span>
+                    <span class="after-pointer after-pointer-three">
+                      <span class="line" ><span></span></span>
+                      <span class="pointer-text" >{{ block.settings.pointer-three-after }}</span>
+                    </span>
+                  {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if  section.settings.btn-text != blank %}
+          <a class="btn" href="{{ section.settings.btn-url }}" >
+            {{ section.settings.btn-text }}
+          </a>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .before-after-section {
+        padding-top:{{ section.settings.padding-top }}px;
+        padding-bottom:{{ section.settings.padding-bottom }}px;
+        background: #F4F3F1;
+    }
+  .before-after-slider {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+  .before-after-slider .page-width {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .before-after-slider .page-width .heading-wrap {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .slick-slider {
+      opacity:0;
+      transition:all 300ms;
+      max-height:500px;
+    }
+    .slick-slider.slick-initialized {
+      opacity:1;
+    }
+  .before-after-slider .page-width .heading-wrap h2 {
+        font-family: Playfair Display;
+        font-weight: 800;
+        font-style: ExtraBold;
+        font-size: 42px;
+        leading-trim: NONE;
+        line-height: 76.8px;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+        margin-bottom: 20px;
+    }
+
+    .before-after-slider .page-width .heading-wrap .desc p {
+        font-family: Montserrat;
+        font-weight: 500;
+        font-style: Medium;
+        font-size: 18px;
+        leading-trim: NONE;
+        line-height: 30.72px;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .before-after-slider .page-width .heading-wrap .desc p strong {
+        font-weight: 700;
+    }
+
+    /* Updated before-after container styles */
+    .before-after-slider .before-after {
+        position: relative;
+        max-width: 644px;
+        margin: auto;
+        overflow: hidden;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+        user-select: none;
+        height: auto;
+        width: 100%;
+    }
+
+    .before-after-slider .ba-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .before-after-slider .before-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .before-after-slider .before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: left;
+    }
+
+    .before-after-slider .after {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left;
+    }
+
+    /* Updated handle styles */
+    .before-after-slider .slider-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      cursor: grab;
+      z-index: 3;
+      transition: background .2s;
+    }
+
+    .before-after-slider .slider-handle:hover {
+      background: rgba(255,255,255,1);
+    }
+
+    .before-after-slider .slider-handle::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      background-image: url("data:image/svg+xml;utf8,\<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\<path d='M12.9462 11.9999L8.34619 7.39994L9.39994 6.34619L15.0537 11.9999L9.39994 17.6537L8.34619 16.5999L12.9462 11.9999Z' fill='%23fff'/>\</svg>");
+      background-size: contain;
+      background-repeat: no-repeat;
+      transform: translate(4px, -50%); 
+    }
+
+    .before-after-slider .slider-handle::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      background-image: url("data:image/svg+xml;utf8,\<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\<path d='M11.0538 11.9999L15.6538 7.39994L14.6001 6.34619L8.9463 11.9999L14.6001 17.6537L15.6538 16.5999L11.0538 11.9999Z' fill='%23fff'/>\</svg>");
+      background-size: contain;
+      background-repeat: no-repeat;
+      transform: translate(-20px, -50%); 
+    }
+
+  .before-after-slider .slick-slider {
+    margin: 0 auto;
+    touch-action: none;
+  }
+
+  .before-after-slider .slick-slide {
+    padding: 10px;
+  }
+  .before-after-slider .slick-slider .slick-arrow {
+        position: absolute;
+        top: 50%;
+        padding: 0px;
+        background: no-repeat;
+        border: none;
+        z-index: 5;
+        transform: translateY(-50%);
+    }
+    .before-after-slider .slick-slider .slick-arrow.slick-prev {
+        left: 21.5%;
+    }
+    .before-after-slider .slick-slider .slick-arrow.slick-next {
+        right: 21.5%;
+    }
+    span.before-pointer-one {
+        position: absolute;
+    }
+    
+    .before-after-slider .slick-slider .slick-dots {
+        padding: 0px;
+        margin: 0px;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .before-after-slider .slick-slider .slick-dots li {
+        list-style: none;
+        margin: 0px;
+        display: flex;
+        line-height: normal;
+    }
+
+    .before-after-slider .slick-slider .slick-dots li button {
+        border: none;
+        background: #999999;
+        color: transparent;
+        width: 12px;
+        height: 12px;
+        border-radius: 14px;
+        padding:0px;
+    }
+
+    .before-after-slider .slick-slider .slick-dots li.slick-active button {
+        background: #111111;
+        width: 16px;
+        height: 16px;
+    }
+    span.after-pointer {
+        position: absolute;
+        right: 0;
+        font-family: Montserrat;
+        font-weight: 700;
+        font-style: Bold;
+        font-size: 15px;
+        leading-trim: NONE;
+        line-height: 100%;
+        letter-spacing: 0%;
+        color:#111111;
+        z-index:10;
+        transition: opacity 0.3s ease; /* Added smooth transition */
+    }
+    .before-after-container {
+        position: relative;
+    }
+    span.before-pointer {
+        position: absolute;
+        left: 0;
+        font-family: Montserrat;
+        font-weight: 700;
+        font-style: Bold;
+        font-size: 15px;
+        leading-trim: NONE;
+        line-height: 100%;
+        letter-spacing: 0%;
+        color:#111111;
+        z-index:10;
+        transition: opacity 0.3s ease; /* Added smooth transition */
+    }
+    span.before-pointer.before-pointer-two {
+        bottom: 10%;
+    }
+    span.before-pointer.before-pointer-one {
+      left: 30%;
+      bottom: 22%;
+    }
+   span.before-pointer.before-pointer-three {
+        bottom: 8%;
+        left: 35%;
+    }
+    span.after-pointer.after-pointer-one {
+        right: 20%;
+        bottom: 20%;
+    }
+    span.after-pointer.after-pointer-two {
+          bottom: 10%;
+    }
+    span.after-pointer.after-pointer-three {
+        bottom: 6%;
+        right: 30%;
+    }
+    .before-pointer span.line {
+          position: absolute;
+          height: 3px;
+          background: #fff;
+          width: 100%;
+          z-index: 999;
+          top: 50%;
+          transform: translateY(-50%);
+      }
+
+      .after-pointer span.line {
+          position: absolute;
+          height: 3px;
+          background: #fff;
+          width: 100%;
+          z-index: 9999999;
+          top: 50%;
+          transform: translateY(-50%);
+      }
+      .before-pointer span.line span {
+          position: absolute;
+          right: 0;
+          width: 15px;
+          height: 15px;
+          background: #fff;
+          top: -6px;
+          border-radius: 11px;
+      }
+
+      .before-pointer span.line span::before {
+          content: "";
+          position: absolute;
+          width: calc(100% + 6px);
+          height: calc(100% + 6px);
+          background: #ffffff87;
+          top: -3px;
+          left: -3px;
+          border-radius: 12px;
+      }
+
+      .before-pointer span.line span::after {
+          content: "";
+          position: absolute;
+          width: calc(100% + 10px);
+          height: calc(100% + 10px);
+          background: #ffffff33;
+          top: -5px;
+          left: -5px;
+          border-radius: 12px;
+      }
+      
+      .after-pointer span.line span {
+          position: absolute;
+          left: 0;
+          width: 15px;
+          height: 15px;
+          background: #fff;
+          top: -6px;
+          border-radius: 11px;
+      }
+
+      .after-pointer span.line span::before {
+          content: "";
+          position: absolute;
+          width: calc(100% + 6px);
+          height: calc(100% + 6px);
+          background: #ffffff87;
+          top: -3px;
+          left: -3px;
+          border-radius: 12px;
+      }
+
+      .after-pointer span.line span::after {
+          content: "";
+          position: absolute;
+          width: calc(100% + 10px);
+          height: calc(100% + 10px);
+          background: #ffffff33;
+          top: -5px;
+          left: -5px;
+          border-radius: 12px;
+      }
+
+      span.before-pointer.before-pointer-two {
+          left: 4%;
+      }
+
+      span.after-pointer.after-pointer-one {
+            right: 8%;
+      }
+      span.after-pointer.after-pointer-two {
+        right: 4%;
+      }
+      .before-after-slider a.btn {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        width: fit-content;
+        font-family: Montserrat;
+        font-weight: 600;
+        font-style: Bold;
+        font-size: 16px;
+        leading-trim: NONE;
+        line-height: 25.6px;
+        letter-spacing: 1px;
+        vertical-align: middle;
+        text-transform: uppercase;
+        background: #236A99;
+        border-radius: 4px;
+        padding: 0px;
+        height: 55px;
+        width: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #fff;
+        margin-top: 40px;
+    }
+    .before-after-slider a.btn:hover {
+      color:#fff;
+      background: #1e5a82;
+    }
+
+    .before-pointer span.line, .after-pointer span.line {
+        width: 0px !important;
+    }
+    .after-pointer > span:nth-child(2), .before-pointer > span:nth-child(2) {
+        display: none;
+    }
+    span.before-pointer.before-pointer-two {
+        left: 46%;
+        bottom: 20%;
+    }
+   {% comment %} span.before-pointer.before-pointer-three {
+            bottom: 18%;
+         left: 30%;
+    } {% endcomment %}
+    span.after-pointer.after-pointer-one {
+            right: 32%;
+    bottom: 23%;
+    }
+    span.after-pointer.after-pointer-two {
+           bottom: 13%;
+          right: 50%;
+    }
+    .before-after-slider .slider-handle::before,
+    .before-after-slider .slider-handle::after {
+        width: 12px;
+        height: 12px;
+    }
+    .before-after-slider .slider-handle::before {
+        transform: translate(2px, -50%); 
+    }
+    .before-after-slider .slider-handle::after {
+        transform: translate(-14px, -50%); 
+    }
+    span.pointer-text {
+        background: #fff;
+        padding: 8px 8px;
+        border-radius: 4px;
+        position: absolute;
+        white-space: nowrap;
+        top: -44px;
+        left: -45px;
+    }
+    .before-after.ba-container span.floating-text {
+          position: absolute;
+          top: 2%;
+          color: #fff;
+          text-transform: uppercase;
+          font-size: 18px;
+      }
+
+      .before-after.ba-container span.floating-text.after-text {
+          right: 15px;
+          z-index: 1;
+      }
+
+      .before-after.ba-container span.floating-text.before-text {
+          left: 15px;
+      }
+
+@media (min-width:768px){
+  .before-after.ba-container span.floating-text {
+      font-size: 14px;
+  }
+    
+    .before-pointer,
+    .after-pointer {
+        cursor:pointer;
+    }
+    .after-pointer:hover .pointer-text,
+    .before-pointer:hover .pointer-text {
+        display: block !important;
+    }
+
+  }  
+
+  /* Mobile styles */
+  @media (max-width: 768px) {
+
+    span.before-pointer.before-pointer-one {
+        left: 35%;
+        bottom: 29%;
+    }
+
+    span.before-pointer.before-pointer-two {
+        left: 50%;
+        bottom: 15%;
+    }
+
+    span.before-pointer.before-pointer-three {
+        bottom:27%%;
+        left: 15%;
+    }
+
+    span.after-pointer.after-pointer-one {
+        right: 28%;
+        bottom: 24%;
+    }
+
+    span.after-pointer.after-pointer-two {
+        bottom: 8%;
+        right: 40%;
+    }
+
+    span.after-pointer.after-pointer-three {
+        bottom: 11%;
+        right: 70%;
+    }
+        
+    .before-after-slider .slick-slider .slick-arrow {
+        position: absolute;
+        top: 50%;
+        padding: 0px;
+        background: no-repeat;
+        border: none;
+        z-index: 5;
+        width: 22px;
+        height: 22px;
+        transform: translateY(-50%);
+    }
+    .before-after-slider .slick-slider .slick-arrow svg {
+        width: 100%;
+        height: 100%;
+    }
+    .before-after-slider .slick-slider .slick-arrow.slick-prev {
+        left: 0 !important;
+    }
+    .before-after-slider .slick-slider .slick-arrow.slick-next {
+        right: 0 !important;
+    }
+    .before-after-slider .slider-handle::before,
+    .before-after-slider .slider-handle::after {
+      top:52%;
+    }
+
+    .before-after-slider .slick-slider .slick-list {
+      touch-action: none;
+      pointer-events: none;
+    }
+    
+    .before-after-slider .slick-slider .slick-arrow,
+    .before-after-slider .slick-slider .slick-dots {
+      pointer-events: auto;
+    }
+    
+    .before-after-slider .before-after-container {
+      pointer-events: auto;
+    }
+    .before-pointer span.line,
+    .after-pointer span.line {
+      position:relative;
+      top:0;
+      left:0;
+    }
+    span.after-pointer.after-pointer-one span.pointer-text {
+          top: -44px;
+          left: unset;
+          right: -28px;
+      }
+    span.after-pointer.after-pointer-three span.pointer-text {
+        left: -107px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const slickSlider = $('.before-after-slider .slick-slider');
+
+    // Function to toggle pointer visibility based on overlay width
+    function togglePointerVisibility(container, percentage) {
+      const beforePointers = container.querySelectorAll('.before-pointer');
+      const afterPointers = container.querySelectorAll('.after-pointer');
+      
+      if (percentage < 50) {
+        // Hide before pointers, show after pointers
+        beforePointers.forEach(pointer => pointer.style.opacity = '0');
+        afterPointers.forEach(pointer => pointer.style.opacity = '1');
+      } else {
+        // Show before pointers, hide after pointers  
+        beforePointers.forEach(pointer => pointer.style.opacity = '1');
+        afterPointers.forEach(pointer => pointer.style.opacity = '0');
+      }
+    }
+
+    // Initialize Before-After functionality with improved method
+    function attachDragListeners(container) {
+      const baContainer = container.querySelector('.ba-container');
+      const overlay = baContainer.querySelector('.ba-overlay');
+      const handle = baContainer.querySelector('.ba-handle');
+      let dragging = false;
+
+      // Set initial position and pointer visibility
+      overlay.style.width = '50%';
+      handle.style.left = '50%';
+      togglePointerVisibility(container, 50); // Initial state
+
+      // Mouse events
+      handle.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragging = true;
+        handle.style.cursor = 'grabbing';
+      });
+
+      document.addEventListener('mouseup', () => {
+        dragging = false;
+        handle.style.cursor = 'grab';
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!dragging) return;
+        e.preventDefault();
+        e.stopPropagation();
+        updateSlider(e);
+      });
+
+      // Touch events
+      handle.addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+        dragging = true;
+      });
+
+      document.addEventListener('touchend', () => {
+        dragging = false;
+      });
+
+      document.addEventListener('touchmove', (e) => {
+        if (!dragging) return;
+        e.preventDefault();
+        e.stopPropagation();
+        updateSlider(e.touches ? e.touches[0] : e);
+      });
+
+      function updateSlider(e) {
+        const rect = baContainer.getBoundingClientRect();
+        let x = (e.clientX || e.pageX) - rect.left;
+        x = Math.max(0, Math.min(x, rect.width));
+        const percentage = (x / rect.width) * 100;
+        overlay.style.width = percentage + '%';
+        handle.style.left = percentage + '%';
+        
+        // Toggle pointer visibility based on percentage
+        togglePointerVisibility(container, percentage);
+      }
+    }
+
+    // Initialize Slick Slider
+    slickSlider.slick({
+      dots: true,
+      infinite: true,
+      speed: 1000,
+      slidesToShow: 1,
+      adaptiveHeight: true,
+      arrows: true,
+      draggable: false,
+      swipe: false,
+      touchMove: false,
+      swipeToSlide: false,
+      touchThreshold: 1000,
+      prevArrow: `<button class="slick-prev slick-arrow" aria-label="Previous" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none"> <circle cx="19.5" cy="19.5" r="19.5" transform="matrix(-1 0 0 1 39 0)" fill="white"/> <path d="M22 15L17 20L22 25" stroke="black" stroke-width="2"/> </svg></button>`,
+      nextArrow: `<button class="slick-next slick-arrow" aria-label="Next" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none"> <circle cx="19.5" cy="19.5" r="19.5" fill="white"/> <path d="M16.7289 14.8538L21.7289 19.8538L16.7289 24.8538" stroke="black" stroke-width="2"/> </svg></button>`,
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            draggable: false,
+            swipe: false,
+            touchMove: false,
+            swipeToSlide: false,
+            arrows: true,
+            dots: true
+          }
+        }
+      ]
+    });
+
+    // Prevent slider dragging on mobile
+    function preventSliderDrag() {
+      const sliderList = document.querySelector('.before-after-slider .slick-list');
+      const sliderTrack = document.querySelector('.before-after-slider .slick-track');
+      
+      if (sliderList && sliderTrack && window.innerWidth <= 768) {
+        sliderList.style.touchAction = 'none';
+        sliderTrack.style.pointerEvents = 'none';
+        
+        const arrows = document.querySelectorAll('.before-after-slider .slick-arrow');
+        const dots = document.querySelectorAll('.before-after-slider .slick-dots button');
+        const beforeAfterContainers = document.querySelectorAll('.before-after-container');
+        
+        arrows.forEach(arrow => arrow.style.pointerEvents = 'auto');
+        dots.forEach(dot => dot.style.pointerEvents = 'auto');
+        beforeAfterContainers.forEach(container => container.style.pointerEvents = 'auto');
+      }
+    }
+
+    // Attach listeners on init and after each slide change
+    slickSlider.on('init afterChange', function(event, slick) {
+      const containers = document.querySelectorAll('.before-after-container');
+      containers.forEach(attachDragListeners);
+      preventSliderDrag();
+    });
+
+    // Secondary trigger after full page load
+    window.addEventListener('load', function() {
+      const containers = document.querySelectorAll('.before-after-container');
+      containers.forEach(attachDragListeners);
+      preventSliderDrag();
+    });
+
+    window.addEventListener('resize', preventSliderDrag);
+  });
+</script>
+
+<script>
+  // Mobile pointer toggle functionality
+  function initMobilePointerToggle() {
+      document.addEventListener('click', function(event) {
+        var clickedPointer = event.target.closest('span.before-pointer, span.after-pointer');
+        var allSecondSpans = document.querySelectorAll('span.before-pointer > span:nth-child(2), span.after-pointer > span:nth-child(2)');
+        
+        allSecondSpans.forEach(function(span) {
+          span.style.display = 'none';
+        });
+        
+        if (clickedPointer) {
+          var secondChild = clickedPointer.querySelector('span:nth-child(2)');
+          if (secondChild) {
+            secondChild.style.display = 'block';
+          }
+          event.stopPropagation();
+        }
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', initMobilePointerToggle);
+  window.addEventListener('resize', function() {
+    setTimeout(initMobilePointerToggle, 100);
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Before-After Slider",
+  "tag": "section",
+  "class": "before-after-section",
+  "settings": [
+    {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading"
+    },
+    {
+        "type":"richtext",
+        "id": "subtext",
+        "label": "Subtext"
+    },
+    {
+        "type": "text",
+        "id": "btn-text",
+        "label":"Button Text"
+    },
+    {
+        "type": "url",
+        "id": "btn-url",
+        "label": "Button URL"
+    },
+    {
+        "type": "range",
+        "id": "padding-top",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Top",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "padding-bottom",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Bottom",
+        "default": 2
+      }
+  ],    
+  "blocks": [
+    {
+      "type": "before_after",
+      "name": "Before-After Pair",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "before_image",
+          "label": "Before Image"
+        },
+        {
+            "type": "text",
+            "id":"pointer-one-before",
+            "label": "Pointer One Before"
+        },
+        {
+            "type": "text",
+            "id":"pointer-two-before",
+            "label": "Pointer Two Before"
+        },
+        {
+            "type": "text",
+            "id":"pointer-three-before",
+            "label": "Pointer Three Before"
+        },
+        {
+          "type": "image_picker",
+          "id": "after_image",
+          "label": "After Image"
+        },
+        {
+            "type": "text",
+            "id":"pointer-one-after",
+            "label": "Pointer One After"
+        },
+        {
+            "type": "text",
+            "id":"pointer-two-after",
+            "label": "Pointer Two After"
+        },
+        {
+            "type": "text",
+            "id":"pointer-three-after",
+            "label": "Pointer Three After"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Before-After Slider"
+    }
+  ]
+}
+{% endschema %}

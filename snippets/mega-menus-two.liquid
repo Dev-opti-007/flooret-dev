@@ -1,0 +1,90 @@
+{% for block in blocks %}
+  {% assign menu = block.settings %}
+  <div class="mega-menu desk-only two-menus" data-menu="{{ menu.menu_name | handleize }}">
+    <div class="mega-menu__wrap">
+      <div class="mega-menu__menu">
+        <div class="one-wrap">
+            <span class="h3">{{ menu.menu_name_one }}</span>
+            {% render 'menu-list-footer', menu: menu.mobile_menu %}
+            {% if menu.cta != blank and menu.cta_link != blank %}
+            <a href="{{ menu.cta_link }}" class="mega-menu__cta">{{ menu.cta }}</a>
+            {% endif %}
+        </div>
+        <div class="two-wrap">
+            <span class="h3 {% if menu.menu_name_two == 'Provence Natural Hardwood' %}d-flex{% endif %}">{{ menu.menu_name_two }}
+                {% if menu.menu_name_two == 'Provence Natural Hardwood' %}
+                     <span class="custom-badge-new">New</span>
+                {% endif %}
+            </span>
+          
+            {% render 'menu-list-footer', menu: menu.mobile_menu_two %}
+            {% if menu.cta_two != blank and menu.cta_link_two != blank %}
+            <a href="{{ menu.cta_link_two }}" class="mega-menu__cta">{{ menu.cta_two }}</a>
+            {% endif %}
+        </div>
+      </div>
+      <div class="mega-menu__cards {% if menu.rows == '3' %}three-tiles{% endif %}{% if menu.rows == '4' %}four-tiles{% endif %}">
+        {% for i in (1..6) %}
+          {% liquid
+            assign imageSelect = 'feat_image_' | append: i
+            assign headingSelect = 'feat_heading_' | append: i
+            assign ctaSelect = 'feat_cta_' | append: i
+            assign ctaLinkSelect = 'feat_cta_link_' | append: i
+            assign tag1Select = 'feat_tag_' | append: i | append: '_1'
+            assign tag2Select = 'feat_tag_' | append: i | append: '_2'
+            assign imageSize = 600
+            if menu['feat_image_2'] == blank
+              assign imageSize = 1100
+            endif
+          %}
+          {% if menu[imageSelect] != blank and menu[ctaLinkSelect] != blank %}
+            <a class="mmcard {% if menu.large_image %}mmcard--large{% endif %}" href="{{ menu[ctaLinkSelect] }}">
+               {% if menu[tag1Select] or menu[tag2Select] %}
+                  <div class="mmcard__tags">
+                    {% if menu[tag1Select] %}
+                      <span class="mmcard__tag mmcard__tag--1">{{ menu[tag1Select] }}</span>
+                    {% endif %}
+                    {% if menu[tag2Select] %}
+                      <span class="mmcard__tag mmcard__tag--2">{{ menu[tag2Select] }}</span>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              <div class="mmcard__image">
+                {% render 'lazy-image', image: menu[imageSelect], width:imageSize %}
+              </div>
+              <div class="mmcard__content">
+                {% if menu[headingSelect] %}
+                  <span class="h5">{{ menu[headingSelect] }}</span>
+                {% endif %}
+                {% if menu[ctaSelect] %}
+                  <span class="mmcard__cta">{{ menu[ctaSelect] }}</span>
+                {% endif %}
+              </div>
+            </a>
+          {% endif %}
+          {%  if forloop.index == 3 %}
+            {% if menu.shop-all-text != blank %}
+              <a class="mmcard text-only" href="{{ menu.shop-all-url }}">
+                <span>{{ menu.shop-all-text }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="10" viewBox="0 0 11 10" fill="none">
+                <path d="M10.5 4.66665L0.5 4.66665M10.5 4.66665L6.33333 8.83331M10.5 4.66665L6.33333 0.49998" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+              {% endif %}
+           {% endif %}
+           {%  if forloop.index == 6 %}
+            {% if menu.shop-all-text-two != blank %}
+            <a class="mmcard text-only" href="{{ menu.shop-all-url-two }}">
+              <span>{{ menu.shop-all-text-two }}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="10" viewBox="0 0 11 10" fill="none">
+              <path d="M10.5 4.66665L0.5 4.66665M10.5 4.66665L6.33333 8.83331M10.5 4.66665L6.33333 0.49998" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            {% endif %}
+           {% endif %} 
+        {% endfor %}
+        
+      </div>
+    </div>
+  </div>
+{% endfor %}

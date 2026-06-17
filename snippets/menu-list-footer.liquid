@@ -1,0 +1,425 @@
+<ul itemscope itemtype="http://www.schema.org/SiteNavigationElement">
+	{% for link in linklists[menu].links %}
+
+		{%- liquid
+			unless link.title == 'All Watches'
+				assign subcollections = false
+				if showSubcollections == true
+					if link.type contains 'collection'
+						assign meta = link.object.metafields.custom
+						if meta.sub_collections.value != blank
+							assign subcollections = meta.sub_collections.value
+							capture subcollectionLoop
+								for subcollection in subcollections
+									render 'sub-col-card', subcollection: subcollection
+								endfor
+							endcapture
+						endif
+					endif
+				endif
+			endunless
+		-%}
+	    
+		<li class="{% if link.active %}active{% endif %} {{link.type}} parent-link {% if showSubcollections and subcollections %}has-subcollections{% endif %} {% if link.child_active %}child-active{% endif %} {%- if link.links != blank -%}haslinks{% endif %}">
+			<a itemprop="url" href="{{ link.url }}"><span itemprop="name">{{ link.title }}</span>{% if link.title == 'Shop Floors' and showNew == "true" %}<span class="custom-badge-new">New</span>{% endif %}{%- if link.links != blank -%} <span class="more">{% render 'svg-chevron' %}</span>{% endif %}</a>
+			{% if subcollections %}
+				<div class="swiper">
+					<div class="swiper-wrapper">
+						{{ subcollectionLoop }}
+					</div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-button-next"></div>
+					<div class="swiper-scrollbar"></div>
+				</div>
+			{% endif %}
+			{%- if link.links != blank -%}
+			  <ul class="child">
+				{% for child_link in link.links %}
+					{%- liquid
+						unless child_link.title == 'All Watches'
+							assign subcollections = false
+							if showSubcollections == true
+								if child_link.type contains 'collection'
+									assign meta = child_link.object.metafields.custom
+									if meta.sub_collections != blank
+										assign subcollections = meta.sub_collections.value
+										capture subcollectionLoop
+											for subcollection in subcollections
+												render 'sub-col-card', subcollection: subcollection
+											endfor
+										endcapture
+									endif
+								endif
+							endif
+						endunless
+					-%}
+				<li class="{% if child_link.active %}active{% endif %} child-link {% if showSubcollections and subcollections %}has-subcollections{% endif %}">
+					<a itemprop="url" href= "{{ child_link.url }}"><span itemprop="name">{{ child_link.title }}</span>{%- if showSubcollections and subcollections  -%} <span class="more">{% render 'svg-chevron' %}</span>{% endif %}</a>
+					{% if subcollections %}
+						<div class="swiper">
+							<div class="swiper-wrapper">
+							{% render 'sub-col-card', subcollection: child_link.object, all: true %}
+								{{ subcollectionLoop }}
+							</div>
+							<div class="swiper-button-prev"></div>
+							<div class="swiper-button-next"></div>
+							<div class="swiper-scrollbar"></div>
+						</div>
+					{% endif %}
+				{%- if child_showSubcollections != blank -%}
+				  <ul class="grandchild">
+				  {% for grandchild_link in child_link.links %}  
+					<li {% if link.active %}class="active"{% endif %}><a itemprop="url" href= "{{ grandchild_link.url }}"><span itemprop="name">{{ grandchild_link.title }}</span></a></li>
+				  {% endfor %}
+				  </ul>
+				{%- endif -%}   
+				</li>
+				{% endfor %}
+			  </ul> 
+			{%- endif -%} 
+		</li>
+
+	{% endfor %}
+	{% comment %} {%  if heading == 'Resources' %}
+	<button id="request-help-code" style="margin-top: 12px;">Get a help code</button>
+    <div id="help-code-result"></div>
+	{% endif %} {% endcomment %}
+</ul>
+
+
+{%  if heading == 'Resources' %}
+
+<script>
+  (function () {
+    async function getHelpCode() {
+      if (!window.NOIBUJS) {
+        await new Promise(resolve => window.addEventListener('noibuSDKReady', resolve, { once: true }));
+      }
+      const helpCode = await window.NOIBUJS.requestHelpCode(false);
+      console.log('HelpCode:', helpCode);
+      return helpCode;
+    }
+
+    // auto-generate on load (optional)
+    getHelpCode();
+
+    // wire your button
+    window.addEventListener('noibuSDKReady', () => {
+      const button = document.getElementById('request-help-code');
+      const label = document.getElementById('help-code-result');
+      if (!button || !label) return;
+
+      button.addEventListener('click', async () => {
+        const helpCode = await window.NOIBUJS.requestHelpCode(false);
+        label.innerText = helpCode;
+      });
+    });
+  })();
+</script>
+
+<script>
+  (function () {
+      // Generate a unique session ID for this browser session
+      function getOrCreateSessionId() {
+        try {
+          let sessionId = sessionStorage.getItem('noibu_session_id');
+          if (!sessionId) {
+            sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            sessionStorage.setItem('noibu_session_id', sessionId);
+            console.log('[Noibu] Created new session ID:', sessionId);
+          }
+          return sessionId;
+        } catch (e) {
+          console.error('[Noibu] Error with session ID:', e);
+        }
+        return null;
+      }
+
+      function getGladlyIdentifier() {
+        try {
+          if (window.Gladly && typeof window.Gladly.getUser === 'function') {
+            const user = window.Gladly.getUser();
+            if (user && user.id) {
+              console.log('[Noibu] Found Gladly user ID:', user.id);
+              return String(user.id);
+            }
+            if (user && user.email) {
+              console.log('[Noibu] Found Gladly user email:', user.email);
+              return String(user.email);
+            }
+          }
+        } catch (e) {
+          console.error('[Noibu] Error getting Gladly identifier:', e);
+        }
+        return null;
+      }
+
+      function getShopifyCustomerId() {
+        try {
+          if (window.ShopifyAnalytics?.meta?.page?.customerId) {
+            return String(window.ShopifyAnalytics.meta.page.customerId);
+          }
+          if (window.Shopify?.customer?.id) {
+            return String(window.Shopify.customer.id);
+          }
+          if (window.Shopify?.checkout?.customer_id) {
+            return String(window.Shopify.checkout.customer_id);
+          }
+        } catch (e) {
+          console.error('[Noibu] Error getting Shopify customer ID:', e);
+        }
+        return null;
+      }
+
+      function getOrderName() {
+        try {
+          if (window.Shopify?.checkout?.order_id) {
+            return String(window.Shopify.checkout.order_id);
+          }
+          if (window.Shopify?.checkout?.order_name) {
+            return String(window.Shopify.checkout.order_name);
+          }
+        } catch (e) {
+          console.error('[Noibu] Error getting order name:', e);
+        }
+        return null;
+      }
+
+      function getContactSessionId() {
+        try {
+          // window variable
+          if (window.contact_session_id) {
+            return String(window.contact_session_id);
+          }
+          // localStorage
+          let csid = localStorage.getItem('contact_session_id');
+          if (csid) return String(csid);
+          // cookie
+          const match = document.cookie.match(/(?:^|;\s*)contact_session_id=([^;]+)/);
+          if (match) return decodeURIComponent(match[1]);
+        } catch (e) {
+          console.error('[Noibu] Error getting contact_session_id:', e);
+        }
+        return null;
+      }
+
+      function addAttributesToNoibu() {
+        if (!window.NOIBUJS || typeof window.NOIBUJS.addCustomAttribute !== 'function') {
+          console.error('[Noibu] NOIBUJS.addCustomAttribute is not available');
+          return;
+        }
+        try {
+          console.log('[Noibu] Adding custom attributes...');
+          // 1. Session ID
+          const sessionId = getOrCreateSessionId();
+          if (sessionId) {
+            window.NOIBUJS.addCustomAttribute('sessionID', sessionId);
+            console.log('[Noibu] ✓ Added sessionID:', sessionId);
+          }
+          // 2. Shopify customer ID
+          const customerId = getShopifyCustomerId();
+          if (customerId) {
+            window.NOIBUJS.addCustomAttribute('customerID', customerId);
+            console.log('[Noibu] ✓ Added customerID:', customerId);
+          } else {
+            console.log('[Noibu] ⚠ No Shopify customer ID found (customer may not be logged in)');
+          }
+          // 3. Gladly user ID
+          const gladlyId = getGladlyIdentifier();
+          if (gladlyId) {
+            window.NOIBUJS.addCustomAttribute('gladlyUserID', gladlyId);
+            console.log('[Noibu] ✓ Added gladlyUserID:', gladlyId);
+          } else {
+            console.log('[Noibu] ⚠ No Gladly user identifier found');
+          }
+          // 4. Order name
+          const orderName = getOrderName();
+          if (orderName) {
+            window.NOIBUJS.addCustomAttribute('orderName', orderName);
+            console.log('[Noibu] ✓ Added orderName:', orderName);
+          } else {
+            console.log('[Noibu] ⚠ No order name found (not on checkout page)');
+          }
+          // 5. contact_session_id
+          const contactSessionId = getContactSessionId();
+          if (contactSessionId) {
+            window.NOIBUJS.addCustomAttribute('contact_session_id', contactSessionId);
+            console.log('[Noibu] ✓ Added contact_session_id:', contactSessionId);
+          } else {
+            console.log('[Noibu] ⚠ No contact_session_id found');
+          }
+          console.log('[Noibu] Custom attributes added successfully');
+        } catch (e) {
+          console.error('[Noibu] Error adding attributes:', e);
+        }
+      }
+
+      function waitForGladlyAndUpdate() {
+        if (window.Gladly) {
+          console.log('[Noibu] Gladly detected, checking for Gladly user...');
+          const gladlyId = getGladlyIdentifier();
+          if (gladlyId && window.NOIBUJS) {
+            window.NOIBUJS.addCustomAttribute('gladlyUserID', gladlyId);
+            console.log('[Noibu] ✓ Added gladlyUserID after Gladly loaded:', gladlyId);
+          }
+        } else {
+          setTimeout(() => {
+            if (window.Gladly) {
+              console.log('[Noibu] Gladly loaded late, checking for Gladly user...');
+              const gladlyId = getGladlyIdentifier();
+              if (gladlyId && window.NOIBUJS) {
+                window.NOIBUJS.addCustomAttribute('gladlyUserID', gladlyId);
+                console.log('[Noibu] ✓ Added gladlyUserID after delayed load:', gladlyId);
+              }
+            }
+          }, 2000);
+        }
+      }
+
+      function init() {
+        if (window.NOIBUJS && typeof window.NOIBUJS.addCustomAttribute === 'function') {
+          console.log('[Noibu] NOIBUJS ready, adding attributes...');
+          addAttributesToNoibu();
+          waitForGladlyAndUpdate();
+        } else {
+          console.log('[Noibu] Waiting for NOIBUJS SDK...');
+          window.addEventListener('noibuSDKReady', () => {
+            console.log('[Noibu] NOIBUJS SDK ready');
+            addAttributesToNoibu();
+            waitForGladlyAndUpdate();
+          }, { once: true });
+        }
+      }
+      init();
+  })();
+</script>
+
+
+
+
+
+{% comment %} <script>
+  (function () {
+    async function getHelpCode() {
+      if (!window.NOIBUJS) {
+        await new Promise(resolve => window.addEventListener('noibuSDKReady', resolve, { once: true }));
+      }
+      // returns a Promise<string>
+      const helpCode = await window.NOIBUJS.requestHelpCode(false);
+      console.log('HelpCode:', helpCode);
+      return helpCode;
+    }
+
+    // auto-generate on load (optional)
+    getHelpCode();
+
+    // wire your button
+    window.addEventListener('noibuSDKReady', () => {
+      const button = document.getElementById('request-help-code');
+      const label = document.getElementById('help-code-result');
+      if (!button || !label) return;
+
+      button.addEventListener('click', async () => {
+        const helpCode = await window.NOIBUJS.requestHelpCode(false);
+        label.innerText = helpCode;
+      });
+    });
+  })();
+</script>
+<script>
+  (function () {
+    function getGladlySessionId() {
+      try {
+        if (window.Gladly && typeof window.Gladly.getSessionId === 'function') {
+          return String(window.Gladly.getSessionId());
+        }
+        if (window.Gladly && window.Gladly.sessionId) {
+          return String(window.Gladly.sessionId);
+        }
+        const vLS = localStorage.getItem('gladly_session_id');
+        if (vLS) return String(vLS);
+        const m = document.cookie.match(/(?:^|;\s*)gladly_session_id=([^;]+)/);
+        if (m) return decodeURIComponent(m[1]);
+      } catch (e) {}
+      return null;
+    }
+
+    function getOrderName() {
+      try {
+        if (window.Shopify && Shopify.checkout && Shopify.checkout.order_id) {
+          // Use order_id or order_number / order_name depending on what you need
+          return String(Shopify.checkout.order_id);
+        }
+      } catch (e) {}
+      return null;
+    }
+
+    function addAttributesToNoibu() {
+      try {
+        const sid = getGladlySessionId();
+        if (sid) {
+          window.NOIBUJS.addCustomAttribute('gladlySessionId', sid);
+        }
+
+        const orderName = getOrderName();
+        if (orderName) {
+          window.NOIBUJS.addCustomAttribute('orderName', orderName);
+        }
+      } catch (e) {}
+    }
+
+    function init() {
+      if (window.NOIBUJS && typeof window.NOIBUJS.addCustomAttribute === 'function') {
+        addAttributesToNoibu();
+      } else {
+        window.addEventListener('noibuSDKReady', addAttributesToNoibu, { once: true });
+      }
+    }
+
+    init();
+  })();
+</script> {% endcomment %}
+
+
+{% comment %} <script>
+  (function () {
+    function getGladlySessionId() {
+      try {
+        if (window.Gladly && typeof window.Gladly.getSessionId === 'function') {
+          return String(window.Gladly.getSessionId());
+        }
+        if (window.Gladly && window.Gladly.sessionId) {
+          return String(window.Gladly.sessionId);
+        }
+        const vLS = localStorage.getItem('gladly_session_id');
+        if (vLS) return String(vLS);
+        const m = document.cookie.match(/(?:^|;\s*)gladly_session_id=([^;]+)/);
+        if (m) return decodeURIComponent(m[1]);
+      } catch (e) {}
+      return null;
+    }
+
+    function addGladlyToNoibu() {
+      const sid = getGladlySessionId();
+      if (!sid) return;
+      try {
+        window.NOIBUJS.addCustomAttribute('gladlySessionId', String(sid));
+      } catch (e) {}
+    }
+
+    function init() {
+      if (window.NOIBUJS && typeof window.NOIBUJS.addCustomAttribute === 'function') {
+        addGladlyToNoibu();
+      } else {
+        window.addEventListener('noibuSDKReady', addGladlyToNoibu, { once: true });
+      }
+    }
+
+    // If Gladly initializes late, call init again from its ready event if available.
+    // Example: document.addEventListener('gladly:ready', init, { once: true });
+
+    init();
+  })();
+</script> {% endcomment %}
+
+{% endif %}

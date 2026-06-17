@@ -1,0 +1,21 @@
+{% assign loading = 'lazy' %}
+
+{%- if lazy == false -%}
+    {% assign loading = 'eager' %}
+{%- endif -%}
+
+{%- unless alt != blank -%}
+    {% assign alt = image.alt %}
+{%- endunless -%}
+
+{% if image != blank %}
+    {% if width != blank and height != blank %}
+        {{ image | image_url: width: width, height: height | image_tag: alt: alt, class: class, crop: crop, loading: loading }}
+    {% elsif width != blank %}
+        {{ image | image_url: width: width | image_tag: alt: alt, class: class, crop: crop, loading: loading }}
+    {% elsif height != blank %}
+        {{ image | image_url: height: height | image_tag: alt: alt, class: class, crop: crop, loading: loading }}
+    {% else %}
+        {{ image | image_url: width: 2000 | image_tag: alt: alt, class: class, crop: crop, loading: loading }}
+    {% endif %}
+{% endif %}

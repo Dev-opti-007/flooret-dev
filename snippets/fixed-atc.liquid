@@ -1,0 +1,99 @@
+<div class="fixed-atc">
+  <p class="product-head product-sticky-header">{{ product.title }}</p>
+  <div class="product-reviews">
+    {% assign skus_array = product.variants | map: 'sku' %}
+    {% assign skus = skus_array | join: ';' %}
+    <a href="#review-rating" class="review-wrapper">
+      <div class="ruk_rating_snippet sticky desktop-only" data-sku="{{ skus }}"></div>
+      <div class="ruk_rating_snippet normal mobile-only" data-sku="{{ skus }}"></div>
+    </a>
+  </div>
+  {% comment %} <a href="#pdp-atc__variants" class="btn btn--black">Select options</a> {% endcomment %}
+</div>
+
+{% style %}
+  .fixed-atc {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    padding: 8px 16px;
+    justify-content: space-between;
+    z-index: 99;
+    background: #fbfaf8;
+    border-bottom: 0.5px solid #cecece;
+    top: -100px;
+    transition: top 0.3s ease-in-out;
+  }
+  .fixed-atc a {
+    width: fit-content;
+    font-size: 12px;
+  }
+  .fixed-atc.show {
+    /* top: 110px !important; */
+  }
+
+  @media (min-width: 768px) {
+    .fixed-atc {
+      padding: 13px 48px 8px 48px;
+    }
+    .fixed-atc a {
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .fixed-atc.show {
+      /* top: 119px !important; */
+    }
+  }
+
+  
+  @media (max-width: 500px) {
+    .fixed-atc {
+      margin-top: 30px !important;
+      padding: 11px 16px 8px 16px;
+    }
+  }
+  .fixed-atc a,
+  .fixed-atc p {
+    margin: 0;
+  }
+  .fixed-atc .product-head {
+    font-weight: 700;
+  }
+  .fixed-atc span {
+    font-size: 12px;
+  }
+  .fixed-atc img {
+    width: 43px;
+    height: 43px;
+    border-radius: 2px;
+    margin-right: 16px;
+  }
+  .fixed-atc .product-info {
+    display: flex;
+    align-items: center;
+  }
+{% endstyle %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var fixedAtc = document.querySelector('.fixed-atc');
+    var mproductAtc = document.querySelector('.mproduct__atc');
+
+    function checkVisibility() {
+      var rect = mproductAtc.getBoundingClientRect();
+      var isScrolledPast = rect.bottom < 0;
+
+      if (isScrolledPast) {
+        fixedAtc.classList.add('show');
+      } else {
+        fixedAtc.classList.remove('show');
+      }
+    }
+
+    window.addEventListener('scroll', checkVisibility);
+    window.addEventListener('resize', checkVisibility);
+
+    checkVisibility();
+  });
+</script>

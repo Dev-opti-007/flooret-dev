@@ -1,0 +1,72 @@
+{%- unless products == blank and blocks == blank -%}
+  {%- liquid
+    if module.cta
+      assign module.cta_text = module.cta
+    endif
+
+    if module.cta_link
+      assign module.cta_url = module.cta_link
+    endif
+  -%}
+
+  <section class="ft-prod-col">
+    <div class="container">
+      <div class="ft-prod-col__wrap swiper">
+        <div class="ft-prod-col__content">
+          {% if module.heading != blank %}
+            <h2>{{ module.heading }}</h2>
+          {% endif %}
+          {{ module.content }}
+          {% if module.cta_url != blank and module.cta_text != blank %}
+            <a class="desk-only btn btn--outline" href="{{ module.cta_url }}">{{ module.cta_text }}</a>
+          {% endif %}
+
+          <div class="swiper-controls desk-only">
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-scrollbar"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+        </div>
+
+        <div class="ft-prod-col__slider">
+          <div class="swiper-wrapper">
+            {%- if products != blank -%}
+              {%- for prod in products -%}
+                <div class="swiper-slide">
+                  {%- render 'product-card', product: all_products[prod.handle], color_link: color_link -%}
+                </div>
+              {%- endfor -%}
+            {%- else -%}
+              {%- if blocks != blank -%}
+                {% for block in blocks %}
+                  {% assign item = block.settings %}
+                  <div class="swiper-slide">
+                    {% liquid
+                      if block.type == 'product'
+                        render 'product-card', product: all_products[item.product], color_link: color_link
+                      endif
+                      if block.type == 'link'
+                        render 'link-card', image: item.image, heading: item.heading, content: item.content, cta: item.cta, cta_link: item.cta_link
+                      endif
+                    %}
+                  </div>
+                {% endfor %}
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+          <div class="ft-prod-col__content mobile-only">
+            <div class="swiper-controls mob-only">
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-scrollbar"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </div>
+        </div>
+
+        {% if module.cta_url != blank and module.cta_text != blank %}
+          <a class="mob-only btn btn--outline" href="{{ module.cta_url }}">{{ module.cta_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{%- endunless -%}

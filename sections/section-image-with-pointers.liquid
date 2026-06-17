@@ -1,0 +1,473 @@
+<style>
+  .img-with-pointers-{{ section.id }} {
+    padding-top:{{ section.settings.padding-top }}px;
+    padding-bottom:{{ section.settings.padding-bottom }}px;
+  }
+   .img-with-pointers {
+  background: #33312d;
+}
+
+.img-with-pointers .page-width {
+  max-width: 1280px;
+  margin: auto;
+  width: 100%;
+  padding: 0px 30px;
+}
+
+.img-with-pointers .head-wrap h2 {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-style: ExtraBold;
+  font-size: 52px;
+  line-height: 89.6px;
+  text-align: center;
+  vertical-align: middle;
+  color: #fff;
+}
+
+.img-with-pointers .head-wrap .desc {
+  max-width: 894px;
+  margin: auto;
+}
+
+.img-with-pointers .head-wrap .desc P {
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 32px;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  color: #fff;
+}
+
+.img-with-pointers .main-wrap {
+  display: flex;
+  margin-top: 65px;
+  align-items: center;
+}
+
+.img-with-pointers .main-wrap .left-wrap {
+  width: 40%;
+  padding-right: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
+.img-with-pointers .main-wrap .right-wrap {
+  width: 60%;
+  position: relative;
+}
+
+.img-with-pointers .main-wrap .left-wrap .pointer {
+  display: grid;
+  grid-template-columns: 35px auto;
+  row-gap: 2px;
+  column-gap: 35px;
+  padding: 15px 30px;
+  border-radius: 8px;
+  background: transparent;
+  transition: all 300ms ease;
+  scale: 1;
+  cursor:pointer;
+}
+
+.img-with-pointers .main-wrap .left-wrap .pointer .number {
+  background: #2d4a3a;
+  width: 31px;
+  height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border-radius: 30px;
+  font-family: Montserrat;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 28.8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.img-with-pointers .main-wrap .left-wrap .pointer .title {
+  margin: 0px;
+  font-family: Montserrat;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 28.8px;
+  vertical-align: middle;
+  color: #fff;
+}
+
+.img-with-pointers .main-wrap .left-wrap .pointer .richtext {
+  grid-column: 2/3;
+}
+
+.img-with-pointers .main-wrap .left-wrap .pointer .richtext p {
+  font-family: Montserrat;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 21px;
+  vertical-align: middle;
+  color: #fff;
+}
+
+.img-with-pointers .main-wrap .left-wrap .pointer:hover {
+  background: #fff;
+  scale: 1.03;
+}
+
+.img-with-pointers .main-wrap .left-wrap .pointer:hover .title {
+  color: #111111;
+}
+
+.img-with-pointers .main-wrap .left-wrap .pointer:hover .richtext p {
+  color: #111111;
+}
+
+.img-with-pointers .warrenty-wrap {
+  background: #e5d5b7;
+  border: 1px solid #b8956a;
+  display: flex;
+  border-radius: 8px;
+  padding: 15px 20px;
+  gap: 20px;
+}
+
+.img-with-pointers .warrenty-wrap .badge {
+  background: #fff;
+  border: 3px solid #2d4a3a;
+  border-radius: 50%;
+  box-shadow: 0px 8px 30px 0px #2d4a3a1f;
+  width: 90px;
+  height: 90px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.img-with-pointers .warrenty-wrap .badge p {
+  margin: 0px;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 9px;
+  line-height: 14.4px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.img-with-pointers .warrenty-text {
+  width: calc(100% - 110px);
+}
+
+.img-with-pointers .warrenty-wrap .badge p:nth-child(1) {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 25px;
+  text-align: center;
+  vertical-align: middle;
+  color: #2d4a3a;
+}
+
+.img-with-pointers .warrenty-text .heading {
+  font-family: Montserrat;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 22px;
+  vertical-align: middle;
+}
+
+.img-with-pointers .warrenty-text .subtext {
+  margin-top: 6px;
+}
+
+.img-with-pointers .warrenty-text .subtext p {
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Italic;
+  font-size: 12px;
+  line-height: 19px;
+  vertical-align: middle;
+}
+
+.img-with-pointers .pointer-hover {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  position: absolute;
+  width: 500px;
+  right: -24px;
+  opacity: 0;
+  top: 50%;
+  transition: top 500ms, opacity 300ms;
+}
+
+.img-with-pointers .pointer-hover::after {
+  content: "";
+  right: 28px;
+  bottom: -15px;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 16px solid #dde9d8;
+}
+
+.img-with-pointers .pointer-hover.active[data-name="1"] {
+  opacity: 1;
+  top: -12%;
+}
+
+.img-with-pointers .pointer-hover.active[data-name="2"] {
+  opacity: 1;
+  top: -5%;
+}
+
+.img-with-pointers .pointer-hover.active[data-name="3"] {
+  opacity: 1;
+  top: 2%;
+}
+
+.img-with-pointers .pointer-hover.active[data-name="4"] {
+  opacity: 1;
+  top: 5%;
+}
+
+.img-with-pointers .pointer-hover.active[data-name="5"] {
+  opacity: 1;
+  top: 12%;
+}
+
+.img-with-pointers .pointer-hover.active[data-name="6"] {
+  opacity: 1;
+  top: 20%;
+}
+</style>
+
+<div class="img-with-pointers img-with-pointers-{{ section.id }}">
+  <div class="page-width">
+    <div class="head-wrap">
+      {% if section.settings.heading != blank %}
+      <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.sub-heading != blank %}
+      <div class="desc">
+          {{ section.settings.sub-heading }}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="main-wrap">
+      <div class="left-wrap" >
+        {% for block in section.blocks %}
+          <div class="pointer" data-target="{{ block.settings.number }}">
+            <span class="number">{{ block.settings.number }}</span>
+            <p class="title">{{ block.settings.title }}</p>
+            <div class="richtext" > 
+              {{ block.settings.subtext }}
+            </div>
+          </div>
+        {% endfor %}
+        
+      </div>
+      
+      <div class="right-wrap">
+        {% for block in section.blocks %}
+          <div class="pointer-hover" data-name="{{ block.settings.number }}">
+            <div class="richtext" > 
+              {{ block.settings.subtext }}
+            </div>
+          </div>
+        {% endfor %}
+        <img src="{{ section.settings.image | img_url:'732x' }}" alt="{{ section.settings.image.alt }}" >
+        {% if section.settings.warrenty-badge-text != blank %}
+        <div class="warrenty-wrap d-none-mob" >
+          <div class="badge">
+            {{ section.settings.warrenty-badge-text }}
+          </div>
+          <div class="warrenty-text">
+            <p class="heading">{{ section.settings.title }}</p>
+            <div class="subtext">
+              {{ section.settings.subtext }}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.warrenty-badge-text != blank %}
+      <div class="warrenty-wrap d-none-desk" >
+          <div class="badge">
+            {{ section.settings.warrenty-badge-text }}
+          </div>
+          <div class="warrenty-text">
+            <p class="heading">{{ section.settings.title }}</p>
+            <div class="subtext">
+              {{ section.settings.subtext }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("Hover script initialized");
+
+  // Select all the necessary elements once.
+  const pointers = document.querySelectorAll('.pointer');
+  const hoverTargets = document.querySelectorAll('.pointer-hover');
+  const leftWrap = document.querySelector('.left-wrap');
+
+  // Exit if the required elements aren't on the page.
+  if (pointers.length === 0 || !leftWrap) {
+    return;
+  }
+
+  // Loop through each pointer to add the 'mouseenter' event.
+  pointers.forEach(pointer => {
+    pointer.addEventListener('mouseenter', function() {
+      // First, remove the 'active' class from all elements to reset them.
+      pointers.forEach(p => p.classList.remove('active'));
+      hoverTargets.forEach(t => t.classList.remove('active'));
+
+      // Get the target number from the element being hovered.
+      const targetId = this.dataset.target;
+      
+      // Find the corresponding element to show.
+      const targetElement = document.querySelector(`.pointer-hover[data-name="${targetId}"]`);
+      
+      // Add the 'active' class to the pointer and its target content.
+      if (targetElement) {
+        this.classList.add('active');
+        targetElement.classList.add('active');
+      }
+    });
+  });
+
+  // Add the 'mouseleave' event to the parent container just once.
+  leftWrap.addEventListener('mouseleave', function() {
+    // When the mouse leaves the whole area, remove all active classes.
+    pointers.forEach(p => p.classList.remove('active'));
+    hoverTargets.forEach(t => t.classList.remove('active'));
+  });
+});
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () =>{
+    if(window.innerWidth < 768) {
+    $('.img-with-pointers .left-wrap').slick({
+      infinite: true,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: true,
+      adaptiveHeight: true,
+      prevArrow: '<button class="slick-prev slick-arrow" aria-label="Previous" type="button" style=""><svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none"> <path d="M15 6L9 12L15 18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg></button>',
+      nextArrow: '<button class="slick-next slick-arrow" aria-label="Next" type="button" style=""><svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none"> <path d="M9 6L15 12L9 18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg></button>'
+    });
+    }
+  })
+  
+</script>
+
+{% schema %}
+  {
+    "name": "Image with Pointers",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "sub-heading",
+        "label": "Sub-heading"
+      },
+      {
+        "type": "header",
+        "content": "Image on right"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "header",
+        "content": "Warrenty Text"
+      },
+      {
+        "type": "richtext",
+        "id": "warrenty-badge-text",
+        "label": "Warrenty Badge Text"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Warrenty title"
+      },
+      {
+        "type": "richtext",
+        "id": "subtext",
+        "label": "Warrenty Subtext"
+      },
+      {
+        "type": "range",
+        "id": "padding-top",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Top",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "padding-bottom",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Bottom",
+        "default": 2
+      }
+    ],
+    "blocks":[
+      {
+        "type": "pointer",
+        "name":"Pointer",
+        "settings": [
+          {
+            "type": "number",
+            "id": "number",
+            "label": "Pointer Number"
+          },
+          {
+            "type": "html",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "richtext",
+            "id": "subtext",
+            "label": "Subtext"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name":"Image with Pointers"
+      }
+    ]
+  }
+{% endschema %}

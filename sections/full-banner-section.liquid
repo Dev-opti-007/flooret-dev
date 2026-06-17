@@ -1,0 +1,373 @@
+
+<div class="container-full slide-vi-secid--{{ section.id }}">
+  <div class=" imageSlider">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide">
+          <div class="overlay" style="background-color: {{ block.settings.color }};">
+            {%- if block.settings.video_url != blank -%}
+            <img class="thumb-image-{{ block.id }}" src="{{ block.settings.video_thumbnail | img_url:'1920x' }}" alt="{{ block.settings.video_thumbnail.alt }}" >
+    
+            {% endif %}
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 1900 | image_tag: alt: block.settings.image.alt }}
+          {% endif %}
+          </div>
+        <div class="main-wrap" >
+          <div class="content">
+            <h2>{{ block.settings.heading }}</h2>
+            <div class='desc'>
+              {{ block.settings.desc }}
+            </div>
+            <div class="btns">
+              {% if block.settings.btn-one-text != blank %}
+              <a class="btn btn-one" href="{{ block.settings.btn-one-link }}"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"> <path d="M6.53516 0.131409C6.83594 0.0220337 7.16406 0.0220337 7.4375 0.131409L13.125 2.26422C13.6445 2.45563 13.9727 2.94781 13.9727 3.49469V9.64703C13.9727 10.1392 13.6992 10.6041 13.2617 10.8228L7.57422 13.6666C7.19141 13.858 6.78125 13.858 6.39844 13.6666L0.710938 10.8228C0.273438 10.6041 0 10.1392 0 9.64703V3.49469C0 2.94781 0.328125 2.45563 0.847656 2.26422L6.53516 0.131409ZM7 1.82672L1.75 3.79547V3.82281L7 5.95563L12.25 3.82281V3.79547L7 1.82672ZM7.875 11.5611L12.25 9.3736V5.70953L7.875 7.48688V11.5611Z" fill="white"/> </svg> {{ block.settings.btn-one-text }}</a>
+               {% endif %}
+              {% if block.settings.btn-two-text != blank %}
+              <a class="btn two" href="{{ block.settings.btn-two-link }}"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"> <path d="M6.90991 0.158752C10.6287 0.158752 13.6912 3.22125 13.6912 6.94C13.6912 10.6861 10.6287 13.7213 6.90991 13.7213C3.16382 13.7213 0.128662 10.6861 0.128662 6.94C0.128662 3.22125 3.16382 0.158752 6.90991 0.158752ZM6.90991 3.16656C6.25366 3.16656 5.76147 3.6861 5.76147 4.315C5.76147 4.97125 6.25366 5.46344 6.90991 5.46344C7.53882 5.46344 8.05835 4.97125 8.05835 4.315C8.05835 3.6861 7.53882 3.16656 6.90991 3.16656ZM8.44116 10.1119V9.45563C8.44116 9.29156 8.2771 9.1275 8.11304 9.1275H7.78491V6.39313C7.78491 6.22906 7.62085 6.065 7.45679 6.065H5.70679C5.51538 6.065 5.37866 6.22906 5.37866 6.39313V7.04938C5.37866 7.24078 5.51538 7.3775 5.70679 7.3775H6.03491V9.1275H5.70679C5.51538 9.1275 5.37866 9.29156 5.37866 9.45563V10.1119C5.37866 10.3033 5.51538 10.44 5.70679 10.44H8.11304C8.2771 10.44 8.44116 10.3033 8.44116 10.1119Z" fill="white"/> </svg>  {{ block.settings.btn-two-text }}</a>
+              {% endif %}
+              </div>
+          </div>
+          {% if block.settings.image_right != blank %}
+          <div class="imag-block">{% if  block.settings.image_right  != blank %}{{ block.settings.image_right | image_url: width: 600 | image_tag: alt: block.settings.image_right.alt }}{% endif %}
+          </div>
+          {% endif %}
+        </div>
+          </div>
+
+          <script>
+            var videoHTML = `<video
+              src="{{ block.settings.video_url }}"
+              autoplay
+              muted
+              loop
+              playsinline
+              class="custom-video"
+              width="100%"
+              height="auto"
+            >
+              Your browser does not support the video tag.
+            </video>`;
+            function loadVideoOnInteraction() {
+              var thumbImage = document.querySelector('.thumb-image-{{ block.id }}');
+
+              // Check if the thumbnail image exists
+              if (thumbImage) {
+                // Insert the video HTML right after the thumbnail image
+                thumbImage.insertAdjacentHTML('afterend', videoHTML);
+                
+                // Remove the thumbnail image from the page
+                thumbImage.remove();
+              }
+            }
+
+            // An array of events that constitute a user interaction
+            var userInteractionEvents = ['mousemove', 'mousedown', 'scroll', 'keydown', 'touchstart'];
+
+            // Set up a one-time listener for each interaction type
+            userInteractionEvents.forEach(function(event) {
+              document.addEventListener(event, loadVideoOnInteraction, { once: true });
+            });
+          </script>
+      
+      {% endfor %}
+    </div>
+    <!-- <div class="swiper-controls">
+      <div class="button-prev">{% render 'icon-prev' %}</div>
+      <div class="button-next">{% render 'icon-next' %}</div>
+    </div> -->
+  </div>
+</div>
+
+
+
+{% style %} 
+ .swiper-slide .overlay {
+      position: absolute;
+       top: 0;
+     width:100%;
+  }
+
+  .swiper-slide {
+    min-height: 649px;
+}
+
+  .sustain-slider {
+    overflow: hidden;
+}
+
+  .overlay video.custom-video {
+    width: 100%;
+    height: 100%;
+}
+  
+  .swiper-slide .main-wrap {
+      /* display: flex; */
+      z-index: 2;
+      position: relative;
+      align-items: center;
+        padding: 0px 70px;
+     gap: 40px;
+  }
+  
+  .swiper-slide .main-wrap .content {
+      width: 50%;
+      align-self: self-end;
+      padding-bottom: 70px;
+      padding-right: 50px;
+      padding-top: 70px;
+  }
+  
+  .swiper-slide .main-wrap .imag-block {
+      width: 50%;
+    max-width:600px;
+    padding-top: 72px;
+  }
+  .swiper-slide .overlay:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    opacity: 0.6;
+}
+  .swiper-slide .main-wrap .content h2 {
+        font-family: Montserrat;
+      font-weight: 700;
+      font-size: 42px;
+      line-height: 60px;
+      letter-spacing: -1.28px;
+      vertical-align: middle;
+      color: #fff;
+  }
+  .swiper-slide .main-wrap .content h2 span {
+    font-family: Montserrat;
+    font-weight: 800;
+    font-size: 42px;
+    line-height: 60px;
+    letter-spacing: -1.28px;
+    vertical-align: middle;
+    color: #937E4E;
+  }
+  .swiper-slide {
+    display: flex;
+    align-items: flex-end;
+  }
+  .swiper-slide .main-wrap .content .desc {
+      margin: 35px 0px;
+  }
+  .swiper-slide .main-wrap .content .desc p {
+      font-family: Montserrat;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 26px;
+      letter-spacing: 0%;
+      vertical-align: middle;
+    color: #fff;
+  }
+  .swiper-slide .main-wrap .content .btn {
+      background-color:#2D4A3A;
+      width: fit-content;
+      max-width:unset;
+      height: 58px;
+      border-radius: 8px;
+      display:flex;
+    align-items:center;
+      justify-content:center;
+    border: 2px solid #2D4A3A;
+        gap: 15px;
+    margin: 0px;
+  }
+  .btns {
+        display: flex;
+        gap: 20px;
+    }
+     .swiper-slide .main-wrap .content .btn.two {
+       background:transparent;
+       border: 2px solid #FFFFFF;
+     }
+  .swiper-slide .main-wrap .content .btn:hover {
+     color: #fff;
+      background: #25393d;
+  }
+    .swiper-slide .main-wrap .content .btn.two:hover {
+       color: #fff;
+    background: #2D4A3A;
+    }
+  .swiper-slide .main-wrap .imag-block img {
+    max-width:600px;
+  }
+
+  @media (max-width:991px){
+      .swiper-slide {
+          min-height: unset;
+      }
+  }
+{% endstyle %}
+
+{% if section.settings.manual-height == true %}
+<style>
+
+.sustain-slider .container-full.slide-vi-secid--{{ section.id }} .imageSlider img,
+  .container-full.slide-vi-secid--template--{{ section.id }} .swiper-slide video.custom-video,  
+.sustain-slider .container-full.slide-vi-secid--template--{{ section.id }} .swiper-slide .overlay video.custom-video  {
+  max-height: {{  section.settings.desktop-height }}vh;
+  min-height:unset !important;
+}
+.sustain-slider .container-full.slide-vi-secid--{{ section.id }} .swiper-slide .main-wrap {
+    min-height: unset !important;
+    height: {{  section.settings.desktop-height }}vh;
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.sustain-slider .container-full.slide-vi-secid--{{ section.id }} .swiper-slide .main-wrap .content {
+        padding-bottom: 0px;
+        padding-top: 0px;
+            margin-top: auto;
+    margin-bottom: auto;
+}
+.template-page-silvan-landing-page .sustain-slider .container-full.slide-vi-secid--{{ section.id }} .swiper-slide .main-wrap .content {
+ margin-right: auto;
+}
+
+.sustain-slider .container-full.slide-vi-secid--{{ section.id }} .swiper-slide {
+  min-height:unset;
+}
+   
+@media (max-width:768px){
+  .sustain-slider .container-full.slide-vi-secid--{{ section.id }} .imageSlider video {
+      max-height: {{  section.settings.mobile-height }}vh;
+  } 
+  .sustain-slider .container-full.slide-vi-secid--{{ section.id }} .swiper-slide .main-wrap {
+    height: {{  section.settings.mobile-height }}vh;
+  }
+  .sustain-slider .container-full.slide-vi-secid--{{ section.id }} .imageSlider img {
+    max-height: {{  section.settings.mobile-height }}vh;
+    min-height:unset !important;
+  }
+  .template-page-silvan-landing-page .sustain-slider  .container-full.slide-vi-secid--{{ section.id }} .swiper-slide { 
+      height: {{  section.settings.mobile-height }}vh;
+      min-height: unset !important;
+      padding-bottom: 0px;
+  }
+  .template-page-silvan-landing-page .sustain-slider  .container-full.slide-vi-secid--{{ section.id }} .imageSlider video {
+  max-height: unset;
+  }
+  .template-page-silvan-landing-page .sustain-slider .container-full.slide-vi-secid--{{ section.id }} .swiper-slide .main-wrap { 
+    height: unset;
+            margin-top: auto;
+        margin-bottom: auto;
+  }
+  }
+}
+</style>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Full Top Banner",
+  "class": "shopify-section sustain-slider",
+  "settings": [
+    {
+          "type":"checkbox",
+          "id":"manual-height",
+          "label":"Manual Height",
+          "default":false
+        },
+        {
+          "type": "range",
+          "id": "desktop-height",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "label": "Dekstop Height",
+          "default":0,
+          "info":"For both Image and Video"
+        },
+        {
+          "type": "range",
+          "id": "mobile-height",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "label": "Mobile Height",
+          "default":0,
+          "info":"For both Image and Video"
+        }
+  ],
+  "blocks": [
+    {
+      "type": "image_picker",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "video_thumbnail",
+          "label": "Thumbnail Image"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Background color",
+          "info": "The color will cover top half of the section and part of the section above"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video File URL",
+          "info": "Upload your video in Content > Files, then paste the URL here."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_right",
+          "label": " Right Image"
+        },
+        {
+          "type": "html",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "desc",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "btn-one-text",
+          "label": "Button One Text"
+        },
+        {
+          "type": "url",
+          "id": "btn-one-link",
+          "label": "Button One Link"
+        },
+        {
+          "type": "text",
+          "id": "btn-two-text",
+          "label": "Button Two Text"
+        },
+        {
+          "type": "url",
+          "id": "btn-two-link",
+          "label": "Button Two Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Full Top Banner",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,289 @@
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+
+<section class="fresh-finds-section">
+  <div class="fresh-finds-container">
+    <h2 class="fresh-finds-title">{{ section.settings.section_title }}</h2>
+    <p class="fresh-finds-subtitle">{{ section.settings.section_subtitle }}</p>
+    <div class="fresh-finds-card-grid">
+      {% for block in section.blocks %}
+        <div class="fresh-finds-card">
+          {% if block.settings.pick_image != blank %}
+            <img class="fresh-finds-card-image" src="{{ block.settings.pick_image | image_url: width:640 }}" alt="{{ block.settings.pick_name | escape }}">
+          {% endif %}
+          <div class="fresh-finds-card-name">{{ block.settings.pick_name }}</div>
+          {% if block.settings.btn-text != blank %}
+          <a class="btn" href="{{ block.settings.link }}" >{{ block.settings.btn-text }}</a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.button_text != blank %}
+    <div class="fresh-finds-card-wrapper">
+      <a href="{{ section.settings.button_url }}" class="fresh-finds-card-button">{{ section.settings.button_text }}</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+    .fresh-finds-section {
+  background: #F4F3F1;
+  padding: 75px 0 111.2px;
+}
+.fresh-finds-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+.fresh-finds-title {
+    font-family: Montserrat;
+    font-weight: 800;
+    font-style: ExtraBold;
+    font-size: 42px;
+    leading-trim: NONE;
+    line-height: 76.8px;
+    letter-spacing: 0%;
+    text-align: center;
+    vertical-align: middle;
+    color:#111111;
+}
+.fresh-finds-subtitle {
+font-family: Montserrat;
+font-weight: 500;
+font-style: Medium;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 25.8px;
+letter-spacing: 0%;
+text-align: center;
+vertical-align: middle;
+color:#000000;
+margin-top:0px;
+}
+.fresh-finds-card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  margin-top:68px;
+  width:100%;
+}
+.fresh-finds-card {
+    max-width: 360px;
+    background: #fff;
+    {% comment %} border-radius: 8px; {% endcomment %}
+    {% comment %} overflow: hidden; {% endcomment %}
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position:relative;
+}
+.fresh-finds-card .overlay-link {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+.fresh-finds-card-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+.fresh-finds-card-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 19px 0 17px;
+  background: #fff;
+}
+.fresh-finds-card-wrapper {
+  margin-top: 60px;
+}
+.fresh-finds-card .btn {
+    margin: 0px;
+    margin-bottom: 20px;
+    width: 200px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto auto 20px;
+    border-radius: 4px;
+    background: #D6C08C;
+    border-color:#D6C08C !important;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 16px;
+    leading-trim: NONE;
+    line-height: 38.4px;
+    letter-spacing: 0%;
+    text-align: center;
+    vertical-align: middle;
+    color: #000;
+}
+.fresh-finds-card-button {
+    background: #D6C08C;
+    color: #fff;
+    padding: 16px 36px;
+    border-radius: 4px;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 1rem;
+    display: inline-block;
+    transition: background 0.2s;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 13.3px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 1px;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+    color: #111111;
+}
+.fresh-finds-card-button:hover,
+.fresh-finds-card-button:focus {
+  background: #bda46d;
+}
+@media (max-width: 1000px) {
+  .fresh-finds-card-grid {
+    gap: 18px;
+  }
+  .fresh-finds-card {
+    width: 48%;
+    min-width: 260px;
+  }
+}
+@media (max-width:768px){
+
+    .fresh-finds-title {
+        font-family: Montserrat;
+        font-weight: 800;
+        font-style: ExtraBold;
+        font-size: 28px;
+        leading-trim: NONE;
+        line-height: 36px;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .fresh-finds-subtitle {
+        font-family: Montserrat;
+        font-weight: 500;
+        font-style: Medium;
+        font-size: 16px;
+        leading-trim: NONE;
+        line-height: 29px;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+        margin-top: 20px;
+    }
+        
+    .fresh-finds-section {
+        padding: 50px 15px 50px 15px !important;
+    }
+    .fresh-finds-card {
+        max-width: unset !important;
+    }
+    .fresh-finds-card-grid {
+        margin-top:35px;
+          flex-wrap: wrap !important;
+    }
+    .fresh-finds-card-wrapper {
+        margin-top: 35px;
+    }
+    {% comment %} .fresh-finds-card-grid .slick-track {
+        display:block;
+    } {% endcomment %}
+    .fresh-finds-card-grid .slick-slide {
+        margin:0px 7.5px;
+    }
+    .fresh-finds-card-grid .slick-list.draggable {
+        margin-left: -30px;
+    }
+}
+@media (max-width: 600px) {
+  .fresh-finds-card-grid {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .fresh-finds-card {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+
+</style>
+
+{% schema %}
+{
+  "name": "Fresh Finds",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title"
+    },
+    {
+      "type": "text",
+      "id": "section_subtitle",
+      "label": "Section Subtitle"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+        "type": "url",
+        "id": "button_url",
+        "label": "Button URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "top_pick",
+      "name": "Top Pick",
+      "settings": [
+        {
+            "type": "url",
+            "id":"link",
+            "label": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "pick_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "pick_name",
+          "label": "title"
+        },
+        {
+          "type": "text",
+          "id": "btn-text",
+          "label": "Button Text"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Fresh Finds"
+    }
+  ]
+}
+{% endschema %}

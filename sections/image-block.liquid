@@ -1,0 +1,91 @@
+<style>
+  .section-{{ section.id }}-image-section {
+    text-align: center;
+    background: {{ section.settings.background }};
+    margin: {{ section.settings.mt }}px 0 {{ section.settings.mb }}px ;
+    padding: {{ section.settings.pt }}px 0 {{ section.settings.pb }}px ;
+  }  
+</style>
+
+<div class="section-{{ section.id }}-image-section">
+  {% if section.settings.link %}
+    <a href="{{ section.settings.link }}">
+  {% endif %}
+    {% if section.settings.image %}
+      <img src="{{ section.settings.image | img_url: '900x' }}" alt="Custom Image" width="" height="">
+    {% else %}
+      <p>No image selected.</p>
+    {% endif %}
+  {% if section.settings.link %}
+    </a>
+  {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Image Block Section",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Upload Image"
+      },
+      {
+        "type": "color_background",
+        "id": "background",
+        "label": "Background Color",
+        "default": "#f4f3f1"
+      },
+      { 
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      },
+      {
+        "type": "range",
+        "id": "mt",
+        "min": -50,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Margin Top",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "mb",
+        "min": -50,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Margin Bottom",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "pt",
+        "min": -50,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding Top",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "pb",
+        "min": -50,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 0
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image Block Section"
+      }
+    ]
+  }
+{% endschema %}

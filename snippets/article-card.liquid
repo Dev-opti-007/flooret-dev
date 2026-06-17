@@ -1,0 +1,30 @@
+{%- liquid
+  assign meta = article.metafields.custom
+  assign image = article.image
+  if article.image == blank
+    assign image = settings.article_default_image
+  endif
+-%}
+
+<div class="article-card {{ class }}">
+  <a href="{{ article.url }}" class="article-card__image">
+    {% render 'lazy-image', image: image, height: 400 %}
+  </a>
+
+  <div class="article-card__content">
+    <ul class="article-card__category tag-filters">
+      {%- for tag in article.tags -%}
+        {%- if tag contains 'Cat - ' -%}
+          <li class="tag-filter  tag-filter--{{ tag | handleize }}">{{ tag | link_to_tag: tag | remove: 'Cat - ' }}</li>
+        {%- endif -%}
+        {%- if tag contains 'Filter - ' -%}
+          <li class="tag-filter  tag-filter--{{ tag | handleize }}">{{ tag | link_to_tag: tag | remove: 'Filter - ' }}</li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+
+    <h5 class="article-card__heading">
+      <a href="{{ article.url }}">{{ article.title }}</a>
+    </h5>
+  </div>
+</div>

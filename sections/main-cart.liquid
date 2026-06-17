@@ -1,0 +1,110 @@
+{% assign module = section.settings %}
+
+<section class="the-cart">
+  <div class="container">
+    <a href="/collections/all" class="text-link text-link--reverse">{{ 'global.continue_shopping' | t }}</a>
+
+    {% unless customer %}
+      <div class="the-cart__links">
+        <a href="/account/login" class="the-cart__login">
+          {%- render 'svg-account' %}
+          {{ 'cart.log_in_for_faster_checkout' | t -}}
+        </a>
+      </div>
+    {% endunless %}
+
+    <form class="the-cart__form" action="/checkout" method="post" novalidate>
+      <h1 class="h5 the-cart__heading">
+        {{ 'cart.your_cart' | t }} (<span class="js-cart-count">{{ cart.item_count }}</span>)
+      </h1>
+
+      <div class="the-cart__wrap">
+        {% render 'cart-items', drawer: false %}
+
+        <aside>
+          {% render 'cart-summary', payment_options: module.payment_options %}
+
+          <div class="the-cart__extras">
+            <ul class="the-cart__usps">
+              {% for block in section.blocks %}
+                {% if block.type == 'usp' %}
+                  {% assign _b = block.settings %}
+                  <li>
+                    {% render 'lazy-image', image: _b.icon, width: 30 %}
+                    {{ _b.label }}
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+            <div class="the-cart__tabs">
+              {% for block in section.blocks %}
+                {% if block.type == 'accordion' %}
+                  {% assign _b = block.settings %}
+                  <div class="accordion">
+                    <button class="accordion__trigger" type="button">
+                      {{ _b.label }}
+                      {% render 'svg-chevron' %}
+                    </button>
+                    <div class="accordion__content">
+                      <div class="spacer">
+                        {{ _b.content }}
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </aside>
+      </div>
+    </form>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart Main",
+  "class": "shopify-block",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "payment_options",
+      "label": "Payment Options Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "usp",
+      "name": "USP",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

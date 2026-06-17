@@ -1,0 +1,867 @@
+{% comment %}
+  Complete Your Project Section
+  A grid of cards showing accessories, services, or related products
+{% endcomment %}
+
+<style>
+  .complete-project--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    padding-left: {{ section.settings.padding_left }}px;
+    padding-right: {{ section.settings.padding_right }}px;
+    background: {{ section.settings.bg_color }};
+  }
+  .complete-project--{{ section.id }} .page-width {
+    max-width:{{ section.settings.max-width }}px;
+    margin:0px auto;
+  }
+  @media (max-width: 768px) {
+    .complete-project--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mob }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mob }}px;
+      padding-left: {{ section.settings.padding_left_mob }}px;
+      padding-right: {{ section.settings.padding_right_mob }}px;
+    }
+  }
+
+  .complete-project__heading {
+    text-align: {{ section.settings.heading_align }};
+    margin-bottom: 8px;
+    color: {{ section.settings.heading_color }};
+    font-family: {{ section.settings.heading_font }}, sans-serif;
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: {{ section.settings.heading_weight }};
+  }
+
+  .complete-project__subheading {
+    text-align: {{ section.settings.heading_align }};
+    margin-bottom: 40px;
+    color: {{ section.settings.subheading_color }};
+    font-family: {{ section.settings.subheading_font }}, sans-serif;
+    font-size: {{ section.settings.subheading_size }}px;
+    font-weight: {{ section.settings.subheading_weight }};
+  }
+
+  @media (max-width: 768px) {
+    .complete-project__heading {
+      font-size: {{ section.settings.heading_size_mob }}px;
+      margin-bottom: 4px;
+    }
+    .complete-project__subheading {
+      font-size: {{ section.settings.subheading_size_mob }}px;
+      margin-bottom: 24px;
+    }
+  }
+
+  .complete-project__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+    gap: {{ section.settings.card_gap }}px;
+  }
+
+  @media (max-width: 990px) {
+    .complete-project__grid {
+      grid-template-columns: repeat({{ section.settings.columns_tablet }}, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .complete-project__grid {
+      grid-template-columns: repeat({{ section.settings.columns_mobile }}, minmax(0, 1fr));
+      gap: {{ section.settings.card_gap_mob }}px;
+    }
+  }
+
+  .complete-project__card {
+    background: {{ section.settings.card_bg_color }};
+    border-radius: {{ section.settings.card_radius }}px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: box-shadow 0.3s ease;
+    position:relative;
+  }
+  .complete-project__card .floating-linkwrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+  }
+
+  {% if section.settings.card_shadow_enabled %}
+  .complete-project__card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  {% endif %}
+
+  .complete-project__media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: {{ section.settings.media_ratio }};
+    overflow: hidden;
+    background: {{ section.settings.media_bg_color }};
+  }
+
+  .complete-project__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: {{ section.settings.media_object_fit }};
+    transition: transform 0.3s ease;
+  }
+
+  {% if section.settings.media_zoom_hover %}
+  .complete-project__card:hover .complete-project__media img {
+    transform: scale(1.05);
+  }
+  {% endif %}
+
+  .complete-project__content {
+    padding: {{ section.settings.card_padding }}px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  @media (max-width: 768px) {
+    .complete-project__content {
+      padding: {{ section.settings.card_padding_mob }}px;
+    }
+  }
+
+  .complete-project__title {
+    margin: 0 0 4px;
+    color: {{ section.settings.card_title_color }};
+    font-family: {{ section.settings.card_title_font }}, sans-serif;
+    font-size: {{ section.settings.card_title_size }}px;
+    font-weight: {{ section.settings.card_title_weight }};
+  }
+
+  @media (max-width: 768px) {
+    .complete-project__title {
+      font-size: {{ section.settings.card_title_size_mob }}px;
+    }
+  }
+
+  .complete-project__desc {
+    margin: 0 0 8px;
+    color: {{ section.settings.card_desc_color }};
+    font-family: {{ section.settings.card_desc_font }}, sans-serif;
+    font-size: {{ section.settings.card_desc_size }}px;
+    font-weight: {{ section.settings.card_desc_weight }};
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .complete-project__desc {
+      font-size: {{ section.settings.card_desc_size_mob }}px;
+    }
+  }
+
+  .complete-project__price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+
+  .complete-project__price {
+    margin: 0;
+    color: {{ section.settings.card_price_color }};
+    font-family: {{ section.settings.card_price_font }}, sans-serif;
+    font-size: {{ section.settings.card_price_size }}px;
+    font-weight: {{ section.settings.card_price_weight }};
+    text-decoration:none;
+  }
+
+  @media (max-width: 768px) {
+    .complete-project__price {
+      font-size: {{ section.settings.card_price_size_mob }}px;
+    }
+  }
+
+  .complete-project__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: {{ section.settings.card_link_bg }};
+    color: {{ section.settings.card_link_color }};
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .complete-project__link:hover {
+    background: {{ section.settings.card_link_bg_hover }};
+    color: {{ section.settings.card_link_color_hover }};
+  }
+
+  .complete-project__link svg {
+    width: 20px;
+    height: 20px;
+  }
+</style>
+
+<section class="complete-project--{{ section.id }}">
+  <div class="page-width">
+    {% if section.settings.heading != blank %}
+      <h2 class="complete-project__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.subheading != blank %}
+      <p class="complete-project__subheading">{{ section.settings.subheading }}</p>
+    {% endif %}
+
+    <div class="complete-project__grid">
+      {% for block in section.blocks %}
+        {% assign b = block.settings %}
+        <article class="complete-project__card" {{ block.shopify_attributes }}>
+          {% if b.link_url != blank %}
+            <a href="{{ b.link_url }}" class="floating-linkwrap"></a>
+          {% endif %}
+          {% if b.image != blank %}
+            <div class="complete-project__media">
+              {{ b.image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: b.title | default: 'Card image' }}
+            </div>
+          {% elsif b.placeholder_image %}
+            <div class="complete-project__media">
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {% endif %}
+
+          <div class="complete-project__content">
+            {% if b.title != blank %}
+              <h3 class="complete-project__title">{{ b.title }}</h3>
+            {% endif %}
+
+            {% if b.description != blank %}
+              <p class="complete-project__desc">{{ b.description }}</p>
+            {% endif %}
+
+            <div class="complete-project__price-row">
+              {% if b.price_label != blank %}
+                <a href="{{ b.link_url }}" class="complete-project__price">{{ b.price_label }}</a>
+              {% endif %}
+
+            
+                <a href="{{ b.link_url }}" class="complete-project__link" aria-label="{{ b.title | default: 'Learn more' }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M4.16699 10H15.8337" stroke="#FAAF4F" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 4.1665L15.8333 9.99984L10 15.8332" stroke="#FAAF4F" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                </a>
+            </div>
+
+            
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Complete Your Project",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Complete Your Project"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Everything you need for a professional finish"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "select",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Playfair Display"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Size Desktop",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mob",
+      "label": "Heading Size Mobile",
+      "min": 18,
+      "max": 50,
+      "step": 2,
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#666666"
+    },
+    {
+      "type": "select",
+      "id": "subheading_font",
+      "label": "Subheading Font",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading Size Desktop",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subheading_size_mob",
+      "label": "Subheading Size Mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "subheading_weight",
+      "label": "Subheading Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header",
+      "content": "Section Background"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f7f4ef"
+    },
+    {
+      "type": "header",
+      "content": "Grid Settings"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns Desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "label": "Columns Tablet",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Columns Mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card Gap Desktop",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_gap_mob",
+      "label": "Card Gap Mobile",
+      "min": 0,
+      "max": 32,
+      "step": 4,
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Card Settings"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card Border Radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "card_shadow_enabled",
+      "label": "Enable Hover Shadow",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card Padding Desktop",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_padding_mob",
+      "label": "Card Padding Mobile",
+      "min": 0,
+      "max": 32,
+      "step": 4,
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Media Settings"
+    },
+    {
+      "type": "select",
+      "id": "media_ratio",
+      "label": "Image Aspect Ratio",
+      "options": [
+        { "value": "1/1", "label": "Square (1:1)" },
+        { "value": "4/3", "label": "Landscape (4:3)" },
+        { "value": "3/4", "label": "Portrait (3:4)" },
+        { "value": "16/9", "label": "Wide (16:9)" }
+      ],
+      "default": "4/3"
+    },
+    {
+      "type": "select",
+      "id": "media_object_fit",
+      "label": "Image Fit",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "color",
+      "id": "media_bg_color",
+      "label": "Media Background Color",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "checkbox",
+      "id": "media_zoom_hover",
+      "label": "Enable Zoom on Hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Card Typography"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Title Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font",
+      "label": "Title Font",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "label": "Title Size Desktop",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "card_title_size_mob",
+      "label": "Title Size Mobile",
+      "min": 14,
+      "max": 26,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "card_title_weight",
+      "label": "Title Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "card_desc_color",
+      "label": "Description Color",
+      "default": "#666666"
+    },
+    {
+      "type": "select",
+      "id": "card_desc_font",
+      "label": "Description Font",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "range",
+      "id": "card_desc_size",
+      "label": "Description Size Desktop",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "card_desc_size_mob",
+      "label": "Description Size Mobile",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "card_desc_weight",
+      "label": "Description Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "card_price_color",
+      "label": "Price Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "select",
+      "id": "card_price_font",
+      "label": "Price Font",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "range",
+      "id": "card_price_size",
+      "label": "Price Size Desktop",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "card_price_size_mob",
+      "label": "Price Size Mobile",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "card_price_weight",
+      "label": "Price Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Link Button"
+    },
+    {
+      "type": "color",
+      "id": "card_link_color",
+      "label": "Link Icon Color"
+    },
+    {
+      "type": "color",
+      "id": "card_link_bg",
+      "label": "Link Background"
+    },
+    {
+      "type": "color",
+      "id": "card_link_color_hover",
+      "label": "Link Icon Hover Color"
+    },
+    {
+      "type": "color",
+      "id": "card_link_bg_hover",
+      "label": "Link Hover Background"
+    },
+    {
+      "type": "header",
+      "content": "Section Max Width"
+    },
+    {
+        "type":"number",
+        "id": "max-width",
+        "label":"Max Width"
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Padding Left",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Padding Right",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "label": "Padding Top Mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "label": "Padding Bottom Mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mob",
+      "label": "Padding Left Mobile",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mob",
+      "label": "Padding Right Mobile",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "placeholder_image",
+          "label": "Show placeholder if no image",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Trim & Transitions"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Matching profiles for a seamless finish"
+        },
+        {
+          "type": "text",
+          "id": "price_label",
+          "label": "Price Label",
+          "default": "Starting at $2.99 / sq ft"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Complete Your Project",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "title": "Trim & Transitions",
+            "description": "Matching profiles for a seamless finish",
+            "price_label": "Starting at $2.99 / sq ft"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Premium Underlayment",
+            "description": "Enhanced sound & moisture protection",
+            "price_label": "Starting at $0.99 / sq ft"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Installation Services",
+            "description": "We'll help install your floor seamlessly",
+            "price_label": "Starting at $250"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

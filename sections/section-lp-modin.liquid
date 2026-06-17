@@ -1,0 +1,506 @@
+<style>
+  .installtion-section-{{ section.id }} {
+    padding-top:{{ section.settings.padding-top }}px;
+    padding-bottom:{{ section.settings.padding-bottom }}px;
+  }
+.installtion-section {
+  position: relative;
+}
+
+.installtion-section .overlay-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+.installtion-section .overlay-wrap:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #00000066;
+}
+
+.installtion-section .heading-wrap h2 {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-style: ExtraBold;
+  font-size: 56px;
+  leading-trim: NONE;
+  line-height: 82px;
+  letter-spacing: -1.12px;
+  text-align: center;
+  vertical-align: middle;
+  color: #fff;
+  margin-bottom: 25px;
+}
+
+.installtion-section .heading-wrap span p {
+  font-family: Montserrat;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 32px;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  color: #fff;
+}
+
+.installtion-section .heading-wrap span {
+  max-width: 1120px;
+  margin: auto;
+  display: block;
+}
+
+.installtion-section .content-wrap {
+  background: #ede0c1;
+  box-shadow: 0px 0px 44px 0px #e5e5e540;
+  max-width: unset;
+  border-radius: 10px;
+  padding: 50px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.installtion-section .content-wrap .btns-wrap {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.installtion-section .content-wrap .btns-wrap .btn {
+  margin: 0px;
+  background: #2d4a3a;
+  border-radius: 8px;
+  border: 2px solid transparent;
+}
+
+.installtion-section .content-wrap .btns-wrap .btn:hover {
+  color: #fff;
+  background: #25393d;
+}
+
+.installtion-section .content-wrap .btns-wrap .btn.trans-bg {
+  background: transparent;
+  border-color: #2d4a3a;
+  color: #2d4a3a;
+}
+
+.installtion-section .content-wrap .btns-wrap .btn.trans-bg:hover {
+  color: #fff;
+  background: #2d4a3a;
+}
+
+.installtion-section .content-wrap .btns-wrap .btn.trans-bg:hover svg {
+  stroke: #fff;
+}
+.installtion-section .content-wrap img {
+    border-radius: 10px;
+}
+.installtion-section .content-wrap video.custom-video {
+    border-radius: 10px;
+}
+</style>
+
+<div class="installtion-section top installtion-section-{{ section.id }}" >
+  <div class="overlay-wrap">
+    {% if section.settings.bg_image != blank %}
+      <img src="{{ section.settings.bg_image | img_url:'1900x' }}" alt="{{ section.settings.bg_image.alt }}" class="img-bg" >
+    {% else %}
+      <div style="background:{{ section.settings.bg_color }};" class="img-bg height-cus"></div>
+    {% endif %}
+  </div>
+  <div class="page-width">
+     <div class="heading-wrap" >
+       <h2>{{ section.settings.heading }}</h2>
+       <span>{{ section.settings.sub-heading }}</span>  
+     </div>
+
+    <div class="content-wrap">
+      {% if section.settings.image != blank %}
+        {% if section.settings.image-url != blank %}
+          <a href="{{ section.settings.image-url }}" >
+        {% endif %}
+          
+            {% if section.settings.image != blank %}
+              <img src="{{ section.settings.image | img_url:'890x' }}" alt="{{ section.settings.image.alt }}">
+            {% endif %}
+
+            
+        {% if section.settings.image-url != blank %}
+          </a>
+        {% endif %}
+      {% endif %}
+
+       {%- if section.settings.video_url != blank -%}
+
+          <img class="thumb-image-one-{{ section.id }}" src="{{ section.settings.video_thumbnail | img_url:'1920x' }}" alt="{{ section.settings.video_thumbnail.alt }}" >
+    
+            {% endif %}
+
+      {% for block in section.blocks %}
+          <div class="hover-pointer" style="top:{{ block.settings.position-x }}%;left:{{ block.settings.position-y }}%;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <circle cx="17" cy="17" r="17" fill="white" fill-opacity="0.2"/>
+            <circle cx="17" cy="17" r="12" fill="white" fill-opacity="0.49"/>
+            <circle cx="17" cy="17" r="8" fill="white"/>
+            </svg>
+            <div class="hover-content">
+              <p>{{ block.settings.title }}</p>
+              <div>
+                {{ block.settings.subtext }}
+              </div>
+            </div>
+          </div>
+      {% endfor %}
+    </div>
+  {% if section.settings.btn-one-text != blank or section.settings.btn-two-text != blank %}
+     <div class="btns-wrap">
+        {% if section.settings.btn-one-text != blank %}
+      <a class="btn" href="{{ section.settings.btn-one-link }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"> <path d="M6.53516 0.130859C6.83594 0.0214844 7.16406 0.0214844 7.4375 0.130859L13.125 2.26367C13.6445 2.45508 13.9727 2.94727 13.9727 3.49414V9.64648C13.9727 10.1387 13.6992 10.6035 13.2617 10.8223L7.57422 13.666C7.19141 13.8574 6.78125 13.8574 6.39844 13.666L0.710938 10.8223C0.273438 10.6035 0 10.1387 0 9.64648V3.49414C0 2.94727 0.328125 2.45508 0.847656 2.26367L6.53516 0.130859ZM7 1.82617L1.75 3.79492V3.82227L7 5.95508L12.25 3.82227V3.79492L7 1.82617ZM7.875 11.5605L12.25 9.37305V5.70898L7.875 7.48633V11.5605Z" fill="white"/> </svg>
+          {{ section.settings.btn-one-text }}</a>
+        {% endif %}
+         {% if section.settings.btn-two-text != blank %}
+      <a class="btn trans-bg" href="{{ section.settings.btn-two-link }}">
+           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"> <path d="M14.6992 11.7681C15.082 12.1782 15.082 12.8071 14.6992 13.2173L13.25 14.6665C12.8398 15.0493 12.2109 15.0493 11.8008 14.6665L8.60156 11.4399C7.97266 10.811 7.86328 9.88135 8.21875 9.11572L5.32031 6.18994H3.625L1 2.68994L2.75 0.939941L6.25 3.56494V5.2876L9.14844 8.18604C9.91406 7.80322 10.8438 7.93994 11.5 8.56885L14.6992 11.7681ZM10.0508 7.09229C9.83203 7.09229 9.61328 7.11963 9.39453 7.17432L7.125 4.93213C7.125 3.92041 7.48047 2.88135 8.27344 2.11572C9.28516 1.104 10.707 0.748535 11.9922 1.07666C12.2383 1.13135 12.3477 1.43213 12.1562 1.62354L10.1328 3.64697L10.4336 5.50635L12.293 5.83447L14.3164 3.78369C14.5078 3.61963 14.8086 3.70166 14.8633 3.94775C15.1914 5.23291 14.8359 6.65479 13.8242 7.6665C13.4688 8.02197 13.0586 8.29541 12.6484 8.48682L12.1016 7.93994C11.5547 7.39307 10.8438 7.09229 10.0508 7.09229ZM7.20703 9.33447C7.07031 9.93604 7.15234 10.5103 7.34375 11.0571L3.98047 14.4478C3.29688 15.1313 2.17578 15.1313 1.49219 14.4478C0.808594 13.7642 0.808594 12.6431 1.49219 11.9595L5.67578 7.80322L7.20703 9.33447ZM2.75 13.8462C3.10547 13.8462 3.40625 13.5728 3.40625 13.1899C3.40625 12.8345 3.10547 12.5337 2.75 12.5337C2.36719 12.5337 2.09375 12.8345 2.09375 13.1899C2.09375 13.5728 2.36719 13.8462 2.75 13.8462Z" fill="#2D4A3A"/> </svg>
+           {{ section.settings.btn-two-text }} </a>
+         {% endif %}
+      </div>
+        {% endif %}     
+  </div>
+</div>
+
+<div class="installtion-section bottom installtion-section-{{ section.id }}" >
+  <div class="overlay-wrap">
+    {% if section.settings.bg_image_two != blank %}
+      <img src="{{ section.settings.bg_image_two | img_url:'1900x' }}" alt="{{ section.settings.bg_image_two.alt }}" class="img-bg" >
+    {% else %}
+      <div style="background:{{ section.settings.bg_color_two }};" class="img-bg"></div>
+    {% endif %}
+  </div>
+  <div class="page-width">
+     <div class="heading-wrap" >
+       <h2>{{ section.settings.heading_two }}</h2>
+       <span>{{ section.settings.sub-heading_two }}</span>  
+     </div>
+
+    <div class="content-wrap">
+      {% if section.settings.image_two != blank %}
+        {% if section.settings.image-url_two != blank %}
+          <a href="{{ section.settings.image-url_two }}" >
+        {% endif %}
+          
+            {% if section.settings.image_two != blank %}
+              <img src="{{ section.settings.image_two | img_url:'890x' }}" alt="{{ section.settings.image_two.alt }}">
+            {% endif %}
+
+            
+        {% if section.settings.image-url_two != blank %}
+          </a>
+        {% endif %}
+      {% endif %}
+
+       {%- if section.settings.video_url_two != blank -%}
+
+         <img class="thumb-image-two-{{ section.id }}" src="{{ section.settings.video_thumbnail_two | img_url:'1920x' }}" alt="{{ section.settings.video_thumbnail_two.alt }}" >
+    
+            {% endif %}
+      
+       
+    </div>
+ {% if section.settings.btn-one-text_two != blank or section.settings.btn-two-text_two != blank %}
+    <div class="btns-wrap">
+        {% if section.settings.btn-one-text_two != blank %}
+      <a class="btn" href="{{ section.settings.btn-one-link_two }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"> <path d="M6.53516 0.130859C6.83594 0.0214844 7.16406 0.0214844 7.4375 0.130859L13.125 2.26367C13.6445 2.45508 13.9727 2.94727 13.9727 3.49414V9.64648C13.9727 10.1387 13.6992 10.6035 13.2617 10.8223L7.57422 13.666C7.19141 13.8574 6.78125 13.8574 6.39844 13.666L0.710938 10.8223C0.273438 10.6035 0 10.1387 0 9.64648V3.49414C0 2.94727 0.328125 2.45508 0.847656 2.26367L6.53516 0.130859ZM7 1.82617L1.75 3.79492V3.82227L7 5.95508L12.25 3.82227V3.79492L7 1.82617ZM7.875 11.5605L12.25 9.37305V5.70898L7.875 7.48633V11.5605Z" fill="white"/> </svg>
+          {{ section.settings.btn-one-text_two }}</a>
+        {% endif %}
+         {% if section.settings.btn-two-text_two != blank %}
+      <a class="btn trans-bg" href="{{ section.settings.btn-two-link_two }}">
+           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"> <path d="M14.6992 11.7681C15.082 12.1782 15.082 12.8071 14.6992 13.2173L13.25 14.6665C12.8398 15.0493 12.2109 15.0493 11.8008 14.6665L8.60156 11.4399C7.97266 10.811 7.86328 9.88135 8.21875 9.11572L5.32031 6.18994H3.625L1 2.68994L2.75 0.939941L6.25 3.56494V5.2876L9.14844 8.18604C9.91406 7.80322 10.8438 7.93994 11.5 8.56885L14.6992 11.7681ZM10.0508 7.09229C9.83203 7.09229 9.61328 7.11963 9.39453 7.17432L7.125 4.93213C7.125 3.92041 7.48047 2.88135 8.27344 2.11572C9.28516 1.104 10.707 0.748535 11.9922 1.07666C12.2383 1.13135 12.3477 1.43213 12.1562 1.62354L10.1328 3.64697L10.4336 5.50635L12.293 5.83447L14.3164 3.78369C14.5078 3.61963 14.8086 3.70166 14.8633 3.94775C15.1914 5.23291 14.8359 6.65479 13.8242 7.6665C13.4688 8.02197 13.0586 8.29541 12.6484 8.48682L12.1016 7.93994C11.5547 7.39307 10.8438 7.09229 10.0508 7.09229ZM7.20703 9.33447C7.07031 9.93604 7.15234 10.5103 7.34375 11.0571L3.98047 14.4478C3.29688 15.1313 2.17578 15.1313 1.49219 14.4478C0.808594 13.7642 0.808594 12.6431 1.49219 11.9595L5.67578 7.80322L7.20703 9.33447ZM2.75 13.8462C3.10547 13.8462 3.40625 13.5728 3.40625 13.1899C3.40625 12.8345 3.10547 12.5337 2.75 12.5337C2.36719 12.5337 2.09375 12.8345 2.09375 13.1899C2.09375 13.5728 2.36719 13.8462 2.75 13.8462Z" fill="#2D4A3A"/> </svg>
+           {{ section.settings.btn-two-text_two }} </a>
+         {% endif %}
+      </div>
+  {% endif %}
+  </div>
+</div>
+
+
+<script>
+  var videoHTMLThree = `<video
+            autoplay
+            muted
+            loop
+            playsinline
+            
+            class="custom-video"
+            width="100%"
+            height="auto"
+          >
+              <source src="{{ section.settings.video_url }}" >
+            Your browser does not support the video tag.
+          </video>`;
+
+  function loadVideoOnInteractionThree() {
+    var thumbImage = document.querySelector('.thumb-image-one-{{ section.id }}');
+
+    // Check if the thumbnail image exists
+    if (thumbImage) {
+      // Insert the video HTML right after the thumbnail image
+      thumbImage.insertAdjacentHTML('afterend', videoHTMLThree);
+      
+      // Remove the thumbnail image from the page
+      thumbImage.remove();
+    }
+  }
+
+  // An array of events that constitute a user interaction
+  var userInteractionEventsThree = ['mousemove', 'mousedown', 'scroll', 'keydown', 'touchstart'];
+
+  // Set up a one-time listener for each interaction type
+  userInteractionEventsThree.forEach(function(event) {
+    document.addEventListener(event, loadVideoOnInteractionThree, { once: true });
+  });
+
+  var videoHTMLFour = `<video
+            autoplay
+            muted
+            loop
+            playsinline
+            
+            class="custom-video"
+            width="100%"
+            height="auto"
+          >
+              <source src="{{ section.settings.video_url_two }}" >
+            Your browser does not support the video tag.
+          </video>`;
+
+  function loadVideoOnInteractionFour() {
+    var thumbImage = document.querySelector('.thumb-image-two-{{ section.id }}');
+
+    // Check if the thumbnail image exists
+    if (thumbImage) {
+      // Insert the video HTML right after the thumbnail image
+      thumbImage.insertAdjacentHTML('afterend', videoHTMLFour);
+      
+      // Remove the thumbnail image from the page
+      thumbImage.remove();
+    }
+  }
+
+  // An array of events that constitute a user interaction
+  var userInteractionEventsFour = ['mousemove', 'mousedown', 'scroll', 'keydown', 'touchstart'];
+
+  // Set up a one-time listener for each interaction type
+  userInteractionEventsFour.forEach(function(event) {
+    document.addEventListener(event, loadVideoOnInteractionFour, { once: true });
+  });
+</script>
+
+  
+{% schema %}
+  {
+    "name":"Section Modin",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Top Section"
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_image",
+        "label": "Backgorund Image"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Backgorund Color"
+      },
+      {
+          "type": "html",
+          "id": "heading",
+          "label": "Heading"
+       },
+      {
+         "type": "richtext",
+          "id": "sub-heading",
+          "label": "Sub Heading"
+      },
+      {
+          "type": "image_picker",
+          "id": "video_thumbnail",
+          "label": "Thumbnail Image"
+      },
+      {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video File URL",
+          "info": "Upload your video in Content > Files, then paste the URL here."
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "url",
+        "id": "image-url",
+        "label": "Image URL"
+      },
+      {
+        "type": "text",
+        "id": "btn-one-text",
+        "label": "Button One Text"
+      },
+      {
+        "type": "url",
+        "id": "btn-one-link",
+        "label": "Button One Link"
+      },
+      {
+        "type": "text",
+        "id": "btn-two-text",
+        "label": "Button Two Text"
+      },
+      {
+        "type": "url",
+        "id": "btn-two-link",
+        "label": "Button Two Link"
+      },
+      {
+        "type": "header",
+        "content": "Bottom Section"
+      },
+       {
+        "type": "image_picker",
+        "id": "bg_image_two",
+        "label": "Backgorund Image"
+      },
+      {
+        "type": "color",
+        "id": "bg_color_two",
+        "label": "Backgorund Color"
+      },
+      {
+          "type": "html",
+          "id": "heading_two",
+          "label": "Heading"
+       },
+      {
+         "type": "richtext",
+          "id": "sub-heading_two",
+          "label": "Sub Heading"
+      },
+      {
+          "type": "image_picker",
+          "id": "video_thumbnail_two",
+          "label": "Thumbnail Image"
+      },
+      {
+          "type": "text",
+          "id": "video_url_two",
+          "label": "Video File URL",
+          "info": "Upload your video in Content > Files, then paste the URL here."
+      },
+      {
+        "type": "image_picker",
+        "id": "image_two",
+        "label": "Image"
+      },
+      {
+        "type": "url",
+        "id": "image-url_two",
+        "label": "Image URL"
+      },
+      {
+        "type": "text",
+        "id": "btn-one-text_two",
+        "label": "Button One Text"
+      },
+      {
+        "type": "url",
+        "id": "btn-one-link_two",
+        "label": "Button One Link"
+      },
+      {
+        "type": "text",
+        "id": "btn-two-text_two",
+        "label": "Button Two Text"
+      },
+      {
+        "type": "url",
+        "id": "btn-two-link_two",
+        "label": "Button Two Link"
+      },
+      {
+        "type": "range",
+        "id": "padding-top",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Top",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "padding-bottom",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Bottom",
+        "default": 2
+      }
+    ],
+    "blocks": [
+      {
+        "type": "hover-pointer",
+        "name":"Hover Pointer",
+        "settings": [
+          {
+             "type": "range",
+              "id": "position-x",
+              "min": 0,
+              "max": 100,
+              "step": 1,
+              "label": "Position X",
+              "default": 1
+          },
+          {
+             "type": "range",
+              "id": "position-y",
+              "min": 0,
+              "max": 100,
+              "step": 1,
+              "label": "Position Y",
+              "default": 1
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "richtext",
+            "id": "subtext",
+            "label": "Subtext"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name":"Section Modin"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,17 @@
+{% assign socials = "instagram,facebook,linkedin,tiktok,youtube,x,pinterest,yelp,houzz" | split: ',' %}
+
+<ul class="social-links">
+    {% for social in socials %}
+
+        {% assign setting = 'social_' | append: social | append: '_link' %}
+
+        {% if settings[setting] != blank %}
+            
+            {% assign socialIcon = 'svg-' | append: social %}
+    
+            <li><a href="{{ settings[setting] }}" target="_blank">{% include socialIcon %}</a></li>
+    
+        {% endif %}
+            
+    {% endfor %}
+</ul>

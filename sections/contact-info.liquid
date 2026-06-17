@@ -1,0 +1,86 @@
+{% assign _settings = section.settings %}
+{% assign _blocks = section.blocks %}
+<section>
+  <div class="container">
+    <div class="contact-row">
+        <div class="contact-row__col">
+          <div class="contact-location">
+            <span class="h5">Location</span>
+            {% if _settings.location_content != blank %}
+              {{ _settings.location_content }}
+            {% endif %}
+            {% if _settings.location_link_text != blank and _settings.location_link_url  %}
+              <a href="{{ _settings.location_link_url }}" class="btn btn--text">{{ _settings.location_link_text }}</a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="contact-row__col contact-row__col--contact">
+          <span class="h5">Contact</span>
+          {% if _settings.contact_content != blank %}
+            {{ _settings.contact_content }}
+          {% endif %}
+          {% if _settings.contact_link_text != blank and _settings.contact_link_url  %}
+            <a href="{{ _settings.contact_link_url }}" class="btn btn--text">{{ _settings.contact_link_text }}</a>
+          {% endif %}
+        </div>
+        <div class="contact-row__col">
+          <span class="h5">Social Media</span>
+          {% include 'contact-socials' %}
+        </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact Info",
+  "class": "shopify-block contact-info",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Location"
+    },
+    {
+      "type": "richtext",
+      "id": "location_content",
+      "label": "Content"
+    },
+    {
+      "type": "text",
+      "id": "location_link_text",
+      "label": "Link Text"
+    },
+    {
+      "type": "url",
+      "id": "location_link_url",
+      "label": "Link URL"
+    },
+     {
+      "type": "header",
+      "content": "Contact"
+    },
+    {
+      "type": "richtext",
+      "id": "contact_content",
+      "label": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "contact_link_text",
+      "label": "Link Text"
+    },
+    {
+      "type": "url",
+      "id": "contact_link_url",
+      "label": "Link URL"
+    }
+   
+  ],
+  "presets": [
+    {
+      "name": "Contact Info",
+      "category": "Contact Info"
+    }
+  ]
+}
+{% endschema %}

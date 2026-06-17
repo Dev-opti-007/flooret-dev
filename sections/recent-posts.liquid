@@ -1,0 +1,107 @@
+{% assign _settings = section.settings %}
+{% assign blog_handles = 'all' | split: ',' %}
+
+<section>
+  <div class="container">
+    <div class="recent-blog-wrapper">
+      <div class="recent-blog-wrapper__content">
+        <div class="recent-blog-content">
+          {% if section.blocks != blank %}
+            <h2 class="h1">Related Posts</h2>
+          {% else %}
+          {% if _settings.heading != blank %}
+            <h2 class="h1">{{ _settings.heading }}</h2>
+          {% endif %}
+          {% endif %}
+          {% if _settings.content != blank %}
+            {{ _settings.content }}
+          {% endif %}
+          {% if _settings.link_text != blank and _settings.link_url != blank %}
+            <a href="{{ _settings.link_url }}" class="btn btn--text">{{ _settings.link_text }}</a>
+          {% endif %}
+        </div>
+
+        <div class="recent-post-nav">
+          <div class="swiper-button-prev swiper-btn">{% include 'svg-chevron' %}</div>
+          <div class="swiper-button-next swiper-btn">{% include 'svg-chevron' %}</div>
+        </div>
+      </div>
+      <div class="recent-blog-wrapper__slider swiper">
+        <div class="swiper-wrapper">
+          {% if section.blocks != blank %}
+            {% for block in section.blocks %}
+              {% assign farticle = block.settings.article %}
+                {% if articles[farticle] != blank %}
+                  {% assign article = articles[farticle] %}
+                  <div class="swiper-slide">
+                    {% render 'slider-article-card', article: article %}
+                  </div>
+                {% endif %}
+            {% endfor %}
+          {% else %}
+            {% for handle in blog_handles %}
+              {% for article in blogs[handle].articles limit: 10 %}
+                <div class="swiper-slide">
+                  {% render 'slider-article-card', article: article %}
+                </div>
+              {% endfor %}
+            {% endfor %}
+          {% endif %}
+        </div>
+        <div class="swiper-scrollbar mob-only"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog Posts",
+  "class": "shopify-block recent-posts",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "Article",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Article"
+        }
+      ]
+    }    
+  ],
+  "presets": [
+    {
+      "name": "Blog Posts",
+      "category": "Blogs"
+    }
+  ]
+}
+{% endschema %}

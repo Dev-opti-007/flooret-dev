@@ -1,0 +1,79 @@
+<section class="{% if _settings.row_reverse %}two-column-reverse {% endif %}{% if _settings.contain_image %}contain-img{% endif %} {% if _settings.helper_classes %}{{ _settings.helper_classes }}{% endif %}" style="color: {{ _settings.text_color }};">
+  <div class="overlay" style="background-color: {{ _settings.bg_color }};"></div>
+  <div class="container">
+    <div class="two-column-row {% if _settings.align_center %}align-center{% endif %}">
+      <div class="two-column-row__col">
+        <div class="tc-content-wrap">
+          {% if _settings.sub_heading != blank %}
+            <span class="sub-heading h6">{{ _settings.sub_heading }}</span>
+          {% endif %}
+
+          {% if _settings.heading != blank %}
+            <h2 class="h1">{{ _settings.heading }}</h2>
+          {% endif %}
+
+          {% if _settings.content != blank %}
+            {{ _settings.content }}
+          {% endif %}
+
+          {% if _settings.link_text != blank and _settings.link_url != blank %}
+            <a
+              href="{{ _settings.link_url }}"
+              class="btn btn--primary {% if _settings.text_color == "#ffffff" %}btn--white{% endif %}"
+            >
+              {{- _settings.link_text -}}
+            </a>
+          {% endif %}
+
+          <!-- Stats -->
+          {% if _blocks != blank %}
+            <div class="two-column-stats">
+                {% for block in _blocks %}
+                <div class="stat-item">
+                  <div class="stat-item__title">
+                    <span class="h4">{{ block.settings.statistic }}</span>
+                    {% if block.settings.stat_icon != blank %}
+                      {% render 'lazy-image', image: block.settings.stat_icon, width: '20' %}
+                    {% endif %}
+                  </div>
+                   <div class="stat-item__content">
+                    <p>{{ block.settings.statistic_content }}</p>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+          {% endif %}
+          <!-- End Stats -->
+
+          <!-- Timeline -->
+          {% if _timeline != blank %}
+            <div class="timeline-section swiper">
+                {% for block in _timeline %}
+                <div class="timeline-item">
+                  <span class="timeline-item__label">
+                    {{ block.settings.timeline_label }}
+                  </span>
+                  <p>{{ block.settings.timeline_content }}</p>
+                </div>
+                {% endfor %}
+             <!--  <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div> -->
+
+            </div>
+          {% endif %}
+          <!-- End Timeline -->
+
+        </div> <!-- /.tc-content-wrap -->
+      </div>
+      <div class="two-column-row__col">
+        {% if _settings.image != blank %}
+          <div class="thumb">
+            <div class="positioner">
+              {% render 'lazy-image', image: _settings.image, width: '600' %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

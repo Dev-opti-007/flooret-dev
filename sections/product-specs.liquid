@@ -1,0 +1,83 @@
+{%- liquid
+  assign meta = product.metafields.flooret
+  assign product_specs = meta.product_specs
+  assign module = section.settings
+-%}
+
+<section class="product-specs">
+  <div class="container">
+    <div class="row">
+      <div class="col col--left">
+        <div class="product-specs__content">
+          <div class="section__header">
+            <h2 class="h1">{{ module.heading }}</h2>
+          </div>
+          <div class="section__content">
+            {{ module.content }}
+          </div>
+        </div>
+      </div>
+      <div class="col col--right">
+        <div class="product-specs__accordions">
+          {%- if section.settings.shipping != blank and module.heading != blank -%}
+            {%- assign accord_content = section.settings.shipping -%}
+            {%- render 'accordion', label: 'Shipping Fees', content: accord_content -%}
+          {%- endif -%}
+          {%- if meta.seo_text != blank -%}
+            {%- assign accord_content = meta.seo_text | metafield_tag -%}
+            {%- render 'accordion', label: 'Description', content: accord_content, active: true -%}
+          {%- endif -%}
+          {%- if meta.product_specs != blank -%}
+            {%- assign accord_content = meta.product_specs | metafield_tag -%}
+            {%- render 'accordion', label: 'Product Specifications', content: accord_content -%}
+          {%- endif -%}
+          {%- if meta.product_highlights != blank -%}
+            {%- assign accord_content = meta.product_highlights | metafield_tag -%}
+            {%- render 'accordion', label: 'Highlights', content: accord_content -%}
+          {%- endif -%}
+          {%- if meta.product_additional_information != blank -%}
+            {%- assign accord_content = meta.product_additional_information | metafield_tag -%}
+            {%- render 'accordion', label: 'Additional Information', content: accord_content -%}
+          {%- endif -%}
+          {%- if meta.product_documents != blank -%}
+            {%- assign accord_content = meta.product_documents | metafield_tag -%}
+            {%- render 'accordion', label: 'Tech Documents', content: accord_content -%}
+          {%- endif -%}
+          {%- if meta.product_shipping != blank -%}
+            {%- assign accord_content = meta.product_shipping | metafield_tag -%}
+            {%- render 'accordion', label: 'Shipping', content: accord_content -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Specs",
+  "class": "product-specs-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping",
+      "label": "Shipping Information"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Specs"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,154 @@
+{%- liquid
+  assign module = section.settings
+  assign feat_articles = section.blocks | map: 'settings' | map: 'article' | compact
+
+  assign articles_to_show = 12
+  if current_tags != blank
+    assign articles_to_show = 20
+  endif
+-%}
+
+{%- unless current_tags -%}
+  <section class="blog-heading">
+    <div class="container container--small">
+      <h1>{{ module.title }}</h1>
+    </div>
+  </section>
+
+  <section class="featured-posts-slider">
+    <div class="container container--large">
+      <div class="bg-overlay"></div>
+      <div class="container">
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            {%- for article in feat_articles -%}
+              <div class="swiper-slide">
+                {%- render 'feat-article-card', article: article -%}
+              </div>
+            {%- endfor -%}
+          </div>
+          <div class="swiper-controls">
+            <button class="swiper-button-prev" type="button"></button>
+            <button class="swiper-button-next" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endunless -%}
+
+<div class="featured-posts">
+  <div class="container swiper">
+    <div class="swiper-wrapper">
+      {%- for block in section.blocks -%}
+        {%- assign post = block.settings.article -%}
+        <div class="swiper-slide"></div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<section class="blog">
+  <div class="container">
+    <div class="section__header">
+      <div class="blog__header">
+      {%- if current_tags -%}
+        {% assign found = false %}
+        {%- for tag in blog.tags -%}
+          {%- if tag contains 'Cat - ' and found != true and current_tags contains tag -%}
+            {% assign found = true %}
+            <h2 class="blog__title">{{ tag | replace: 'Cat - ', '' }}</h2>
+          {%- endif -%}
+        {%- endfor -%}
+        {% if found == false %}
+          <h2 class="blog__title">{{ blog.title }}</h2>
+        {% endif %}
+      {% else %}
+        <h2 class="blog__title">{{ blog.title }}</h2>
+      {% endif %}
+
+        <div class="blog__description">{{ meta.description }}</div>
+      </div>
+
+      <div class="blog__filters">
+        {%- if blog.all_tags != blank -%}
+          <div class="blog__tags blog__filters-filter">
+            <div class="select-menu">
+              <select name="" id="blog-tag-select" class="js-select-redirects">
+                <option value="{{ blog.url }}" selected>Select a Category</option>
+                {%- for tag in blog.all_tags -%}
+                  {%- if tag contains 'Cat - ' -%}
+                    <option
+                      value="{{blog.url}}/tagged/{{ tag.handle }}"
+                      {% if current_tags != blank and current_tags contains tag %}
+                        selected
+                      {% endif %}
+                    >
+                      {{ tag | replace: 'Cat - ', '' }}
+                    </option>
+                  {%- endif -%}
+                {%- endfor -%}
+              </select>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if blog.tags.size > 0 -%}
+        <ul class="tag-filters">
+          {%- for tag in blog.tags -%}
+            {%- if tag contains 'Filter - ' -%}
+              <li class="tag-filter  tag-filter--{{ tag | handleize }}">
+                <input type="checkbox" name="tag-filter__input" id="filter-{{ tag | handleize }}" class="tag-filter__input" value="{{ tag | handleize }}" {% if current_tags contains tag %}checked{% endif %}>
+                <label for="filter-{{ tag | handleize }}" class="tag-filter__label">
+                  {% render 'svg-check' %}
+                  {{ tag | replace: 'Filter - ', '' }}
+                </label>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      
+    </div>
+    <div class="section__content">
+      {%- paginate blog.articles by articles_to_show -%}
+        <div class="blog__loop" id="blog-loop">
+          {%- for article in blog.articles -%}
+            {% render 'article-card', article: article %}
+          {%- endfor -%}
+        </div>
+
+        {% render 'pagination', paginate: paginate %}
+      {%- endpaginate -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main Blog",
+  "class": "reg-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Blog"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "Featured Article",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Select a blog article"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,112 @@
+{%- liquid
+  assign title = product.name
+  assign product_subtitle = item.product_subtitle
+
+  assign meta = product.metafields.flooret
+  assign character = meta.product_character
+  assign color = meta.product_color
+  assign space = meta.product_space
+
+  assign feat_img = product.featured_image
+  assign total_images = 0
+  assign variant_images = ''
+  assign hover_img = product.selected_or_first_available_variant.featured_image
+
+  for variant in product.variants
+    assign variant_images = variant_images | append: ',' | append: variant.featured_image
+    assign total_images = total_images | plus: 1
+
+    if variant[optionIndex] == value and feat_img == blank
+      assign feat_img = variant.featured_image
+    endif
+  endfor
+
+  assign variant_images = variant_images | remove_first: ',' | split: ','
+  assign found = false
+
+  for media in product.media
+    if feat_img == media
+      assign found = true
+    endif
+
+    if found == true
+      unless variant_images contains media
+        assign feat_img = media
+        break
+      endunless
+    endif
+  endfor
+  assign gallery = false
+  assign gallery_size = 0
+
+  for obj in shop.metaobjects.gallery.values
+    if obj.product.value.handle == product.handle
+      assign gallery = obj.images.value
+      for img in gallery
+        assign gallery_size = gallery_size | plus: 1
+      endfor
+      break
+    endif
+  endfor
+-%}
+
+<div
+  class="gallery-card js-gallery-popup {% if gallery and gallery_size >= 3 or gallery_size == 2 %} card-grid {% else %} card-single{% endif %}"
+  data-url="/products/{{ product.handle }}"
+  id="{{ product.handle }}"
+>
+  {%- if product != blank -%}
+    <div class="custom-card single-view">
+      <div>
+        <div class="card-headline">
+          {%- render 'lazy-image', image: hover_img, width: 500 -%}
+          {{ product.title }}
+        </div>
+        <div class="total-photos">
+          {{ product.metafields.flooret.product_color.value.name }} · {{ gallery_size | plus: 1 }}
+          {% if gallery_size > 1 %}Photos {% else %} Photo {% endif %}
+        </div>
+      </div>
+
+      <div class="btn btn--black">View Gallery</div>
+    </div>
+  {%- endif -%}
+  {%- if product != blank -%}
+    <span class="gallery-card__badge">{{ product.title }}</span>
+  {%- endif -%}
+  <div class="positioner">
+    {%- render 'lazy-image', image: feat_img, width: 1200 -%}
+    {% if gallery and gallery_size >= 3 %}
+      {% for img in gallery limit: 2 offset: 1 %}
+        {%- render 'lazy-image', image: img, width: 600 -%}
+      {% endfor %}
+    {% elsif gallery_size == 2 %}
+      {% for img in gallery limit: 2 %}
+        {%- render 'lazy-image', image: img, width: 600 -%}
+      {% endfor %}
+    {% endif %}
+  </div>
+  {%- unless hover_img == blank -%}
+    <div class="gallery-card__hover-image">
+      <div class="positioner">
+        {%- render 'lazy-image', image: hover_img, width: 1200 -%}
+      </div>
+    </div>
+  {%- endunless -%}
+  {%- if product != blank -%}
+    <div class="custom-card">
+      <div>
+        <div class="card-headline">
+          {%- render 'lazy-image', image: hover_img, width: 500 -%}
+          {{ product.title }}
+        </div>
+        <div class="total-photos">
+          {{ product.metafields.flooret.product_color.value.name }} · {{ gallery_size | plus: 1 }}
+          {% if gallery_size > 1 %}Photos {% else %} Photo {% endif %}
+        </div>
+      </div>
+
+      <div class="btn btn--black">View Gallery</div>
+    </div>
+  {%- endif -%}
+</div>

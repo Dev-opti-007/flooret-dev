@@ -1,0 +1,935 @@
+{% comment %}
+  Signature Feature (3-column)
+  - Left: stacked images (blocks)
+  - Middle: main hero image + overlay (title, text, buttons)
+  - Right: quote + author
+{% endcomment %}
+
+<section
+  id="SignatureFeature-{{ section.id }}"
+  class="ssf"
+  style="
+    --ssf-bg: {{ section.settings.section_bg_color }};
+    --ssf-max: {{ section.settings.section_max_width }}px;
+
+    --ssf-pt: {{ section.settings.section_padding_top_desktop }}px;
+    --ssf-pr: {{ section.settings.section_padding_right_desktop }}px;
+    --ssf-pb: {{ section.settings.section_padding_bottom_desktop }}px;
+    --ssf-pl: {{ section.settings.section_padding_left_desktop }}px;
+
+    --ssf-pt-m: {{ section.settings.section_padding_top_mobile }}px;
+    --ssf-pr-m: {{ section.settings.section_padding_right_mobile }}px;
+    --ssf-pb-m: {{ section.settings.section_padding_bottom_mobile }}px;
+    --ssf-pl-m: {{ section.settings.section_padding_left_mobile }}px;
+
+    --ssf-gap: {{ section.settings.grid_gap_desktop }}px;
+    --ssf-gap-m: {{ section.settings.grid_gap_mobile }}px;
+
+    --ssf-left-w: {{ section.settings.left_col_width_desktop }}px;
+    --ssf-right-w: {{ section.settings.right_col_width_desktop }}px;
+
+    --ssf-left-gap: {{ section.settings.left_stack_gap_desktop }}px;
+    --ssf-left-gap-m: {{ section.settings.left_stack_gap_mobile }}px;
+
+    --ssf-hero-radius: {{ section.settings.hero_radius }}px;
+
+    --ssf-overlay-bg: {{ section.settings.overlay_bg_color }};
+    --ssf-overlay-op: {{ section.settings.overlay_bg_opacity | divided_by: 100.0 }};
+    --ssf-overlay-radius: {{ section.settings.overlay_radius }}px;
+    --ssf-overlay-py: {{ section.settings.overlay_padding_y_desktop }}px;
+    --ssf-overlay-px: {{ section.settings.overlay_padding_x_desktop }}px;
+    --ssf-overlay-py-m: {{ section.settings.overlay_padding_y_mobile }}px;
+    --ssf-overlay-px-m: {{ section.settings.overlay_padding_x_mobile }}px;
+    --ssf-overlay-max: {{ section.settings.overlay_max_width }}px;
+
+    --ssf-kicker-c: {{ section.settings.kicker_color }};
+    --ssf-kicker-s: {{ section.settings.kicker_size_desktop }}px;
+    --ssf-kicker-s-m: {{ section.settings.kicker_size_mobile }}px;
+    --ssf-kicker-w: {{ section.settings.kicker_weight }};
+    --ssf-kicker-lh: {{ section.settings.kicker_line_height }};
+    --ssf-kicker-ls: {{ section.settings.kicker_letter_spacing }}px;
+    --ssf-kicker-mb: {{ section.settings.kicker_margin_bottom }}px;
+
+    --ssf-title-c: {{ section.settings.title_color }};
+    --ssf-title-s: {{ section.settings.title_size_desktop }}px;
+    --ssf-title-s-m: {{ section.settings.title_size_mobile }}px;
+    --ssf-title-w: {{ section.settings.title_weight }};
+    --ssf-title-lh: {{ section.settings.title_line_height }};
+    --ssf-title-ls: {{ section.settings.title_letter_spacing }}px;
+    --ssf-title-mb: {{ section.settings.title_margin_bottom }}px;
+
+    --ssf-text-c: {{ section.settings.text_color }};
+    --ssf-text-s: {{ section.settings.text_size_desktop }}px;
+    --ssf-text-s-m: {{ section.settings.text_size_mobile }}px;
+    --ssf-text-w: {{ section.settings.text_weight }};
+    --ssf-text-lh: {{ section.settings.text_line_height }};
+    --ssf-text-ls: {{ section.settings.text_letter_spacing }}px;
+    --ssf-text-mb: {{ section.settings.text_margin_bottom }}px;
+
+    --ssf-btn-gap: {{ section.settings.buttons_gap }}px;
+    --ssf-btn-radius: {{ section.settings.button_radius }}px;
+    --ssf-btn-py: {{ section.settings.button_padding_y }}px;
+    --ssf-btn-px: {{ section.settings.button_padding_x }}px;
+
+    --ssf-btn1-bg: {{ section.settings.button_1_bg }};
+    --ssf-btn1-c: {{ section.settings.button_1_color }};
+    --ssf-btn1-b: {{ section.settings.button_1_border }};
+    --ssf-btn2-bg: {{ section.settings.button_2_bg }};
+    --ssf-btn2-c: {{ section.settings.button_2_color }};
+    --ssf-btn2-b: {{ section.settings.button_2_border }};
+
+    --ssf-quote-c: {{ section.settings.quote_color }};
+    --ssf-quote-s: {{ section.settings.quote_size_desktop }}px;
+    --ssf-quote-s-m: {{ section.settings.quote_size_mobile }}px;
+    --ssf-quote-w: {{ section.settings.quote_weight }};
+    --ssf-quote-lh: {{ section.settings.quote_line_height }};
+    --ssf-quote-ls: {{ section.settings.quote_letter_spacing }}px;
+    --ssf-quote-mb: {{ section.settings.quote_margin_bottom }}px;
+
+    --ssf-author-c: {{ section.settings.author_color }};
+    --ssf-author-s: {{ section.settings.author_size_desktop }}px;
+    --ssf-author-s-m: {{ section.settings.author_size_mobile }}px;
+    --ssf-author-w: {{ section.settings.author_weight }};
+    --ssf-author-lh: {{ section.settings.author_line_height }};
+    --ssf-author-ls: {{ section.settings.author_letter_spacing }}px;
+  "
+>
+  <div class="ssf__wrap {% unless section.settings.full_width %}ssf__wrap--contained{% endunless %}">
+    <div class="ssf__grid">
+      {%- comment -%} LEFT STACK {%- endcomment -%}
+      {% if section.settings.enable_left_column %}
+        <div class="ssf__left">
+          {% assign left_blocks = section.blocks | where: "type", "left_image" %}
+          {% for block in left_blocks %}
+            <div
+              class="ssf__left-item {% if block.settings.enable_fixed_height %}ssf__left-item--fixed{% endif %}"
+              style="
+                --li-radius: {{ block.settings.radius }}px;
+                {% if block.settings.enable_fixed_height %}
+                  --li-h: {{ block.settings.height_desktop }}px;
+                  --li-h-m: {{ block.settings.height_mobile }}px;
+                {% endif %}
+              "
+              {{ block.shopify_attributes }}
+            >
+              {% if block.settings.image != blank %}
+                {% if block.settings.link != blank %}
+                  <a class="ssf__left-link" href="{{ block.settings.link }}">
+                {% endif %}
+
+                {{ block.settings.image
+                  | image_url: width: block.settings.render_width
+                  | image_tag:
+                    loading: 'lazy',
+                    class: 'ssf__left-img',
+                    alt: block.settings.image.alt | escape
+                }}
+
+                {% if block.settings.link != blank %}
+                  </a>
+                {% endif %}
+              {% else %}
+                <div class="ssf__placeholder">Add image</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {%- comment -%} MIDDLE HERO {%- endcomment -%}
+      <div class="ssf__hero {% if section.settings.enable_custom_hero_height %}ssf__hero--fixed{% endif %}">
+        <div
+          class="ssf__hero-media"
+          style="
+            {% if section.settings.enable_custom_hero_height %}
+              --hero-h: {{ section.settings.hero_height_desktop }}px;
+              --hero-h-m: {{ section.settings.hero_height_mobile }}px;
+            {% endif %}
+          "
+        >
+          {% if section.settings.hero_image_desktop != blank %}
+            {% if section.settings.hero_image_mobile != blank %}
+              <picture>
+                <source
+                  media="(max-width: 749px)"
+                  srcset="{{ section.settings.hero_image_mobile | image_url: width: section.settings.hero_mobile_render_width }}"
+                >
+                {{ section.settings.hero_image_desktop
+                  | image_url: width: section.settings.hero_desktop_render_width
+                  | image_tag:
+                    loading: 'lazy',
+                    class: 'ssf__hero-img',
+                    alt: section.settings.hero_image_desktop.alt | escape
+                }}
+              </picture>
+            {% else %}
+              {{ section.settings.hero_image_desktop
+                | image_url: width: section.settings.hero_desktop_render_width
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'ssf__hero-img',
+                  alt: section.settings.hero_image_desktop.alt | escape
+              }}
+            {% endif %}
+          {% else %}
+            <div class="ssf__hero-fallback">Select a hero image</div>
+          {% endif %}
+        </div>
+
+        {% if section.settings.enable_overlay %}
+          <div class="ssf__overlay ssf__overlay--{{ section.settings.overlay_position }}">
+            <div class="ssf__overlay-inner">
+              {% if section.settings.kicker != blank %}
+                <div class="ssf__kicker">{{ section.settings.kicker }}</div>
+              {% endif %}
+
+              {% if section.settings.title != blank %}
+                <div class="ssf__title">{{ section.settings.title }}</div>
+              {% endif %}
+
+              {% if section.settings.text != blank %}
+                <div class="ssf__text">{{ section.settings.text }}</div>
+              {% endif %}
+
+              {% if section.settings.button_1_label != blank or section.settings.button_2_label != blank %}
+                <div class="ssf__buttons">
+                  {% if section.settings.button_1_label != blank %}
+                    <a
+                      class="ssf__btn ssf__btn--1"
+                      {% if section.settings.button_1_link != blank %}href="{{ section.settings.button_1_link }}"{% endif %}
+                    >
+                      {{ section.settings.button_1_label }}
+                    </a>
+                  {% endif %}
+
+                  {% if section.settings.button_2_label != blank %}
+                    <a
+                      class="ssf__btn ssf__btn--2"
+                      {% if section.settings.button_2_link != blank %}href="{{ section.settings.button_2_link }}"{% endif %}
+                    >
+                      {{ section.settings.button_2_label }}
+                    </a>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {%- comment -%} RIGHT QUOTE {%- endcomment -%}
+      {% if section.settings.enable_right_column %}
+        <div class="ssf__right" style="text-align: {{ section.settings.right_text_align }};">
+          {% if section.settings.quote != blank %}
+            <div class="ssf__quote">
+              {% if section.settings.enable_quote_marks %}<span class="ssf__qmark">“</span>{% endif %}{{ section.settings.quote }}{% if section.settings.enable_quote_marks %}<span class="ssf__qmark">”</span>{% endif %}
+            </div>
+          {% endif %}
+
+          {% if section.settings.author != blank %}
+            <div class="ssf__author">- {{ section.settings.author }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ssf{
+    background: var(--ssf-bg);
+    padding: var(--ssf-pt) var(--ssf-pr) var(--ssf-pb) var(--ssf-pl);
+  }
+  .ssf__wrap--contained{ max-width: var(--ssf-max); margin: 0 auto; }
+
+  .ssf__grid{
+    display: grid;
+    grid-template-columns: var(--ssf-left-w) minmax(0, 1fr) var(--ssf-right-w);
+    gap: var(--ssf-gap);
+    align-items: start;
+  }
+
+  .ssf__left{
+    display: grid;
+    gap: var(--ssf-left-gap);
+    align-content: start;
+  }
+  .ssf__left-item{
+    border-radius: var(--li-radius);
+    overflow: hidden;
+    background: rgba(0,0,0,0.04);
+  }
+  .ssf__left-item--fixed{ height: var(--li-h); }
+  .ssf__left-item--fixed .ssf__left-img{ height: 100%; object-fit: cover; }
+
+  .ssf__left-link{ display:block; }
+  .ssf__left-img{ width: 100%; height: auto; display: block; }
+
+  .ssf__placeholder{
+    padding: 18px;
+    font-size: 14px;
+    opacity: .7;
+  }
+
+  .ssf__hero{ position: relative;height: 100%;}
+  .ssf__hero-media{ border-radius: var(--ssf-hero-radius); overflow: hidden;height: 100%;position:relative; }
+  .ssf__hero-media::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      opacity: 0.5;
+  }
+  .ssf__hero--fixed .ssf__hero-media{ height: var(--hero-h); }
+  .ssf__hero-img{ width: 100%; height: auto; display: block;height:100%; }
+  .ssf__hero--fixed .ssf__hero-img{ height: 100%; object-fit: cover; }
+
+  .ssf__hero-fallback{
+    border-radius: var(--ssf-hero-radius);
+    background: rgba(0,0,0,0.04);
+    padding: 18px;
+  }
+
+  .ssf__overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    display: flex;
+    padding: 18px;
+  }
+  .ssf__overlay--bottom_left{ align-items: flex-end; justify-content: flex-start; }
+  .ssf__overlay--bottom_right{ align-items: flex-end; justify-content: flex-end; }
+  .ssf__overlay--top_left{ align-items: flex-start; justify-content: flex-start; }
+  .ssf__overlay--top_right{ align-items: flex-start; justify-content: flex-end; }
+
+  .ssf__overlay-inner{
+    pointer-events: auto;
+    max-width: var(--ssf-overlay-max);
+    background: color-mix(in srgb, var(--ssf-overlay-bg) calc(var(--ssf-overlay-op) * 100%), transparent);
+    border-radius: var(--ssf-overlay-radius);
+    padding: var(--ssf-overlay-py) var(--ssf-overlay-px);
+    backdrop-filter: saturate(1.1);
+  }
+
+  .ssf__kicker{
+    color: var(--ssf-kicker-c);
+    font-size: var(--ssf-kicker-s);
+    font-weight: var(--ssf-kicker-w);
+    line-height: var(--ssf-kicker-lh);
+    letter-spacing: var(--ssf-kicker-ls);
+    margin-bottom: var(--ssf-kicker-mb);
+    font-family: {{ section.settings.font_kicker | json }}, sans-serif;
+  }
+  .ssf__title{
+    color: var(--ssf-title-c);
+    font-size: var(--ssf-title-s);
+    font-weight: var(--ssf-title-w);
+    line-height: var(--ssf-title-lh);
+    letter-spacing: var(--ssf-title-ls);
+    margin-bottom: var(--ssf-title-mb);
+    font-family: {{ section.settings.font_title | json }}, sans-serif;
+  }
+  .ssf__text{
+    color: var(--ssf-text-c);
+    font-size: var(--ssf-text-s);
+    font-weight: var(--ssf-text-w);
+    line-height: var(--ssf-text-lh);
+    letter-spacing: var(--ssf-text-ls);
+    margin-bottom: var(--ssf-text-mb);
+    font-family: {{ section.settings.font_text | json }}, sans-serif;
+  }
+  .ssf__text p{ margin: 0; }
+  .ssf__text p + p{ margin-top: .65em; }
+
+  .ssf__buttons{
+    display: flex;
+    gap: var(--ssf-btn-gap);
+    flex-wrap: wrap;
+  }
+  .ssf__btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: var(--ssf-btn-radius);
+    padding: var(--ssf-btn-py) var(--ssf-btn-px);
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 600;
+    transition: opacity .18s ease, transform .18s ease;
+    will-change: transform;
+    font-family: {{ section.settings.font_buttons | json }}, sans-serif;
+  }
+  .ssf__btn:hover{ opacity: .92; transform: translateY(-1px); }
+
+  .ssf__btn--1{
+    background: var(--ssf-btn1-bg);
+    color: var(--ssf-btn1-c);
+    border: 1px solid var(--ssf-btn1-b);
+  }
+  .ssf__btn--2{
+    background: var(--ssf-btn2-bg);
+    color: var(--ssf-btn2-c);
+    border: 1px solid var(--ssf-btn2-b);
+  }
+
+  .ssf__right{
+    padding-top: 6px;
+  }
+  .ssf__quote{
+    color: var(--ssf-quote-c);
+    font-size: var(--ssf-quote-s);
+    font-weight: var(--ssf-quote-w);
+    line-height: var(--ssf-quote-lh);
+    letter-spacing: var(--ssf-quote-ls);
+    margin-bottom: var(--ssf-quote-mb);
+    font-family: {{ section.settings.font_quote | json }}, serif;
+  }
+  .ssf__qmark{ opacity: .95; }
+  .ssf__author{
+    color: var(--ssf-author-c);
+    font-size: var(--ssf-author-s);
+    font-weight: var(--ssf-author-w);
+    line-height: var(--ssf-author-lh);
+    letter-spacing: var(--ssf-author-ls);
+    font-family: {{ section.settings.font_author | json }}, sans-serif;
+  }
+{% if section.settings.enable_without_bg_btns == true %}
+  .ssf__text {
+      max-width: 624px;
+  }
+  .ssf__overlay-inner {
+      width: 100%;
+      max-width: unset;
+  }
+  .ssf__buttons {
+      justify-content: space-between;
+      width: 100%;
+  }
+
+  .ssf__buttons a {
+      background: none;
+      color: #fff;
+      border: none;
+      padding: 0px;
+      cursor: pointer;
+  }
+
+  .ssf__buttons a:hover {
+      background: none;
+      color: #fff;
+  }
+{% endif %}
+  @media (max-width: 989px){
+    .ssf__grid{
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--ssf-gap-m);
+    }
+    .ssf__left{ order: {{ section.settings.mobile_order_left }}; }
+    .ssf__hero{ order: {{ section.settings.mobile_order_hero }}; }
+    .ssf__right{ order: {{ section.settings.mobile_order_right }}; }
+  }
+
+@media (min-width: 769px) and (max-width: 1250px) {
+.ssf{
+      padding: var(--ssf-pt-m) var(--ssf-pr-m) var(--ssf-pb-m) var(--ssf-pl-m);
+    }
+    .ssf__left{ gap: var(--ssf-left-gap-m); }
+    .ssf__left-item--fixed{ height: var(--li-h-m); }
+
+    .ssf__hero--fixed .ssf__hero-media{ height: var(--hero-h-m); }
+    .ssf__overlay-inner{
+      padding: var(--ssf-overlay-py-m) var(--ssf-overlay-px-m);
+    }
+    .ssf__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--ssf-gap-m);
+    }
+    .ssf__left {
+        gap: var(--ssf-left-gap-m);
+        grid-column: 1/3;
+        grid-template-columns: 1fr 1fr;
+        order: 1;
+    }
+    .ssf__left .ssf__left-item {
+        aspect-ratio: 1;
+    }
+    .ssf__hero {
+        grid-column: 1/3;
+        aspect-ratio: 1/1;
+        order: 2;
+    }
+    .ssf__right {
+        order: 3;
+        grid-column: 1/3;
+    }
+    .ssf__quote {
+        margin-bottom: 18px;
+    }
+    .ssf__hero-img {
+      object-fit: cover;
+  }
+}
+
+
+/* iOS <15: Padding hack on mobile ONLY */
+@supports not (aspect-ratio: 1) {
+  @media (max-width: 749px) {
+    .ssf__left .ssf__left-item {
+      position: relative !important;
+      padding-bottom: 100%;
+      width: 100% !important;
+      height: 0 !important;
+    }
+    
+    .ssf__left .ssf__left-item > * {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+/* Modern browsers: Native aspect-ratio everywhere */
+@supports (aspect-ratio: 1) {
+  .ssf__left .ssf__left-item {
+    aspect-ratio: 1;
+  }
+}
+
+/* Fallback for desktop (non-mobile iOS <15) */
+@media (min-width: 750px) {
+  .ssf__left .ssf__left-item {
+    aspect-ratio: 1;
+  }
+}
+
+
+  @media (max-width: 749px){
+    .ssf{
+      padding: var(--ssf-pt-m) var(--ssf-pr-m) var(--ssf-pb-m) var(--ssf-pl-m);
+    }
+    .ssf__left{ gap: var(--ssf-left-gap-m); }
+    .ssf__left-item--fixed{ height: var(--li-h-m); }
+
+    .ssf__hero--fixed .ssf__hero-media{ height: var(--hero-h-m); }
+    .ssf__overlay-inner{
+      padding: var(--ssf-overlay-py-m) var(--ssf-overlay-px-m);
+    }
+
+    .ssf__kicker{ font-size: var(--ssf-kicker-s-m); }
+    .ssf__title{ font-size: var(--ssf-title-s-m); }
+    .ssf__text{ font-size: var(--ssf-text-s-m); }
+    .ssf__quote{ font-size: var(--ssf-quote-s-m); }
+    .ssf__author{ font-size: var(--ssf-author-s-m); }
+    .ssf__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--ssf-gap-m);
+    }
+    .ssf__left {
+        gap: var(--ssf-left-gap-m);
+        grid-column: 1/3;
+        grid-template-columns: 1fr 1fr;
+        order: 1;
+    }
+    .ssf__left .ssf__left-item {
+        aspect-ratio: 1;
+    }
+    .ssf__hero {
+        grid-column: 1/3;
+        aspect-ratio: 1/1;
+        order: 2;
+    }
+    .ssf__right {
+        order: 3;
+        grid-column: 1/3;
+    }
+    .ssf__quote {
+        margin-bottom: 18px;
+    }
+  }
+  @media (max-width:350px){
+    .ssf__text {
+          margin-bottom: 25px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Signature feature",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width section",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section container"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "min": 900,
+      "max": 2000,
+      "step": 50,
+      "label": "Section max width (px)",
+      "default": 1400,
+      "info": "Ignored when Full width is enabled."
+    },
+
+    {
+      "type": "header",
+      "content": "Section padding (desktop)"
+    },
+    { "type": "range", "id": "section_padding_top_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding top (px)", "default": 40 },
+    { "type": "range", "id": "section_padding_right_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding right (px)", "default": 20 },
+    { "type": "range", "id": "section_padding_bottom_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding bottom (px)", "default": 40 },
+    { "type": "range", "id": "section_padding_left_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding left (px)", "default": 20 },
+
+    {
+      "type": "header",
+      "content": "Section padding (mobile)"
+    },
+    { "type": "range", "id": "section_padding_top_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding top (px)", "default": 28 },
+    { "type": "range", "id": "section_padding_right_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding right (px)", "default": 16 },
+    { "type": "range", "id": "section_padding_bottom_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding bottom (px)", "default": 28 },
+    { "type": "range", "id": "section_padding_left_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding left (px)", "default": 16 },
+
+    {
+      "type": "header",
+      "content": "Grid layout"
+    },
+    { "type": "range", "id": "grid_gap_desktop", "min": 0, "max": 80, "step": 2, "label": "Grid gap desktop (px)", "default": 24 },
+    { "type": "range", "id": "grid_gap_mobile", "min": 0, "max": 60, "step": 2, "label": "Grid gap mobile (px)", "default": 18 },
+
+    { "type": "checkbox", "id": "enable_left_column", "label": "Enable left column", "default": true },
+    { "type": "range", "id": "left_col_width_desktop", "min": 120, "max": 320, "step": 5, "label": "Left column width (desktop px)", "default": 170 },
+    { "type": "range", "id": "left_stack_gap_desktop", "min": 0, "max": 40, "step": 2, "label": "Left stack gap desktop (px)", "default": 16 },
+    { "type": "range", "id": "left_stack_gap_mobile", "min": 0, "max": 40, "step": 2, "label": "Left stack gap mobile (px)", "default": 12 },
+
+    { "type": "checkbox", "id": "enable_right_column", "label": "Enable right column", "default": true },
+    { "type": "range", "id": "right_col_width_desktop", "min": 220, "max": 650, "step": 5, "label": "Right column width (desktop px)", "default": 420 },
+    {
+      "type": "select",
+      "id": "right_text_align",
+      "label": "Right column text align",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+
+    {
+      "type": "header",
+      "content": "Mobile order (<= 989px)"
+    },
+    { "type": "range", "id": "mobile_order_left", "min": 1, "max": 3, "step": 1, "label": "Left order", "default": 1 },
+    { "type": "range", "id": "mobile_order_hero", "min": 1, "max": 3, "step": 1, "label": "Hero order", "default": 2 },
+    { "type": "range", "id": "mobile_order_right", "min": 1, "max": 3, "step": 1, "label": "Right order", "default": 3 },
+
+    {
+      "type": "header",
+      "content": "Hero image"
+    },
+    { "type": "image_picker", "id": "hero_image_desktop", "label": "Hero image (desktop)" },
+    { "type": "range", "id": "hero_desktop_render_width", "min": 900, "max": 3200, "step": 50, "label": "Hero render width desktop (px)", "default": 2000 },
+    { "type": "image_picker", "id": "hero_image_mobile", "label": "Hero image (mobile, optional)" },
+    { "type": "range", "id": "hero_mobile_render_width", "min": 500, "max": 1600, "step": 50, "label": "Hero render width mobile (px)", "default": 1000 },
+    { "type": "range", "id": "hero_radius", "min": 0, "max": 40, "step": 1, "label": "Hero corner radius (px)", "default": 10 },
+
+    { "type": "checkbox", "id": "enable_custom_hero_height", "label": "Enable fixed hero height", "default": true },
+    { "type": "range", "id": "hero_height_desktop", "min": 280, "max": 900, "step": 10, "label": "Hero height desktop (px)", "default": 460 },
+    { "type": "range", "id": "hero_height_mobile", "min": 220, "max": 700, "step": 10, "label": "Hero height mobile (px)", "default": 320 },
+
+    {
+      "type": "header",
+      "content": "Overlay content"
+    },
+    { "type": "checkbox", "id": "enable_overlay", "label": "Enable overlay", "default": true },
+    {
+      "type": "select",
+      "id": "overlay_position",
+      "label": "Overlay position",
+      "options": [
+        { "value": "bottom_left", "label": "Bottom left" },
+        { "value": "bottom_right", "label": "Bottom right" },
+        { "value": "top_left", "label": "Top left" },
+        { "value": "top_right", "label": "Top right" }
+      ],
+      "default": "bottom_left"
+    },
+    { "type": "color", "id": "overlay_bg_color", "label": "Overlay background color", "default": "#ffffff" },
+    { "type": "range", "id": "overlay_bg_opacity", "min": 0, "max": 100, "step": 5, "label": "Overlay background opacity (%)", "default": 0 },
+    { "type": "range", "id": "overlay_radius", "min": 0, "max": 30, "step": 1, "label": "Overlay radius (px)", "default": 12 },
+    { "type": "range", "id": "overlay_max_width", "min": 220, "max": 700, "step": 10, "label": "Overlay max width (px)", "default": 420 },
+
+    { "type": "range", "id": "overlay_padding_y_desktop", "min": 0, "max": 60, "step": 2, "label": "Overlay padding Y desktop (px)", "default": 18 },
+    { "type": "range", "id": "overlay_padding_x_desktop", "min": 0, "max": 60, "step": 2, "label": "Overlay padding X desktop (px)", "default": 18 },
+    { "type": "range", "id": "overlay_padding_y_mobile", "min": 0, "max": 60, "step": 2, "label": "Overlay padding Y mobile (px)", "default": 16 },
+    { "type": "range", "id": "overlay_padding_x_mobile", "min": 0, "max": 60, "step": 2, "label": "Overlay padding X mobile (px)", "default": 16 },
+
+    { "type": "text", "id": "kicker", "label": "Kicker (small heading)", "default": "Signature Sable" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Signature Sable" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Wide planks. Subtle microbevel definition. A balanced tone designed to complement layered neutrals and architectural details.</p>" },
+
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type":"checkbox",
+      "id":"enable_without_bg_btns",
+      "label":"Enable Without BG Button",
+      "default":false
+    },
+    { "type": "text", "id": "button_1_label", "label": "Button 1 label", "default": "Shop Sable" },
+    { "type": "url", "id": "button_1_link", "label": "Button 1 link" },
+    { "type": "color", "id": "button_1_bg", "label": "Button 1 background", "default": "#ffffff" },
+    { "type": "color", "id": "button_1_color", "label": "Button 1 text color", "default": "#111111" },
+    { "type": "color", "id": "button_1_border", "label": "Button 1 border color", "default": "#e6e6e6" },
+
+    { "type": "text", "id": "button_2_label", "label": "Button 2 label", "default": "Shop Samples" },
+    { "type": "url", "id": "button_2_link", "label": "Button 2 link" },
+    { "type": "color", "id": "button_2_bg", "label": "Button 2 background", "default": "#FAAF4F" },
+    { "type": "color", "id": "button_2_color", "label": "Button 2 text color", "default": "#111111" },
+    { "type": "color", "id": "button_2_border", "label": "Button 2 border color", "default": "#FAAF4F" },
+
+    { "type": "range", "id": "buttons_gap", "min": 0, "max": 30, "step": 1, "label": "Buttons gap (px)", "default": 10 },
+    { "type": "range", "id": "button_radius", "min": 0, "max": 100, "step": 5, "label": "Button radius (px)", "default": 0 },
+    { "type": "range", "id": "button_padding_y", "min": 6, "max": 24, "step": 1, "label": "Button padding Y (px)", "default": 12 },
+    { "type": "range", "id": "button_padding_x", "min": 10, "max": 40, "step": 1, "label": "Button padding X (px)", "default": 18 },
+
+    {
+      "type": "header",
+      "content": "Quote"
+    },
+    { "type": "textarea", "id": "quote", "label": "Quote text", "default": "I wanted something timeless, warm, and refined. Signature created the perfect foundation." },
+    { "type": "text", "id": "author", "label": "Author", "default": "Farah Merhi" },
+    { "type": "checkbox", "id": "enable_quote_marks", "label": "Show quote marks", "default": true },
+
+    {
+      "type": "header",
+      "content": "Typography - overlay"
+    },
+    { "type": "color", "id": "kicker_color", "label": "Kicker color", "default": "#ffffff" },
+    { "type": "range", "id": "kicker_size_desktop", "min": 10, "max": 22, "step": 1, "label": "Kicker size desktop (px)", "default": 12 },
+    { "type": "range", "id": "kicker_size_mobile", "min": 10, "max": 20, "step": 1, "label": "Kicker size mobile (px)", "default": 12 },
+    {
+      "type": "select",
+      "id": "kicker_weight",
+      "label": "Kicker weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "kicker_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Kicker line height", "default": 1.2 },
+    { "type": "range", "id": "kicker_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Kicker letter spacing (px)", "default": 0 },
+    { "type": "range", "id": "kicker_margin_bottom", "min": 0, "max": 30, "step": 1, "label": "Kicker margin bottom (px)", "default": 6 },
+
+    { "type": "color", "id": "title_color", "label": "Title color", "default": "#ffffff" },
+    { "type": "range", "id": "title_size_desktop", "min": 16, "max": 64, "step": 1, "label": "Title size desktop (px)", "default": 34 },
+    { "type": "range", "id": "title_size_mobile", "min": 16, "max": 52, "step": 1, "label": "Title size mobile (px)", "default": 26 },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "title_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Title line height", "default": 1.1 },
+    { "type": "range", "id": "title_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Title letter spacing (px)", "default": 0 },
+    { "type": "range", "id": "title_margin_bottom", "min": 0, "max": 40, "step": 1, "label": "Title margin bottom (px)", "default": 8 },
+
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#ffffff" },
+    { "type": "range", "id": "text_size_desktop", "min": 12, "max": 24, "step": 1, "label": "Text size desktop (px)", "default": 14 },
+    { "type": "range", "id": "text_size_mobile", "min": 12, "max": 22, "step": 1, "label": "Text size mobile (px)", "default": 13 },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "text_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Text line height", "default": 1.6 },
+    { "type": "range", "id": "text_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Text letter spacing (px)", "default": 0 },
+    { "type": "range", "id": "text_margin_bottom", "min": 0, "max": 80, "step": 1, "label": "Text margin bottom (px)", "default": 14 },
+
+    {
+      "type": "header",
+      "content": "Typography - quote"
+    },
+    { "type": "color", "id": "quote_color", "label": "Quote color", "default": "#111111" },
+    { "type": "range", "id": "quote_size_desktop", "min": 2, "max": 100, "step": 2, "label": "Quote size desktop (px)", "default": 28 },
+    { "type": "range", "id": "quote_size_mobile", "min": 14, "max": 34, "step": 1, "label": "Quote size mobile (px)", "default": 22 },
+    {
+      "type": "select",
+      "id": "quote_weight",
+      "label": "Quote weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "500"
+    },
+    { "type": "range", "id": "quote_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Quote line height", "default": 1 },
+    { "type": "range", "id": "quote_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Quote letter spacing (px)", "default": 0 },
+    { "type": "range", "id": "quote_margin_bottom", "min": 0, "max": 30, "step": 1, "label": "Quote margin bottom (px)", "default": 10 },
+
+    { "type": "color", "id": "author_color", "label": "Author color", "default": "#111111" },
+    { "type": "range", "id": "author_size_desktop", "min": 12, "max": 22, "step": 1, "label": "Author size desktop (px)", "default": 14 },
+    { "type": "range", "id": "author_size_mobile", "min": 12, "max": 22, "step": 1, "label": "Author size mobile (px)", "default": 14 },
+    {
+      "type": "select",
+      "id": "author_weight",
+      "label": "Author weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "author_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Author line height", "default": 1.4 },
+    { "type": "range", "id": "author_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Author letter spacing (px)", "default": 0 },
+
+    {
+      "type": "header",
+      "content": "Font families"
+    },
+    {
+      "type": "select",
+      "id": "font_kicker",
+      "label": "Font family: Kicker",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font_title",
+      "label": "Font family: Title",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Playfair Display"
+    },
+    {
+      "type": "select",
+      "id": "font_text",
+      "label": "Font family: Text",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font_buttons",
+      "label": "Font family: Buttons",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font_quote",
+      "label": "Font family: Quote",
+      "options": [
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Georgia", "label": "Georgia" },
+        { "value": "Times New Roman", "label": "Times New Roman" }
+      ],
+      "default": "Playfair Display"
+    },
+    {
+      "type": "select",
+      "id": "font_author",
+      "label": "Font family: Author",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "left_image",
+      "name": "Left image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "link", "label": "Link (optional)" },
+        { "type": "range", "id": "render_width", "min": 300, "max": 1200, "step": 50, "label": "Render width (px)", "default": 700 },
+        { "type": "range", "id": "radius", "min": 0, "max": 30, "step": 1, "label": "Corner radius (px)", "default": 12 },
+
+        { "type": "checkbox", "id": "enable_fixed_height", "label": "Enable fixed height", "default": true },
+        { "type": "range", "id": "height_desktop", "min": 10, "max": 1000, "step": 10, "label": "Height desktop (px)", "default": 170 },
+        { "type": "range", "id": "height_mobile", "min": 10, "max": 1000, "step": 10, "label": "Height mobile (px)", "default": 160 }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Signature feature",
+      "blocks": [
+        { "type": "left_image" },
+        { "type": "left_image" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,68 @@
+{%- liquid
+  assign module = section.settings
+  assign bg_image = module.bg_image
+  assign heading = module.heading
+  assign content = module.content
+
+  assign bg_image_url = bg_image | img_url: 'master'
+-%}
+
+<section class="animated-hero">
+  <div class="animated-hero__content animated-hero__content--main">
+    <div class="container container--medium">
+      <div class="row">
+        <div class="col col--left">
+          <h1>{{ heading }}</h1>
+        </div>
+        <div class="col col--right">{{ content }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="animated-hero__clip">
+    <div class="animated-hero__bg">
+      <div class="animated-hero__bg-parallax">
+        {{ bg_image_url | img_tag: 'hero-bg' }}
+      </div>
+    </div>
+    <div class="animated-hero__content animated-hero__content--dup">
+      <div class="container container--medium">
+        <div class="row">
+          <div class="col col--left">
+            <h1>{{ heading }}</h1>
+          </div>
+          <div class="col col--right">{{ content }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero - Animated Image",
+  "class": "hero-animated-image-section bg-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero - Animated Image",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

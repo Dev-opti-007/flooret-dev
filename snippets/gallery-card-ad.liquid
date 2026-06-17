@@ -1,0 +1,23 @@
+{%- liquid
+  assign ad_heading = ad.heading
+  assign ad_content = ad.content
+  assign ad_cta_text = ad.cta_text
+  assign ad_cta_url = ad.cta_url
+  assign ad_bg_color = ad.bg_color
+  assign ad_text_color = ad.text_color
+-%}
+
+{%- capture ad_styles -%}style="
+  {%- if ad_bg_color != blank and ad_bg_color != 'rgba(0,0,0,0)' -%}background-color: {{ad_bg_color}};{%- endif -%}
+  {%- if ad_text_color != blank and ad_text_color != 'rgba(0,0,0,0)' -%}color: {{ad_text_color}};{%- endif -%}
+  "
+{%- endcapture -%}
+
+<div class="gallery-card gallery-ad-card" {{ ad_styles }}>
+  <h1>{{ ad_heading }}</h1>
+  {{ ad_content }}
+
+  {%- if ad_cta_text != blank and ad_cta_url != blank -%}
+    <a href="{{ ad_cta_url }}" class="btn btn-primary">{{ ad_cta_text }}</a>
+  {%- endif -%}
+</div>

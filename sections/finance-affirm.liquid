@@ -1,0 +1,88 @@
+<section id="affirm-section" class="finance-option finance-option--affirm">
+    <div class="finance-option__container">
+      <div class="finance-option__content">
+        <h2 class="finance-option__title">Check out with Affirm</h2>
+        <p class="finance-option__subtitle">Best For Individuals</p>
+        <p class="finance-option__description">
+          For our residential customers, we offer financing through Affirm directly at checkout. Simply choose Affirm as your payment option during the checkout process, follow their sign-up instructions, and get ready to enjoy your new floors!
+        </p>
+      </div>
+      <div class="finance-option__features">
+        <div class="finance-option__logo">
+          <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/finance-logo-affirm.png?v=1724380921" alt="Affirm logo" class="finance-option__logo-image">
+        </div>
+        <ul class="finance-option__feature-list">
+          <li class="finance-option__feature-item">
+            <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/finance-logo-check.png?v=1724371169" alt="" class="finance-option__feature-icon">
+            <div class="finance-option__feature-content">
+              <h3 class="finance-option__feature-title">SIMPLE APPLICATION PROCESS</h3>
+              <p class="finance-option__feature-description">Apply directly at checkout.</p>
+            </div>
+          </li>
+          <li class="finance-option__feature-item">
+            <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/finance-logo-cash.png?v=1724380921" alt="" class="finance-option__feature-icon">
+            <div class="finance-option__feature-content">
+              <h3 class="finance-option__feature-title">FLEXIBLE PAYMENT PLANS</h3>
+              <p class="finance-option__feature-description">Choose a plan that fits your budget—3, 6, or 9 months.</p>
+            </div>
+          </li>
+          <li class="finance-option__feature-item">
+            <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/finance-logo-handshake.png?v=1724380921" alt="" class="finance-option__feature-icon">
+            <div class="finance-option__feature-content">
+              <h3 class="finance-option__feature-title">Transparent Terms</h3>
+              <p class="finance-option__feature-description">No hidden fees, no surprises.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  <style>
+    .finance-option--affirm {
+      background-color: #F6F9FC;
+    }
+  
+    .finance-option--affirm .finance-option__title {
+      font-size: 56px;
+      line-height: 1.1;
+    }
+  
+    .finance-option__feature-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 20px;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+        background-color: #fff;
+      }
+
+      .finance-option--affirm .finance-option__feature-icon {
+        background-color: #FAAF4F;
+        border-radius: 50%;
+      }
+  
+    .finance-option--affirm .finance-option__feature-list::before {
+      border-left-color: #FAAF4F;
+    }
+  
+    @media (max-width: 768px) {
+      .finance-option--affirm .finance-option__title {
+        font-size: 40px;
+      }
+    }
+  </style>
+  
+  {% schema %}
+  {
+    "name": "Finance Affirm",
+    "settings": [],
+    "presets": [
+      {
+        "name": "Finance Affirm",
+        "category": "Custom Sections"
+      }
+    ]
+  }
+  {% endschema %}

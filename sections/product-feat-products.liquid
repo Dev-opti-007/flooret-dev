@@ -1,0 +1,529 @@
+{%- liquid
+  assign module = section.settings
+  assign meta = product.metafields.flooret
+
+  assign feat_products_heading = meta.product_featured_products_heading.value
+  assign feat_products = meta.product_featured_products.value
+-%}
+{%- unless feat_products == blank -%}
+  <section class="featprods">
+    <div class="container">
+      <div class="section__header">
+        {%- if feat_products_heading != blank -%}
+          <h2>{{ feat_products_heading }}</h2>
+        {%- endif -%}
+      </div>
+      <div class="section__content swiper you-may-like">
+        <div class="swiper-wrapper">
+          {%- for prod in feat_products -%}
+            <div class="swiper-slide">
+              {%- render 'product-feat-card', product: prod -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="swiper-controls">
+          <button class="swiper-button-prev" type="button"></button>
+          <div class="swiper-scrollbar"></div>
+          <button class="swiper-button-next" type="button"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endunless -%}
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    var swiper = new Swiper('.you-may-like', {
+      slidesPerView: 1,  // Shows partial next slide
+      spaceBetween: 16,
+      
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      },
+      breakpoints: {
+        // Mobile
+        480: {
+          slidesPerView: 1,
+          spaceBetween: 16,
+        },
+        // Tablet
+        768: {
+          slidesPerView: 1,
+          spaceBetween: 16,
+        },
+        // Desktop
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 16,
+        },
+      },
+    });
+  });
+
+</script>
+
+{% comment %} <script>
+document.addEventListener('DOMContentLoaded', function () {
+  // 1) Attach delegated click handler (your existing logic)
+  $('body').on('click', '.product-card__swatches button', function () {
+    var $this = $(this);
+    if ($this.hasClass('disabled')) {
+      return false;
+    }
+
+    var image = $this.data('image');
+    var hover_image = $this.data('imageHover');
+    var $card = $this.parents('.product-card');
+    var $swatches = $card.find('.product-card__swatches button');
+    var $image = $card.find('.product-card__image img');
+    var $hover_img = $card.find('.js-product-card-hover-image');
+    var $cost_per_sqft = $card.find('.product-card__cost-per-sqft');
+
+    var variantId = $this.data('variant-id')?.toString();
+    var metafields = (window.collectionVariantMetafields || {})[variantId] || {};
+
+    var rawPrice = (metafields.sqft_price != null)
+      ? metafields.sqft_price
+      : parseFloat($this.data('price')) || 0;
+
+    var rawComparePrice = (metafields.sqft_compare_at_price != null)
+      ? metafields.sqft_compare_at_price
+      : parseFloat($this.data('compare-price')) || 0;
+
+    var formattedMainPrice = Shopify.formatMoney(rawPrice, price_format)
+      .replace('$', window.currencySymbol + ' ');
+    $card.find('.js-product__price').text(formattedMainPrice);
+
+    $card.find('.js-product__variant').text($this.attr('title'));
+    $swatches.removeClass('active');
+    $this.addClass('active');
+
+    $image.attr('src', image).attr('srcset', image);
+    if (hover_image && hover_image.length) {
+      $hover_img
+        .attr('data-bg', hover_image)
+        .removeClass('entered loaded')
+        .addClass('lazy');
+      $hover_img[0].removeAttribute('data-ll-status');
+      if (window.LazyLoading && typeof LazyLoading.refresh === 'function') {
+        LazyLoading.refresh();
+      }
+    }
+
+    var rawSqftPrice = (metafields.sqft_price != null)
+      ? metafields.sqft_price
+      : parseFloat($this.data('cost-per-sqft')) || 0;
+    console.log('---------------------------')
+    console.log(rawSqftPrice)
+    var rawSqftComparePrice = (metafields.sqft_compare_at_price != null)
+      ? metafields.sqft_compare_at_price
+      : parseFloat($this.data('compare-cost-per-sqft')) || 0;
+    console.log('---------------------------')
+    console.log(rawSqftComparePrice)
+    var sqftPrice = rawSqftPrice / 100;
+    var sqftComparePrice = rawSqftComparePrice / 100;
+    console.log('---------------------------')
+    console.log(sqftPrice)
+    console.log('---------------------------')
+    console.log(sqftComparePrice)
+    var savingsPercent = 0;
+    if (sqftComparePrice > sqftPrice && sqftComparePrice > 0) {
+      savingsPercent = Math.round(((sqftComparePrice - sqftPrice) / sqftComparePrice) * 100);
+    }
+
+    var priceHtml = '<span class="p-r-ice">' +
+      window.currencySymbol + sqftPrice.toFixed(2);
+
+    if (sqftPrice < sqftComparePrice) {
+      priceHtml += ' <del>' + window.currencySymbol + sqftComparePrice.toFixed(2) + '</del>';
+    }
+    priceHtml += ' <span class="sqft-text">per sq ft</span>';
+    if (savingsPercent > 0) {
+      priceHtml += ' <span class="off-percent">' + savingsPercent + '% Off</span>';
+    }
+    priceHtml += '</span>';
+
+    $cost_per_sqft.html(priceHtml);
+  });
+
+  // 2) After cards are in DOM, trigger click on active swatch for each card
+  //   - small timeout helps if cards are rendered late via theme JS
+  setTimeout(function () {
+    $('.product-card').each(function () {
+      var $card = $(this);
+      var $active = $card.find('.product-card__swatches button.active').first();
+      if ($active.length) {
+        $active.trigger('click');
+      }
+    });
+  }, 200); // adjust delay if needed
+});
+   
+</script> {% endcomment %}
+
+{% comment %} <script>
+document.addEventListener('DOMContentLoaded', function () {
+  $('body').on('click', '.product-card__swatches button', function () {
+    var $this = $(this);
+    if ($this.hasClass('disabled')) {
+      return false;
+    }
+
+    var image = $this.data('image');
+    var hover_image = $this.data('imageHover');
+    var $card = $this.parents('.product-card');
+    var $swatches = $card.find('.product-card__swatches button');
+    var $image = $card.find('.product-card__image img');
+    var $hover_img = $card.find('.js-product-card-hover-image');
+    var $cost_per_sqft = $card.find('.product-card__cost-per-sqft');
+
+    // EXACT SAME AS GLOBAL: use collectionVariantMetafields (not window.)
+    var variantId = $this.data('variant-id').toString();
+    var metafields = (typeof collectionVariantMetafields !== 'undefined' && collectionVariantMetafields[variantId])
+      ? collectionVariantMetafields[variantId]
+      : {};
+
+    // Main price + compare
+    var rawPrice = metafields.sqft_price !== undefined && metafields.sqft_price !== null
+      ? metafields.sqft_price
+      : parseFloat($this.data('price')) || 0;
+
+    var rawComparePrice = metafields.sqft_compare_at_price !== undefined && metafields.sqft_compare_at_price !== null
+      ? metafields.sqft_compare_at_price
+      : parseFloat($this.data('compare-price')) || 0;
+
+    var formattedMainPrice = Shopify.formatMoney(rawPrice, price_format)
+      .replace('$', window.currencySymbol + ' ');
+    $card.find('.js-product__price').text(formattedMainPrice);
+
+    $card.find('.js-product__variant').text($this.attr('title'));
+    $swatches.removeClass('active');
+    $this.addClass('active');
+
+    // Images
+    $image.attr('src', image).attr('srcset', image);
+    if (hover_image && hover_image.length) {
+      $hover_img
+        .attr('data-bg', hover_image)
+        .removeClass('entered loaded')
+        .addClass('lazy');
+      $hover_img[0].removeAttribute('data-ll-status');
+      if (window.LazyLoading && typeof LazyLoading.refresh === 'function') {
+        LazyLoading.refresh();
+      }
+    }
+
+    // Cost-per-sqft (same logic as global)
+    var rawSqftPrice = metafields.sqft_price !== undefined && metafields.sqft_price !== null
+      ? metafields.sqft_price
+      : parseFloat($this.data('cost-per-sqft')) || 0;
+
+    var rawSqftComparePrice = metafields.sqft_compare_at_price !== undefined && metafields.sqft_compare_at_price !== null
+      ? metafields.sqft_compare_at_price
+      : parseFloat($this.data('compare-cost-per-sqft')) || 0;
+
+    console.log('[SWATCH] rawSqftPrice:', rawSqftPrice, 'rawSqftComparePrice:', rawSqftComparePrice);
+
+    var sqftPrice = rawSqftPrice / 100;
+    var sqftComparePrice = rawSqftComparePrice / 100;
+
+    console.log('[SWATCH] sqftPrice:', sqftPrice, 'sqftComparePrice:', sqftComparePrice);
+
+    var savingsPercent = 0;
+    if (sqftComparePrice > sqftPrice && sqftComparePrice > 0) {
+      savingsPercent = Math.round(((sqftComparePrice - sqftPrice) / sqftComparePrice) * 100);
+    }
+
+    var priceHtml = '<span class="p-r-ice">' + window.currencySymbol + sqftPrice.toFixed(2);
+    if (sqftPrice < sqftComparePrice) {
+      priceHtml += ' <del>' + window.currencySymbol + sqftComparePrice.toFixed(2) + '</del>';
+    }
+    priceHtml += ' <span class="sqft-text">per sq ft</span>';
+    if (savingsPercent > 0) {
+      priceHtml += ' <span class="off-percent">' + savingsPercent + '% Off</span>';
+    }
+    priceHtml += '</span>';
+
+    $cost_per_sqft.html(priceHtml);
+  });
+
+  // Initial trigger on active swatch
+  setTimeout(function () {
+    $('.product-card').each(function () {
+      var $card = $(this);
+      var $active = $card.find('.product-card__swatches button.active').first();
+      if ($active.length) {
+        $active.trigger('click');
+      }
+    });
+  }, 200);
+});
+</script> {% endcomment %}
+
+{% comment %} <script>
+document.addEventListener('DOMContentLoaded', function () {
+  $('body').on('click', '.product-card__swatches button', function () {
+    var $this = $(this);
+    if ($this.hasClass('disabled')) return false;
+
+    var image = $this.data('image');
+    var hover_image = $this.data('imageHover');
+    var $card = $this.parents('.product-card');
+    var $swatches = $card.find('.product-card__swatches button');
+    var $image = $card.find('.product-card__image img');
+    var $hover_img = $card.find('.js-product-card-hover-image');
+    var $cost_per_sqft = $card.find('.product-card__cost-per-sqft');
+
+    var variantId = $this.data('variant-id') && $this.data('variant-id').toString();
+    var dataPriceCents = Number($this.data('price')) || 0;
+    var dataSqftCents = Number($this.data('cost-per-sqft')) || 0;
+    var dataSqftCompareCents = Number($this.data('compare-cost-per-sqft')) || 0;
+
+    console.log('--- SWATCH CLICK ---');
+    console.log('variantId:', variantId);
+    console.log('data-price (cents):', dataPriceCents);
+    console.log('data-cost-per-sqft (cents):', dataSqftCents);
+    console.log('data-compare-cost-per-sqft (cents):', dataSqftCompareCents);
+
+    // MAIN PRICE from data-price (already cents)
+    var formattedMainPrice = Shopify.formatMoney(dataPriceCents, price_format)
+      .replace('$', window.currencySymbol + ' ');
+    $card.find('.js-product__price').text(formattedMainPrice);
+
+    // State + images
+    $card.find('.js-product__variant').text($this.attr('title'));
+    $swatches.removeClass('active');
+    $this.addClass('active');
+
+    $image.attr('src', image).attr('srcset', image);
+    if (hover_image && hover_image.length && $hover_img.length) {
+      $hover_img
+        .attr('data-bg', hover_image)
+        .removeClass('entered loaded')
+        .addClass('lazy');
+      $hover_img[0].removeAttribute('data-ll-status');
+      if (window.LazyLoading && typeof LazyLoading.refresh === 'function') {
+        LazyLoading.refresh();
+      }
+    }
+
+    // COST PER SQ FT (cents -> dollars)
+    var sqftPrice = dataSqftCents / 100;
+    var sqftComparePrice = dataSqftCompareCents / 100;
+
+    console.log('sqftPrice:', sqftPrice, 'sqftComparePrice:', sqftComparePrice);
+
+    var savingsPercent = 0;
+    if (sqftComparePrice > sqftPrice && sqftComparePrice > 0) {
+      savingsPercent = Math.round(((sqftComparePrice - sqftPrice) / sqftComparePrice) * 100);
+    }
+    console.log('savingsPercent:', savingsPercent);
+
+    var priceHtml = '<span class="p-r-ice">' +
+      window.currencySymbol + sqftPrice.toFixed(2);
+
+    if (sqftPrice < sqftComparePrice) {
+      priceHtml += ' <del>' + window.currencySymbol + sqftComparePrice.toFixed(2) + '</del>';
+    }
+
+    priceHtml += ' <span class="sqft-text">per sq ft</span>';
+    if (savingsPercent > 0) {
+      priceHtml += ' <span class="off-percent">' + savingsPercent + '% Off</span>';
+    }
+    priceHtml += '</span>';
+
+    $cost_per_sqft.html(priceHtml);
+  });
+
+  // Trigger initial swatch
+  setTimeout(function () {
+    $('.product-card').each(function () {
+      var $card = $(this);
+      var $active = $card.find('.product-card__swatches button.active').first();
+      if ($active.length) {
+        $active.trigger('click');
+      }
+    });
+  }, 200);
+});
+</script> {% endcomment %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  // Helper to extract dollar amount from money object or plain number
+  function extractAmount(val) {
+    if (val === null || val === undefined || val === '' || val === 0 || val === '0') {
+      return 0;
+    }
+    // If it's already a number
+    if (typeof val === 'number') {
+      return val;
+    }
+    // If it's a string that looks like a number
+    if (typeof val === 'string' && !val.includes('{')) {
+      return parseFloat(val) || 0;
+    }
+    // If it's a money object (string or parsed object)
+    var obj = val;
+    if (typeof val === 'string') {
+      try { obj = JSON.parse(val); } catch (e) { return 0; }
+    }
+    if (obj && obj.amount !== undefined) {
+      return parseFloat(obj.amount) || 0;
+    }
+    return 0;
+  }
+
+  $('body').on('click', '.product-card__swatches button', function () {
+    var $this = $(this);
+    if ($this.hasClass('disabled')) return false;
+
+    var image = $this.data('image');
+    var hover_image = $this.data('imageHover');
+    var $card = $this.parents('.product-card');
+    var $swatches = $card.find('.product-card__swatches button');
+    var $image = $card.find('.product-card__image img');
+    var $hover_img = $card.find('.js-product-card-hover-image');
+    var $cost_per_sqft = $card.find('.product-card__cost-per-sqft');
+
+    var dataPriceCents = Number($this.data('price')) || 0;
+
+    // Extract amounts (in dollars) from data attributes
+    {% comment %} var rawCost = $this.attr('data-cost-per-sqft');
+    var rawCompare = $this.attr('data-compare-cost-per-sqft');
+
+    var sqftPrice = extractAmount(rawCost);       // dollars
+    var sqftComparePrice = extractAmount(rawCompare); // dollars {% endcomment %}
+    var rawCost = $this.attr('data-cost-per-sqft');
+    var rawCompare = $this.attr('data-compare-cost-per-sqft');
+    var sqFtValue = parseFloat($this.attr('data-sqft') || 100); // ← ADD THIS LINE
+
+    var totalPrice = extractAmount(rawCost);        // $650 total
+    var totalComparePrice = extractAmount(rawCompare); // $770 total
+
+    // ✅ CALCULATE per sq ft
+    var sqftPrice = totalPrice / sqFtValue;         // $6.50
+    var sqftComparePrice = totalComparePrice / sqFtValue;
+
+    console.log('--- SWATCH CLICK ---');
+    console.log('rawCost:', rawCost);
+    console.log('rawCompare:', rawCompare);
+    console.log('sqftPrice:', sqftPrice, 'sqftComparePrice:', sqftComparePrice);
+
+    // MAIN PRICE
+    var formattedMainPrice = Shopify.formatMoney(dataPriceCents, price_format)
+      .replace('$', window.currencySymbol + ' ');
+    $card.find('.js-product__price').text(formattedMainPrice);
+
+    // State + images
+    $card.find('.js-product__variant').text($this.attr('title'));
+    $swatches.removeClass('active');
+    $this.addClass('active');
+
+    $image.attr('src', image).attr('srcset', image);
+    if (hover_image && hover_image.length && $hover_img.length) {
+      $hover_img
+        .attr('data-bg', hover_image)
+        .removeClass('entered loaded')
+        .addClass('lazy');
+      $hover_img[0].removeAttribute('data-ll-status');
+      if (window.LazyLoading && typeof LazyLoading.refresh === 'function') {
+        LazyLoading.refresh();
+      }
+    }
+
+    // COST PER SQ FT (already in dollars from extractAmount)
+    var savingsPercent = 0;
+    if (sqftComparePrice > sqftPrice && sqftComparePrice > 0) {
+      savingsPercent = Math.round(((sqftComparePrice - sqftPrice) / sqftComparePrice) * 100);
+    }
+    console.log('savingsPercent:', savingsPercent);
+
+    var priceHtml = '<span class="p-r-ice">' +
+      window.currencySymbol + sqftPrice.toFixed(2);
+
+    if (sqftPrice < sqftComparePrice) {
+      priceHtml += ' <del>' + window.currencySymbol + sqftComparePrice.toFixed(2) + '</del>';
+    }
+
+    priceHtml += ' <span class="sqft-text">per sq ft</span>';
+    if (savingsPercent > 0) {
+      priceHtml += ' <span class="off-percent">' + savingsPercent + '% Off</span>';
+    }
+    priceHtml += '</span>';
+
+    $cost_per_sqft.html(priceHtml);
+  });
+
+  // Trigger initial swatch on page load
+  setTimeout(function () {
+    $('.product-card').each(function () {
+      var $card = $(this);
+      var $active = $card.find('.product-card__swatches button.active').first();
+      if ($active.length) {
+        $active.trigger('click');
+      }
+    });
+  }, 200);
+});
+</script>
+
+
+<style>
+  .you-may-like .swiper-slide {
+    width: 280px; /* Fixed slide width */
+    /* Or use percentage: width: 80%; */
+  }
+  .product-card__meta.has-filter+.sr-btns-wrapper .product-card-swatches {
+      display: block;
+  }
+
+
+@media (min-width: 768px) {
+  .you-may-like .swiper-slide {
+    width: 300px;
+  }
+  .you-may-like .swiper-wrapper {
+      padding-left: 8px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .you-may-like .swiper-slide {
+    width: 25%; /* 4 slides */
+  }
+}
+@media (max-width: 767px) {
+    .product-card {
+        width: 100%;
+        background: white;
+        border-radius: 10px;
+    }
+}
+</style>
+{% schema %}
+{
+  "name": "PDP: Feat Products",
+  "class": "prod-feat-product-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP: Feat Products",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

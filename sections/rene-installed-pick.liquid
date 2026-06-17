@@ -1,0 +1,411 @@
+<div class="container-rene" >
+
+    <div class="img-vid-wrap" >
+        {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'image_picker' %}
+                <img src="{{ block.settings.image | img_url:'1000x' }}" alt="{{ block.settings.image.alt }}" >
+              {% when 'video_picker' %}
+                <div class="vid_wrap">
+                    {% if block.settings.cover-image != blank %}
+                <div class="overlay">
+                   
+                  <img src="{{ block.settings.cover-image | img_url:'500x' }}" alt="{{ block.settings.cover-image.alt }}" >
+                </div>
+                {% endif %}
+                <svg class="play-btn-svg" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+                    <rect width="52" height="52" rx="26" fill="white" fill-opacity="0.9"/>
+                    <path d="M32.4219 24.7188C33.3906 25.3125 33.3906 26.7188 32.4219 27.3125L21.4219 33.8125C20.4219 34.4062 19.1719 33.6875 19.1719 32.5V19.5C19.1719 18.2188 20.5156 17.6875 21.4219 18.2188L32.4219 24.7188Z" fill="#111111"/>
+                </svg>
+                  <video
+                    controls
+                    playsinline
+                  >
+                    <source src="{{ block.settings.video.sources[1].url }}" type="video/mp4">
+                  </video>
+                </div>
+              {% else %}
+                
+            {% endcase %}
+        {% endfor %}
+    </div>
+
+    <div class="text-wrap" >
+        {% if section.settings.heading != blank %}
+        <h2>{{ section.settings.heading }}</h2>
+        {% endif %}
+        {% if section.settings.subtext-one != blank %}
+        <div class="subtext_one" >
+            {{ section.settings.subtext-one }}
+        </div>
+         {% endif %}
+        {% if section.settings.subtext-two != blank %}
+        <div class="subtext_two" >
+            {{ section.settings.subtext-two }}
+        </div>
+         {% endif %}
+        {% if section.settings.btn-text != blank %}
+            <a class="button btn" href="{{ section.settings.btn-link }}">{{ section.settings.btn-text }}</a>
+         {% endif %}
+    </div>
+</div>
+
+
+{% style %} 
+.container-rene {
+    display: flex;
+    max-width: 1200px;
+    margin: auto;
+    gap:80px;
+    padding:100px 0px;
+    align-items:center;
+}
+
+svg.play-btn-svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    cursor: pointer;
+}
+
+.rene-insall-pick .overlay {
+    position: absolute;
+    height: 100%;
+}
+
+.img-vid-wrap {
+    display: block;
+    column-count: 2;
+    max-width: 540px;
+    width: 100%;
+}
+
+.img-vid-wrap .vid_wrap {
+    position: relative;
+    max-width: 260px;
+}
+
+.img-vid-wrap .vid_wrap video {
+    width: 100%;
+    /* max-height:300px; */
+    object-fit:cover;
+    object-position:top;
+}
+
+.img-vid-wrap .overlay img {
+    /* max-height:300px; */
+    object-fit:cover;
+    object-position:top;
+        width: 100%;
+}
+
+.text-wrap {
+    width: 100%;
+}
+
+.img-vid-wrap > * {
+    margin-bottom: 20px;
+}
+
+.text-wrap h2 {
+    font-family: Montserrat;
+    font-weight: 800;
+    font-size: 42px;
+    line-height: 56px;
+    vertical-align: middle;
+    color: #111111;
+}
+
+.subtext_one p {
+    font-family: Playfair Display;
+    font-style: Italic;
+    font-size: 18px;
+    leading-trim: NONE;
+    line-height: 32px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    color: #343334;
+}
+
+.subtext_two p {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 17.6px;
+    leading-trim: NONE;
+    line-height: 28.16px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+     color: #343334;
+}
+.subtext_one {
+    margin: 40px 0px;
+        max-width: 450px;
+}
+
+.subtext_two {
+    margin-bottom: 0px;
+    
+}
+.rene-insall-pick a.button.btn {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 16px;
+    leading-trim: NONE;
+    line-height: 25.6px;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    background: #D6C08C;
+    border-radius: 4px;
+    color: #111;
+}
+
+.rene-insall-pick a.button.btn:hover {
+     background:#bda46d;
+     border-color:transparent;
+}
+  .img-vid-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        grid-template-rows: auto auto;
+    }
+
+    .img-vid-wrap > img {
+        grid-column: 1/2;
+        /* max-height: 175px; */
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .img-vid-wrap .vid_wrap {
+        grid-row: 1/3;
+        grid-column: 2/3;
+        height:max-content;
+    }
+
+    .img-vid-wrap > img:nth-child(1) {
+        grid-row: 1/2;
+    }
+
+    .img-vid-wrap > img:nth-child(3) {.img-vid-wrap >
+        img: nth-child(1);
+    .img-vid-wrap >
+        img: nth-child(1);
+        grid-row: 2/3;
+    }
+
+@media (max-width:786px){
+    .rene-insall-pick .container-rene {
+        flex-direction: column;
+        padding: 50px 15px;
+    }
+
+    .img-vid-wrap .overlay img {
+        height:100%;
+    }
+    .img-vid-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        grid-template-rows: 1fr 1fr;
+    }
+
+    .img-vid-wrap > img {
+        grid-column: 1/2;
+        max-height: 175px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .img-vid-wrap .vid_wrap {
+        grid-row: 1/3;
+        grid-column: 2/3;
+        height:100%
+    }
+
+    .img-vid-wrap > img:nth-child(1) {
+        grid-row: 1/2;
+    }
+
+    .img-vid-wrap > img:nth-child(3) {
+        grid-row: 2/3;
+    }
+
+    .img-vid-wrap > * {
+        margin-bottom: 0px;
+    }
+    .img-vid-wrap .vid_wrap video {
+        width: 100%;
+        max-height: unset;
+        object-fit: cover;
+        object-position: top;
+        height: 100%;
+    }
+    .text-wrap h2 span br {
+        display: none;
+    }
+    .text-wrap h2 {
+        font-size: 26px;
+        line-height: 33px;
+    }
+    .text-wrap h2 span {
+        font-size:21px;
+        font-weight:600;
+    }
+    .subtext_one p {
+            font-size: 15px;
+            line-height: 26px;
+            font-weight:700;
+    }
+    .subtext_two p {
+        font-size: 13px;
+        line-height: 23px;
+    }
+    .subtext_one {
+        margin: 25px 0px;
+    }
+    .rene-insall-pick a.button.btn {
+        width: 100%;
+        max-width: unset;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+{% endstyle %}
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const allVideoWrappers = document.querySelectorAll('.vid_wrap');
+
+  allVideoWrappers.forEach((wrapper) => {
+    const overlay = wrapper.querySelector('.overlay');
+    const playBtn = wrapper.querySelector('.play-btn-svg');
+    const video = wrapper.querySelector('video');
+
+    if (playBtn && video) {
+      playBtn.addEventListener('click', () => {
+        // Pause all other videos and reset their states
+        allVideoWrappers.forEach((otherWrapper) => {
+          const otherVideo = otherWrapper.querySelector('video');
+          const otherOverlay = otherWrapper.querySelector('.overlay');
+          const otherPlayBtn = otherWrapper.querySelector('.play-btn-svg');
+
+          if (otherVideo && otherVideo !== video) {
+            otherVideo.pause();
+            if (otherOverlay) {
+              otherOverlay.style.display = 'block';
+            }
+            if (otherPlayBtn) {
+              otherPlayBtn.style.display = 'block';
+            }
+          }
+        });
+
+        // Hide the clicked play button and overlay, play the video
+        playBtn.style.display = 'none';
+        if (overlay) {
+          overlay.style.display = 'none';
+        }
+        video.play();
+
+        // For mobile: Add click-to-toggle play/pause if < 768px
+        if (window.innerWidth < 768 && !video.dataset.mobileToggleAdded) {
+          video.addEventListener('click', () => {
+            if (video.paused) {
+              video.play();
+            } else {
+              video.pause();
+            }
+          });
+          video.dataset.mobileToggleAdded = 'true';
+        }
+      });
+    }
+
+    // Optional: Also handle overlay click for consistency (e.g., if playBtn is not present)
+    if (overlay && video) {
+      overlay.addEventListener('click', () => {
+        // Trigger the same logic as play button click
+        playBtn.click();
+      });
+    }
+  });
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "Rene Installed Pick",
+  "class": "shopify-section rene-insall-pick",
+  "settings": [
+        {
+            "type": "html",
+            "id":"heading",
+            "label": "Heading"
+        },
+        {
+            "type": "richtext",
+            "id": "subtext-one",
+            "label": "Subtext One"
+        },
+        {
+            "type": "richtext",
+            "id": "subtext-two",
+            "label": "Subtext Two"
+        },
+        {
+            "type": "text",
+            "id": "btn-text",
+            "label": "Button Text"
+        },
+        {
+            "type": "url",
+            "id": "btn-link",
+            "label": "Button Link"
+        }
+  ],
+  "blocks": [
+    {
+      "type": "image_picker",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "video_picker",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "cover-image",
+          "label": "Cover Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rene Installed Pick",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

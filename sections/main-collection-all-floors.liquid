@@ -1,0 +1,1689 @@
+{%- liquid
+  assign module = section.settings
+  assign page_url = request.path
+
+  assign meta = collection.metafields.flooret
+  assign collection_hero_background_color = meta.collection_hero_background_color
+  assign collection_hero_text_color = meta.collection_hero_text_color
+-%}
+
+{%- capture section_styles -%}style="
+  {%- if collection_hero_background_color != blank and collection_hero_background_color != 'rgba(0,0,0,0)' -%}background-color: {{collection_hero_background_color}};{%- endif -%}
+  {%- if collection_hero_text_color != blank and collection_hero_text_color != 'rgba(0,0,0,0)' -%}color: {{collection_hero_text_color}};{%- endif -%}
+  {% comment %} background-image:url('{{ collection.image | image_url: width: 2000 }}'); {% endcomment %}
+  "
+{%- endcapture -%}
+
+{{ 'custom-collection-design.css' | asset_url | stylesheet_tag }}
+{% render 'collection-banner', collection: collection, settings: section.settings %}
+
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'promo_savings_bar' %}
+        {% comment %} {% assign sid = section.id %}
+        {% assign bid = block.id %}
+
+        <div class="promo-savings-bar promo-savings-bar--{{ sid }}-{{ bid }}" {{ block.shopify_attributes }}>
+          <div class="promo-savings-bar__inner">
+            <div class="promo-savings-bar__left">
+              {% if block.settings.eyebrow != blank %}
+                <div class="promo-savings-bar__eyebrow">{{ block.settings.eyebrow }}</div>
+              {% endif %}
+
+              {% if block.settings.heading != blank %}
+                <{{ block.settings.heading_tag }} class="promo-savings-bar__heading">
+                  {{ block.settings.heading }}
+                </{{ block.settings.heading_tag }}>
+              {% endif %}
+            </div>
+
+            <div class="promo-savings-bar__right">
+              {% if block.settings.offer_1_amount != blank or block.settings.offer_1_title != blank or block.settings.offer_1_subtitle != blank %}
+                <div class="promo-savings-bar__offer">
+                  {% if block.settings.offer_1_amount != blank %}
+                    <div class="promo-savings-bar__amount">{{ block.settings.offer_1_amount }}</div>
+                  {% endif %}
+                  {% if block.settings.offer_1_title != blank %}
+                    <div class="promo-savings-bar__title">{{ block.settings.offer_1_title }}</div>
+                  {% endif %}
+                  {% if block.settings.offer_1_subtitle != blank %}
+                    <div class="promo-savings-bar__pill">{{ block.settings.offer_1_subtitle }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              {% if block.settings.offer_2_amount != blank or block.settings.offer_2_title != blank or block.settings.offer_2_subtitle != blank %}
+                <div class="promo-savings-bar__offer">
+                  {% if block.settings.offer_2_amount != blank %}
+                    <div class="promo-savings-bar__amount">{{ block.settings.offer_2_amount }}</div>
+                  {% endif %}
+                  {% if block.settings.offer_2_title != blank %}
+                    <div class="promo-savings-bar__title">{{ block.settings.offer_2_title }}</div>
+                  {% endif %}
+                  {% if block.settings.offer_2_subtitle != blank %}
+                    <div class="promo-savings-bar__pill">{{ block.settings.offer_2_subtitle }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              {% if block.settings.offer_3_amount != blank or block.settings.offer_3_title != blank or block.settings.offer_3_subtitle != blank %}
+                <div class="promo-savings-bar__offer">
+                  {% if block.settings.offer_3_amount != blank %}
+                    <div class="promo-savings-bar__amount">{{ block.settings.offer_3_amount }}</div>
+                  {% endif %}
+                  {% if block.settings.offer_3_title != blank %}
+                    <div class="promo-savings-bar__title">{{ block.settings.offer_3_title }}</div>
+                  {% endif %}
+                  {% if block.settings.offer_3_subtitle != blank %}
+                    <div class="promo-savings-bar__pill">{{ block.settings.offer_3_subtitle }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div> {% endcomment %}
+        {% assign sid = section.id %}
+        {% assign bid = block.id %}
+
+        <div class="promo-savings-bar promo-savings-bar--{{ sid }}-{{ bid }}" {{ block.shopify_attributes }}>
+          <div class="promo-savings-bar__inner">
+            
+            <div class="promo-savings-bar__col promo-savings-bar__col--left">
+              {% if block.settings.eyebrow != blank %}
+                <div class="promo-savings-bar__eyebrow">{{ block.settings.eyebrow }}</div>
+              {% endif %}
+
+              {% if block.settings.heading != blank %}
+                <{{ block.settings.heading_tag }} class="promo-savings-bar__heading">
+                  {{ block.settings.heading }}
+                </{{ block.settings.heading_tag }}>
+              {% endif %}
+            </div>
+
+            <div class="promo-savings-bar__col promo-savings-bar__col--center">
+              {% if block.settings.offer_1_amount != blank %}
+                <div class="promo-savings-bar__highlight">
+                  <div class="promo-savings-bar__highlight-amount">{{ block.settings.offer_1_amount }}</div>
+                  {% if block.settings.offer_1_title != blank %}
+                    <div class="promo-savings-bar__highlight-subtext">{{ block.settings.offer_1_title }}</div>
+                  {% endif %}
+                  <div class="promo-savings-bar__highlight-amount-mob-only">{{ block.settings.offer_1_amount }} {{ block.settings.offer_1_title }}</div>
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="promo-savings-bar__col promo-savings-bar__col--right">
+              {% if block.settings.offer_2_amount != blank %}
+                <div class="promo-savings-bar__shipping-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="
+                        width: 75px;
+                        height: 75px;
+                    ">
+                      <!-- Speed lines (behind truck, on the left) -->
+                      <line x1="4" y1="26" x2="18" y2="26"></line>
+                      <line x1="8" y1="33" x2="18" y2="33"></line>
+
+                      <!-- Cargo box body -->
+                      <rect x="18" y="12" width="42" height="28" rx="1"></rect>
+
+                      <!-- Cab (right side, truck faces right) -->
+                      <path d="M60 22 L60 40 L80 40 L80 30 L74 22 Z"></path>
+
+                      <!-- Cab window -->
+                      <path d="M63 24 L63 31 L74 31 L74 24 Z" rx="1"></path>
+
+                      <!-- Connector between cab and body -->
+                      <line x1="60" y1="40" x2="18" y2="40"></line>
+
+                      <!-- Rear wheel (under cargo box) -->
+                      <circle cx="32" cy="43" r="6"></circle>
+                      <circle cx="32" cy="43" r="2"></circle>
+
+                      <!-- Front wheel (under cab) -->
+                      <circle cx="68" cy="43" r="6"></circle>
+                      <circle cx="68" cy="43" r="2"></circle>
+
+                      <!-- Ground line under wheels -->
+                      <line x1="18" y1="49" x2="82" y2="49"></line>
+                    </svg>
+                   <span>{{ block.settings.offer_2_amount }}</span></div>
+              {% endif %}
+              {% if block.settings.offer_2_title != blank %}
+                <div class="promo-savings-bar__shipping-subtext">{{ block.settings.offer_2_title }}</div>
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+        <style>
+          .promo-savings-bar__highlight-amount-mob-only {
+              display: none;
+          }
+          .promo-savings-bar--{{ sid }}-{{ bid }} {
+            width: 100%;
+            background: #f3f0eb;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 0;
+            overflow: hidden;
+          }
+
+          .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns:0.5fr  1fr;
+            align-items: stretch;
+          }
+
+          .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__col {
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 17.01px 32px;
+            position: relative;
+          }
+
+          .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__col--left,
+          .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__col--center {
+            border-right: 1px solid #E5E7EB;
+          }
+
+          .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__eyebrow {
+            color: #111111;
+            font-size: 12px;
+            line-height: 1.2;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 8px;
+          }
+
+          .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__heading {
+            margin: 0;
+            color: #111;
+            font-family: Playfair Display;
+            font-size: 36px;
+            line-height:40px;
+            line-height: 1.1;
+            font-weight: 700;
+          }
+
+          .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__col--center {
+            align-items: center;
+            display:none;
+          }
+
+          {% comment %} .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__highlight {
+            min-width: 316px;
+            padding: 8px 28px;
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            text-align: center;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+          } {% endcomment %}
+
+          .promo-savings-bar__highlight {
+            position: relative;
+            min-width: 316px;
+            padding: 8px 28px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, #141414 0%, #101010 100%);
+            text-align: center;
+            overflow: hidden;
+
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(255, 255, 255, 0.7), inset 0 12px 24px rgba(255, 255, 255, 0.015), 0 0 0 1px rgba(255, 255, 255, 0.03), 0 10px 24px rgba(0, 0, 0, 0);
+          }
+
+          .promo-savings-bar__highlight::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background:
+              linear-gradient(to right,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.24) 18%,
+                rgba(255,255,255,0.24) 82%,
+                rgba(255,255,255,0) 100%) top / 100% 1px no-repeat,
+              linear-gradient(to right,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.16) 18%,
+                rgba(255,255,255,0.16) 82%,
+                rgba(255,255,255,0) 100%) bottom / 100% 1px no-repeat;
+          }
+
+          .promo-savings-bar__highlight::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            pointer-events: none;
+            box-shadow:
+              inset 0 18px 30px rgba(255,255,255,0.02),
+              inset 0 -10px 20px rgba(255,255,255,0.01);
+          }
+
+          .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__highlight-amount {
+            color: #F59E0B;
+            font-size: 32px;
+            line-height: 28px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+          }
+
+          .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__highlight-subtext {
+            color: rgba(255, 255, 255, 1);
+            font-size: 24px;
+            line-height: 28px;
+            font-weight: 600;
+            text-transform: uppercase;
+          }
+
+          .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__shipping-title {
+            color: #ffffff;
+            font-size: 24px;
+            line-height: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            color: #111;
+            font-weight: 100;
+            justify-content: center;
+            font-size: 35px;
+          }
+
+          .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__shipping-subtext {
+            color: rgba(255,255,255,1);
+            font-size: 16px;
+            line-height: 16px;
+            font-weight: 400;
+          }
+          .promo-savings-bar__col.promo-savings-bar__col--right {
+              padding-left: 80px;
+          }
+            .promo-savings-bar__shipping-title span {
+                line-height: 1.1;
+            }
+          @media screen and (max-width: 767px) {
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__shipping-title {
+              display:unset;
+            }
+             .promo-savings-bar__shipping-title svg {
+              width: 50px !important;
+              height: 50px !important;
+              display: inline-block;
+              margin-top: 10px;
+              margin-right: -4px;
+            }
+            .promo-savings-bar__shipping-title > span {
+                display: inline-block;
+                width: calc(100% - 162px);
+            }
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__inner {
+              grid-template-columns: 1fr;
+            }
+
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__col {
+              min-height: auto;
+              padding: 13.75px 16px;
+              text-align: center;
+              align-items: center;
+            }
+
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__col--left,
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__col--center {
+              border-right: none;
+              {% comment %} border-bottom: 1px solid rgba(255,255,255,0.14); {% endcomment %}
+            }
+            .promo-savings-bar__col.promo-savings-bar__col--left {
+                padding-bottom: 0px;
+            }
+
+            .promo-savings-bar__col.promo-savings-bar__col--right {
+                padding-top: 0px;
+            }
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__heading {
+              font-size: 24px;
+              line-height:32px;
+            }
+
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__highlight {
+                      max-width: 248px !important;
+                      max-width: 248px !important;
+                width: 100%;
+                padding: 0px 10px;
+                min-height: 43px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: unset;
+            }
+
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__highlight-amount {
+              font-size: 24px;
+            }
+
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__highlight-subtext,
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__shipping-subtext {
+              font-size: 16px;
+            }
+
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__shipping-title {
+              font-size: 18px;
+              line-height:20px;
+            }
+            .promo-savings-bar__highlight-amount,
+            .promo-savings-bar__shipping-subtext,
+            .promo-savings-bar__highlight-subtext {
+                display: none;
+            }
+            .promo-savings-bar__highlight-amount-mob-only {
+                display: block;
+            }
+            .promo-savings-bar__highlight-amount-mob-only {
+                font-family: Montserrat;
+                font-weight: 600;
+                font-style: SemiBold;
+                font-size: 20px;
+                leading-trim: NONE;
+                line-height: 32px;
+                letter-spacing: -0.75px;
+                text-align: center;
+                vertical-align: middle;
+                color: rgba(245, 158, 11, 1);
+            }
+            .promo-savings-bar--{{ sid }}-{{ bid }} .promo-savings-bar__eyebrow { 
+              font-size:10px;
+            }
+          }
+        </style>
+    {% endcase %}
+  {% endfor %}
+
+{% if collection.handle == 'all-floors' or request.path == '/collections/all' %}
+{% paginate collection.products by 250 %}
+  {% assign all_collection_products = collection.products %}
+
+  {% assign sample_kit_products = all_collection_products | where: 'type', 'sample kit' %}
+  {% assign arista_products     = all_collection_products | where: 'type', 'Laminate' %}
+  {% assign modin_products      = all_collection_products | where: 'type', 'lvp' %}
+  {% assign silvan_products     = all_collection_products | where: 'type', 'hardwood' %}
+  {% assign provence_products   = all_collection_products | where: 'type', 'provence' %}
+
+  <style>
+    .silvan-hardwood-collection-grid__loop,
+    .arista-collection-grid__loop,
+    .modin-collection-grid__loop {
+        display:flex;   
+    }
+    .silvan-hardwood-collection-grid__loop .slick-list,
+    .arista-collection-grid__loop .slick-list,
+    .modin-collection-grid__loop .slick-list {
+        max-height: 619px;
+        overflow: hidden;
+    }
+  </style>
+
+  <div id="js-collection">
+    {%- render 'collection-filter' -%}
+    <section
+      class="collection-grid collection-all-floors"
+      id="collection-grid"
+    >
+      {% comment %} Modin LVP section  {% endcomment %}
+      <div class="container collection--modin-lvp">
+        <div class="col-lvp-header">
+          <div class="col-contents-wrapper">
+            <h3 class="col_lvp_title">Modin LVP</h3>
+          </div>
+          <div class="mob-only col_sm_text">
+            Pet-friendly, 100% waterproof luxury vinyl with true embossed texture and pre-attached underlayment
+          </div>
+          <div class="col_icon_txt_wrapper">
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'water-icon' %}
+              </span>
+              <span class="col_icon_txt"> Waterproof </span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'pet-proof-icon' %}
+              </span>
+              <span class="col_icon_txt">Pet Proof</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'diy-icon' %}
+              </span>
+              <span class="col_icon_txt">DIY Install</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'warrenty-icon' %}
+              </span>
+              <span class="col_icon_txt">Lifetime Warranty</span>
+            </div>
+          </div>
+        </div>
+        <div class="" style="position:relative;">
+        <button class="scroll-btn scroll-prev" data-target=".modin-collection-grid__loop">←</button>
+        <div class="modin-collection-grid__loop collection--modin-container">
+          {%- for product in modin_products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+        <button class="scroll-btn scroll-next" data-target=".modin-collection-grid__loop">→</button>
+        </div>
+        <div class="shop_all_btn_modin_lvp">
+          <a href="/collections/modin-luxury-vinyl-plank">
+          <button id="shop_all_btn_modin_lvp">
+            Shop All Modin LVP
+            {% comment %} <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
+                <path d="M6.65666 8.0711C7.04719 8.46162 7.68035 8.46162 8.07088 8.0711L14.4348 1.70714C14.8254 1.31661 14.8254 0.683448 14.4348 0.292924C14.0443 -0.0976005 13.4111 -0.0976005 13.0206 0.292924L7.36377 5.94978L1.70692 0.292924C1.31639 -0.0976005 0.683226 -0.0976005 0.292702 0.292924C-0.0978227 0.683448 -0.0978227 1.31661 0.292702 1.70714L6.65666 8.0711ZM7.36377 7.36389H6.36377V7.36399H7.36377H8.36377V7.36389H7.36377Z" fill="black"/>
+              </svg>
+            </span> {% endcomment %}
+          </button>
+        </a>
+        </div>
+      </div>
+
+         <div class="ss-section-divider"></div>
+
+
+{% comment %} Provence Natural Hardwood Section  {% endcomment %}
+      <div class="container collection--provence">
+        <div class="col-lvp-header">
+          <div class="col-contents-wrapper">
+            <h3 class="col_lvp_title">Provence Natural Hardwood</h3>
+          </div>
+          <div class="mob-only col_sm_text">
+          </div>
+          <div class="col_icon_txt_wrapper">
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                <img width="30" height="30" src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Light_Mode_Eco-Friendly_Sample.png">
+              </span>
+              <span class="col_icon_txt"> Natural Grade </span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+               <img width="24" height="24" style="width:24px;height:24px;" src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Light_Mode_Sustainability_2_1_3dda7c16-eb83-4db4-a347-8c8a1b3316f0.png">
+              </span>
+              <span class="col_icon_txt">Refinishable</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                <img width="30" height="30" src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Light_Mode_Color.png">
+              </span>
+              <span class="col_icon_txt">Proprietary Colors</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                <img width="30" height="30" src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Light_Mode_Medium_Character_6b613c27-a5be-4b32-bff6-0b77e2cd949f.png">
+              </span>
+              <span class="col_icon_txt">European White Oak</span>
+            </div>
+          </div>
+        </div>
+        <div class="" style="position:relative;">
+        <button class="scroll-btn scroll-prev" data-target=".provence-collection-grid__loop">←</button>
+        <div class="provence-collection-grid__loop collection--provence-container">
+          {%- for product in provence_products -%}
+            {% render 'product-card-provence', product: product %}
+          {%- endfor -%}
+        </div>
+        <button class="scroll-btn scroll-next" data-target=".provence-collection-grid__loop">→</button>
+        </div>
+        <div class="shop_all_btn_silvan_hardwood">
+          <a href="/collections/provence-natural-hardwood">
+          <button id="shop_all_btn_silvan_hardwood">
+            Shop All Provence Hardwood
+            {% comment %} <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
+                <path d="M6.65666 8.0711C7.04719 8.46162 7.68035 8.46162 8.07088 8.0711L14.4348 1.70714C14.8254 1.31661 14.8254 0.683448 14.4348 0.292924C14.0443 -0.0976005 13.4111 -0.0976005 13.0206 0.292924L7.36377 5.94978L1.70692 0.292924C1.31639 -0.0976005 0.683226 -0.0976005 0.292702 0.292924C-0.0978227 0.683448 -0.0978227 1.31661 0.292702 1.70714L6.65666 8.0711ZM7.36377 7.36389H6.36377V7.36399H7.36377H8.36377V7.36389H7.36377Z" fill="black"/>
+              </svg>
+            </span> {% endcomment %}
+          </button>
+        </a>
+        </div>
+      </div>
+
+      <div class="ss-section-divider"></div>
+
+
+      {% comment %} Silvan Hardwood Section  {% endcomment %}
+      <div class="container collection--silvan-hardwood">
+        <div class="col-lvp-header">
+          <div class="col-contents-wrapper">
+            <h3 class="col_lvp_title">Silvan Resilient Hardwood</h3>
+          </div>
+          <div class="mob-only col_sm_text">
+            Pet-friendly, 100% waterproof luxury vinyl with true embossed texture and pre-attached underlayment
+          </div>
+          <div class="col_icon_txt_wrapper">
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'water-icon' %}
+              </span>
+              <span class="col_icon_txt"> Water Resistant </span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'pet-proof-icon' %}
+              </span>
+              <span class="col_icon_txt">Pet Proof</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'diy-icon' %}
+              </span>
+              <span class="col_icon_txt">DIY Install</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'warrenty-icon' %}
+              </span>
+              <span class="col_icon_txt">Lifetime Warranty</span>
+            </div>
+          </div>
+        </div>
+        <div class="" style="position:relative;">
+        <button class="scroll-btn scroll-prev" data-target=".silvan-hardwood-collection-grid__loop">←</button>
+        <div class="silvan-hardwood-collection-grid__loop collection--silvan-hardwood-container">
+          {%- for product in silvan_products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+        <button class="scroll-btn scroll-next" data-target=".silvan-hardwood-collection-grid__loop">→</button>
+        </div>
+        <div class="shop_all_btn_silvan_hardwood">
+          <a href="/collections/silvan-hardwood">
+          <button id="shop_all_btn_silvan_hardwood">
+            Shop All Silvan Hardwood
+            {% comment %} <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
+                <path d="M6.65666 8.0711C7.04719 8.46162 7.68035 8.46162 8.07088 8.0711L14.4348 1.70714C14.8254 1.31661 14.8254 0.683448 14.4348 0.292924C14.0443 -0.0976005 13.4111 -0.0976005 13.0206 0.292924L7.36377 5.94978L1.70692 0.292924C1.31639 -0.0976005 0.683226 -0.0976005 0.292702 0.292924C-0.0978227 0.683448 -0.0978227 1.31661 0.292702 1.70714L6.65666 8.0711ZM7.36377 7.36389H6.36377V7.36399H7.36377H8.36377V7.36389H7.36377Z" fill="black"/>
+              </svg>
+            </span> {% endcomment %}
+          </button>
+        </a>
+        </div>
+      </div>
+
+      <div class="ss-section-divider"></div>
+
+      {% comment %} Arista Laminate Section  {% endcomment %}
+      <div class="container collection--arista-laminate">
+        <div class="col-lvp-header">
+          <div class="col-contents-wrapper">
+            <h3 class="col_lvp_title">Arista Laminate</h3>
+          </div>
+          <div class="mob-only col_sm_text">
+            Pet-friendly, 100% waterproof luxury vinyl with true embossed texture and pre-attached underlayment
+          </div>
+          <div class="col_icon_txt_wrapper">
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'water-icon' %}
+              </span>
+              <span class="col_icon_txt"> Water Resistant </span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'pet-proof-icon' %}
+              </span>
+              <span class="col_icon_txt">Pet Proof</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'diy-icon' %}
+              </span>
+              <span class="col_icon_txt">DIY Install</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'warrenty-icon' %}
+              </span>
+              <span class="col_icon_txt">Lifetime Warranty</span>
+            </div>
+          </div>
+        </div>
+        <div class="" style="position:relative;">
+        <button class="scroll-btn scroll-prev" data-target=".arista-collection-grid__loop">←</button>
+        <div class="arista-collection-grid__loop collection--arista-container">
+          {%- for product in arista_products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+        <button class="scroll-btn scroll-next" data-target=".arista-collection-grid__loop">→</button>
+        </div>
+        <div class="shop_all_btn_arista_laminate">
+          <a href="/collections/arista-laminate">
+          <button id="shop_all_btn_arista_laminate">
+            Shop All Arista Laminate
+            {% comment %} <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
+                <path d="M6.65666 8.0711C7.04719 8.46162 7.68035 8.46162 8.07088 8.0711L14.4348 1.70714C14.8254 1.31661 14.8254 0.683448 14.4348 0.292924C14.0443 -0.0976005 13.4111 -0.0976005 13.0206 0.292924L7.36377 5.94978L1.70692 0.292924C1.31639 -0.0976005 0.683226 -0.0976005 0.292702 0.292924C-0.0978227 0.683448 -0.0978227 1.31661 0.292702 1.70714L6.65666 8.0711ZM7.36377 7.36389H6.36377V7.36399H7.36377H8.36377V7.36389H7.36377Z" fill="black"/>
+              </svg>
+            </span> {% endcomment %}
+          </button>
+          </a>
+        </div>
+      </div>
+
+      {% comment %} Silvan Products {% endcomment %}
+       <div class="ss-section-divider"></div>
+
+      {% comment %} Sample Kit Section {% endcomment %}
+      {% if sample_kit_products.size > 0 %}
+        <div class="container collection--sample-kit">
+          <div class="col-lvp-header mb-10">
+            <div class="col-contents-wrapper">
+              <h3 class="col_lvp_title">Sample Kits</h3>
+            </div>
+            <div class="mob-only col_sm_text">
+              Get hands-on with our curated sample kits to see colors and textures in your space before committing.
+            </div>
+          </div>
+          <div style="position:relative;">
+            <button class="scroll-btn scroll-prev" data-target=".sample-kit-collection-grid__loop">←</button>
+            <div class="sample-kit-collection-grid__loop collection--sample-kit-container">
+              {%- for product in sample_kit_products -%}
+                {% render 'product-card-sample-kit', product: product %}
+              {%- endfor -%}
+            </div>
+            <button class="scroll-btn scroll-next" data-target=".sample-kit-collection-grid__loop">→</button>
+          </div>
+
+          <div class="shop_all_btn_sample_kit">
+            <a href="/collections/sample-kits">
+              <button id="shop_all_btn_sample_kit">
+                Shop All Sample Kits
+              </button>
+            </a>
+          </div>
+        </div>
+      {% endif %}
+
+
+    </section>
+  </div>
+{% endpaginate %}
+  <style>
+    .provence-collection-grid__loop,
+    .sample-kit-collection-grid__loop,
+    .silvan-hardwood-collection-grid__loop, 
+    .arista-collection-grid__loop, 
+    .modin-collection-grid__loop {
+        display: flex;
+        overflow-x: scroll;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: thin; /* Firefox */
+        scrollbar-color: #ccc transparent;
+    }
+    span.col_icon_svg img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .container.collection--provence .icon_txt_box {
+        align-items: center;
+    }
+
+    .container.collection--provence .col_icon_txt_wrapper {
+        margin-bottom: 20px;
+    }
+
+    .provence-collection-grid__loop::-webkit-scrollbar,
+    .sample-kit-collection-grid__loop::-webkit-scrollbar,
+    .silvan-hardwood-collection-grid__loop::-webkit-scrollbar,
+    .arista-collection-grid__loop::-webkit-scrollbar,
+    .modin-collection-grid__loop::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .provence-collection-grid__loop::-webkit-scrollbar-track,
+    .sample-kit-collection-grid__loop::-webkit-scrollbar-track,
+    .silvan-hardwood-collection-grid__loop::-webkit-scrollbar-track,
+    .arista-collection-grid__loop::-webkit-scrollbar-track,
+    .modin-collection-grid__loop::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .provence-collection-grid__loop::-webkit-scrollbar-track,
+    .sample-kit-collection-grid__loop::-webkit-scrollbar-thumb,
+    .silvan-hardwood-collection-grid__loop::-webkit-scrollbar-thumb,
+    .arista-collection-grid__loop::-webkit-scrollbar-thumb,
+    .modin-collection-grid__loop::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+    }
+
+    .provence-collection-grid__loop::-webkit-scrollbar-track,
+    .sample-kit-collection-grid__loop::-webkit-scrollbar-thumb:hover,
+    .silvan-hardwood-collection-grid__loop::-webkit-scrollbar-thumb:hover,
+    .arista-collection-grid__loop::-webkit-scrollbar-thumb:hover,
+    .modin-collection-grid__loop::-webkit-scrollbar-thumb:hover {
+        background: #999;
+    }
+
+    /* Button Styles */
+    .scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.9);
+        border: 2px solid #ddd;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .scroll-prev {
+        left: 10px;
+    }
+
+    .scroll-next {
+        right: 10px;
+    }
+
+    .scroll-btn:hover:not(:disabled) {
+        background: white;
+        border-color: #333;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .scroll-btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
+    .collection-grid__loop-container {
+        position: relative;
+        max-height: 600px; /* Adjust as needed */
+    }
+    .scroll-btn {
+        width: 30px;
+        height: 30px;
+        line-height: 1;
+        padding:0px;
+    }
+    .col-lvp-header.mb-10 {
+        margin-bottom: 25px;
+    }
+    @media (min-width:991px) {
+      .scroll-prev {
+          left: -20px;
+      }
+
+      .scroll-next {
+          right: -20px;
+      }
+    }
+    @media (max-width:768px){
+      .product-card {
+          width: 50%;
+      }
+      .col-lvp-header.mb-10 {
+          margin-bottom: 15px;
+      }
+    }
+    @media (max-width:500px){
+    .col-facets__filters fieldset ul.filter-group--plank-width {
+        flex-wrap: wrap;
+    }
+
+    .collection-filter .filter--collection .filter-group--collection {
+        flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+    }
+  </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var scrollContainers = document.querySelectorAll('.silvan-hardwood-collection-grid__loop, .arista-collection-grid__loop, .modin-collection-grid__loop, .sample-kit-collection-grid__loop');
+    
+    // Scroll button event handlers
+    document.querySelectorAll('.scroll-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const targetSelector = this.dataset.target;
+        const target = document.querySelector(targetSelector);
+        const scrollAmount = target.offsetWidth * 0.8; // 80% of container width
+        
+        if (this.classList.contains('scroll-prev')) {
+          target.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+          target.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+      });
+    });
+    
+    // Auto-hide buttons based on scroll position
+    scrollContainers.forEach(container => {
+      const observer = new IntersectionObserver((entries) => {
+        const prevBtn = document.querySelector(`[data-target="${container.className.split(' ')[0]}"] + .scroll-prev`);
+        const nextBtn = document.querySelector(`[data-target="${container.className.split(' ')[0]}"] + .scroll-next`);
+        
+        if (container.scrollLeft === 0) {
+          prevBtn.style.opacity = '0.3';
+          prevBtn.disabled = true;
+        } else {
+          prevBtn.style.opacity = '1';
+          prevBtn.disabled = false;
+        }
+        
+        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 1) {
+          nextBtn.style.opacity = '0.3';
+          nextBtn.disabled = true;
+        } else {
+          nextBtn.style.opacity = '1';
+          nextBtn.disabled = false;
+        }
+      });
+      
+      observer.observe(container);
+    });
+  });
+
+</script>
+
+
+{% else %}
+  {% comment %} RENDER COMMON PLP DESIGN {% endcomment %}
+
+  <div id="js-collection">
+    {%- render 'collection-filter' -%}
+    <section
+      class="collection-grid"
+      id="collection-grid"
+    >
+      <div class="container">
+        <div class="collection-grid__loop collection-all-floors">
+          {%- paginate collection.products by 100 -%}
+            {%- for product in collection.products -%}
+              {% render 'product-card', product: product %}
+            {%- endfor -%}
+            {% comment %} {{ paginate | default_pagination: next: 'Older', previous: 'Newer' }} {% endcomment %}
+          {%- endpaginate -%}
+        </div>
+      </div>
+    </section>
+  </div>
+
+{% endif %}
+
+<style>
+  button.common-plp-arrows.modin--slider.slick-next.slick-arrow {
+    right: 0px;
+  }
+  button.common-plp-arrows.modin--slider.slick-prev.slick-arrow {
+    left: 0;
+  }
+  #collection-grid .container {
+      padding-inline: 10px;
+      padding-top: 20px;
+  }
+  .ss-section-divider{
+    width: 100%;
+    height: 15px;
+    background: white;
+  }
+  .col-contents-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+  }
+
+  /* Desktop gap */
+  .collection-all-floors .slick-slide,
+  {
+    margin: 0 12px;
+  }
+  .collection-all-floors .slick-list {
+    margin: 0 -12px;
+  }
+
+  .collection-filter .filter--collection {
+    {% comment %} display: none; {% endcomment %}
+  }
+  button.modin--slider.slick-arrow {
+    border: none;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+    z-index: 99;
+    top: 45%;
+    position: absolute;
+  }
+  button.modin--slider.slick-prev.slick-arrow {
+      left: -30px;
+  }
+  button.modin--slider.slick-next.slick-arrow {
+      right: -30px;
+  }
+  .collection--modin-container.adding-grid,.collection--arista-container.adding-grid,.collection--silvan-hardwood-container.adding-grid {
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 20px;
+
+  }
+  .collection--modin-container,.collection--arista-container,.collection--silvan-hardwood-container{
+    padding-top: 20px;
+  }
+  .col-lvp-header {
+      padding-left: 20px;
+  }
+  .collection-all-floors .product-card{
+    padding-inline: 20px 17px;
+  }
+  .collection-all-floors {
+      padding-bottom: 0px;
+  }
+  .collection-all-floors .container {
+      padding-top: 70px !important;
+      padding-bottom: 70px !important;
+  }
+  #shop_all_btn_sample_kit, .collection-all-floors button#shop_all_btn_modin_lvp,button#shop_all_btn_arista_laminate,button#shop_all_btn_silvan_hardwood {
+    appearance: none;
+    border: none;
+    background: transparent;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 16px;
+    letter-spacing: 0;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: underline;
+    color:#000;
+  }
+  .shop_all_btn_modin_lvp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block: 40px;
+    margin-bottom:0px;
+  }
+  .shop_all_btn_sample_kit,.shop_all_btn_arista_laminate,.shop_all_btn_silvan_hardwood {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block: 40px;
+    margin-bottom:0px;
+  }
+  .silvan-hardwood-collection-grid__loop:empty, 
+  .arista-collection-grid__loop:empty, 
+  .modin-collection-grid__loop:empty {
+      position:relative;
+  }
+  .collection--arista-laminate .product-card__meta.has-filter.visible .product-card__model-info.has-filter.hidden {
+      opacity: 1;
+      visibility: visible;
+      display: block !important;
+  }
+  {% comment %} .silvan-hardwood-collection-grid__loop:empty::before, 
+  .arista-collection-grid__loop:empty::before, 
+  .modin-collection-grid__loop:empty::before {
+      content: "No Products Available";
+      text-align: center;
+      width: 100%;
+  } {% endcomment %}
+  @media (max-width:1024px){
+    .collection-all-floors .product-card {
+      padding-inline: 0px;
+    }
+    {% comment %} .col_icon_txt_wrapper{
+      display: none;
+    } {% endcomment %}
+    .mob-only.col_sm_text {
+        display: none;
+    }
+    .col_icon_txt_wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 0px;
+    }
+
+    .col_icon_txt_wrapper .icon_txt_box {
+        justify-content: start;
+    }
+    .col-lvp-header {
+      padding-left: 10px;
+    }
+    .collection-all-floors .slick-slide {
+      margin: 0 6px;
+    }
+    .collection-all-floors .slick-list {
+      margin: 0 -6px;
+    }
+  }
+  @media (max-width:768px){
+      .collection-all-floors .container {
+          padding-top: 50px !important;
+          padding-bottom: 50px !important;
+      }
+      ul.slick-dots{
+        bottom: 10px;
+      }
+      button.common-plp-arrows.modin--slider.slick-next.slick-arrow, button.common-plp-arrows.modin--slider.slick-prev.slick-arrow{
+        display: none;
+      }
+      #collection-grid > .container {
+          padding-top: 35px !important;
+      }
+      #collection-grid > .container:first-of-type {
+          padding-top: 25px !important;
+      }
+      .ruk_rating_snippet.collection {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+      }
+      .ruk_rating_snippet.collection i.ruk-icon-percentage-star--100 {
+          position: relative;
+          {% comment %} top: -2px; {% endcomment %}
+      }
+  }
+</style>
+<script>
+  
+  var collectionVariantMetafields = {};
+  {%- for product in collection.products -%}
+    {%- for variant in product.variants -%}
+      collectionVariantMetafields["{{ variant.id }}"] = {
+        "sqft_price": {% if variant.metafields.custom.sqft_price.value != blank %}{{ variant.metafields.custom.sqft_price.value | json }}{% else %}null{% endif %},
+        "sqft_compare_at_price": {% if variant.metafields.custom.sqft_compare_at_price.value != blank %}{{ variant.metafields.custom.sqft_compare_at_price.value | json }}{% else %}null{% endif %}
+      };
+    {%- endfor -%}
+  {%- endfor -%}
+</script>
+
+{% comment %} <script>
+  document.addEventListener('DOMContentLoaded', function () {
+  // Only apply on screens below 768px
+    
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        setTimeout(()=>{
+          document.querySelectorAll('.ruk-rating-snippet-count').forEach(function (el) {
+            // e.g. "(20 Reviews)" -> "(20)"
+            const text = el.textContent;
+            el.textContent = text.replace(/\s*Reviews?\s*\)?/i, ')').trim();
+            el.style.display = 'inline-block'
+          });
+        }, 2000)
+      }
+    
+  
+});
+
+
+</script> {% endcomment %}
+
+{% comment %} <script>
+  document.addEventListener('DOMContentLoaded', ()=>{
+      var a  = document.querySelector('.filter-option--7-quot');
+      a.addEventListener('click',()=>{
+              document.querySelectorAll('.scroll-btn').forEach(btn => {
+                  btn.addEventListener('click', function() {
+                      const targetSelector = this.dataset.target;
+                      const target = document.querySelector(targetSelector);
+                      const scrollAmount = target.offsetWidth * 0.8; // 80% of container width
+                      
+                      if (this.classList.contains('scroll-prev')) {
+                      target.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                      } else {
+                      target.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                      }
+                  });
+              });
+      })
+  })
+</script> {% endcomment %}
+
+{% schema %}
+{
+  "name": "Collections",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id":"banner-image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "number",
+      "id": "desktop_banner_height",
+      "label": "Desktop Banner Height",
+      "default": 700
+    },
+    {
+      "type": "number",
+      "id": "mobile_banner_height",
+      "label": "Mobile Banner Height",
+      "default": 300
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "paragraph",
+      "content": "All settings are for the contents of collection banner"
+    },
+    {
+      "type": "select",
+      "id": "font_heading",
+      "label": "Heading Font Family",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        },
+        {
+          "value": "Playfair Display",
+          "label": "Playfair Display"
+        }
+      ],
+      "default": "Playfair Display"
+    },
+    {
+      "type": "select",
+      "id": "font_body",
+      "label": "Body Font Family",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        },
+        {
+          "value": "Playfair Display",
+          "label": "Playfair Display"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "number",
+      "id": "heading_size_desktop",
+      "label": "Heading Size Desktop (px)",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "heading_size_mobile",
+      "label": "Heading Size Mobile (px)",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "body_size_desktop",
+      "label": "Body Text Size Desktop (px)",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "body_size_mobile",
+      "label": "Body Text Size Mobile (px)",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "body_text_weight",
+      "label": "Body Text Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "heading_text_color",
+      "label": "Heading Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "body_text_color",
+      "label": "Body Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Breadcrumb Configurations"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_brd_btn",
+      "label": "Show Breadcrumb Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "brd_btn_lable",
+      "label": "Breadcrumb Label",
+      "default": "All Flooring"
+    },
+    {
+      "type": "url",
+      "id": "brd_btn_link",
+      "label": "Breadcrumb Link"
+    },
+    {
+      "type": "color",
+      "id": "brd_bg_clr",
+      "label": "Breadcrumb background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "brd_txt_clr",
+      "label": "Breadcrumb text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Small Texts"
+    },
+    {
+      "type": "text",
+      "id": "col_small_txt",
+      "label": "Small Text One",
+      "default": "Quick links"
+    },
+    {
+      "type": "text",
+      "id": "col_small_txt_two",
+      "label": "Small Text Two",
+      "default": "Quick links"
+    },
+    {
+      "type": "text",
+      "id": "col_small_txt_three",
+      "label": "Small Text Three",
+      "default": "Quick links"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "Block",
+      "name": "Block",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Don't want the collection? Add a link."
+        },
+        {
+          "type": "text",
+          "id": "text_replace",
+          "label": "Filter Label"
+        }
+      ]
+    },
+     {
+      "type": "promo_savings_bar",
+      "name": "Promo savings bar",
+      "settings": [
+        { "type": "header", "content": "Content" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "LIMITED TIME OFFER" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Memorial Day Savings" },
+        {
+          "type": "select",
+          "id": "heading_tag",
+          "label": "Heading tag",
+          "default": "h2",
+          "options": [
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" },
+            { "value": "div", "label": "Div" }
+          ]
+        },
+
+        { "type": "header", "content": "Offer 1" },
+        { "type": "text", "id": "offer_1_amount", "label": "Offer 1 amount", "default": "$200 FREE" },
+        { "type": "text", "id": "offer_1_title", "label": "Offer 1 title", "default": "Castlery US Gift Card" },
+        { "type": "text", "id": "offer_1_subtitle", "label": "Offer 1 subtitle", "default": "$1,000 min. Spend" },
+
+        { "type": "header", "content": "Offer 2" },
+        { "type": "text", "id": "offer_2_amount", "label": "Offer 2 amount", "default": "$500 FREE" },
+        { "type": "text", "id": "offer_2_title", "label": "Offer 2 title", "default": "Castlery US Gift Card" },
+        { "type": "text", "id": "offer_2_subtitle", "label": "Offer 2 subtitle", "default": "$4,000 min. Spend" },
+
+        { "type": "header", "content": "Offer 3" },
+        { "type": "text", "id": "offer_3_amount", "label": "Offer 3 amount"},
+        { "type": "text", "id": "offer_3_title", "label": "Offer 3 title" },
+        { "type": "text", "id": "offer_3_subtitle", "label": "Offer 3 subtitle" },
+
+        { "type": "header", "content": "Background" },
+        { "type": "image_picker", "id": "background_image", "label": "Background image" },
+        { "type": "color", "id": "bg_color_start", "label": "Background gradient start", "default": "#2b1a0f" },
+        { "type": "color", "id": "bg_color_end", "label": "Background gradient end", "default": "#111111" },
+        { "type": "range", "id": "overlay_opacity", "min": 0, "max": 1, "step": 0.1, "label": "Overlay opacity", "default": 0.2 },
+        { "type": "range", "id": "section_radius", "min": 0, "max": 40, "step": 1, "label": "Section border radius desktop", "default": 0 },
+        { "type": "range", "id": "section_radius_mobile", "min": 0, "max": 30, "step": 1, "label": "Section border radius mobile", "default": 0 },
+
+        { "type": "header", "content": "Layout" },
+        { "type": "range", "id": "content_max_width", "min": 900, "max": 1800, "step": 20, "label": "Content max width", "default": 1440 },
+        { "type": "range", "id": "left_column_width", "min": 1, "max": 6, "step": 1, "label": "Left column width", "default": 2 },
+        { "type": "range", "id": "right_column_width", "min": 1, "max": 8, "step": 1, "label": "Right column width", "default": 3 },
+        { "type": "range", "id": "column_gap_desktop", "min": 0, "max": 80, "step": 2, "label": "Column gap desktop", "default": 40 },
+        { "type": "range", "id": "column_gap_tablet", "min": 0, "max": 60, "step": 2, "label": "Column gap tablet", "default": 24 },
+        { "type": "range", "id": "column_gap_mobile", "min": 0, "max": 40, "step": 2, "label": "Column gap mobile", "default": 18 },
+        { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 100, "step": 1, "label": "Padding top desktop", "default": 22 },
+        { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 100, "step": 1, "label": "Padding bottom desktop", "default": 22 },
+        { "type": "range", "id": "padding_horizontal_desktop", "min": 0, "max": 80, "step": 1, "label": "Padding horizontal desktop", "default": 32 },
+        { "type": "range", "id": "padding_top_tablet", "min": 0, "max": 80, "step": 1, "label": "Padding top tablet", "default": 20 },
+        { "type": "range", "id": "padding_bottom_tablet", "min": 0, "max": 80, "step": 1, "label": "Padding bottom tablet", "default": 20 },
+        { "type": "range", "id": "padding_horizontal_tablet", "min": 0, "max": 60, "step": 1, "label": "Padding horizontal tablet", "default": 20 },
+        { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 60, "step": 1, "label": "Padding top mobile", "default": 16 },
+        { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 60, "step": 2, "label": "Padding bottom mobile", "default": 16 },
+        { "type": "range", "id": "padding_horizontal_mobile", "min": 0, "max": 40, "step": 2, "label": "Padding horizontal mobile", "default": 16 },
+        {
+          "type": "select",
+          "id": "text_align_desktop",
+          "label": "Text align desktop",
+          "default": "left",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "text_align_mobile",
+          "label": "Text align mobile",
+          "default": "center",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ]
+        },
+
+        { "type": "header", "content": "Left divider" },
+        { "type": "checkbox", "id": "show_left_divider", "label": "Show left divider", "default": true },
+        { "type": "range", "id": "left_content_padding_right", "min": 0, "max": 80, "step": 2, "label": "Left content right padding", "default": 28 },
+        { "type": "range", "id": "left_divider_width", "min": 1, "max": 4, "step": 1, "label": "Left divider width", "default": 1 },
+        { "type": "color", "id": "left_divider_color", "label": "Left divider color", "default": "#5a4a3d" },
+        { "type": "range", "id": "left_divider_opacity", "min": 0, "max": 1, "step": 0.1, "label": "Left divider opacity", "default": 0.5 },
+
+        { "type": "header", "content": "Eyebrow typography" },
+        {
+          "type": "select",
+          "id": "font_eyebrow",
+          "label": "Eyebrow font family",
+          "default": "inherit",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "var(--font-heading)", "label": "Theme heading font" },
+            { "value": "var(--font-body)", "label": "Theme body font" },
+            { "value": "Arial", "label": "Arial" },
+            { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+            { "value": "Montserrat", "label": "Montserrat" },
+            { "value": "Roboto", "label": "Roboto" },
+            { "value": "Playfair Display", "label": "Playfair Display" }
+          ]
+        },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#d59a2e" },
+        { "type": "range", "id": "eyebrow_size_desktop", "min": 8, "max": 30, "step": 1, "label": "Eyebrow size desktop", "default": 14 },
+        { "type": "range", "id": "eyebrow_size_mobile", "min": 8, "max": 24, "step": 1, "label": "Eyebrow size mobile", "default": 12 },
+        {
+          "type": "select",
+          "id": "eyebrow_weight",
+          "label": "Eyebrow font weight",
+          "default": "600",
+          "options": [
+            { "value": "300", "label": "Light" },
+            { "value": "400", "label": "Regular" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi bold" },
+            { "value": "700", "label": "Bold" }
+          ]
+        },
+        { "type": "range", "id": "eyebrow_line_height", "min": 0.8, "max": 2, "step": 0.1, "label": "Eyebrow line height desktop", "default": 1.2 },
+        { "type": "range", "id": "eyebrow_line_height_mobile", "min": 0.8, "max": 2, "step": 0.1, "label": "Eyebrow line height mobile", "default": 1.2 },
+        {
+          "type": "select",
+          "id": "eyebrow_transform",
+          "label": "Eyebrow text transform",
+          "default": "uppercase",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "uppercase", "label": "Uppercase" },
+            { "value": "capitalize", "label": "Capitalize" }
+          ]
+        },
+        { "type": "range", "id": "eyebrow_margin_bottom_desktop", "min": 0, "max": 40, "step": 1, "label": "Eyebrow bottom margin desktop", "default": 8 },
+        { "type": "range", "id": "eyebrow_margin_bottom_mobile", "min": 0, "max": 30, "step": 1, "label": "Eyebrow bottom margin mobile", "default": 6 },
+
+        { "type": "header", "content": "Heading typography" },
+        {
+          "type": "select",
+          "id": "font_heading",
+          "label": "Heading font family",
+          "default": "inherit",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "var(--font-heading)", "label": "Theme heading font" },
+            { "value": "var(--font-body)", "label": "Theme body font" },
+            { "value": "Arial", "label": "Arial" },
+            { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+            { "value": "Montserrat", "label": "Montserrat" },
+            { "value": "Roboto", "label": "Roboto" },
+            { "value": "Playfair Display", "label": "Playfair Display" }
+          ]
+        },
+        { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#ffffff" },
+        { "type": "range", "id": "heading_size_desktop", "min": 18, "max": 72, "step": 1, "label": "Heading size desktop", "default": 28 },
+        { "type": "range", "id": "heading_size_mobile", "min": 16, "max": 48, "step": 1, "label": "Heading size mobile", "default": 22 },
+        {
+          "type": "select",
+          "id": "heading_weight",
+          "label": "Heading font weight",
+          "default": "500",
+          "options": [
+            { "value": "300", "label": "Light" },
+            { "value": "400", "label": "Regular" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi bold" },
+            { "value": "700", "label": "Bold" }
+          ]
+        },
+        { "type": "range", "id": "heading_line_height", "min": 0.8, "max": 2, "step": 0.1, "label": "Heading line height desktop", "default": 1.1 },
+        { "type": "range", "id": "heading_line_height_mobile", "min": 0.8, "max": 2, "step": 0.1, "label": "Heading line height mobile", "default": 1.1 },
+        { "type": "range", "id": "heading_letter_spacing", "min": -3, "max": 5, "step": 0.1, "label": "Heading letter spacing desktop", "default": 0 },
+        { "type": "range", "id": "heading_letter_spacing_mobile", "min": -3, "max": 5, "step": 0.1, "label": "Heading letter spacing mobile", "default": 0 },
+
+        { "type": "header", "content": "Offers layout" },
+        { "type": "range", "id": "offer_gap_desktop", "min": 0, "max": 200, "step": 2, "label": "Offer gap desktop", "default": 28 },
+        { "type": "range", "id": "offer_gap_tablet", "min": 0, "max": 50, "step": 2, "label": "Offer gap tablet", "default": 20 },
+        { "type": "range", "id": "offer_gap_mobile", "min": 0, "max": 30, "step": 2, "label": "Offer gap mobile", "default": 14 },
+        { "type": "range", "id": "offer_padding_vertical_desktop", "min": 0, "max": 40, "step": 1, "label": "Offer vertical padding desktop", "default": 4 },
+        { "type": "range", "id": "offer_padding_horizontal_desktop", "min": 0, "max": 40, "step": 1, "label": "Offer horizontal padding desktop", "default": 10 },
+        { "type": "range", "id": "offer_padding_vertical_mobile", "min": 0, "max": 30, "step": 1, "label": "Offer vertical padding mobile", "default": 2 },
+        { "type": "range", "id": "offer_padding_horizontal_mobile", "min": 0, "max": 24, "step": 1, "label": "Offer horizontal padding mobile", "default": 6 },
+
+        { "type": "header", "content": "Offer dividers" },
+        { "type": "checkbox", "id": "show_offer_dividers", "label": "Show offer dividers", "default": true },
+        { "type": "range", "id": "offer_divider_width", "min": 1, "max": 4, "step": 1, "label": "Offer divider width", "default": 1 },
+        { "type": "range", "id": "offer_divider_height", "min": 20, "max": 100, "step": 5, "label": "Offer divider height (%)", "default": 70 },
+        { "type": "color", "id": "offer_divider_color", "label": "Offer divider color", "default": "#5a4a3d" },
+        { "type": "range", "id": "offer_divider_opacity", "min": 0, "max": 1, "step": 0.1, "label": "Offer divider opacity", "default": 0.5 },
+
+        { "type": "header", "content": "Amount typography" },
+        {
+          "type": "select",
+          "id": "font_amount",
+          "label": "Amount font family",
+          "default": "inherit",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "var(--font-heading)", "label": "Theme heading font" },
+            { "value": "var(--font-body)", "label": "Theme body font" },
+            { "value": "Arial", "label": "Arial" },
+            { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+            { "value": "Montserrat", "label": "Montserrat" },
+            { "value": "Roboto", "label": "Roboto" },
+            { "value": "Playfair Display", "label": "Playfair Display" }
+          ]
+        },
+        { "type": "color", "id": "amount_color", "label": "Amount color", "default": "#f5a623" },
+        { "type": "range", "id": "amount_size_desktop", "min": 14, "max": 60, "step": 1, "label": "Amount size desktop", "default": 26 },
+        { "type": "range", "id": "amount_size_mobile", "min": 14, "max": 40, "step": 1, "label": "Amount size mobile", "default": 24 },
+        {
+          "type": "select",
+          "id": "amount_weight",
+          "label": "Amount font weight",
+          "default": "700",
+          "options": [
+            { "value": "300", "label": "Light" },
+            { "value": "400", "label": "Regular" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi bold" },
+            { "value": "700", "label": "Bold" }
+          ]
+        },
+        { "type": "range", "id": "amount_line_height", "min": 0.8, "max": 2, "step": 0.1, "label": "Amount line height desktop", "default": 1.1 },
+        { "type": "range", "id": "amount_line_height_mobile", "min": 0.8, "max": 2, "step": 0.1, "label": "Amount line height mobile", "default": 1.1 },
+        { "type": "range", "id": "amount_letter_spacing", "min": -3, "max": 5, "step": 0.1, "label": "Amount letter spacing desktop", "default": 0 },
+        { "type": "range", "id": "amount_letter_spacing_mobile", "min": -3, "max": 5, "step": 0.1, "label": "Amount letter spacing mobile", "default": 0 },
+        { "type": "range", "id": "amount_margin_bottom_desktop", "min": 0, "max": 20, "step": 1, "label": "Amount bottom margin desktop", "default": 2 },
+        { "type": "range", "id": "amount_margin_bottom_mobile", "min": 0, "max": 20, "step": 1, "label": "Amount bottom margin mobile", "default": 2 },
+
+        { "type": "header", "content": "Title typography" },
+        {
+          "type": "select",
+          "id": "font_title",
+          "label": "Title font family",
+          "default": "inherit",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "var(--font-heading)", "label": "Theme heading font" },
+            { "value": "var(--font-body)", "label": "Theme body font" },
+            { "value": "Arial", "label": "Arial" },
+            { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+            { "value": "Montserrat", "label": "Montserrat" },
+            { "value": "Roboto", "label": "Roboto" },
+            { "value": "Playfair Display", "label": "Playfair Display" }
+          ]
+        },
+        { "type": "color", "id": "title_color", "label": "Title color", "default": "#ffffff" },
+        { "type": "range", "id": "title_size_desktop", "min": 10, "max": 34, "step": 1, "label": "Title size desktop", "default": 16 },
+        { "type": "range", "id": "title_size_mobile", "min": 6, "max": 28, "step": 1, "label": "Title size mobile", "default": 15 },
+        {
+          "type": "select",
+          "id": "title_weight",
+          "label": "Title font weight",
+          "default": "400",
+          "options": [
+            { "value": "300", "label": "Light" },
+            { "value": "400", "label": "Regular" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi bold" },
+            { "value": "700", "label": "Bold" }
+          ]
+        },
+        { "type": "range", "id": "title_line_height", "min": 0.8, "max": 2, "step": 0.1, "label": "Title line height desktop", "default": 1.2 },
+        { "type": "range", "id": "title_line_height_mobile", "min": 0.8, "max": 2, "step": 0.1, "label": "Title line height mobile", "default": 1.2 },
+        { "type": "range", "id": "title_letter_spacing", "min": -2, "max": 5, "step": 0.1, "label": "Title letter spacing desktop", "default": 0 },
+        { "type": "range", "id": "title_letter_spacing_mobile", "min": -2, "max": 5, "step": 0.1, "label": "Title letter spacing mobile", "default": 0 },
+        { "type": "range", "id": "title_margin_bottom_desktop", "min": 0, "max": 20, "step": 1, "label": "Title bottom margin desktop", "default": 8 },
+        { "type": "range", "id": "title_margin_bottom_mobile", "min": 0, "max": 20, "step": 1, "label": "Title bottom margin mobile", "default": 6 },
+
+        { "type": "header", "content": "Pill typography" },
+        {
+          "type": "select",
+          "id": "font_pill",
+          "label": "Pill font family",
+          "default": "inherit",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "var(--font-heading)", "label": "Theme heading font" },
+            { "value": "var(--font-body)", "label": "Theme body font" },
+            { "value": "Arial", "label": "Arial" },
+            { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+            { "value": "Montserrat", "label": "Montserrat" },
+            { "value": "Roboto", "label": "Roboto" },
+            { "value": "Playfair Display", "label": "Playfair Display" }
+          ]
+        },
+        { "type": "color", "id": "pill_text_color", "label": "Pill text color", "default": "#8d8d8d" },
+        { "type": "color", "id": "pill_bg", "label": "Pill background", "default": "#00000000" },
+        { "type": "color", "id": "pill_border_color", "label": "Pill border color", "default": "#4b4b4b" },
+        { "type": "range", "id": "pill_border_width", "min": 0, "max": 4, "step": 1, "label": "Pill border width", "default": 1 },
+        { "type": "range", "id": "pill_radius", "min": 0, "max": 60, "step": 1, "label": "Pill border radius", "default": 30 },
+        { "type": "range", "id": "pill_height_desktop", "min": 20, "max": 60, "step": 1, "label": "Pill height desktop", "default": 34 },
+        { "type": "range", "id": "pill_height_mobile", "min": 18, "max": 50, "step": 1, "label": "Pill height mobile", "default": 30 },
+        { "type": "range", "id": "pill_padding_horizontal_desktop", "min": 8, "max": 40, "step": 1, "label": "Pill horizontal padding desktop", "default": 18 },
+        { "type": "range", "id": "pill_padding_horizontal_mobile", "min": 8, "max": 30, "step": 1, "label": "Pill horizontal padding mobile", "default": 14 },
+        { "type": "range", "id": "pill_size_desktop", "min": 10, "max": 24, "step": 1, "label": "Pill size desktop", "default": 14 },
+        { "type": "range", "id": "pill_size_mobile", "min": 10, "max": 20, "step": 1, "label": "Pill size mobile", "default": 13 },
+        {
+          "type": "select",
+          "id": "pill_weight",
+          "label": "Pill font weight",
+          "default": "400",
+          "options": [
+            { "value": "300", "label": "Light" },
+            { "value": "400", "label": "Regular" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi bold" },
+            { "value": "700", "label": "Bold" }
+          ]
+        },
+        { "type": "range", "id": "pill_line_height", "min": 0.8, "max": 2, "step": 0.1, "label": "Pill line height desktop", "default": 1.2 },
+        { "type": "range", "id": "pill_line_height_mobile", "min": 0.8, "max": 2, "step": 0.1, "label": "Pill line height mobile", "default": 1.2 },
+        { "type": "range", "id": "pill_letter_spacing", "min": -2, "max": 5, "step": 0.1, "label": "Pill letter spacing desktop", "default": 0 },
+        { "type": "range", "id": "pill_letter_spacing_mobile", "min": -2, "max": 5, "step": 0.1, "label": "Pill letter spacing mobile", "default": 0 }
+      ]
+    } 
+  ]
+}
+{% endschema %}

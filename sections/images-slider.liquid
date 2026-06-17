@@ -1,0 +1,115 @@
+<div class="container">
+  <div class="swiper imageSlider">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide">
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 1000 | image_tag: alt: block.settings.image.alt }}
+          {% else %}
+            {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-controls">
+      <div class="button-prev">{% render 'icon-prev' %}</div>
+      <div class="button-next">{% render 'icon-next' %}</div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" style="background-color: {{ section.settings.color }};"></div>
+
+{% style %}
+  .images-slider {
+    position: relative;
+  }
+  .images-slider .overlay {
+    height: 400px;
+    position: absolute;
+    width: 100%;
+    top: -61%;
+    z-index: -1;
+  }
+  @media (min-width: 768px) {
+    .images-slider .overlay {
+      height: 800px;
+    }
+  }
+  .imageSlider {
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1000px;
+  }
+  @media (min-width: 768px) {
+    .imageSlider {
+      height: 700px;
+    }
+  }
+  .imageSlider img,
+  .imageSlider svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .imageSlider .swiper-controls {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
+  }
+  .imageSlider .swiper-controls .button-prev,
+  .imageSlider .swiper-controls .button-next {
+    cursor: pointer;
+  }
+{% endstyle %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new Swiper('.imageSlider', {
+      slidesPerView: 1,
+      navigation: {
+        nextEl: '.button-next',
+        prevEl: '.button-prev',
+      },
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Images Slider",
+  "class": "shopify-section images-slider",
+  "settings": [
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Background color",
+      "info": "The color will cover top half of the section and part of the section above"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_picker",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Images Slider",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

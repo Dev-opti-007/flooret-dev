@@ -1,0 +1,647 @@
+{% comment %}
+  Image with Icon Cards
+  - Section setting: main image (desktop + optional mobile), image sizing + radius
+  - Blocks: cards (icon image/svg, title, text)
+  - Detailed styling controls for spacing, typography, colors, borders, shadows, alignment
+{% endcomment %}
+
+<section
+  id="ImageIconCards-{{ section.id }}"
+  class="iic"
+  style="
+    --iic-bg: {{ section.settings.section_bg_color }};
+    --iic-max: {{ section.settings.section_max_width }}px;
+
+    --iic-pt: {{ section.settings.section_padding_top_desktop }}px;
+    --iic-pr: {{ section.settings.section_padding_right_desktop }}px;
+    --iic-pb: {{ section.settings.section_padding_bottom_desktop }}px;
+    --iic-pl: {{ section.settings.section_padding_left_desktop }}px;
+
+    --iic-pt-m: {{ section.settings.section_padding_top_mobile }}px;
+    --iic-pr-m: {{ section.settings.section_padding_right_mobile }}px;
+    --iic-pb-m: {{ section.settings.section_padding_bottom_mobile }}px;
+    --iic-pl-m: {{ section.settings.section_padding_left_mobile }}px;
+
+    --iic-gap: {{ section.settings.cards_gap_desktop }}px;
+    --iic-gap-m: {{ section.settings.cards_gap_mobile }}px;
+
+    --iic-img-radius: {{ section.settings.image_radius }}px;
+    --iic-img-mt: {{ section.settings.image_margin_top }}px;
+    --iic-img-mb: {{ section.settings.image_margin_bottom }}px;
+
+    --iic-cards-mt: {{ section.settings.cards_margin_top }}px;
+    --iic-cards-mb: {{ section.settings.cards_margin_bottom }}px;
+
+    --iic-card-bg: {{ section.settings.card_bg_color }};
+    --iic-card-radius: {{ section.settings.card_radius }}px;
+    --iic-card-py: {{ section.settings.card_padding_y_desktop }}px;
+    --iic-card-px: {{ section.settings.card_padding_x_desktop }}px;
+    --iic-card-py-m: {{ section.settings.card_padding_y_mobile }}px;
+    --iic-card-px-m: {{ section.settings.card_padding_x_mobile }}px;
+
+    --iic-card-border-w: {{ section.settings.card_border_width }}px;
+    --iic-card-border-c: {{ section.settings.card_border_color }};
+
+    --iic-icon-size: {{ section.settings.icon_size_desktop }}px;
+    --iic-icon-size-m: {{ section.settings.icon_size_mobile }}px;
+    --iic-icon-bg: {{ section.settings.icon_bg_color }};
+    --iic-icon-radius: {{ section.settings.icon_radius }}px;
+    --iic-icon-pad: {{ section.settings.icon_padding }}px;
+    --iic-icon-mb: {{ section.settings.icon_margin_bottom }}px;
+
+    --iic-title-c: {{ section.settings.title_color }};
+    --iic-title-s: {{ section.settings.title_size_desktop }}px;
+    --iic-title-s-m: {{ section.settings.title_size_mobile }}px;
+    --iic-title-w: {{ section.settings.title_weight }};
+    --iic-title-lh: {{ section.settings.title_line_height }};
+    --iic-title-ls: {{ section.settings.title_letter_spacing }}px;
+    --iic-title-mb: {{ section.settings.title_margin_bottom }}px;
+
+    --iic-text-c: {{ section.settings.text_color }};
+    --iic-text-s: {{ section.settings.text_size_desktop }}px;
+    --iic-text-s-m: {{ section.settings.text_size_mobile }}px;
+    --iic-text-w: {{ section.settings.text_weight }};
+    --iic-text-lh: {{ section.settings.text_line_height }};
+    --iic-text-ls: {{ section.settings.text_letter_spacing }}px;
+
+    --iic-shadow: {{ section.settings.card_shadow }};
+  "
+>
+  <div class="iic__wrap {% unless section.settings.full_width %}iic__wrap--contained{% endunless %}">
+    {% if section.settings.main_image_desktop != blank %}
+       <div
+          class="iic__image {% if section.settings.enable_custom_image_height %}iic__image--fixed{% endif %}"
+          style="
+            margin-top:var(--iic-img-mt);
+            margin-bottom:var(--iic-img-mb);
+            {% if section.settings.enable_custom_image_height %}
+              --iic-img-h: {{ section.settings.image_height_desktop }}px;
+              --iic-img-h-m: {{ section.settings.image_height_mobile }}px;
+            {% endif %}
+          "
+        >
+        {% if section.settings.main_image_mobile != blank %}
+          <picture>
+            <source
+              media="(max-width: 749px)"
+              srcset="{{ section.settings.main_image_mobile | image_url: width: section.settings.mobile_image_width }}"
+            >
+            {{ section.settings.main_image_desktop
+              | image_url: width: section.settings.desktop_image_width
+              | image_tag:
+                loading: 'lazy',
+                class: 'iic__img',
+                alt: section.settings.main_image_desktop.alt | escape
+            }}
+          </picture>
+        {% else %}
+          {{ section.settings.main_image_desktop
+            | image_url: width: section.settings.desktop_image_width
+            | image_tag:
+              loading: 'lazy',
+              class: 'iic__img',
+              alt: section.settings.main_image_desktop.alt | escape
+          }}
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="iic__cards" style="margin-top:var(--iic-cards-mt);margin-bottom:var(--iic-cards-mb);">
+        {% for block in section.blocks %}
+          <div class="iic__card" {{ block.shopify_attributes }}>
+            <div class="iic__icon-wrap">
+              {% if block.settings.icon_image != blank %}
+                {{ block.settings.icon_image | image_url: width: 200 | image_tag:
+                  loading: 'lazy',
+                  class: 'iic__icon-img',
+                  alt: block.settings.icon_image.alt | escape
+                }}
+              {% elsif block.settings.icon_svg != blank %}
+                <div class="iic__icon-svg">{{ block.settings.icon_svg }}</div>
+              {% endif %}
+            </div>
+
+            {% if block.settings.title != blank %}
+              <div class="iic__title">{{ block.settings.title }}</div>
+            {% endif %}
+
+            {% if block.settings.text != blank %}
+              <div class="iic__text">{{ block.settings.text }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .iic{
+    background: var(--iic-bg);
+    padding: var(--iic-pt) var(--iic-pr) var(--iic-pb) var(--iic-pl);
+  }
+  .iic__wrap--contained{
+    max-width: var(--iic-max);
+    margin: 0 auto;
+  }
+
+  .iic__img{
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--iic-img-radius);
+    {% if section.settings.image_object_fit == 'cover' %}
+      aspect-ratio: {{ section.settings.image_aspect_ratio_desktop }};
+      object-fit: cover;
+    {% endif %}
+  }
+
+  .iic__cards{
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.cards_columns_desktop }}, minmax(0, 1fr));
+    gap: var(--iic-gap);
+    align-items: stretch;
+  }
+
+  .iic__card{
+    background: var(--iic-card-bg);
+    border-radius: var(--iic-card-radius);
+    border: var(--iic-card-border-w) solid var(--iic-card-border-c);
+    padding: var(--iic-card-py) var(--iic-card-px);
+    text-align: {{ section.settings.card_text_align_desktop }};
+    box-shadow: var(--iic-shadow);
+  }
+
+  .iic__icon-wrap{
+    width: calc(var(--iic-icon-size) + var(--iic-icon-pad) * 2);
+    height: calc(var(--iic-icon-size) + var(--iic-icon-pad) * 2);
+    margin: 0 auto var(--iic-icon-mb);
+    background: var(--iic-icon-bg);
+    border-radius: var(--iic-icon-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .iic__icon-img{
+    width: var(--iic-icon-size);
+    height: var(--iic-icon-size);
+    object-fit: contain;
+    display: block;
+  }
+
+  .iic__icon-svg svg{
+    width: var(--iic-icon-size);
+    height: var(--iic-icon-size);
+    display: block;
+  }
+
+  .iic__title{
+    color: var(--iic-title-c);
+    font-size: var(--iic-title-s);
+    font-weight: var(--iic-title-w);
+    line-height: var(--iic-title-lh);
+    letter-spacing: var(--iic-title-ls);
+    margin-bottom: var(--iic-title-mb);
+  }
+
+  .iic__text{
+    color: var(--iic-text-c);
+    font-size: var(--iic-text-s);
+    font-weight: var(--iic-text-w);
+    line-height: var(--iic-text-lh);
+    letter-spacing: var(--iic-text-ls);
+  }
+
+  @media (max-width: 989px){
+    .iic__cards{
+      grid-template-columns: repeat({{ section.settings.cards_columns_tablet }}, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 749px){
+    .iic{
+      padding: var(--iic-pt-m) var(--iic-pr-m) var(--iic-pb-m) var(--iic-pl-m);
+    }
+
+    .iic__cards{
+      grid-template-columns: repeat({{ section.settings.cards_columns_mobile }}, minmax(0, 1fr));
+      gap: var(--iic-gap-m);
+    }
+
+    .iic__card{
+      padding: var(--iic-card-py-m) var(--iic-card-px-m);
+      text-align: {{ section.settings.card_text_align_mobile }};
+    }
+
+    .iic__title{ font-size: var(--iic-title-s-m); }
+    .iic__text{ font-size: var(--iic-text-s-m); }
+
+    .iic__icon-wrap{
+      width: calc(var(--iic-icon-size-m) + var(--iic-icon-pad) * 2);
+      height: calc(var(--iic-icon-size-m) + var(--iic-icon-pad) * 2);
+    }
+    .iic__icon-img,
+    .iic__icon-svg svg{
+      width: var(--iic-icon-size-m);
+      height: var(--iic-icon-size-m);
+    }
+  }
+
+  /* Optional: allow equal height cards look cleaner */
+  .iic__card{ display:flex; flex-direction:column; }
+      /* Only when custom height is enabled */
+  .iic__image--fixed{
+    height: var(--iic-img-h);
+  }
+  .iic__image--fixed .iic__img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .iic__title{
+    font-family: {{ section.settings.font_card_title | json }}, sans-serif;
+  }
+
+  .iic__text{
+    font-family: {{ section.settings.font_card_text | json }}, sans-serif;
+  }
+
+
+  @media (max-width: 749px){
+    .iic__image--fixed{
+      height: var(--iic-img-h-m);
+    }
+    .iic__image {
+      margin-bottom:calc(var(--iic-img-mb)/3);
+    }
+    button.iic__arrow.slick-arrow {grid-row: 2;width: 61px;height: 61px;border: none;border-radius: 50%;}
+
+    button.iic__arrow.iic__arrow--prev.slick-arrow {
+        background: #FFFFFF;
+        margin-left: auto;
+    }
+
+    button.iic__arrow.iic__arrow--next.slick-arrow {
+        background: #FAAF4F;
+    }
+
+    .iic__cards {
+        grid-template-columns: 1fr 61px;
+    }
+
+    .iic__cards .slick-list.draggable {
+        grid-column: 1/3;
+    }
+  }
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var $slider = $('.iic__cards');
+  if (!$slider.length) return;
+
+  var slickSettings = {
+    mobileFirst: true,
+    dots: false,
+    arrows: true,
+    infinite: true,
+    slidesToScroll: 1,
+    slidesToShow: 1, // < 768
+
+    prevArrow: `
+      <button type="button" class="iic__arrow iic__arrow--prev" aria-label="Previous">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18" fill="none">
+          <path d="M6.65597e-05 8.69223L0.970476 7.72169L7.72178 0.970392L8.65012 -1.54285e-05L10.5911 1.94093L9.62066 2.86927L3.83976 8.69223L9.62066 14.473L10.5911 15.4435L8.65012 17.3423L7.72178 16.3719L0.970476 9.62057L6.65597e-05 8.69223Z" fill="black"/>
+        </svg>
+      </button>
+    `,
+    nextArrow: `
+      <button type="button" class="iic__arrow iic__arrow--next" aria-label="Next">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18" fill="none">
+          <path d="M10.591 8.65005L9.62059 9.62059L2.86929 16.3719L1.94094 17.3423L0 15.4014L0.970408 14.473L6.7513 8.65005L0.970408 2.86929L0 1.89875L1.94094 0L2.86929 0.97041L9.62059 7.72171L10.591 8.65005Z" fill="black"/>
+        </svg>
+      </button>
+    `,
+
+    responsive: [
+      {
+        breakpoint: 768,          // >= 768 and < 992
+        settings: { slidesToShow: 2 }
+      },
+      {
+        breakpoint: 992,          // >= 992 disable
+        settings: "unslick"
+      }
+    ]
+  };
+
+  function toggleSlick() {
+    var w = window.innerWidth;
+
+    if (w < 992) {
+      if (!$slider.hasClass('slick-initialized')) {
+        $slider.slick(slickSettings);
+      } else {
+        $slider.slick('resize');
+      }
+    } else {
+      if ($slider.hasClass('slick-initialized')) {
+        $slider.slick('unslick');
+      }
+    }
+  }
+
+  toggleSlick();
+  window.addEventListener('resize', toggleSlick);
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "Image with icon cards",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width section",
+      "info": "Makes the section span full viewport width, ignoring max-width.",
+      "default": false
+    },
+
+    {
+      "type": "header",
+      "content": "Section container"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background",
+      "default": "#f6f1ea"
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "min": 800,
+      "max": 1800,
+      "step": 50,
+      "label": "Section max width (px)",
+      "default": 1400,
+      "info": "Ignored when Full width is enabled."
+    },
+
+    {
+      "type": "header",
+      "content": "Section padding (desktop)"
+    },
+    { "type": "range", "id": "section_padding_top_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding top (px)", "default": 50 },
+    { "type": "range", "id": "section_padding_right_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding right (px)", "default": 20 },
+    { "type": "range", "id": "section_padding_bottom_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding bottom (px)", "default": 50 },
+    { "type": "range", "id": "section_padding_left_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding left (px)", "default": 20 },
+
+    {
+      "type": "header",
+      "content": "Section padding (mobile)"
+    },
+    { "type": "range", "id": "section_padding_top_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding top (px)", "default": 30 },
+    { "type": "range", "id": "section_padding_right_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding right (px)", "default": 16 },
+    { "type": "range", "id": "section_padding_bottom_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding bottom (px)", "default": 30 },
+    { "type": "range", "id": "section_padding_left_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding left (px)", "default": 16 },
+
+    {
+      "type": "header",
+      "content": "Main image"
+    },
+    { "type": "image_picker", "id": "main_image_desktop", "label": "Desktop image" },
+    { "type": "range", "id": "desktop_image_width", "min": 800, "max": 3200, "step": 50, "label": "Desktop image render width (px)", "default": 1900, "info": "Higher values = sharper image; Shopify will resize." },
+    { "type": "image_picker", "id": "main_image_mobile", "label": "Mobile image (optional)" },
+    { "type": "range", "id": "mobile_image_width", "min": 400, "max": 1400, "step": 50, "label": "Mobile image render width (px)", "default": 900 },
+    { "type": "range", "id": "image_radius", "min": 0, "max": 40, "step": 1, "label": "Image corner radius (px)", "default": 12 },
+
+    {
+      "type": "select",
+      "id": "image_object_fit",
+      "label": "Image sizing mode",
+      "options": [
+        { "value": "natural", "label": "Natural height" },
+        { "value": "cover", "label": "Fixed aspect ratio (cover)" }
+      ],
+      "default": "natural"
+    },
+    {
+      "type": "text",
+      "id": "image_aspect_ratio_desktop",
+      "label": "Image aspect ratio (desktop) if cover",
+      "default": "16 / 7",
+      "info": "Example: 16 / 9, 21 / 9, 16 / 7"
+    },
+
+    { "type": "range", "id": "image_margin_top", "min": 0, "max": 120, "step": 2, "label": "Image margin top (px)", "default": 0 },
+    { "type": "range", "id": "image_margin_bottom", "min": 0, "max": 120, "step": 2, "label": "Image margin bottom (px)", "default": 24 },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_image_height",
+      "label": "Enable custom image height",
+      "info": "When enabled, the main image area uses a fixed height (cropped with object-fit: cover). When disabled, it uses natural image height (current behavior).",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "image_height_desktop",
+      "min": 200,
+      "max": 900,
+      "step": 10,
+      "label": "Image height desktop (px)",
+      "default": 520
+    },
+    {
+      "type": "range",
+      "id": "image_height_mobile",
+      "min": 180,
+      "max": 700,
+      "step": 10,
+      "label": "Image height mobile (px)",
+      "default": 320
+    },
+
+    {
+      "type": "header",
+      "content": "Cards layout"
+    },
+    {
+    "type": "header",
+    "content": "Cards layout"
+    },
+    { "type": "range", "id": "cards_columns_desktop", "min": 1, "max": 4, "step": 1, "label": "Columns desktop", "default": 3 },
+    { "type": "range", "id": "cards_columns_tablet", "min": 1, "max": 3, "step": 1, "label": "Columns tablet", "default": 2 },
+    { "type": "range", "id": "cards_columns_mobile", "min": 1, "max": 3, "step": 1, "label": "Columns mobile", "default": 1 },
+
+
+    { "type": "range", "id": "cards_gap_desktop", "min": 0, "max": 60, "step": 2, "label": "Cards gap desktop (px)", "default": 24 },
+    { "type": "range", "id": "cards_gap_mobile", "min": 0, "max": 50, "step": 2, "label": "Cards gap mobile (px)", "default": 16 },
+
+    { "type": "range", "id": "cards_margin_top", "min": 0, "max": 120, "step": 2, "label": "Cards margin top (px)", "default": 0 },
+    { "type": "range", "id": "cards_margin_bottom", "min": 0, "max": 120, "step": 2, "label": "Cards margin bottom (px)", "default": 0 },
+
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    { "type": "color", "id": "card_bg_color", "label": "Card background", "default": "#ffffff" },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 40, "step": 1, "label": "Card corner radius (px)", "default": 12 },
+    { "type": "range", "id": "card_border_width", "min": 0, "max": 6, "step": 1, "label": "Card border width (px)", "default": 0 },
+    { "type": "color", "id": "card_border_color", "label": "Card border color", "default": "#e9e5dd" },
+    {
+      "type": "text",
+      "id": "card_shadow",
+      "label": "Card shadow (CSS box-shadow)",
+      "default": "0 0 0 rgba(0,0,0,0)",
+      "info": "Example: 0 8px 30px rgba(0,0,0,0.08)"
+    },
+
+    { "type": "range", "id": "card_padding_y_desktop", "min": 0, "max": 80, "step": 2, "label": "Card padding Y desktop (px)", "default": 26 },
+    { "type": "range", "id": "card_padding_x_desktop", "min": 0, "max": 80, "step": 2, "label": "Card padding X desktop (px)", "default": 26 },
+    { "type": "range", "id": "card_padding_y_mobile", "min": 0, "max": 70, "step": 2, "label": "Card padding Y mobile (px)", "default": 22 },
+    { "type": "range", "id": "card_padding_x_mobile", "min": 0, "max": 70, "step": 2, "label": "Card padding X mobile (px)", "default": 22 },
+
+    {
+      "type": "header",
+      "content": "Card alignment"
+    },
+    {
+      "type": "select",
+      "id": "card_text_align_desktop",
+      "label": "Text align desktop",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "card_text_align_mobile",
+      "label": "Text align mobile",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+
+    {
+      "type": "header",
+      "content": "Icon"
+    },
+    { "type": "color", "id": "icon_bg_color", "label": "Icon background", "default": "#f6f1ea" },
+    { "type": "range", "id": "icon_padding", "min": 0, "max": 30, "step": 1, "label": "Icon padding (px)", "default": 10 },
+    { "type": "range", "id": "icon_radius", "min": 0, "max": 1000, "step": 100, "label": "Icon container radius (px)", "default": 100 },
+    { "type": "range", "id": "icon_size_desktop", "min": 16, "max": 90, "step": 1, "label": "Icon size desktop (px)", "default": 34 },
+    { "type": "range", "id": "icon_size_mobile", "min": 16, "max": 70, "step": 1, "label": "Icon size mobile (px)", "default": 32 },
+    { "type": "range", "id": "icon_margin_bottom", "min": 0, "max": 40, "step": 1, "label": "Icon margin bottom (px)", "default": 14 },
+
+    {
+      "type": "header",
+      "content": "Title typography"
+    },
+    { "type": "color", "id": "title_color", "label": "Title color", "default": "#2a2a2a" },
+    { "type": "range", "id": "title_size_desktop", "min": 14, "max": 34, "step": 1, "label": "Title size desktop (px)", "default": 18 },
+    { "type": "range", "id": "title_size_mobile", "min": 12, "max": 28, "step": 1, "label": "Title size mobile (px)", "default": 17 },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "title_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Title line height", "default": 1.2 },
+    { "type": "range", "id": "title_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Title letter spacing (px)", "default": 0 },
+    { "type": "range", "id": "title_margin_bottom", "min": 0, "max": 40, "step": 1, "label": "Title margin bottom (px)", "default": 10 },
+
+    {
+      "type": "header",
+      "content": "Text typography"
+    },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#6a6a6a" },
+    { "type": "range", "id": "text_size_desktop", "min": 12, "max": 26, "step": 1, "label": "Text size desktop (px)", "default": 14 },
+    { "type": "range", "id": "text_size_mobile", "min": 12, "max": 22, "step": 1, "label": "Text size mobile (px)", "default": 13 },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "text_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Text line height", "default": 1.6 },
+    { "type": "range", "id": "text_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Text letter spacing (px)", "default": 0 },
+    {
+      "type": "header",
+      "content": "Font families"
+    },
+    {
+      "type": "select",
+      "id": "font_card_title",
+      "label": "Font family: Card title",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font_card_text",
+      "label": "Font family: Card text",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Montserrat"
+    }
+
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "image_picker", "id": "icon_image", "label": "Icon image" },
+        { "type": "html", "id": "icon_svg", "label": "Icon SVG (optional)", "info": "Paste SVG markup here if you prefer SVG instead of an image." },
+        { "type": "text", "id": "title", "label": "Title", "default": "Natural Materials" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Eco-conscious materials and manufacturing processes that don't compromise on style or durability.</p>" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Image with icon cards",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

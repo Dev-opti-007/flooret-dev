@@ -1,0 +1,144 @@
+<style>
+  .icon-section-{{ section.id }} {
+    padding-top:{{ section.settings.padding-top }}px;
+    padding-bottom:{{ section.settings.padding-bottom }}px;
+  }
+  
+  .page-width {
+      max-width: 1280px;
+      margin: auto;
+      width: 100%;
+      padding: 0px 30px;
+  }
+  
+  .icon-section .in-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      row-gap: 15px;
+  }
+  
+  .icon-section .in-wrap .card {
+      padding: 40px 46px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #fff;
+      border-radius: 8px;
+      transition: all 300ms ease;
+        scale: 1;
+        cursor:pointer;
+  }
+  .icon-section .in-wrap .card:nth-child(3),
+  .icon-section .in-wrap .card:nth-child(5) {
+    padding:40px 77px;
+  }
+  
+  .icon-section .in-wrap .card img {
+      max-width: 80px;
+  }
+  
+  .icon-section .in-wrap .card h4 {
+      font-family: Montserrat;
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 28.4px;
+      text-align: center;
+      margin: 25px 0px 12px;
+  }
+  
+  .icon-section .in-wrap .card .desc {
+      text-align: center;
+  }
+  
+  .icon-section .in-wrap .card .desc > p {
+      font-family: Montserrat;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 25.6px;
+      text-align: center;
+      vertical-align: middle;
+  }
+  
+  .icon-section .in-wrap .card:hover {
+      background: #DDE9D8;
+        scale: 1.03;
+  }
+</style>
+
+<div class='icon-section icon-section-{{ section.id }}' >
+  <div class='page-width' >
+    <div class="in-wrap">
+      {% for block in section.blocks %}
+        <div class="card">
+        {% if block.settings.image != blank %}
+          <img src="{{ block.settings.image | img_url:'100x' }}" alt="{{ block.settings.image.alt }}" >
+        {% endif %}
+          {% if block.settings.title != blank %}
+          <h4>{{ block.settings.title }}</h4>
+          {% endif %}
+          {% if block.settings.desc != blank %}
+          <div class="desc">
+              {{ block.settings.desc }}
+          </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Card with Icon and text",
+    "settings": [
+      {
+        "type": "range",
+        "id": "padding-top",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Top",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "padding-bottom",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Bottom",
+        "default": 2
+      }
+    ],
+    "blocks": [
+      {
+        "type": "card",
+        "name":"Card",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Icon/Image"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "richtext",
+            "id": "desc",
+            "label": "Description"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Card with Icon and text"
+      }
+    ]
+  }
+{% endschema %}

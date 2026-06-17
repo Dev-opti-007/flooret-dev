@@ -1,0 +1,418 @@
+<div class="container-v2 live-stream-{{ section.id }}" >
+
+    <div class="img-vid-wrap " >
+    <div class="vid_wrap">
+                    {% if section.settings.cover-image != blank %}
+                <div class="overlay">
+                   
+                  <img src="{{ section.settings.cover-image | img_url:'500x' }}" alt="{{ section.settings.cover-image.alt }}" >
+                </div>
+                {% endif %}
+                <svg class="play-btn-svg" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+                    <rect width="52" height="52" rx="26" fill="white" fill-opacity="0.9"/>
+                    <path d="M32.4219 24.7188C33.3906 25.3125 33.3906 26.7188 32.4219 27.3125L21.4219 33.8125C20.4219 34.4062 19.1719 33.6875 19.1719 32.5V19.5C19.1719 18.2188 20.5156 17.6875 21.4219 18.2188L32.4219 24.7188Z" fill="#111111"/>
+                </svg>
+                  <video
+                    controls
+                    playsinline
+                  >
+                    <source src="{{ section.settings.video.sources[1].url }}" type="video/mp4">
+                  </video>
+                </div>    
+    </div>
+
+    <div class="text-wrap" >
+        
+        <img src="{{ section.settings.small-image | img_url:'60x' }}" alt="{{ section.settings.small-image.alt }}" >
+        {% if section.settings.heading != blank %}
+        <h2>{{ section.settings.heading }}</h2>
+        {% endif %}
+         {% if section.settings.btn-text != blank %}
+            <a class="button btn" href="{{ section.settings.btn-link }}">{{ section.settings.btn-text }}</a>
+         {% endif %}
+    </div>
+
+
+
+</div>
+
+
+{% style %} 
+
+.live-stream {
+    background-color:{{  section.settings.bg-color }};
+}
+.live-stream .container-v2 {
+    display: flex;
+    max-width: 1200px;
+    margin: auto;
+    gap: 80px;
+    padding: 100px 0px;
+    align-items: center;
+    position:relative;
+}
+.live-stream .container-v2 .img-vid-wrap .vid_wrap {
+    width: 100%;
+    max-width: unset;
+    margin-bottom:0px;
+}
+.live-stream .container-v2 .img-vid-wrap .vid_wrap .overlay {
+    width: 100%;
+}
+.live-stream .container-v2 .img-vid-wrap .vid_wrap .overlay img {
+    width: 100%;
+}
+.live-stream .container-v2 .img-vid-wrap .vid_wrap  video {
+    display: none;
+}
+.live-stream .container-v2 .text-wrap h2 span {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 42px;
+    leading-trim: NONE;
+    line-height: 56px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+}
+
+.live-stream .container-v2 .text-wrap h2 {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 24.64px;
+    leading-trim: NONE;
+    line-height: 39.42px;
+    letter-spacing: 0%;
+    margin-top: 12px;
+    vertical-align: middle;
+}
+.live-stream .container-v2 .text-wrap h2 p {
+    display: inline;
+    vertical-align: middle;
+    position: relative;
+    top: 3px;
+}
+
+.live-stream .container-v2 .text-wrap::before {
+    content: "";
+    position: absolute;
+    top: 100px;
+    right: 0;
+    width: 50%;
+    height: 1px;
+    background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="1" viewBox="0 0 400 1" fill="none"><line x1="0.5" y1="0.5" x2="399.5" y2="0.5" stroke="%23FE4600" stroke-linecap="round" stroke-dasharray="4 4"/></svg>');
+    background-repeat: no-repeat;
+}
+
+.live-stream .container-v2 .text-wrap::after {
+    content: "";
+    position: absolute;
+    bottom: 100px;
+    right: 0;
+    width: 50%;
+    height: 1px;
+    background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="1" viewBox="0 0 400 1" fill="none"><line x1="0.5" y1="0.5" x2="399.5" y2="0.5" stroke="%23FE4600" stroke-linecap="round" stroke-dasharray="4 4"/></svg>');
+    background-repeat: no-repeat;
+}
+
+body .live-stream .live-stream-{{ section.id }}  .text-wrap h2,
+body .live-stream .live-stream-{{ section.id }}  .text-wrap h2 span {
+    font-family:{{ section.settings.font-heading }};
+    font-size:{{ section.settings.font_size_heading_desk }}px;
+    {% if section.settings.heading-color != blank %} color:{{ section.settings.heading-color }}; {% endif %}
+}
+
+body .live-stream .live-stream-{{ section.id }}  .text-wrap p {
+    font-family:{{ section.settings.font-subtext }};
+    font-size:{{ section.settings.font_size_subtext_desk }}px;
+    {% if section.settings.body-color != blank %} color:{{ section.settings.body-color }}; {% endif %}
+}
+
+body .live-stream .live-stream-{{ section.id }}  .text-wrap .button.btn {
+    font-family:{{ section.settings.font-button }};
+    font-size:{{ section.settings.font_size_button_desk }}px;
+    {% if section.settings.button-font-color != blank %} color:{{ section.settings.button-font-color }}; {% endif %}
+    {% if section.settings.button-bg-color != blank %} background:{{ section.settings.button-bg-color }}; {%  endif %}
+}
+
+@media (max-width:768px) {
+  body .live-stream .live-stream-{{ section.id }}  .text-wrap h2,
+  body .live-stream .live-stream-{{ section.id }}  .text-wrap h2 span {
+      font-size:{{ section.settings.font_size_heading_mob }}px;
+  }
+
+  body .live-stream .live-stream-{{ section.id }}  .text-wrap p {
+      font-size:{{ section.settings.font_size_subtext_mob }}px;
+  }
+
+  body .live-stream .live-stream-{{ section.id }}  .text-wrap .button.btn {
+      font-size:{{ section.settings.font_size_button_mob }}px;
+  }
+}
+
+{% endstyle %}
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrappers = document.querySelectorAll('.vid_wrap');
+
+    wrappers.forEach(wrapper => {
+      const overlay = wrapper.querySelector('.overlay');
+      const playBtn = wrapper.querySelector('.play-btn-svg');
+      const video   = wrapper.querySelector('video');
+
+      const playCurrent = () => {
+        if (!video) return;
+
+        // Pause others and reset UI
+        wrappers.forEach(other => {
+          if (other === wrapper) return;
+          const ov = other.querySelector('.overlay');
+          const pb = other.querySelector('.play-btn-svg');
+          const vd = other.querySelector('video');
+          if (vd) vd.pause();
+          if (ov) ov.style.display = 'block';
+          if (pb) pb.style.display = 'block';
+          other.classList.remove('is-playing');
+        });
+
+        // Reveal and play this one
+        wrapper.classList.add('is-playing');
+        if (playBtn) playBtn.style.display = 'none';
+        if (overlay) overlay.style.display = 'none';
+        // Make sure video is visible even if CSS had display:none
+        video.style.display = 'block';
+        video.style.visibility = 'visible';
+        video.play().catch(() => {
+          // If autoplay blocked, at least ensure UI shows the video
+        });
+
+        // Mobile click-to-toggle once
+        if (window.innerWidth < 768 && !video.dataset.mobileToggleAdded) {
+          video.addEventListener('click', () => {
+            if (video.paused) video.play(); else video.pause();
+          });
+          video.dataset.mobileToggleAdded = 'true';
+        }
+      };
+
+      if (playBtn && video) {
+        playBtn.addEventListener('click', playCurrent);
+      }
+
+      if (overlay && video) {
+        overlay.addEventListener('click', playCurrent);
+      }
+    });
+  });
+</script>
+
+
+
+
+{% schema %}
+{
+  "name": "Live Stream",
+  "class": "shopify-section live-stream",
+  "settings": [
+        {   
+            "type": "color",
+            "id":"bg-color",
+            "label": "Background Color"
+        },
+        {
+            "type": "html",
+            "id":"heading",
+            "label": "Heading"
+        },
+        {
+            "type": "text",
+            "id": "btn-text",
+            "label": "Button Text"
+        },
+        {
+            "type": "url",
+            "id": "btn-link",
+            "label": "Button Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "small-image",
+          "label": "Small Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "cover-image",
+          "label": "Cover Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },  
+         {
+        "type": "header",
+        "content": "Font family"
+      },
+      {
+        "type": "select",
+        "id": "font-heading",
+        "label": "Font Family Heading",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+      {
+        "type": "select",
+        "id": "font-subtext",
+        "label": "Font Family Subtext",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+      {
+        "type": "select",
+        "id": "font-button",
+        "label": "Font Family Button",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+      {
+        "type": "header",
+        "content": "Font Sizes Desktop"
+      },
+      {
+        "type": "range",
+        "id": "font_size_heading_desk",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Heading Desktop",
+        "default": 42
+      },
+      {
+        "type": "range",
+        "id": "font_size_subtext_desk",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Subtext Desktop",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "font_size_button_desk",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Button Desktop",
+        "default": 14
+      },
+      {
+        "type": "header",
+        "content": "Font Sizes Mobile"
+      },
+      {
+        "type": "range",
+        "id": "font_size_heading_mob",
+        "min": 1,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Heading Mobile",
+        "default": 30
+      },
+      {
+        "type": "range",
+        "id": "font_size_subtext_mob",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Subtext",
+        "default": 15
+      },
+      {
+        "type": "range",
+        "id": "font_size_button_mob",
+        "min": 1,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Button Mobile",
+        "default": 14
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id":"heading-color",
+        "label": "Heading Color"
+      },
+      {
+        "type": "color",
+        "id":"body-color",
+        "label": "Body Color"
+      },
+      {
+        "type": "color",
+        "id": "button-bg-color",
+        "label": "Button Background Color"
+      },
+      {
+        "type": "color",
+        "id": "button-font-color",
+        "label": "Button Font Color"
+      }
+  ],
+  "presets": [
+    {
+      "name": "Live Stream"
+    }
+  ]
+}
+{% endschema %}

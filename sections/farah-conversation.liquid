@@ -1,0 +1,389 @@
+{% comment %}
+  Conversation With Farah
+  - Top: single combined avatar image
+  - Title + author
+  - Stack of Q&A blocks
+{% endcomment %}
+
+<section
+  id="FarahConversation-{{ section.id }}"
+  class="fc {{ section.settings.section__class }}"
+  style="
+    --fc-bg: {{ section.settings.section_bg_color }};
+    --fc-max: {{ section.settings.section_max_width }}px;
+
+    --fc-pt: {{ section.settings.section_padding_top_desktop }}px;
+    --fc-pr: {{ section.settings.section_padding_right_desktop }}px;
+    --fc-pb: {{ section.settings.section_padding_bottom_desktop }}px;
+    --fc-pl: {{ section.settings.section_padding_left_desktop }}px;
+
+    --fc-pt-m: {{ section.settings.section_padding_top_mobile }}px;
+    --fc-pr-m: {{ section.settings.section_padding_right_mobile }}px;
+    --fc-pb-m: {{ section.settings.section_padding_bottom_mobile }}px;
+    --fc-pl-m: {{ section.settings.section_padding_left_mobile }}px;
+
+    --fc-title-c: {{ section.settings.title_color }};
+    --fc-title-s: {{ section.settings.title_size_desktop }}px;
+    --fc-title-s-m: {{ section.settings.title_size_mobile }}px;
+    --fc-title-w: {{ section.settings.title_weight }};
+    --fc-title-lh: {{ section.settings.title_line_height }};
+    --fc-title-ls: {{ section.settings.title_letter_spacing }}px;
+
+    --fc-author-c: {{ section.settings.author_color }};
+    --fc-author-s: {{ section.settings.author_size_desktop }}px;
+    --fc-author-s-m: {{ section.settings.author_size_mobile }}px;
+    --fc-author-w: {{ section.settings.author_weight }};
+    --fc-author-lh: {{ section.settings.author_line_height }};
+    --fc-author-ls: {{ section.settings.author_letter_spacing }}px;
+
+    --fc-question-c: {{ section.settings.question_color }};
+    --fc-question-s: {{ section.settings.question_size_desktop }}px;
+    --fc-question-s-m: {{ section.settings.question_size_mobile }}px;
+    --fc-question-w: {{ section.settings.question_weight }};
+    --fc-question-lh: {{ section.settings.question_line_height }};
+    --fc-question-ls: {{ section.settings.question_letter_spacing }}px;
+
+    --fc-answer-c: {{ section.settings.answer_color }};
+    --fc-answer-s: {{ section.settings.answer_size_desktop }}px;
+    --fc-answer-s-m: {{ section.settings.answer_size_mobile }}px;
+    --fc-answer-w: {{ section.settings.answer_weight }};
+    --fc-answer-lh: {{ section.settings.answer_line_height }};
+    --fc-answer-ls: {{ section.settings.answer_letter_spacing }}px;
+
+    --fc-stack-gap: {{ section.settings.stack_gap }}px;
+  "
+>
+  <div class="fc__wrap {% unless section.settings.full_width %}fc__wrap--contained{% endunless %}">
+    <div class="fc__inner">
+      {%- comment -%} SINGLE AVATAR IMAGE {%- endcomment -%}
+      {% if section.settings.avatar != blank %}
+        <div class="fc__avatar-wrap">
+          {{ section.settings.avatar
+            | image_url: width: 200
+            | image_tag:
+              loading: 'lazy',
+              class: 'fc__avatar-img',
+              alt: section.settings.avatar.alt | escape
+          }}
+        </div>
+      {% endif %}
+
+      {%- comment -%} TITLE + AUTHOR {%- endcomment -%}
+      {% if section.settings.title != blank %}
+        <h2 class="fc__title">{{ section.settings.title }}</h2>
+      {% endif %}
+
+      {% if section.settings.author != blank %}
+        <div class="fc__author">{{ section.settings.author }}</div>
+      {% endif %}
+
+      {%- comment -%} Q&A STACK {%- endcomment -%}
+      <div class="fc__qa">
+        {% for block in section.blocks %}
+          <div class="fc__qa-item" {{ block.shopify_attributes }}>
+            {% if block.settings.question != blank %}
+              <div class="fc__question">{{ block.settings.question }}</div>
+            {% endif %}
+            {% if block.settings.answer != blank %}
+              <div class="fc__answer">{{ block.settings.answer }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fc{
+    background: var(--fc-bg);
+    padding: var(--fc-pt) var(--fc-pr) var(--fc-pb) var(--fc-pl);
+  }
+  .fc__wrap--contained{
+    max-width: var(--fc-max);
+    margin: 0 auto;
+  }
+  .fc__inner{
+    text-align: center;
+    margin: 0 auto;
+    max-width: 720px;
+  }
+
+  .fc__avatar-wrap{
+    width: 140px;
+    margin: 0 auto 26px;
+  }
+  .fc__avatar-img{
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .fc__title{
+    margin: 0 0 16px;
+    color: var(--fc-title-c);
+    font-size: var(--fc-title-s);
+    font-weight: var(--fc-title-w);
+    line-height: var(--fc-title-lh);
+    letter-spacing: var(--fc-title-ls);
+    font-family: {{ section.settings.font_title | json }}, sans-serif;
+  }
+
+  .fc__author{
+    margin-bottom: 26px;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    font-size: var(--fc-author-s);
+    font-weight: var(--fc-author-w);
+    line-height: var(--fc-author-lh);
+    color: var(--fc-author-c);
+    font-family: {{ section.settings.font_author | json }}, sans-serif;
+  }
+
+  .fc__qa{
+    display: grid;
+    gap: var(--fc-stack-gap);
+  }
+  .fc__qa-item{
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .fc__question{
+    margin-bottom: 8px;
+    color: var(--fc-question-c);
+    font-size: var(--fc-question-s);
+    font-weight: var(--fc-question-w);
+    line-height: var(--fc-question-lh);
+    letter-spacing: var(--fc-question-ls);
+    font-family: 'Playfair Display', sans-serif;
+  }
+
+  .fc__answer{
+    color: var(--fc-answer-c);
+    font-size: var(--fc-answer-s);
+    font-weight: var(--fc-answer-w);
+    line-height: var(--fc-answer-lh);
+    letter-spacing: var(--fc-answer-ls);
+    font-family: {{ section.settings.font_text | json }}, sans-serif;
+  }
+
+  .fc__answer p{ margin: 0; }
+  .fc__answer p + p{ margin-top: .65em; }
+
+  @media (max-width: 749px){
+    .fc{
+      padding: var(--fc-pt-m) var(--fc-pr-m) var(--fc-pb-m) var(--fc-pl-m);
+    }
+    .fc__title{ font-size: var(--fc-title-s-m); }
+    .fc__author{ font-size: var(--fc-author-s-m); }
+    .fc__question{ font-size: var(--fc-question-s-m); }
+    .fc__answer{ font-size: var(--fc-answer-s-m); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Conversation with Farah",
+  "settings": [
+    {
+        "type":"text",
+        "id": "section__class",
+        "label": "Section Class"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width section",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section container"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background",
+      "default": "#f5f1e9"
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 20,
+      "label": "Section max width (px)",
+      "default": 1040
+    },
+
+    {
+      "type": "header",
+      "content": "Section padding (desktop)"
+    },
+    { "type": "range", "id": "section_padding_top_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding top (px)", "default": 60 },
+    { "type": "range", "id": "section_padding_right_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding right (px)", "default": 20 },
+    { "type": "range", "id": "section_padding_bottom_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding bottom (px)", "default": 60 },
+    { "type": "range", "id": "section_padding_left_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding left (px)", "default": 20 },
+
+    {
+      "type": "header",
+      "content": "Section padding (mobile)"
+    },
+    { "type": "range", "id": "section_padding_top_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding top (px)", "default": 40 },
+    { "type": "range", "id": "section_padding_right_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding right (px)", "default": 16 },
+    { "type": "range", "id": "section_padding_bottom_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding bottom (px)", "default": 40 },
+    { "type": "range", "id": "section_padding_left_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding left (px)", "default": 16 },
+
+    {
+      "type": "header",
+      "content": "Top content"
+    },
+    { "type": "image_picker", "id": "avatar", "label": "Avatar image (combined lockup)" },
+    { "type": "text", "id": "title", "label": "Title", "default": "A conversation with Farah" },
+    { "type": "text", "id": "author", "label": "Author label", "default": "Farah Merhi" },
+
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    { "type": "color", "id": "title_color", "label": "Title color", "default": "#111111" },
+    { "type": "range", "id": "title_size_desktop", "min": 16, "max": 52, "step": 1, "label": "Title size desktop (px)", "default": 30 },
+    { "type": "range", "id": "title_size_mobile", "min": 16, "max": 40, "step": 1, "label": "Title size mobile (px)", "default": 24 },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    { "type": "range", "id": "title_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Title line height", "default": 1.2 },
+    { "type": "range", "id": "title_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Title letter spacing (px)", "default": 0 },
+
+    { "type": "color", "id": "author_color", "label": "Author color", "default": "#777777" },
+    { "type": "range", "id": "author_size_desktop", "min": 10, "max": 20, "step": 1, "label": "Author size desktop (px)", "default": 11 },
+    { "type": "range", "id": "author_size_mobile", "min": 10, "max": 18, "step": 1, "label": "Author size mobile (px)", "default": 11 },
+    {
+      "type": "select",
+      "id": "author_weight",
+      "label": "Author weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "500"
+    },
+    { "type": "range", "id": "author_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Author line height", "default": 1.4 },
+    { "type": "range", "id": "author_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Author letter spacing (px)", "default": 0.2 },
+
+    { "type": "color", "id": "question_color", "label": "Question color", "default": "#111111" },
+    { "type": "range", "id": "question_size_desktop", "min": 12, "max": 24, "step": 1, "label": "Question size desktop (px)", "default": 14 },
+    { "type": "range", "id": "question_size_mobile", "min": 12, "max": 22, "step": 1, "label": "Question size mobile (px)", "default": 14 },
+    {
+      "type": "select",
+      "id": "question_weight",
+      "label": "Question weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "question_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Question line height", "default": 1.5 },
+    { "type": "range", "id": "question_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Question letter spacing (px)", "default": 0 },
+
+    { "type": "color", "id": "answer_color", "label": "Answer color", "default": "#111111" },
+    { "type": "range", "id": "answer_size_desktop", "min": 12, "max": 22, "step": 1, "label": "Answer size desktop (px)", "default": 14 },
+    { "type": "range", "id": "answer_size_mobile", "min": 12, "max": 22, "step": 1, "label": "Answer size mobile (px)", "default": 13 },
+    {
+      "type": "select",
+      "id": "answer_weight",
+      "label": "Answer weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "answer_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Answer line height", "default": 1.7 },
+    { "type": "range", "id": "answer_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Answer letter spacing (px)", "default": 0 },
+
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    { "type": "range", "id": "stack_gap", "min": 0, "max": 80, "step": 2, "label": "Spacing between Q&A (px)", "default": 32 },
+
+    {
+      "type": "header",
+      "content": "Font families"
+    },
+    {
+      "type": "select",
+      "id": "font_title",
+      "label": "Font family: Title",
+      "options": [
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Playfair Display"
+    },
+    {
+      "type": "select",
+      "id": "font_text",
+      "label": "Font family: Text",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font_author",
+      "label": "Font family: Author",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Q&A item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "What was the goal for this space?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>I wanted to create a sanctuary that felt both luxurious and lived-in.</p>" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Conversation with Farah",
+      "blocks": [
+        { "type": "qa" },
+        { "type": "qa" }
+      ]
+    }
+  ]
+}
+{% endschema %}

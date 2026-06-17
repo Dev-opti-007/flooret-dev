@@ -1,0 +1,208 @@
+<div
+  id="announcement-bar"
+  class="announcement-bar"
+  style="background-color: {{ section.settings.background_color }}; color: {{ section.settings.text_color }}; display: none;"
+>
+  {% if section.settings.button_link != blank %}
+    <a href="{{ section.settings.button_link }}" class="announcement-bar__inner">
+  {% else %}
+    <div class="announcement-bar__inner">
+  {% endif %}
+  <div class="announcement-bar__header">
+    <p class="announcement-bar__text">
+      {{ section.settings.text }}
+    </p>
+    {% if section.settings.subheading != blank %}
+      <div class="announcement-bar__subheading">{{ section.settings.subheading }}</div>
+    {% endif %}
+  </div>
+  {% if section.settings.countdown != blank %}
+    <span
+      style="color: {{ section.settings.countdown_color }}"
+      data-date="{{ section.settings.countdown }}"
+      id="countdown"
+      class="announcement-bar__countdown"
+    ></span>
+  {% endif %}
+  {% if section.settings.button_label != blank %}
+    <div class="announcement-bar__button btn btn--white">
+      {{- section.settings.button_label -}}
+    </div>
+  {% endif %}
+  {% if section.settings.button_link != blank %}
+    </a>
+  {% else %}
+    </div>
+  {% endif %}
+  {% if section.settings.show_close_icon %}
+    <div class="close-icon" id="close-icon">
+      {% render 'icon-close' %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const closeIcon = document.getElementById('close-icon');
+    const announcementBar = document.getElementById('announcement-bar');
+
+    const closedTimestamp = localStorage.getItem('announcementClosed');
+    const sevenDaysInMilliseconds = {{ section.settings.days_to_display }} * 24 * 60 * 60 * 1000;
+
+    function getPSTDate(date) {
+      const utcDate = date.getTime() + (date.getTimezoneOffset() * 60000);
+      const pstOffset = 7 * 60 * 60000;
+      return new Date(utcDate - pstOffset);
+    }
+
+    const currentTimePST = getPSTDate(new Date()).getTime();
+
+    const showUntil = "{{ section.settings.show_until }}";
+    const showUntilHour = "{{ section.settings.show_until_hour }}";
+    let showUntilTimestamp = null;
+    if (showUntil) {
+      const showUntilDateTime = showUntil + 'T' + (showUntilHour || '00:00') + ':00';
+      showUntilTimestamp = new Date(showUntilDateTime).getTime();
+    }
+
+    function shouldShowBanner() {
+      return (!closedTimestamp || currentTimePST - closedTimestamp >= sevenDaysInMilliseconds) &&
+             (!showUntilTimestamp || currentTimePST < showUntilTimestamp);
+    }
+
+    if (shouldShowBanner()) {
+      announcementBar.style.display = 'flex';
+    }
+
+    if (closeIcon && announcementBar) {
+      closeIcon.addEventListener('click', function () {
+        announcementBar.style.display = 'none';
+        localStorage.setItem('announcementClosed', currentTimePST);
+      });
+    }
+
+    const countdown = document.getElementById('countdown');
+    if (countdown) {
+      const countdownDate = "{{ section.settings.countdown }}";
+      const countdownHour = "{{ section.settings.countdown_hour }}";
+      const futureDateTime = countdownDate + 'T' + (countdownHour || '00:00') + ':00';
+      const futureDate = new Date(futureDateTime);
+
+      function updateCountdown() {
+        const currentDatePST = getPSTDate(new Date());
+        const currentTimePST = currentDatePST.getTime();
+
+        const diffTime = Math.max(0, futureDate - currentDatePST);
+
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+        const diffSeconds = Math.floor((diffTime % (1000 * 60)) / 1000);
+
+        const countdownText = `${diffDays}d ${diffHours}h ${diffMinutes}m ${diffSeconds}s left!`;
+        countdown.textContent = countdownText;
+
+        // Only hide the banner if we shouldn't show it (based on show_until date)
+        if (!shouldShowBanner()) {
+          announcementBar.style.display = 'none';
+          clearInterval(countdownInterval);
+        }
+      }
+
+      updateCountdown();
+      const countdownInterval = setInterval(updateCountdown, 1000);
+    }
+  });
+</script>
+
+{% style %}
+  .announcement-bar {
+    padding: 8px 30px;
+    display: flex;
+    justify-content: center;
+    margin: -8px -16px 12px;
+    position: relative;
+    align-items: center;
+  }
+
+  @media (max-width: 500px) {
+    .announcement-bar__inner {
+      padding-top: 10px !important;
+    }
+  }
+
+  .sticky.sticky--scrolled .announcement-bar {
+    margin: -8px -16px 12px;
+  }
+  @media screen and (min-width: 960px) {
+    .template-index .announcement-bar {
+        margin: -32px -48px 12px;
+    }
+    .announcement-bar {
+        margin: -16px -48px 12px;
+        padding: 8px 20px;
+    }
+    .sticky.sticky--scrolled .announcement-bar {
+        margin: -8px -48px 12px;
+    }
+  }
+  .announcement-bar__text,
+  .announcement-bar .announcement-bar__button {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .announcement-bar .announcement-bar__button {
+    margin: 0;
+  }
+  .announcement-bar .close-icon svg path {
+    fill: {{ section.settings.text_color }};
+  }
+  .announcement-bar .close-icon {
+    cursor: pointer;
+    position: absolute;
+    right: 8px;
+    display: flex;
+  }
+  @media screen and (min-width: 960px) {
+    .announcement-bar .close-icon {
+        right: 40px;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    .announcement-bar .close-icon {
+        right: 20px;
+    }
+  }
+  .announcement-bar__inner {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    flex-wrap: wrap;
+  }
+  @media screen and (min-width: 960px) {
+    .announcement-bar__inner {
+      gap: 32px;
+    }
+  }
+  .announcement-bar__header {
+    text-align: center;
+  }
+  .announcement-bar__header p {
+    margin: 0;
+    gap: 4px;
+    flex-wrap: wrap;
+    max-width: 280px;
+  }
+  @media screen and (min-width: 768px) {
+    .announcement-bar__header p {
+        max-width: 100%;
+    }
+  }
+  .announcement-bar__subheading {
+    font-size: 10px;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+{% endstyle %}

@@ -1,0 +1,119 @@
+{%- liquid
+  assign module = section.settings
+  assign gallery = shop.metaobjects.gallery
+
+  assign hero_bg_color = module.hero_bg_color
+  assign hero_text_color = module.hero_text_color
+
+  assign gallery_products = gallery.values | map: 'product' | uniq
+  assign filter_character = ''
+  assign filter_color = ''
+  assign filter_space = ''
+
+  for gal_prod in gallery_products
+    assign meta = gal_prod.value.metafields.flooret
+    assign character = meta.product_character
+    assign color = meta.product_color
+    assign space = meta.product_space
+  endfor
+-%}
+
+{%- capture section_styles -%}style="
+  {%- if hero_bg_color != blank and hero_bg_color != 'rgba(0,0,0,0)' -%}background-color: {{hero_bg_color}};{%- endif -%}
+  {%- if hero_text_color != blank and hero_text_color != 'rgba(0,0,0,0)' -%}color: {{hero_text_color}};{%- endif -%}
+  "
+{%- endcapture -%}
+
+<section class="gallery-hero" {{ section_styles }}>
+  <div class="container">
+    <div class="gallery-hero__content">
+      {%- render 'breadcrumbs' -%}
+      <div class="section__header">
+        <h1>{{ module.hero_title }}</h1>
+      </div>
+      {%- if module.hero_content -%}
+        <div class="section__content">
+          {{ module.hero_content }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<div class="col-filters gallery-filter">
+  <div class="container">
+    <button class="reset show-filters mob-only" type="button">
+      {% render 'svg-filter' %}
+      {{ 'global.show_all_filters' | t }}
+    </button>
+
+    <form class="col-facets">
+      {%- if filter_character != blank -%}
+      {%- endif -%}
+    </form>
+  </div>
+</div>
+<section class="gallery">
+  <div class="container">
+    <div class="gallery__grid">
+      {%- for item in gallery.values -%}
+        {%- liquid
+          assign product = item.product.value
+          assign title = item.title
+          assign product_subtitle = item.product_subtitle
+          assign feat_img = item.featured_image
+
+          assign product_img = product.featured_image
+
+          assign meta = product.metafields.flooret
+          assign character = meta.product_character
+          assign color = meta.product_color
+          assign space = meta.product_space
+        -%}
+        <div class="gallery-card">
+          {%- if product != blank -%}
+            <span class="gallery-card__badge">{{ product.title }}</span>
+          {%- endif -%}
+          <div class="positioner">
+            {%- render 'lazy-image', image: feat_img, width: 1200 -%}
+          </div>
+          {%- unless product == blank -%}
+            <div class="gallery-card__hover-image">
+              {%- render 'lazy-image', image: product_img, width: 1200 -%}
+            </div>
+          {%- endunless -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Gallery Page",
+  "settings": [
+    {
+      "type": "color",
+      "id": "hero_bg_color",
+      "label": "Hero Background Color",
+      "default": "#F4F3F1"
+    },
+    {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Hero Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title"
+    },
+    {
+      "type": "richtext",
+      "id": "hero_content",
+      "label": "Hero Content"
+    }
+  ]
+}
+{% endschema %}

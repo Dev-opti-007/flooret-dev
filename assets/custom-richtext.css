@@ -1,0 +1,67 @@
+.installation-cta {
+  padding: 100px 20px;
+  text-align: center;
+}
+.installation-cta__wrapper {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.installation-cta__heading {
+  font-family: "Playfair Display", serif;
+  font-size: 36px;
+  font-weight: 700;
+}
+.installation-cta__subheading {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
+  max-width: 705px;
+  width: 100%;
+  margin: 0 auto;
+}
+.installation-cta__link a {
+  color: #9ca3af;
+}
+.rich-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  text-decoration: none;
+  border-radius: 40px;
+  transition: all 0.3s ease;
+  font-weight: 700;
+  font-size: 16px;
+}
+.rich-primary-button {
+  background-color: #236a99;
+  color: #fff;
+}
+
+.rich-primary-button:hover {
+  background-color: #000;
+}
+
+.rich-secondary-button {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.rich-secondary-button:hover {
+  background-color: #236a99;
+  color: #fff;
+  border: 1px solid #fff;
+}
+.installation-cta__buttons {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+@media screen and (max-width: 749px) {
+  .installation-cta {
+    padding: 50px 0px;
+  }
+}

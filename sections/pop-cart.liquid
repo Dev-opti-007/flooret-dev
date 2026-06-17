@@ -1,0 +1,2362 @@
+{% comment %} {% liquid
+    assign module = section.settings
+    assign samplesMissing = 6.0
+    assign percentStep = 100 | divided_by: samplesMissing
+    for item in cart.items
+        for option in item.variant.options
+            if option contains 'Cut Sample'
+                assign samplesMissing = samplesMissing | minus: item.quantity
+            endif
+        endfor
+    endfor
+    if samplesMissing < 0
+        assign samplesMissing = 0
+    endif
+    assign percentMissing = percentStep | times: samplesMissing
+    assign percent = 100 | minus: percentMissing
+%}
+
+<section class="pop-cart">
+    <form class="overflow" id="fr24-pop-cart-form" action="/checkout" method="post" novalidate>
+
+        <div class="pop-cart__top">
+            <div class="pop-cart__intro">
+                <button class="pop-cart__close js-cart-drawer-close reset" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M3.825 9L9.425 14.6L8 16L-1.09896e-07 8L8 4.76837e-07L9.425 1.4L3.825 7H16V9H3.825Z" fill="#0F172A"/>
+                    </svg>
+                </button>
+                <span class="h5">My Cart (<span class="cart-item__count js-cart-count">{{ cart.item_count }}</span>)</span>
+                <button class="pop-cart__close js-cart-drawer-close reset" type="button">{% render 'svg-close' %}</button>
+            </div>
+
+            {% assign hideSample = false %}
+            {% for item in cart.items %}
+                {% if hideSample == false %}
+                    {% for option in item.variant.options %}
+                        {% if option == 'Box' %}
+                            {% assign hideSample = true %}
+                            {% break %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+            {% if hideSample == false %}
+                {% if samplesMissing != 6 and module.show_sample_offer %}
+                    <div class="pop-cart__samples">
+                        {% if samplesMissing == 0 %}
+                            <strong>You have earned 1 free cut sample! <br/> (Applied at Checkout)</strong>
+                        {% else %}
+                            <strong>You are {{ samplesMissing | ceil }} cut sample{% unless samplesMissing <= 1 %}s{% endunless %} away from getting 1 free.</strong>
+                        {% endif %}
+                        <div class="pop-cart__samples__bar">
+                            <span class="percent" style="width:{{ percent }}%"></span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            {% assign box_total = 0 %}
+            {% assign box_threshold = 100000 %}
+
+            {% for item in cart.items %}
+                {% assign is_box_item = false %}
+                {% for option in item.variant.options %}
+                    {% if option == 'Box' %}
+                        {% assign is_box_item = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if is_box_item %}
+                    {% assign box_total = box_total | plus: item.final_line_price %}
+                {% endif %}
+            {% endfor %}
+
+            {% assign box_remaining = box_threshold | minus: box_total %}
+
+            {% if box_total >= box_threshold %}
+                {% assign box_progress = 100 %}
+            {% else %}
+                {% assign box_progress = box_total | times: 100.0 | divided_by: box_threshold | round %}
+            {% endif %}
+
+            {% if box_total > 0 %}
+                <div class="trim-discount-progress {% if box_total >= box_threshold %}is-unlocked{% else %}is-locked{% endif %}">
+                    {% if box_total >= box_threshold %}
+                        <h3>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
+                                    <path d="M0 20.5L5 6.5L14 15.5L0 20.5ZM3.3 17.2L10.35 14.7L5.8 10.15L3.3 17.2ZM12.55 11.05L11.5 10L17.1 4.4C17.6333 3.86667 18.275 3.6 19.025 3.6C19.775 3.6 20.4167 3.86667 20.95 4.4L21.55 5L20.5 6.05L19.9 5.45C19.6667 5.21667 19.375 5.1 19.025 5.1C18.675 5.1 18.3833 5.21667 18.15 5.45L12.55 11.05ZM8.55 7.05L7.5 6L8.1 5.4C8.33333 5.16667 8.45 4.88333 8.45 4.55C8.45 4.21667 8.33333 3.93333 8.1 3.7L7.45 3.05L8.5 2L9.15 2.65C9.68333 3.18333 9.95 3.81667 9.95 4.55C9.95 5.28333 9.68333 5.91667 9.15 6.45L8.55 7.05ZM10.55 9.05L9.5 8L13.1 4.4C13.3333 4.16667 13.45 3.875 13.45 3.525C13.45 3.175 13.3333 2.88333 13.1 2.65L11.5 1.05L12.55 0L14.15 1.6C14.6833 2.13333 14.95 2.775 14.95 3.525C14.95 4.275 14.6833 4.91667 14.15 5.45L10.55 9.05ZM14.55 13.05L13.5 12L15.1 10.4C15.6333 9.86667 16.275 9.6 17.025 9.6C17.775 9.6 18.4167 9.86667 18.95 10.4L20.55 12L19.5 13.05L17.9 11.45C17.6667 11.2167 17.375 11.1 17.025 11.1C16.675 11.1 16.3833 11.2167 16.15 11.45L14.55 13.05Z" fill="#10B981"/>
+                                </svg>
+                                CONGRATS!
+                            </span>
+                            <span class="unlockd-text">$200 OFF unlocked</span>
+                        </h3>
+                        <p>You've unlocked $200 OFF trim with this order. Select your trim below to apply the discount. <a id="scrollToBtn" href="#tripUpsell">Add trims</a></p>
+                    {% else %}
+                        <h3>You're {{ box_remaining | money }} away from $200 OFF your matching trim</h3>
+                        <p>Add more box items to your cart to unlock discount.</p>
+                    {% endif %}
+
+                    <div class="trim-discount-progress__meta">
+                        <span>PROGRESS TO DISCOUNT</span>
+                        <span>{{ box_total | money }} / {{ box_threshold | money }}</span>
+                    </div>
+
+                    <div class="trim-discount-progress__bar">
+                        <span class="trim-discount-progress__fill" style="width: {{ box_progress }}%;"></span>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="pop-cart__items">
+                {% render 'cart-items', drawer: true %}
+            </div>
+        </div>
+
+        {% assign box_total = 0 %}
+        {% assign trim_total = 0 %}
+        {% assign box_threshold = 100000 %}
+        {% assign trim_discount = 20000 %}
+
+        {% for item in cart.items %}
+            {% assign is_box_item = false %}
+            {% for option in item.variant.options %}
+                {% if option == 'Box' %}
+                    {% assign is_box_item = true %}
+                {% endif %}
+            {% endfor %}
+            {% if is_box_item %}
+                {% assign box_total = box_total | plus: item.final_line_price %}
+            {% endif %}
+            {% assign product_type_downcase = item.product.type | downcase %}
+            {% if product_type_downcase == 'trim' or product_type_downcase == 'accessories'  %}
+                {% assign trim_total = trim_total | plus: item.final_line_price %}
+            {% endif %}
+        {% endfor %}
+
+        {% assign applied_trim_discount = 0 %}
+        {% if box_total >= box_threshold and trim_total > 0 %}
+            {% if trim_total >= trim_discount %}
+                {% assign applied_trim_discount = trim_discount %}
+            {% else %}
+                {% assign applied_trim_discount = trim_total %}
+            {% endif %}
+        {% endif %}
+
+        {% assign original_subtotal = 0 %}
+        {% for item in cart.items %}
+            {% assign original_subtotal = original_subtotal | plus: item.original_line_price %}
+        {% endfor %}
+
+        {% assign revised_total = original_subtotal | minus: applied_trim_discount %}
+
+        <div class="pop-cart__body" id="tripUpsell">
+            {% render 'cart-trim-upsell' %}
+        </div>
+        {% assign unique_product_count = cart.items | map: 'product_id' | uniq | size %}
+        <div class="pop-cart__footer js-pop-cart-actions {% if unique_product_count  >= 2 %}fix{% else %}{% endif %}">
+            <div class="pop-cart__actions">
+                <table>
+                    {% if cart.items.size != 0 %}
+                        <tr>
+                            <td>{{ 'cart.subtotal' | t }}</td>
+                            <td class="js-subtotal js-cart-subtotal">{{ original_subtotal | money_without_trailing_zeros }}</td>
+                        </tr>
+                        {% if trim_total > 0 and applied_trim_discount > 0 %}
+                            <tr class="trim-subtotal-row">
+                                <td>Trims Subtotal</td>
+                                <td>{{ trim_total | money_without_trailing_zeros }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if applied_trim_discount > 0 %}
+                            <tr class="trim-discount-row">
+                                <td>Trim Promo Discount</td>
+                                <td>-{{ applied_trim_discount | money_without_trailing_zeros }}</td>
+                            </tr>
+                        {% endif %}
+                        <tr class="row text-only">
+                            <td>Shipping & Tax</td>
+                            <td>Calculated at checkout</td>
+                        </tr>
+                        <tr class="trim-revised-total-row">
+                            <td>Total</td>
+                            <td>{{ revised_total | money_without_trailing_zeros }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td class="center">Your cart is empty</td>
+                        </tr>
+                    {% endif %}
+                </table>
+
+                {% if cart.items.size != 0 %}
+                    <button type="button" id="fr24-checkout-btn" class="btn btn--black js-fr24-checkout-btn">
+                        {{ 'cart.checkout' | t }}
+                    </button>
+                {% else %}
+                    <a href="/collections/all" class="btn btn--black">Shop All Products</a>
+                {% endif %}
+            </div>
+        </div>
+
+        {{- '<!-- Hidden original-order updates for correct Shopify checkout submission -->' -}}
+        <div style="display:none;" aria-hidden="true">
+            {% for item in cart.items %}
+                <input
+                    type="number"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    data-key="{{ item.key }}"
+                    data-variant-id="{{ item.variant.id }}"
+                    class="js-original-update">
+            {% endfor %}
+            {{- '<!-- Hidden submit — gives Minmaxify its real submit hook -->' -}}
+            <button type="submit" class="js-hidden-submit" tabindex="-1" aria-hidden="true">Checkout</button>
+        </div>
+
+    </form>
+</section>
+
+<script src="{{ 'trim-upsell.js' | asset_url }}" defer></script>
+
+<script>
+(function () {
+  document.addEventListener("click", function (e) {
+    const btn = e.target.closest(".js-fr24-checkout-btn");
+    if (!btn || btn.disabled) return;
+
+    e.preventDefault();
+
+    // Step 1: Sync visible qty inputs → hidden original-order inputs
+    const visibleInputs = document.querySelectorAll(".js-qty__input");
+    const hiddenInputs = document.querySelectorAll(".js-original-update");
+
+    // Map by variant id so grouping order doesn't matter
+    const qtyMap = {};
+    visibleInputs.forEach((input) => {
+      const card = input.closest(".js-cart-card");
+      if (card) {
+        const variantId = card.dataset.id;
+        if (variantId) qtyMap[variantId] = input.value;
+      }
+    });
+
+    hiddenInputs.forEach((input) => {
+      const variantId = input.dataset.variantId;
+      if (variantId && qtyMap[variantId] !== undefined) {
+        input.value = qtyMap[variantId];
+      }
+    });
+
+    // Step 2: Validate cart not empty
+    fetch("/cart.js", {
+      method: "GET",
+      headers: { Accept: "application/json" }
+    })
+      .then((res) => res.json())
+      .then((cart) => {
+        if (!cart || cart.item_count === 0) return;
+
+        // Step 3: Click hidden submit → triggers Minmaxify validation
+        // Minmaxify will block here if quantities fail its rules
+        const hiddenSubmit = document.querySelector(".js-hidden-submit");
+        if (hiddenSubmit) {
+          sessionStorage.setItem("fr24_came_from_checkout_flow", "true");
+          hiddenSubmit.click();
+        }
+      })
+      .catch(() => {
+        const hiddenSubmit = document.querySelector(".js-hidden-submit");
+        if (hiddenSubmit) {
+          sessionStorage.setItem("fr24_came_from_checkout_flow", "true");
+          hiddenSubmit.click();
+        }
+      });
+  });
+    
+})();
+</script>
+
+<style>
+.fr_24_upsell_minicart {
+    margin: 0px 24px 0;
+    padding: 20px 0 0;
+    border-top: 1px solid #F1F5F9;
+}
+
+.fr_24_upsell_minicart h2 {
+ font-size: 18px;
+    line-height: 1.3;
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    text-wrap: auto;
+    text-transform: capitalize;
+    padding: 4px 12px 20px;
+}
+
+.fr_24_upsell_products_container {
+  display: grid;
+  gap: 16px;
+}
+
+.fr_24_upsell_product {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.fr_24_upsell_product img {
+  width: 84px;
+  height: auto;
+  display: block;
+}
+
+.fr_24_upsell_product_name {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.fr_24_upsell_product_info_wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+      flex-direction: column;
+}
+
+.fr_24_upsell_product_dropdown {
+  flex: 1;
+}
+
+.fr_24_upsell_product_dropdown_select {
+  width: 100%;
+  min-height: 40px;
+}
+
+.fr_24_upsell_addtocartbtn {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 0;
+  background: #111827;
+  color: #fff;
+  cursor: pointer;
+}
+
+     #shopify-section-pop-cart .pop-cart {
+        z-index: 9999999
+    }
+
+     #shopify-section-pop-cart .pop-cart .pop-cart__footer .pop-cart__actions button {
+            max-width: 100%;
+        font-size: 15px;
+        margin-top: 0px;
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart {
+        padding: 12px;
+		margin:0px;
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart h2 {
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+        text-wrap: auto;
+        text-transform: capitalize
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_products_container {
+        display: flex;
+        overflow-x: auto;
+        gap: 7px;
+        padding: 0px 0px 0px 0px;
+        cursor: grab;
+        user-select: none; /* prevents text selection while dragging */
+    }
+
+    #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_products_container.is-dragging {
+        cursor: grabbing;
+        scroll-behavior: auto; /* disable smooth scroll while dragging */
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_products_container::-webkit-scrollbar {
+        display: none
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_add {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+		width:100%;
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_addtocartbtn {
+        font-size: 11px;
+        color: #fff;
+        padding: 8px 15px;
+        width: 100%;
+        border-radius: 20px;
+        border: none;
+        background: #2576a2;
+        font-weight: 500;
+    }
+       span.fr_24_upsell_product_price_wrap {
+        display: flex;
+        gap: 6px;
+        margin-top: 3px;
+        justify-content: center;
+    }
+
+    .fr_24_upsell_form {
+        width: 100%;
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_addtocartbtn .fr_24_upsell_product_price .compare-at-price {
+        -webkit-text-decoration: line-through;
+        text-decoration: line-through
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_addtocartbtn .fr_24_upsell_product_price .savings {
+        vertical-align: baseline !important;
+        vertical-align: initial !important
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_name {
+        font-weight: 700;
+        font-size: 12px;
+        margin: 7px 0px
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown {
+        position: relative;
+        font-size: 8px;
+        font-weight: 400;
+		width:100%;
+    }
+
+	#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product > a {
+		width: 100%;
+	}
+
+	#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product > a > img {
+		width: 100%;
+	}
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+        border-radius: 22px;
+        padding: 7px 18px 7px 5px;
+        text-wrap: wrap;
+        color: #000
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown::after {
+        content: url("data:image/svg+xml,%3Csvg%20width%3D%226%22%20height%3D%224%22%20viewBox%3D%220%200%204%203%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M3.53%20-2.92844e-05L2%201.52664L0.47%20-2.90169e-05L-1.74846e-07%200.469971L2%202.46997L4%200.469971L3.53%20-2.92844e-05Z%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E");
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        {% comment %} transform: translateY(-50%); {% endcomment %}
+        pointer-events: none
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product {
+        min-width: 38%;
+        max-width: 38%;
+        background-color: #f4f3f1;
+        border-radius: 5px;
+        padding: 10px 7px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product img {
+        max-width: 100%;
+        aspect-ratio: 1/1
+    }
+
+     #gladlyChat_container.preload {
+        z-index: 999999 !important
+    }
+
+@media (min-width:768px){
+	#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+	border-radius: 22px;
+    padding: 7px 18px 7px 10px;
+    text-wrap: wrap;
+    color: #000;
+    font-size: 14px;
+	}
+}
+@media (max-width:768px){
+	#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+		font-size: 12px;
+	}
+}
+@media (max-width: 768px) {
+  span.fr_24_upsell_product_price_wrap {
+    flex-wrap: wrap;
+  }
+
+  span.fr_24_upsell_product_price_wrap > .fr_24_upsell_product_discount {
+    flex: 0 0 100%;
+    width: 100%;
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 400px) {
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+    	font-size: 12px;
+        padding: 7px 18px 7px 10px;
+    }
+}
+
+@media only screen and (max-width: 360px){
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+        font-size: 10px
+    }
+
+     #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product {
+        min-width: 42%;
+        max-width: 42%
+    }
+}
+</style>
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+	{
+		"type": "checkbox",
+		"id": "show_sample_offer",
+		"label": "Show Sample Offer?"
+	}
+  ]
+}
+{% endschema %} {% endcomment %}
+
+
+{% comment %} {% liquid
+    assign module = section.settings
+    assign enable_trim_promo = module.enable_trim_promo
+    assign enable_castlery_giftcard_promo = module.enable_castlery_giftcard_promo
+
+    assign samplesMissing = 6.0
+    assign percentStep = 100 | divided_by: samplesMissing
+    for item in cart.items
+        for option in item.variant.options
+            if option contains 'Cut Sample'
+                assign samplesMissing = samplesMissing | minus: item.quantity
+            endif
+        endfor
+    endfor
+    if samplesMissing < 0
+        assign samplesMissing = 0
+    endif
+    assign percentMissing = percentStep | times: samplesMissing
+    assign percent = 100 | minus: percentMissing
+%}
+
+<section class="pop-cart">
+    <form class="overflow" id="fr24-pop-cart-form" action="/checkout" method="post" novalidate>
+
+        <div class="pop-cart__top">
+            <div class="pop-cart__intro">
+                <button class="pop-cart__close js-cart-drawer-close reset" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M3.825 9L9.425 14.6L8 16L-1.09896e-07 8L8 4.76837e-07L9.425 1.4L3.825 7H16V9H3.825Z" fill="#0F172A"/>
+                    </svg>
+                </button>
+                <span class="h5">My Cart (<span class="cart-item__count js-cart-count">{{ cart.item_count }}</span>)</span>
+                <button class="pop-cart__close js-cart-drawer-close reset" type="button">{% render 'svg-close' %}</button>
+            </div>
+
+            {% assign hideSample = false %}
+            {% for item in cart.items %}
+                {% if hideSample == false %}
+                    {% for option in item.variant.options %}
+                        {% if option == 'Box' %}
+                            {% assign hideSample = true %}
+                            {% break %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+            {% if hideSample == false %}
+                {% if samplesMissing != 6 and module.show_sample_offer %}
+                    <div class="pop-cart__samples">
+                        {% if samplesMissing == 0 %}
+                            <strong>You have earned 1 free cut sample! <br/> (Applied at Checkout)</strong>
+                        {% else %}
+                            <strong>You are {{ samplesMissing | ceil }} cut sample{% unless samplesMissing <= 1 %}s{% endunless %} away from getting 1 free.</strong>
+                        {% endif %}
+                        <div class="pop-cart__samples__bar">
+                            <span class="percent" style="width:{{ percent }}%"></span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            {% assign box_total = 0 %}
+            {% assign box_threshold = 100000 %}
+
+            {% for item in cart.items %}
+                {% assign is_box_item = false %}
+                {% for option in item.variant.options %}
+                    {% if option == 'Box' %}
+                        {% assign is_box_item = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if is_box_item %}
+                    {% assign box_total = box_total | plus: item.final_line_price %}
+                {% endif %}
+            {% endfor %}
+
+            {% assign box_remaining = box_threshold | minus: box_total %}
+
+            {% if box_total >= box_threshold %}
+                {% assign box_progress = 100 %}
+            {% else %}
+                {% assign box_progress = box_total | times: 100.0 | divided_by: box_threshold | round %}
+            {% endif %}
+
+            {% if enable_trim_promo and box_total > 0 %}
+                <div class="trim-discount-progress {% if box_total >= box_threshold %}is-unlocked{% else %}is-locked{% endif %}">
+                    {% if box_total >= box_threshold %}
+                        <h3>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
+                                    <path d="M0 20.5L5 6.5L14 15.5L0 20.5ZM3.3 17.2L10.35 14.7L5.8 10.15L3.3 17.2ZM12.55 11.05L11.5 10L17.1 4.4C17.6333 3.86667 18.275 3.6 19.025 3.6C19.775 3.6 20.4167 3.86667 20.95 4.4L21.55 5L20.5 6.05L19.9 5.45C19.6667 5.21667 19.375 5.1 19.025 5.1C18.675 5.1 18.3833 5.21667 18.15 5.45L12.55 11.05ZM8.55 7.05L7.5 6L8.1 5.4C8.33333 5.16667 8.45 4.88333 8.45 4.55C8.45 4.21667 8.33333 3.93333 8.1 3.7L7.45 3.05L8.5 2L9.15 2.65C9.68333 3.18333 9.95 3.81667 9.95 4.55C9.95 5.28333 9.68333 5.91667 9.15 6.45L8.55 7.05ZM10.55 9.05L9.5 8L13.1 4.4C13.3333 4.16667 13.45 3.875 13.45 3.525C13.45 3.175 13.33333 2.88333 13.1 2.65L11.5 1.05L12.55 0L14.15 1.6C14.68333 2.13333 14.95 2.775 14.95 3.525C14.95 4.275 14.68333 4.91667 14.15 5.45L10.55 9.05ZM14.55 13.05L13.5 12L15.1 10.4C15.6333 9.86667 16.275 9.6 17.025 9.6C17.775 9.6 18.4167 9.86667 18.95 10.4L20.55 12L19.5 13.05L17.9 11.45C17.6667 11.2167 17.375 11.1 17.025 11.1C16.675 11.1 16.3833 11.2167 16.15 11.45L14.55 13.05Z" fill="#10B981"/>
+                                </svg>
+                                CONGRATS!
+                            </span>
+                            <span class="unlockd-text">$200 OFF unlocked</span>
+                        </h3>
+                        <p>You've unlocked $200 OFF trim with this order. Select your trim below to apply the discount. <a id="scrollToBtn" href="#tripUpsell">Add trims</a></p>
+                    {% else %}
+                        <h3>You're {{ box_remaining | money }} away from $200 OFF your matching trim</h3>
+                        <p>Add more box items to your cart to unlock discount.</p>
+                    {% endif %}
+
+                    <div class="trim-discount-progress__meta">
+                        <span>PROGRESS TO DISCOUNT</span>
+                        <span>{{ box_total | money }} / {{ box_threshold | money }}</span>
+                    </div>
+
+                    <div class="trim-discount-progress__bar">
+                        <span class="trim-discount-progress__fill" style="width: {{ box_progress }}%;"></span>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if enable_castlery_giftcard_promo and box_total > 0 %}
+                {% assign castlery_200_threshold = 100000 %}
+                {% assign castlery_500_threshold = 400000 %}
+                {% assign castlery_200_marker = castlery_200_threshold | times: 100.0 | divided_by: castlery_500_threshold %}
+                {% assign castlery_500_marker = 100 %}
+
+                {% if box_total < castlery_200_threshold %}
+                    {% assign castlery_current_target = castlery_200_threshold %}
+                    {% assign castlery_remaining = castlery_current_target | minus: box_total %}
+                    {% assign castlery_progress = box_total | times: 100.0 | divided_by: castlery_500_threshold | round %}
+                    {% assign castlery_state = 'progress-200' %}
+                {% elsif box_total < castlery_500_threshold %}
+                    {% assign castlery_current_target = castlery_500_threshold %}
+                    {% assign castlery_remaining = castlery_current_target | minus: box_total %}
+                    {% assign castlery_progress = box_total | times: 100.0 | divided_by: castlery_500_threshold | round %}
+                    {% assign castlery_state = 'progress-500' %}
+                {% else %}
+                    {% assign castlery_current_target = castlery_500_threshold %}
+                    {% assign castlery_remaining = 0 %}
+                    {% assign castlery_progress = 100 %}
+                    {% assign castlery_state = 'unlocked-500' %}
+                {% endif %}
+
+                {% if castlery_progress > 100 %}
+                    {% assign castlery_progress = 100 %}
+                {% endif %}
+
+                <div class="castlery-gift-progress {% if castlery_state == 'unlocked-500' %}is-unlocked{% else %}is-locked{% endif %}">
+                    {% if castlery_state == 'progress-200' %}
+                        <h3>You’re {{ castlery_remaining | money }} away from your $200 Castlery gift card</h3>
+                        <p>Add more box items to your cart to unlock gift card.</p>
+                    {% elsif castlery_state == 'progress-500' %}
+                        <h3>You’ve unlocked your $200 Castlery gift card. Spend {{ castlery_remaining | money }} more to upgrade to a $500 Castlery gift card</h3>
+                        <p>Add more box items to your cart to unlock gift card.</p>
+                    {% else %}
+                        <h3>
+                            <span class="castlery-gift-progress__eyebrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
+                                    <path d="M0 20.5L5 6.5L14 15.5L0 20.5ZM3.3 17.2L10.35 14.7L5.8 10.15L3.3 17.2ZM12.55 11.05L11.5 10L17.1 4.4C17.6333 3.86667 18.275 3.6 19.025 3.6C19.775 3.6 20.4167 3.86667 20.95 4.4L21.55 5L20.5 6.05L19.9 5.45C19.6667 5.21667 19.375 5.1 19.025 5.1C18.675 5.1 18.3833 5.21667 18.15 5.45L12.55 11.05ZM8.55 7.05L7.5 6L8.1 5.4C8.33333 5.16667 8.45 4.88333 8.45 4.55C8.45 4.21667 8.33333 3.93333 8.1 3.7L7.45 3.05L8.5 2L9.15 2.65C9.68333 3.18333 9.95 3.81667 9.95 4.55C9.95 5.28333 9.68333 5.91667 9.15 6.45L8.55 7.05ZM10.55 9.05L9.5 8L13.1 4.4C13.3333 4.16667 13.45 3.875 13.45 3.525C13.45 3.175 13.33333 2.88333 13.1 2.65L11.5 1.05L12.55 0L14.15 1.6C14.68333 2.13333 14.95 2.775 14.95 3.525C14.95 4.275 14.68333 4.91667 14.15 5.45L10.55 9.05ZM14.55 13.05L13.5 12L15.1 10.4C15.6333 9.86667 16.275 9.6 17.025 9.6C17.775 9.6 18.4167 9.86667 18.95 10.4L20.55 12L19.5 13.05L17.9 11.45C17.6667 11.2167 17.375 11.1 17.025 11.1C16.675 11.1 16.3833 11.2167 16.15 11.45L14.55 13.05Z" fill="#10B981"/>
+                                </svg>
+                                GIFT CARD UNLOCKED
+                            </span>
+                            <span class="castlery-gift-progress__title">$500 Castlery gift card unlocked</span>
+                        </h3>
+                        <p>Gift card is sent via email when your order ships.</p>
+                        <p>They are not stackable and delivered when your order ships.</p>
+                    {% endif %}
+
+                    <div class="castlery-gift-progress__meta">
+                        <span>PROGRESS TO GIFT CARD</span>
+                        <span>{{ box_total | money }} / {{ castlery_500_threshold | money }}</span>
+                    </div>
+
+                    <div class="castlery-gift-progress__bar-wrap">
+                        <div class="castlery-gift-progress__bar  {% if box_total >= castlery_500_threshold %}green-col{% endif %}">
+                            <span class="castlery-gift-progress__fill" style="width: {{ castlery_progress }}%;"></span>
+
+                            <span class="castlery-gift-progress__marker {% if box_total >= castlery_200_threshold %}is-active{% endif %}" style="left: {{ castlery_200_marker }}%;"></span>
+                            <span class="castlery-gift-progress__marker {% if box_total >= castlery_500_threshold %}is-active{% endif %}" style="left: {{ castlery_500_marker }}%;"></span>
+                        </div>
+
+                        <div class="castlery-gift-progress__labels">
+                            <div class="castlery-gift-progress__label castlery-gift-progress__label--500 is-active" style="left: {{ castlery_500_marker }}%;">
+                                    {% comment %} <strong>$4,000</strong> {% endcomment %}
+                                    <span>$500 gift card</span>
+                                </div>
+                                <div class="castlery-gift-progress__label castlery-gift-progress__label--200 is-active" style="left: {{ castlery_200_marker }}%;">
+                                    {% comment %} <strong>$1,000</strong> {% endcomment %}
+                                    <span>$200 gift card</span>
+                                </div>
+                            {% comment %} {% if box_total >= castlery_500_threshold %}
+                                <div class="castlery-gift-progress__label castlery-gift-progress__label--500 is-active" style="left: {{ castlery_500_marker }}%;">
+                                    {% comment %} <strong>$4,000</strong> {% endcomment %}
+                                    <span>$500 gift card</span>
+                                </div>
+                            {% elsif box_total >= castlery_200_threshold %}
+                                <div class="castlery-gift-progress__label castlery-gift-progress__label--200 is-active" style="left: {{ castlery_200_marker }}%;">
+                                    {% comment %} <strong>$1,000</strong> {% endcomment %}
+                                    <span>$200 gift card</span>
+                                </div>
+                            {% else %}
+                                <div class="castlery-gift-progress__label castlery-gift-progress__label--200" style="left: {{ castlery_200_marker }}%;">
+                                    {% comment %} <strong>$1,000</strong> {% endcomment %}
+                                    <span>$200 gift card</span>
+                                </div>
+                            {% endif %} {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="pop-cart__items">
+                {% render 'cart-items', drawer: true %}
+            </div>
+        </div>
+
+        {% assign box_total = 0 %}
+        {% assign trim_total = 0 %}
+        {% assign box_threshold = 100000 %}
+        {% assign trim_discount = 20000 %}
+
+        {% for item in cart.items %}
+            {% assign is_box_item = false %}
+            {% for option in item.variant.options %}
+                {% if option == 'Box' %}
+                    {% assign is_box_item = true %}
+                {% endif %}
+            {% endfor %}
+
+            {% if is_box_item %}
+                {% assign box_total = box_total | plus: item.final_line_price %}
+            {% endif %}
+
+            {% assign product_type_downcase = item.product.type | downcase %}
+            {% if product_type_downcase == 'trim' or product_type_downcase == 'accessories' %}
+                {% assign trim_total = trim_total | plus: item.final_line_price %}
+            {% endif %}
+        {% endfor %}
+
+        {% assign applied_trim_discount = 0 %}
+        {% if enable_trim_promo and box_total >= box_threshold and trim_total > 0 %}
+            {% if trim_total >= trim_discount %}
+                {% assign applied_trim_discount = trim_discount %}
+            {% else %}
+                {% assign applied_trim_discount = trim_total %}
+            {% endif %}
+        {% endif %}
+
+        {% assign original_subtotal = 0 %}
+        {% for item in cart.items %}
+            {% assign original_subtotal = original_subtotal | plus: item.original_line_price %}
+        {% endfor %}
+
+        {% assign revised_total = original_subtotal | minus: applied_trim_discount %}
+
+        {% assign castlery_earned_amount = 0 %}
+        {% if enable_castlery_giftcard_promo %}
+            {% if box_total >= 400000 %}
+                {% assign castlery_earned_amount = 500 %}
+            {% elsif box_total >= 100000 %}
+                {% assign castlery_earned_amount = 200 %}
+            {% endif %}
+        {% endif %}
+
+        {% if enable_castlery_giftcard_promo and castlery_earned_amount > 0 %}
+            <div class="pop-cart__body pop-cart__body--giftcard" id="tripUpsell">
+                <div class="castlery-earned-card">
+                    <div class="castlery-earned-card__top">
+                        {% comment %} <div class="castlery-earned-card__badge">Castlery gift card earned</div> {% endcomment %}
+                        <h4>${{ castlery_earned_amount }} Castlery gift card</h4>
+                        <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/image_83-removebg-preview.png" alt="gift card image">
+                        <p>Gift cards are not stackable and delivered when your order ships.</p>
+                    </div>
+                </div>
+            </div>
+        {% elsif enable_trim_promo %}
+            <div class="pop-cart__body" id="tripUpsell">
+                {% render 'cart-trim-upsell' %}
+            </div>
+        {% endif %}
+
+        {% assign unique_product_count = cart.items | map: 'product_id' | uniq | size %}
+        <div class="pop-cart__footer js-pop-cart-actions {% if unique_product_count >= 2 %}fix{% endif %}">
+            <div class="pop-cart__actions">
+                <table>
+                    {% if cart.items.size != 0 %}
+                        {% if enable_trim_promo %}
+                            <tr>
+                                <td>{{ 'cart.subtotal' | t }}</td>
+                                <td class="js-subtotal js-cart-subtotal">{{ original_subtotal | money_without_trailing_zeros }}</td>
+                            </tr>
+                        {% endif %}
+
+                        {% if enable_trim_promo %}
+                            {% if trim_total > 0 and applied_trim_discount > 0 %}
+                                <tr class="trim-subtotal-row">
+                                    <td>Trims Subtotal</td>
+                                    <td>{{ trim_total | money_without_trailing_zeros }}</td>
+                                </tr>
+                            {% endif %}
+
+                            {% if applied_trim_discount > 0 %}
+                                <tr class="trim-discount-row">
+                                    <td>Trim Promo Discount</td>
+                                    <td>-{{ applied_trim_discount | money_without_trailing_zeros }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endif %}
+
+                        <tr class="row text-only">
+                            <td>Shipping & Tax</td>
+                            <td>Calculated at checkout</td>
+                        </tr>
+
+                        <tr class="trim-revised-total-row">
+                            <td>Total</td>
+                            {% if enable_trim_promo %}
+                                <td>{{ revised_total | money_without_trailing_zeros }}</td>
+                            {% else %}
+                                <td>{{ cart.total_price | money_without_trailing_zeros }}</td>
+                            {% endif %}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td class="center">Your cart is empty</td>
+                        </tr>
+                    {% endif %}
+                </table>
+
+                {% if cart.items.size != 0 %}
+                    <button type="button" id="fr24-checkout-btn" class="btn btn--black js-fr24-checkout-btn">
+                        {{ 'cart.checkout' | t }}
+                    </button>
+                {% else %}
+                    <a href="/collections/all" class="btn btn--black">Shop All Products</a>
+                {% endif %}
+            </div>
+        </div>
+
+        {{- '<!-- Hidden original-order updates for correct Shopify checkout submission -->' -}}
+        <div style="display:none;" aria-hidden="true">
+            {% for item in cart.items %}
+                <input
+                    type="number"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    data-key="{{ item.key }}"
+                    data-variant-id="{{ item.variant.id }}"
+                    class="js-original-update">
+            {% endfor %}
+            {{- '<!-- Hidden submit — gives Minmaxify its real submit hook -->' -}}
+            <button type="submit" class="js-hidden-submit" tabindex="-1" aria-hidden="true">Checkout</button>
+        </div>
+
+    </form>
+</section>
+
+{% if enable_trim_promo %}
+<script src="{{ 'trim-upsell.js' | asset_url }}" defer></script>
+{% endif %}
+
+<script>
+(function () {
+  document.addEventListener("click", function (e) {
+    const btn = e.target.closest(".js-fr24-checkout-btn");
+    if (!btn || btn.disabled) return;
+
+    e.preventDefault();
+
+    const visibleInputs = document.querySelectorAll(".js-qty__input");
+    const hiddenInputs = document.querySelectorAll(".js-original-update");
+
+    const qtyMap = {};
+    visibleInputs.forEach((input) => {
+      const card = input.closest(".js-cart-card");
+      if (card) {
+        const variantId = card.dataset.id;
+        if (variantId) qtyMap[variantId] = input.value;
+      }
+    });
+
+    hiddenInputs.forEach((input) => {
+      const variantId = input.dataset.variantId;
+      if (variantId && qtyMap[variantId] !== undefined) {
+        input.value = qtyMap[variantId];
+      }
+    });
+
+    fetch("/cart.js", {
+      method: "GET",
+      headers: { Accept: "application/json" }
+    })
+      .then((res) => res.json())
+      .then((cart) => {
+        if (!cart || cart.item_count === 0) return;
+
+        const hiddenSubmit = document.querySelector(".js-hidden-submit");
+        if (hiddenSubmit) {
+          sessionStorage.setItem("fr24_came_from_checkout_flow", "true");
+          hiddenSubmit.click();
+        }
+      })
+      .catch(() => {
+        const hiddenSubmit = document.querySelector(".js-hidden-submit");
+        if (hiddenSubmit) {
+          sessionStorage.setItem("fr24_came_from_checkout_flow", "true");
+          hiddenSubmit.click();
+        }
+      });
+  });
+})();
+</script>
+
+<style>
+.fr_24_upsell_minicart {
+    margin: 0px 24px 0;
+    padding: 20px 0 0;
+    border-top: 1px solid #F1F5F9;
+}
+
+.fr_24_upsell_minicart h2 {
+    font-size: 18px;
+    line-height: 1.3;
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    text-wrap: auto;
+    text-transform: capitalize;
+    padding: 4px 12px 20px;
+}
+
+.fr_24_upsell_products_container {
+  display: grid;
+  gap: 16px;
+}
+
+.fr_24_upsell_product {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.fr_24_upsell_product img {
+  width: 84px;
+  height: auto;
+  display: block;
+}
+
+.fr_24_upsell_product_name {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.fr_24_upsell_product_info_wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.fr_24_upsell_product_dropdown {
+  flex: 1;
+}
+
+.fr_24_upsell_product_dropdown_select {
+  width: 100%;
+  min-height: 40px;
+}
+
+.fr_24_upsell_addtocartbtn {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 0;
+  background: #111827;
+  color: #fff;
+  cursor: pointer;
+}
+
+#shopify-section-pop-cart .pop-cart {
+    z-index: 9999999
+}
+
+#shopify-section-pop-cart .pop-cart .pop-cart__footer .pop-cart__actions button {
+    max-width: 100%;
+    font-size: 15px;
+    margin-top: 0px;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart {
+    padding: 12px;
+    margin:0px;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart h2 {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    text-wrap: auto;
+    text-transform: capitalize
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_products_container {
+    display: flex;
+    overflow-x: auto;
+    gap: 7px;
+    padding: 0px 0px 0px 0px;
+    cursor: grab;
+    user-select: none;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_products_container.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_products_container::-webkit-scrollbar {
+    display: none
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_add {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width:100%;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_addtocartbtn {
+    font-size: 11px;
+    color: #fff;
+    padding: 8px 15px;
+    width: 100%;
+    border-radius: 20px;
+    border: none;
+    background: #2576a2;
+    font-weight: 500;
+}
+
+span.fr_24_upsell_product_price_wrap {
+    display: flex;
+    gap: 6px;
+    margin-top: 3px;
+    justify-content: center;
+}
+
+.fr_24_upsell_form {
+    width: 100%;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_addtocartbtn .fr_24_upsell_product_price .compare-at-price {
+    -webkit-text-decoration: line-through;
+    text-decoration: line-through
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_addtocartbtn .fr_24_upsell_product_price .savings {
+    vertical-align: baseline !important;
+    vertical-align: initial !important
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_name {
+    font-weight: 700;
+    font-size: 12px;
+    margin: 7px 0px
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown {
+    position: relative;
+    font-size: 8px;
+    font-weight: 400;
+    width:100%;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product > a {
+    width: 100%;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product > a > img {
+    width: 100%;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+    border-radius: 22px;
+    padding: 7px 18px 7px 5px;
+    text-wrap: wrap;
+    color: #000
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown::after {
+    content: url("data:image/svg+xml,%3Csvg%20width%3D%226%22%20height%3D%224%22%20viewBox%3D%220%200%204%203%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M3.53%20-2.92844e-05L2%201.52664L0.47%20-2.90169e-05L-1.74846e-07%200.469971L2%202.46997L4%200.469971L3.53%20-2.92844e-05Z%22%20fill%3D%22black%22/%3E%3C/svg%3E");
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    pointer-events: none
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product {
+    min-width: 38%;
+    max-width: 38%;
+    background-color: #f4f3f1;
+    border-radius: 5px;
+    padding: 10px 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product img {
+    max-width: 100%;
+    aspect-ratio: 1/1
+}
+
+#gladlyChat_container.preload {
+    z-index: 999999 !important
+}
+
+/* Castlery gift card promo */
+.castlery-gift-progress {
+    margin: 12px;
+    padding: 16px;
+    border-radius: 10px;
+    background: #f8f6f2;
+    border: 1px solid #e7e1d6;
+}
+
+.castlery-gift-progress h3 {
+    font-size: 15px;
+    line-height: 1.4;
+    color: #0f172a;
+    font-weight: 700;
+    margin: 0 0 6px;
+    text-wrap: auto;
+}
+
+.castlery-gift-progress p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #334155;
+}
+
+.castlery-gift-progress__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #047857;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.castlery-gift-progress__title {
+    display: block;
+}
+
+.castlery-gift-progress__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    line-height: 1.4;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+}
+
+.castlery-gift-progress__bar-wrap {
+    position: relative;
+    margin-top: 10px;
+    padding-bottom: 0px;
+}
+
+.castlery-gift-progress__bar {
+    position: relative;
+    height: 8px;
+    border-radius: 999px;
+    background: #E2E8F0;
+    overflow: visible;
+}
+
+.castlery-gift-progress__fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #e8ac5eff 0%, #FAAF4F 100%);
+    border-radius: 999px;
+}
+
+.castlery-gift-progress__marker {
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #94a3b8;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.castlery-gift-progress__marker.is-active {
+    background: #f9af4f;
+    border-color: #f9af4f;
+}
+
+.castlery-gift-progress__labels {
+    position: relative;
+    margin-top: 12px;
+    height: 34px;
+}
+
+.castlery-gift-progress__label {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    text-align: center;
+    min-width: 92px;
+}
+
+.castlery-gift-progress__label strong {
+    display: block;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.castlery-gift-progress__label span {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    line-height: 1.2;
+    color: #64748b;
+}
+
+.castlery-gift-progress__label.is-active strong,
+.castlery-gift-progress__label.is-active span {
+    color: #df8f28;
+}
+
+.castlery-gift-progress__label--500 {
+    transform: translateX(-100%);
+    text-align: right;
+}
+.castlery-earned-card h4 {
+    font-size: 15px;
+    margin: 0px;
+    text-transform: capitalize;
+}
+.castlery-earned-card {
+    margin: 0 12px 12px;
+    padding: 12px 13px;
+    border-radius: 12px;
+    background: #faf7f2;
+    border: 1px solid #eadfce;
+    text-align: center;
+}
+
+.castlery-earned-card__badge {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #efe7da;
+    color: #6b4f2a;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.castlery-earned-card h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    line-height: 1.3;
+    color: #0f172a;
+}
+
+.castlery-earned-card p {
+    margin: 5px 0px 0px;
+    font-size: 13px;
+    line-height: 1.2;
+    color: #000;
+}
+.castlery-gift-progress__bar.green-col span.castlery-gift-progress__fill {
+    background: linear-gradient(90deg, #10B981 0%, #10B981 100%);
+}
+.castlery-gift-progress__bar.green-col .castlery-gift-progress__marker.is-active {
+    background: #10B981;
+    border-color: #10B981;
+}
+.castlery-gift-progress__bar.green-col + .castlery-gift-progress__labels .castlery-gift-progress__label.is-active strong, .castlery-gift-progress__bar.green-col + .castlery-gift-progress__labels .castlery-gift-progress__label.is-active span {
+    color: #10B981;
+}
+@media (min-width:768px){
+    #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+        border-radius: 22px;
+        padding: 7px 18px 7px 10px;
+        text-wrap: wrap;
+        color: #000;
+        font-size: 14px;
+    }
+}
+@media (max-width:768px){
+    #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+        font-size: 12px;
+    }
+}
+@media (max-width: 768px) {
+  span.fr_24_upsell_product_price_wrap {
+    flex-wrap: wrap;
+  }
+
+  span.fr_24_upsell_product_price_wrap > .fr_24_upsell_product_discount {
+    flex: 0 0 100%;
+    width: 100%;
+    text-align: center;
+  }
+
+  .castlery-gift-progress {
+      margin: 12px 16px 12px;
+  }
+
+  .castlery-earned-card {
+      margin: 0 16px 10px;
+  }
+
+  .castlery-gift-progress__labels {
+      height: 12px;
+  }
+
+  .castlery-gift-progress__label {
+      min-width: 78px;
+  }
+
+  .castlery-gift-progress__label strong {
+      font-size: 11px;
+  }
+
+  .castlery-gift-progress__label span {
+      font-size: 10px;
+  }
+}
+@media only screen and (max-width: 400px) {
+    #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+        font-size: 12px;
+        padding: 7px 18px 7px 10px;
+    }
+
+    .castlery-gift-progress__label {
+        min-width: 70px;
+    }
+
+    .castlery-gift-progress__label--500 {
+        transform: translateX(-100%);
+    }
+}
+
+@media only screen and (max-width: 360px){
+    #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+        font-size: 10px
+    }
+
+    #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product {
+        min-width: 42%;
+        max-width: 42%
+    }
+
+    .castlery-gift-progress__label strong {
+        font-size: 10px;
+    }
+
+    .castlery-gift-progress__label span {
+        font-size: 9px;
+    }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_sample_offer",
+      "label": "Show Sample Offer?"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_trim_promo",
+      "label": "Enable Box/Trim promo UI",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_castlery_giftcard_promo",
+      "label": "Enable Castlery gift card promo",
+      "default": true
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+{% liquid
+    assign module = section.settings
+    assign enable_trim_promo = module.enable_trim_promo
+    assign enable_castlery_giftcard_promo = module.enable_castlery_giftcard_promo
+
+    assign samplesMissing = 6.0
+    assign percentStep = 100 | divided_by: samplesMissing
+    for item in cart.items
+        for option in item.variant.options
+            if option contains 'Cut Sample'
+                assign samplesMissing = samplesMissing | minus: item.quantity
+            endif
+        endfor
+    endfor
+    if samplesMissing < 0
+        assign samplesMissing = 0
+    endif
+    assign percentMissing = percentStep | times: samplesMissing
+    assign percent = 100 | minus: percentMissing
+%}
+
+<section class="pop-cart">
+    <form class="overflow" id="fr24-pop-cart-form" action="/checkout" method="post" novalidate>
+
+        <div class="pop-cart__top">
+            <div class="pop-cart__intro">
+                <button class="pop-cart__close js-cart-drawer-close reset" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M3.825 9L9.425 14.6L8 16L-1.09896e-07 8L8 4.76837e-07L9.425 1.4L3.825 7H16V9H3.825Z" fill="#0F172A"/>
+                    </svg>
+                </button>
+                <span class="h5">My Cart (<span class="cart-item__count js-cart-count">{{ cart.item_count }}</span>)</span>
+                <button class="pop-cart__close js-cart-drawer-close reset" type="button">{% render 'svg-close' %}</button>
+            </div>
+
+            {% assign hideSample = false %}
+            {% for item in cart.items %}
+                {% if hideSample == false %}
+                    {% for option in item.variant.options %}
+                        {% if option == 'Box' %}
+                            {% assign hideSample = true %}
+                            {% break %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+            {% if hideSample == false %}
+                {% if samplesMissing != 6 and module.show_sample_offer %}
+                    <div class="pop-cart__samples">
+                        {% if samplesMissing == 0 %}
+                            <strong>You have earned 1 free cut sample! <br/> (Applied at Checkout)</strong>
+                        {% else %}
+                            <strong>You are {{ samplesMissing | ceil }} cut sample{% unless samplesMissing <= 1 %}s{% endunless %} away from getting 1 free.</strong>
+                        {% endif %}
+                        <div class="pop-cart__samples__bar">
+                            <span class="percent" style="width:{{ percent }}%"></span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            {% assign box_total = 0 %}
+            {% assign box_threshold = 100000 %}
+
+            {% for item in cart.items %}
+                {% assign is_box_item = false %}
+                {% for option in item.variant.options %}
+                    {% if option == 'Box' %}
+                        {% assign is_box_item = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if is_box_item %}
+                    {% assign box_total = box_total | plus: item.final_line_price %}
+                {% endif %}
+            {% endfor %}
+
+            {% assign box_remaining = box_threshold | minus: box_total %}
+
+            {% if box_total >= box_threshold %}
+                {% assign box_progress = 100 %}
+            {% else %}
+                {% assign box_progress = box_total | times: 100.0 | divided_by: box_threshold | round %}
+            {% endif %}
+
+            {% if enable_trim_promo and box_total > 0 %}
+                <div class="trim-discount-progress {% if box_total >= box_threshold %}is-unlocked{% else %}is-locked{% endif %}">
+                    {% if box_total >= box_threshold %}
+                        <h3>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
+                                    <path d="M0 20.5L5 6.5L14 15.5L0 20.5ZM3.3 17.2L10.35 14.7L5.8 10.15L3.3 17.2ZM12.55 11.05L11.5 10L17.1 4.4C17.6333 3.86667 18.275 3.6 19.025 3.6C19.775 3.6 20.4167 3.86667 20.95 4.4L21.55 5L20.5 6.05L19.9 5.45C19.6667 5.21667 19.375 5.1 19.025 5.1C18.675 5.1 18.3833 5.21667 18.15 5.45L12.55 11.05ZM8.55 7.05L7.5 6L8.1 5.4C8.33333 5.16667 8.45 4.88333 8.45 4.55C8.45 4.21667 8.33333 3.93333 8.1 3.7L7.45 3.05L8.5 2L9.15 2.65C9.68333 3.18333 9.95 3.81667 9.95 4.55C9.95 5.28333 9.68333 5.91667 9.15 6.45L8.55 7.05ZM10.55 9.05L9.5 8L13.1 4.4C13.3333 4.16667 13.45 3.875 13.45 3.525C13.45 3.175 13.33333 2.88333 13.1 2.65L11.5 1.05L12.55 0L14.15 1.6C14.68333 2.13333 14.95 2.775 14.95 3.525C14.95 4.275 14.68333 4.91667 14.15 5.45L10.55 9.05ZM14.55 13.05L13.5 12L15.1 10.4C15.6333 9.86667 16.275 9.6 17.025 9.6C17.775 9.6 18.4167 9.86667 18.95 10.4L20.55 12L19.5 13.05L17.9 11.45C17.6667 11.2167 17.375 11.1 17.025 11.1C16.675 11.1 16.3833 11.2167 16.15 11.45L14.55 13.05Z" fill="#10B981"/>
+                                </svg>
+                                CONGRATS!
+                            </span>
+                            <span class="unlockd-text">$200 OFF unlocked</span>
+                        </h3>
+                        <p>You've unlocked $200 OFF trim with this order. Select your trim below to apply the discount. <a id="scrollToBtn" href="#tripUpsell">Add trims</a></p>
+                    {% else %}
+                        <h3>You're {{ box_remaining | money }} away from $200 OFF your matching trim</h3>
+                        <p>Add more box items to your cart to unlock discount.</p>
+                    {% endif %}
+
+                    <div class="trim-discount-progress__meta">
+                        <span>PROGRESS TO DISCOUNT</span>
+                        <span>{{ box_total | money }} / {{ box_threshold | money }}</span>
+                    </div>
+
+                    <div class="trim-discount-progress__bar">
+                        <span class="trim-discount-progress__fill" style="width: {{ box_progress }}%;"></span>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% assign castlery_total = 0 %}
+            {% for item in cart.items %}
+                {% assign is_box_item = false %}
+                {% for option in item.variant.options %}
+                    {% if option == 'Box' %}
+                        {% assign is_box_item = true %}
+                    {% endif %}
+                {% endfor %}
+
+                {% assign product_type_downcase = item.product.type | downcase %}
+                {% if is_box_item or product_type_downcase == 'trim' or product_type_downcase == 'accessories' %}
+                    {% assign castlery_total = castlery_total | plus: item.final_line_price %}
+                {% endif %}
+            {% endfor %}
+
+            {% if enable_castlery_giftcard_promo and castlery_total > 0 %}
+                {% assign castlery_200_threshold = 100000 %}
+                {% assign castlery_500_threshold = 400000 %}
+                {% assign castlery_200_marker = castlery_200_threshold | times: 100.0 | divided_by: castlery_500_threshold %}
+                {% assign castlery_500_marker = 100 %}
+
+                {% if castlery_total < castlery_200_threshold %}
+                    {% assign castlery_current_target = castlery_200_threshold %}
+                    {% assign castlery_remaining = castlery_current_target | minus: castlery_total %}
+                    {% assign castlery_progress = castlery_total | times: 100.0 | divided_by: castlery_500_threshold | round %}
+                    {% assign castlery_state = 'progress-200' %}
+                {% elsif castlery_total < castlery_500_threshold %}
+                    {% assign castlery_current_target = castlery_500_threshold %}
+                    {% assign castlery_remaining = castlery_current_target | minus: castlery_total %}
+                    {% assign castlery_progress = castlery_total | times: 100.0 | divided_by: castlery_500_threshold | round %}
+                    {% assign castlery_state = 'progress-500' %}
+                {% else %}
+                    {% assign castlery_current_target = castlery_500_threshold %}
+                    {% assign castlery_remaining = 0 %}
+                    {% assign castlery_progress = 100 %}
+                    {% assign castlery_state = 'unlocked-500' %}
+                {% endif %}
+
+                {% if castlery_progress > 100 %}
+                    {% assign castlery_progress = 100 %}
+                {% endif %}
+
+                <div class="castlery-gift-progress {% if castlery_state == 'unlocked-500' %}is-unlocked{% else %}is-locked{% endif %}">
+                    {% if castlery_state == 'progress-200' %}
+                        <h3>You’re {{ castlery_remaining | money }} away from your $200 Castlery gift card</h3>
+                        <p>Add more eligible items to your cart to unlock gift card.</p>
+                    {% elsif castlery_state == 'progress-500' %}
+                        <h3>You’ve unlocked your $200 Castlery gift card. Spend {{ castlery_remaining | money }} more to upgrade to a $500 Castlery gift card</h3>
+                        <p>Add more eligible items to your cart to unlock gift card.</p>
+                    {% else %}
+                        <h3>
+                            <span class="castlery-gift-progress__eyebrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
+                                    <path d="M0 20.5L5 6.5L14 15.5L0 20.5ZM3.3 17.2L10.35 14.7L5.8 10.15L3.3 17.2ZM12.55 11.05L11.5 10L17.1 4.4C17.6333 3.86667 18.275 3.6 19.025 3.6C19.775 3.6 20.4167 3.86667 20.95 4.4L21.55 5L20.5 6.05L19.9 5.45C19.6667 5.21667 19.375 5.1 19.025 5.1C18.675 5.1 18.3833 5.21667 18.15 5.45L12.55 11.05ZM8.55 7.05L7.5 6L8.1 5.4C8.33333 5.16667 8.45 4.88333 8.45 4.55C8.45 4.21667 8.33333 3.93333 8.1 3.7L7.45 3.05L8.5 2L9.15 2.65C9.68333 3.18333 9.95 3.81667 9.95 4.55C9.95 5.28333 9.68333 5.91667 9.15 6.45L8.55 7.05ZM10.55 9.05L9.5 8L13.1 4.4C13.3333 4.16667 13.45 3.875 13.45 3.525C13.45 3.175 13.33333 2.88333 13.1 2.65L11.5 1.05L12.55 0L14.15 1.6C14.68333 2.13333 14.95 2.775 14.95 3.525C14.95 4.275 14.68333 4.91667 14.15 5.45L10.55 9.05ZM14.55 13.05L13.5 12L15.1 10.4C15.6333 9.86667 16.275 9.6 17.025 9.6C17.775 9.6 18.4167 9.86667 18.95 10.4L20.55 12L19.5 13.05L17.9 11.45C17.6667 11.2167 17.375 11.1 17.025 11.1C16.675 11.1 16.3833 11.2167 16.15 11.45L14.55 13.05Z" fill="#10B981"/>
+                                </svg>
+                                GIFT CARD UNLOCKED
+                            </span>
+                            <span class="castlery-gift-progress__title">$500 Castlery gift card unlocked</span>
+                        </h3>
+                        <p>Gift card is sent via email when your order ships.</p>
+                        <p>They are not stackable and delivered when your order ships.</p>
+                    {% endif %}
+
+                    <div class="castlery-gift-progress__meta">
+                        <span>PROGRESS TO GIFT CARD</span>
+                        <span>{{ castlery_total | money }} / {{ castlery_500_threshold | money }}</span>
+                    </div>
+
+                    <div class="castlery-gift-progress__bar-wrap">
+                        <div class="castlery-gift-progress__bar  {% if castlery_total >= castlery_500_threshold %}green-col{% endif %}">
+                            <span class="castlery-gift-progress__fill" style="width: {{ castlery_progress }}%;"></span>
+
+                            <span class="castlery-gift-progress__marker {% if castlery_total >= castlery_200_threshold %}is-active{% endif %}" style="left: {{ castlery_200_marker }}%;"></span>
+                            <span class="castlery-gift-progress__marker {% if castlery_total >= castlery_500_threshold %}is-active{% endif %}" style="left: {{ castlery_500_marker }}%;"></span>
+                        </div>
+
+                        <div class="castlery-gift-progress__labels">
+                            <div class="castlery-gift-progress__label castlery-gift-progress__label--500 is-active" style="left: {{ castlery_500_marker }}%;">
+                                {% comment %} <strong>$4,000</strong> {% endcomment %}
+                                <span>$500 gift card</span>
+                            </div>
+                            <div class="castlery-gift-progress__label castlery-gift-progress__label--200 is-active" style="left: {{ castlery_200_marker }}%;">
+                                {% comment %} <strong>$1,000</strong> {% endcomment %}
+                                <span>$200 gift card</span>
+                            </div>
+                            {% comment %} {% if castlery_total >= castlery_500_threshold %}
+                                <div class="castlery-gift-progress__label castlery-gift-progress__label--500 is-active" style="left: {{ castlery_500_marker }}%;">
+                                    {% comment %} <strong>$4,000</strong> {% endcomment %}
+                                    <span>$500 gift card</span>
+                                </div>
+                            {% elsif castlery_total >= castlery_200_threshold %}
+                                <div class="castlery-gift-progress__label castlery-gift-progress__label--200 is-active" style="left: {{ castlery_200_marker }}%;">
+                                    {% comment %} <strong>$1,000</strong> {% endcomment %}
+                                    <span>$200 gift card</span>
+                                </div>
+                            {% else %}
+                                <div class="castlery-gift-progress__label castlery-gift-progress__label--200" style="left: {{ castlery_200_marker }}%;">
+                                    {% comment %} <strong>$1,000</strong> {% endcomment %}
+                                    <span>$200 gift card</span>
+                                </div>
+                            {% endif %} {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="pop-cart__items">
+                {% render 'cart-items', drawer: true %}
+            </div>
+        </div>
+
+        {% assign box_total = 0 %}
+        {% assign trim_total = 0 %}
+        {% assign box_threshold = 100000 %}
+        {% assign trim_discount = 20000 %}
+
+        {% for item in cart.items %}
+            {% assign is_box_item = false %}
+            {% for option in item.variant.options %}
+                {% if option == 'Box' %}
+                    {% assign is_box_item = true %}
+                {% endif %}
+            {% endfor %}
+
+            {% if is_box_item %}
+                {% assign box_total = box_total | plus: item.final_line_price %}
+            {% endif %}
+
+            {% assign product_type_downcase = item.product.type | downcase %}
+            {% if product_type_downcase == 'trim' or product_type_downcase == 'accessories' %}
+                {% assign trim_total = trim_total | plus: item.final_line_price %}
+            {% endif %}
+        {% endfor %}
+
+        {% assign applied_trim_discount = 0 %}
+        {% if enable_trim_promo and box_total >= box_threshold and trim_total > 0 %}
+            {% if trim_total >= trim_discount %}
+                {% assign applied_trim_discount = trim_discount %}
+            {% else %}
+                {% assign applied_trim_discount = trim_total %}
+            {% endif %}
+        {% endif %}
+
+        {% assign original_subtotal = 0 %}
+        {% for item in cart.items %}
+            {% assign original_subtotal = original_subtotal | plus: item.original_line_price %}
+        {% endfor %}
+
+        {% assign revised_total = original_subtotal | minus: applied_trim_discount %}
+
+        {% assign castlery_total = box_total | plus: trim_total %}
+        {% assign castlery_earned_amount = 0 %}
+        {% if enable_castlery_giftcard_promo %}
+            {% if castlery_total >= 400000 %}
+                {% assign castlery_earned_amount = 500 %}
+            {% elsif castlery_total >= 100000 %}
+                {% assign castlery_earned_amount = 200 %}
+            {% endif %}
+        {% endif %}
+
+        {% if enable_castlery_giftcard_promo and castlery_earned_amount > 0 %}
+            <div class="pop-cart__body pop-cart__body--giftcard" id="tripUpsell">
+                <div class="castlery-earned-card">
+                    <div class="castlery-earned-card__top">
+                        {% comment %} <div class="castlery-earned-card__badge">Castlery gift card earned</div> {% endcomment %}
+                        <h4>${{ castlery_earned_amount }} Castlery gift card</h4>
+                        <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/image_83-removebg-preview.png" alt="gift card image">
+                        <p>Gift cards are not stackable and delivered when your order ships.</p>
+                    </div>
+                </div>
+            </div>
+        {% elsif enable_trim_promo %}
+            <div class="pop-cart__body" id="tripUpsell">
+                {% render 'cart-trim-upsell' %}
+            </div>
+        {% endif %}
+
+        {% assign unique_product_count = cart.items | map: 'product_id' | uniq | size %}
+        <div class="pop-cart__footer js-pop-cart-actions {% if unique_product_count >= 2 %}fix{% endif %}">
+            <div class="pop-cart__actions">
+                <table>
+                    {% if cart.items.size != 0 %}
+                        {% if enable_trim_promo %}
+                            <tr>
+                                <td>{{ 'cart.subtotal' | t }}</td>
+                                <td class="js-subtotal js-cart-subtotal">{{ original_subtotal | money_without_trailing_zeros }}</td>
+                            </tr>
+                        {% endif %}
+
+                        {% if enable_trim_promo %}
+                            {% if trim_total > 0 and applied_trim_discount > 0 %}
+                                <tr class="trim-subtotal-row">
+                                    <td>Trims Subtotal</td>
+                                    <td>{{ trim_total | money_without_trailing_zeros }}</td>
+                                </tr>
+                            {% endif %}
+
+                            {% if applied_trim_discount > 0 %}
+                                <tr class="trim-discount-row">
+                                    <td>Trim Promo Discount</td>
+                                    <td>-{{ applied_trim_discount | money_without_trailing_zeros }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endif %}
+
+                        <tr class="row text-only">
+                            <td>Shipping & Tax</td>
+                            <td>Calculated at checkout</td>
+                        </tr>
+
+                        <tr class="trim-revised-total-row">
+                            <td>Total</td>
+                            {% if enable_trim_promo %}
+                                <td>{{ revised_total | money_without_trailing_zeros }}</td>
+                            {% else %}
+                                <td>{{ cart.total_price | money_without_trailing_zeros }}</td>
+                            {% endif %}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td class="center">Your cart is empty</td>
+                        </tr>
+                    {% endif %}
+                </table>
+
+                {% if cart.items.size != 0 %}
+                    <button type="button" id="fr24-checkout-btn" class="btn btn--black js-fr24-checkout-btn">
+                        {{ 'cart.checkout' | t }}
+                    </button>
+                {% else %}
+                    <a href="/collections/all" class="btn btn--black">Shop All Products</a>
+                {% endif %}
+            </div>
+        </div>
+
+        {{- '<!-- Hidden original-order updates for correct Shopify checkout submission -->' -}}
+        <div style="display:none;" aria-hidden="true">
+            {% for item in cart.items %}
+                <input
+                    type="number"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    data-key="{{ item.key }}"
+                    data-variant-id="{{ item.variant.id }}"
+                    class="js-original-update">
+            {% endfor %}
+            {{- '<!-- Hidden submit — gives Minmaxify its real submit hook -->' -}}
+            <button type="submit" class="js-hidden-submit" tabindex="-1" aria-hidden="true">Checkout</button>
+        </div>
+
+    </form>
+</section>
+
+{% if enable_trim_promo %}
+<script src="{{ 'trim-upsell.js' | asset_url }}" defer></script>
+{% endif %}
+
+<script>
+(function () {
+  document.addEventListener("click", function (e) {
+    const btn = e.target.closest(".js-fr24-checkout-btn");
+    if (!btn || btn.disabled) return;
+
+    e.preventDefault();
+
+    const visibleInputs = document.querySelectorAll(".js-qty__input");
+    const hiddenInputs = document.querySelectorAll(".js-original-update");
+
+    const qtyMap = {};
+    visibleInputs.forEach((input) => {
+      const card = input.closest(".js-cart-card");
+      if (card) {
+        const variantId = card.dataset.id;
+        if (variantId) qtyMap[variantId] = input.value;
+      }
+    });
+
+    hiddenInputs.forEach((input) => {
+      const variantId = input.dataset.variantId;
+      if (variantId && qtyMap[variantId] !== undefined) {
+        input.value = qtyMap[variantId];
+      }
+    });
+
+    fetch("/cart.js", {
+      method: "GET",
+      headers: { Accept: "application/json" }
+    })
+      .then((res) => res.json())
+      .then((cart) => {
+        if (!cart || cart.item_count === 0) return;
+
+        const hiddenSubmit = document.querySelector(".js-hidden-submit");
+        if (hiddenSubmit) {
+          sessionStorage.setItem("fr24_came_from_checkout_flow", "true");
+          hiddenSubmit.click();
+        }
+      })
+      .catch(() => {
+        const hiddenSubmit = document.querySelector(".js-hidden-submit");
+        if (hiddenSubmit) {
+          sessionStorage.setItem("fr24_came_from_checkout_flow", "true");
+          hiddenSubmit.click();
+        }
+      });
+  });
+})();
+</script>
+
+<style>
+.fr_24_upsell_minicart {
+    margin: 0px 24px 0;
+    padding: 20px 0 0;
+    border-top: 1px solid #F1F5F9;
+}
+
+.fr_24_upsell_minicart h2 {
+    font-size: 18px;
+    line-height: 1.3;
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    text-wrap: auto;
+    text-transform: capitalize;
+    padding: 4px 12px 20px;
+}
+
+.fr_24_upsell_products_container {
+  display: grid;
+  gap: 16px;
+}
+
+.fr_24_upsell_product {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.fr_24_upsell_product img {
+  width: 84px;
+  height: auto;
+  display: block;
+}
+
+.fr_24_upsell_product_name {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.fr_24_upsell_product_info_wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.fr_24_upsell_product_dropdown {
+  flex: 1;
+}
+
+.fr_24_upsell_product_dropdown_select {
+  width: 100%;
+  min-height: 40px;
+}
+
+.fr_24_upsell_addtocartbtn {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 0;
+  background: #111827;
+  color: #fff;
+  cursor: pointer;
+}
+
+#shopify-section-pop-cart .pop-cart {
+    z-index: 9999999
+}
+
+#shopify-section-pop-cart .pop-cart .pop-cart__footer .pop-cart__actions button {
+    max-width: 100%;
+    font-size: 15px;
+    margin-top: 0px;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart {
+    padding: 12px;
+    margin:0px;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart h2 {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    text-wrap: auto;
+    text-transform: capitalize
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_products_container {
+    display: flex;
+    overflow-x: auto;
+    gap: 7px;
+    padding: 0px 0px 0px 0px;
+    cursor: grab;
+    user-select: none;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_products_container.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_products_container::-webkit-scrollbar {
+    display: none
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_add {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width:100%;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_addtocartbtn {
+    font-size: 11px;
+    color: #fff;
+    padding: 8px 15px;
+    width: 100%;
+    border-radius: 20px;
+    border: none;
+    background: #2576a2;
+    font-weight: 500;
+}
+
+span.fr_24_upsell_product_price_wrap {
+    display: flex;
+    gap: 6px;
+    margin-top: 3px;
+    justify-content: center;
+}
+
+.fr_24_upsell_form {
+    width: 100%;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_addtocartbtn .fr_24_upsell_product_price .compare-at-price {
+    -webkit-text-decoration: line-through;
+    text-decoration: line-through
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_addtocartbtn .fr_24_upsell_product_price .savings {
+    vertical-align: baseline !important;
+    vertical-align: initial !important
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_name {
+    font-weight: 700;
+    font-size: 12px;
+    margin: 7px 0px
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown {
+    position: relative;
+    font-size: 8px;
+    font-weight: 400;
+    width:100%;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product > a {
+    width: 100%;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product > a > img {
+    width: 100%;
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+    border-radius: 22px;
+    padding: 7px 18px 7px 5px;
+    text-wrap: wrap;
+    color: #000
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown::after {
+    content: url("data:image/svg+xml,%3Csvg%20width%3D%226%22%20height%3D%224%22%20viewBox%3D%220%200%204%203%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M3.53%20-2.92844e-05L2%201.52664L0.47%20-2.90169e-05L-1.74846e-07%200.469971L2%202.46997L4%200.469971L3.53%20-2.92844e-05Z%22%20fill%3D%22black%22/%3E%3C/svg%3E");
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    pointer-events: none
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product {
+    min-width: 38%;
+    max-width: 38%;
+    background-color: #f4f3f1;
+    border-radius: 5px;
+    padding: 10px 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between
+}
+
+#shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product img {
+    max-width: 100%;
+    aspect-ratio: 1/1
+}
+
+#gladlyChat_container.preload {
+    z-index: 999999 !important
+}
+
+/* Castlery gift card promo */
+.castlery-gift-progress {
+    margin: 12px;
+    padding: 16px;
+    border-radius: 10px;
+    background: #f8f6f2;
+    border: 1px solid #e7e1d6;
+}
+
+.castlery-gift-progress h3 {
+    font-size: 15px;
+    line-height: 1.4;
+    color: #0f172a;
+    font-weight: 700;
+    margin: 0 0 6px;
+    text-wrap: auto;
+}
+
+.castlery-gift-progress p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #334155;
+}
+
+.castlery-gift-progress__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #047857;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.castlery-gift-progress__title {
+    display: block;
+}
+
+.castlery-gift-progress__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    line-height: 1.4;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+}
+
+.castlery-gift-progress__bar-wrap {
+    position: relative;
+    margin-top: 10px;
+    padding-bottom: 0px;
+}
+
+.castlery-gift-progress__bar {
+    position: relative;
+    height: 8px;
+    border-radius: 999px;
+    background: #E2E8F0;
+    overflow: visible;
+}
+
+.castlery-gift-progress__fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #e8ac5eff 0%, #FAAF4F 100%);
+    border-radius: 999px;
+}
+
+.castlery-gift-progress__marker {
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #94a3b8;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.castlery-gift-progress__marker.is-active {
+    background: #f9af4f;
+    border-color: #f9af4f;
+}
+
+.castlery-gift-progress__labels {
+    position: relative;
+    margin-top: 12px;
+    height: 34px;
+}
+
+.castlery-gift-progress__label {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    text-align: center;
+    min-width: 92px;
+}
+
+.castlery-gift-progress__label strong {
+    display: block;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.castlery-gift-progress__label span {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    line-height: 1.2;
+    color: #64748b;
+}
+
+.castlery-gift-progress__label.is-active strong,
+.castlery-gift-progress__label.is-active span {
+    color: #df8f28;
+}
+
+.castlery-gift-progress__label--500 {
+    transform: translateX(-100%);
+    text-align: right;
+}
+.castlery-earned-card h4 {
+    font-size: 15px;
+    margin: 0px;
+    text-transform: capitalize;
+}
+.castlery-earned-card {
+    margin: 0 12px 12px;
+    padding: 12px 13px;
+    border-radius: 12px;
+    background: #faf7f2;
+    border: 1px solid #eadfce;
+    text-align: center;
+}
+
+.castlery-earned-card__badge {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #efe7da;
+    color: #6b4f2a;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.castlery-earned-card h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    line-height: 1.3;
+    color: #0f172a;
+}
+
+.castlery-earned-card p {
+    margin: 5px 0px 0px;
+    font-size: 13px;
+    line-height: 1.2;
+    color: #000;
+}
+.castlery-gift-progress__bar.green-col span.castlery-gift-progress__fill {
+    background: linear-gradient(90deg, #10B981 0%, #10B981 100%);
+}
+.castlery-gift-progress__bar.green-col .castlery-gift-progress__marker.is-active {
+    background: #10B981;
+    border-color: #10B981;
+}
+.castlery-gift-progress__bar.green-col + .castlery-gift-progress__labels .castlery-gift-progress__label.is-active strong, .castlery-gift-progress__bar.green-col + .castlery-gift-progress__labels .castlery-gift-progress__label.is-active span {
+    color: #10B981;
+}
+@media (min-width:768px){
+    #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+        border-radius: 22px;
+        padding: 7px 18px 7px 10px;
+        text-wrap: wrap;
+        color: #000;
+        font-size: 14px;
+    }
+}
+@media (max-width:768px){
+    #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+        font-size: 12px;
+    }
+}
+@media (max-width: 768px) {
+  span.fr_24_upsell_product_price_wrap {
+    flex-wrap: wrap;
+  }
+
+  span.fr_24_upsell_product_price_wrap > .fr_24_upsell_product_discount {
+    flex: 0 0 100%;
+    width: 100%;
+    text-align: center;
+  }
+
+  .castlery-gift-progress {
+      margin: 12px 16px 12px;
+  }
+
+  .castlery-earned-card {
+      margin: 0 16px 10px;
+  }
+
+  .castlery-gift-progress__labels {
+      height: 12px;
+  }
+
+  .castlery-gift-progress__label {
+      min-width: 78px;
+  }
+
+  .castlery-gift-progress__label strong {
+      font-size: 11px;
+  }
+
+  .castlery-gift-progress__label span {
+      font-size: 10px;
+  }
+}
+@media only screen and (max-width: 400px) {
+    #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+        font-size: 12px;
+        padding: 7px 18px 7px 10px;
+    }
+
+    .castlery-gift-progress__label {
+        min-width: 70px;
+    }
+
+    .castlery-gift-progress__label--500 {
+        transform: translateX(-100%);
+    }
+}
+
+@media only screen and (max-width: 360px){
+    #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product_dropdown_select {
+        font-size: 10px
+    }
+
+    #shopify-section-pop-cart .pop-cart .fr_24_upsell_minicart .fr_24_upsell_product {
+        min-width: 42%;
+        max-width: 42%
+    }
+
+    .castlery-gift-progress__label strong {
+        font-size: 10px;
+    }
+
+    .castlery-gift-progress__label span {
+        font-size: 9px;
+    }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_sample_offer",
+      "label": "Show Sample Offer?"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_trim_promo",
+      "label": "Enable Box/Trim promo UI",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_castlery_giftcard_promo",
+      "label": "Enable Castlery gift card promo",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

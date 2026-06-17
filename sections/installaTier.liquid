@@ -1,0 +1,96 @@
+{{ 'intallaTier.css' | asset_url | stylesheet_tag }}
+
+<section class="install-tiers-section swiper myTier">
+  <h2 class="install-tiers-heading">What's Included?</h2>
+  <div class="tiers-container swiper-wrapper" style="display: flex; align-items: center; justify-content: center;">
+    
+    <!-- Gold -->
+    <div class="tier-card swiper-slide">
+      <div class="tier-content">
+        <ul class="features">
+          <li>
+            <span class="available">{% render 'like' %}</span><span>1 Year Warranty</span>
+          </li>
+          <li>
+            <span class="available">{% render 'like' %}</span><span>Clean Worksite Pledge</span>
+          </li>
+          <li>
+            <span class="available">{% render 'like' %}</span><span>Digital Care Resources</span>
+          </li>
+          <li>
+            <span class="available">{% render 'like' %}</span><span>Measurement Review</span>
+          </li>
+          <li>
+            <span class="available">{% render 'like' %}</span><span>Post-Install Consultation</span> <small>(60 Days)</small>
+          </li>
+          <li>
+            <span class="available">{% render 'like' %}</span><span>In-Person Measuring &amp; Consultation</span>
+          </li>
+          <li>
+            <span class="available">{% render 'like' %}</span><span>Free Cleaning Kit</span>
+          </li>
+          <li>
+            <span class="available">{% render 'like' %}</span><span>Dedicated Support Contact</span>
+          </li>
+          <li>
+            <span></span><span>Additional Warranty <em>(Optional)</em></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="swiper-pagination"></div>
+
+  <div class="install_tier_cta">
+    <a href="{{ section.settings.url_btn }}" class="custom-button custom-primary-button new-tier-design-button">Get Started</a>
+  </div>
+</section>
+
+<script>
+    var swiper = new Swiper(".myTier", {
+      slidesPerView: 1,
+      spaceBetween: 10,
+      pagination: {
+        el: ".swiper-pagination",
+      },
+      breakpoints: {
+        950: {
+          slidesPerView: 3,
+          spaceBetween: 10,
+        },
+      },
+      pagination: {
+        el: ".swiper-pagination",
+      },
+    });
+  </script>
+
+{% schema %}
+{
+  "name": "Install Tiers",
+  "settings": [
+    {
+      "type": "url",
+      "id": "url_btn",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "bronze",
+      "label": "Bronze tier image"
+    },
+    {
+      "type": "image_picker",
+      "id": "silver",
+      "label": "Silver tier image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gold",
+      "label": "Gold tier image"
+    }
+  ],
+  "blocks": [],
+  "presets": [{ "name": "Install Tiers", "category": "Custom" }]
+}
+{% endschema %}

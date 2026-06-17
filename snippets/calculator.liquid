@@ -1,0 +1,1383 @@
+{{ 'installationpdp.css' | asset_url | stylesheet_tag }}
+{{ 'slick.min.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .install-guarantee,.install-next,.install-help {
+    display:none;
+  }
+ .carousel-container .install-guarantee, .carousel-container .install-next, .carousel-container .install-help {
+    display: flex;
+    margin: 15px 0px;
+    padding: 15px 15px;
+    background: #F4F3F1;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 8px;
+}
+  .service_group_container.is-pdp {
+    display: flex;
+    gap: 22px;
+  }
+  .service_group.is-pdp {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+  }
+
+  .service_group.is-pdp .zipcode__section,
+  .service_group.is-pdp .tier__section,
+  .service_group.is-pdp .address__section,
+  .service_group.is-pdp .demolition__section,
+  .service_group.is-pdp .additional_services__section {
+    margin-bottom: 0px;
+  }
+
+  .installation-services.is-pdp #detailed-subtotal{
+    border-radius: 8px;
+    border: 1px solid #F4F3F1;
+    background: #F4F3F1;
+    width: 360px;
+  }
+  .installation-services.is-pdp #detailed-subtotal h3 {
+    font-size: 14px;
+  }
+
+  .installation-services.is-pdp #detailed-subtotal-list li {
+    font-size: 12px;
+  }
+
+  .installation-services.is-pdp #detailed-total {
+    border-color: #000;
+  }
+  .installation-services.is-pdp #detailed-subtotal p.warning {
+    line-height: 16px;
+  }
+
+  .installation-services.is-pdp .terms-checkbox label {
+    font-size: 12px;
+  }
+  .installation-services.is-pdp .detailed-info {
+    align-items: flex-start;
+  }
+  .installation-services.is-pdp .detailed-info p.deposit {
+    font-size: 11px;
+    line-height: 16px
+  }
+  .installation-services.is-pdp .install-guarantee,
+  .installation-services.is-pdp .install-next,
+  .installation-services.is-pdp .install-help{
+    border-radius: 8px;
+    background: #FFF;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .install-guarantee > .guarantee-title,
+  .install-help > .help-title,
+  .install-next > .next-title {
+    display: flex;
+    gap: 8px;
+    color: #000;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    align-items: center;
+  }
+  .install-guarantee > p,
+  .install-help > p,
+  .install-next > p {
+    color: #000;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0;
+  }
+
+   .install-help > p a {
+     color: #236A99;
+   }
+
+  .installation-services.is-pdp .zipcode__section .header > span,
+  .installation-services.is-pdp .tier__section .header > span,
+  .installation-services.is-pdp .demolition__section .header > span,
+  .installation-services.is-pdp .additional_services__section .header > span,
+  .installation-services.is-pdp .address-desc {
+    color: #236A99;
+  }
+
+
+  /* Loader styles */
+  .gallery-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    height: 48px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #0a66c2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 1;
+  }
+
+  @keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+</style>
+
+<style>
+    .carousel-container {
+      width: 420px;
+      margin: 30px auto;
+      font-family: Arial, sans-serif;
+    }
+    .main-image {
+      width: 100%;
+      object-fit: cover;
+      border: 1px solid #ccc;
+      display: none;
+    }
+    .main-image.active {
+      display: block;
+    }
+    .thumbnail-strip-wrapper {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .arrow {
+      background: white;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      font-size: 20px;
+      padding: 18px 5px;
+      user-select: none;
+    }
+    .thumbnails {
+      display: flex;
+      overflow-x: auto;
+      gap: 8px;
+      flex: 1;
+      scroll-behavior: smooth;
+      padding: 5px 0;
+    }
+    .thumbnails::-webkit-scrollbar {
+      display: none;
+    }
+    .thumbnail {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border: 1px solid transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .thumbnail.active {
+      border-color: black;
+    }
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    border: 4px solid #ccc;
+    border-top: 4px solid #333;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+
+  .additional-flooring {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .additional-flooring img {
+    transform: rotate(180deg);
+  }
+
+  @media (max-width:640px){
+    .carousel-container .install-guarantee, .carousel-container .install-next, .carousel-container .install-help {
+      display:none;
+    }
+    #detailed-subtotal .install-guarantee, #detailed-subtotal .install-next, #detailed-subtotal .install-help {
+      display: flex;
+      margin: 15px 0px;
+      padding: 15px 15px;
+      background: #F4F3F1;
+      flex-direction: column;
+      gap: 10px;
+      border-radius: 8px;
+    }
+    .tier-grid ul.slick-dots {
+        display: flex;
+        list-style: none;
+        gap: 7px;
+        width: fit-content;
+        margin: 14px auto 0px;
+    }
+
+    .tier-grid ul.slick-dots li {list-style: none;margin: 0px;}
+
+    .tier-grid ul.slick-dots li button {
+        font-size: 0;
+        width: 13px;
+        height: 13px;
+        display: block;
+        padding: 0px;
+        border-radius: 8px;
+        border: none;
+        background-color: #D9D9D9;
+    }
+
+    .tier-grid ul.slick-dots li.slick-active button {background-color: #236A99;}
+    .tier_card:hover {
+      border-color:var(--c-accent);
+      box-shadow:inset 0 0 0 2px var(--c-accent-light);
+    }
+    
+    .tier_card.active {
+      border-color:var(--c-accent);
+      box-shadow:inset 0 0 0 2px var(--c-accent-light);
+    }
+    .tier-grid .slick-list.draggable .slick-slide {
+        margin: 0px 2px 0px 0px;
+    }
+  }
+</style>
+
+<section id="installation-calculator-demo" class="get-started-demo">
+  {% assign product_service = all_products[settings.service] %}
+  {% if product_service == nil %}
+    {% assign product_service = all_products['custom-service'] %}
+  {% endif %}
+
+
+  <div class="get-started-container {% if isPDP %}is-pdp{% endif %}">
+    {% unless isPDP %}
+    <div class="carousel-container">
+
+    <div class="image-wrapper" style="position: relative;">
+      <img id="mainImage" class="main-image" src="" alt="Main"width="100%" />
+      <div id="imageLoader" class="loader"></div>
+    </div>
+  
+    <div class="thumbnail-strip-wrapper">
+      <div class="arrow" onclick="selectRelativeThumb(-1)">&#8249;</div>
+      <div class="thumbnails" id="thumbnailStrip"></div>
+      <div class="arrow" onclick="selectRelativeThumb(1)">&#8250;</div>
+    </div>
+
+        <div class="install-guarantee">
+              <div class="guarantee-title"><img src="{{ 'info.svg' | asset_url }}" width="20" height="20"><span>Installation Guarantee</span></div>
+              <p>All Installations include our satisfaction guarantee and are performed by licensed, insured professionals.</p>
+          </div>
+
+          <div class="install-help">
+              <div class="help-title"><img src="{{ 'call.svg' | asset_url }}" width="20" height="20"><span>Need Help?</span></div>
+              <p>Call <a href="tel:+18007008122">1-800-700-8122</a> Monday-Friday from 8am-5pm CST</p>
+          </div>
+
+          <div class="install-next">
+              <div class="next-title"><img src="{{ 'next.svg' | asset_url }}" width="20" height="20"><span>Next Steps</span></div>
+              <p>After placing your order, a member of our team will be in touch within 1 business day to confirm your project scope and schedule.</p>
+          </div>
+          
+  </div>
+
+    {% endunless %}
+    <div class='installation-services {% if isPDP %}is-pdp{% endif %}'>
+      <div class="main__section">
+        <h1>{{ settings.heading }}</h1>
+        <a href="#ReviewsWidget" class="review-wrapper">
+          <div class="ruk_rating_snippet normal" data-sku="" rating-snippet-batch="0" style="color: rgb(250, 175, 79);" title="4.67 Stars - 3" aria-label="4.67 Stars - 3" data-done="true" role="button" tabindex="0"><i aria-hidden="true" class="ruk-icon-percentage-star--100"></i><i aria-hidden="true" class="ruk-icon-percentage-star--100"></i><i aria-hidden="true" class="ruk-icon-percentage-star--100"></i><i aria-hidden="true" class="ruk-icon-percentage-star--100"></i><i aria-hidden="true" class="ruk-icon-percentage-star--75"></i><span class="ruk-rating-snippet-count" >{{ settings.review-counnt-text }}</span></div>
+        </a>
+        <p>{{ settings.subtext }}</p>
+        <div class="above-cta-text"> <span class="text-d-flex"><span class="counter">0</span><span class="plus-sign">+</span></span> {{ settings.insall-number-text }}</div>
+      </div>
+
+      <div class="service_group_container {% if isPDP %}is-pdp{% endif %}">
+        <div class="service_group {% if isPDP %}is-pdp{% endif %}">
+
+          
+          <div class="zipcode__section">
+            <div class="header">
+              <h2>Installation Zip Code<span style="color:red">*</span></h2>
+              <input type="text" id="installation_zipcode" name="_installation_zipcode" placeholder="Enter your zip code">
+            </div>
+          </div>
+          <div class="tier__section">
+            <div class="header">
+              <h2>{{ settings.package_title }}</h2>
+              <span>{{ settings.package_desc }}</span>
+            </div>
+            <div class="tier-grid">
+            </div>
+            <div class="tier_install">
+              <h3>Enter Your Square Footage</h3>
+              <div class="service-selector">
+              </div>
+              <div class="additional-service-install">
+              </div>
+              <div class="product-summary-container">
+                <div class="product-summary" id="installation_summary">
+                </div>
+                <div class="total-square-foot">
+                  <div class="sq_text">Total Square Footage:</div>
+                  <div><span class='qty'>0</span> <span class='unit'>SQ FT</span></div>
+                </div>
+              </div>
+              {% comment %} <button id="addToCartInstallation">Add to cart - Installation</button>
+              <p class="addCartWarning">Please accept terms and conditions below to add to cart</p> {% endcomment %}
+            </div>
+          </div>
+          <div class="demolition__section is-collapsed">
+            <div class="header">
+              <h2>{{ settings.demolition_title }}</h2>
+              <span>{{ settings.demolition_desc }}</span>
+            </div>
+            <div class="demolition_service">
+              <div class="service-selector"></div>
+              <div class="product-summary-container">
+                <div class="product-summary" id="demolition_summary">
+                </div>
+              </div>
+              {% comment %} <button id="addToCartDemolition">Add to cart - Demolition</button>
+              <p class="addCartWarning">Please accept terms and conditions below to add to cart</p> {% endcomment %}
+            </div>
+          </div>
+          <div class="additional_services__section is-collapsed">
+            <div class="header">  
+              <h2>{{ settings.service_title }}</h2>
+              <span>{{ settings.service_desc }}</span>
+            </div>
+            <div class="additional_services_addons">
+              <div class="service-selector"></div>
+              <div class="additional_services_warranty">
+                 <h3>Extended Warranty Options (1-year Warranty Included)</h3>
+                <div class="service-selector">
+                </div>
+              </div>
+              <div class="product-summary-container">
+                <div class="product-summary" id="addons_summary">
+                </div>
+              </div>
+  
+              {% comment %} <button id="addToCartAddOn">Add to cart - Add on</button>
+              <p class="addCartWarning">Please accept terms and conditions below to add to cart</p> {% endcomment %}
+            </div>
+          </div>
+          <div class="address__section" id="install-address-section">
+            <div class="header">
+              <div class="address-header">
+                <h2>{{ settings.address_title }}</h2> 
+              </div>
+              <div class="address-desc">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="toggle-install-address" name="_installation_address_different">
+                  <span class="slider round"></span>
+                </label>
+                <span>{{ settings.address_desc }}</span>
+              </div>
+            </div>
+
+           <div id="install-address-form" class="address-form" style="display: none;">
+              <div class="form-row">
+                <select name="country" id="AddressCountry" class="input-block" data-default="{{ form.country }}">
+                   <option value="">Country/Region</option>
+                    {{ all_country_option_tags }}
+                 </select>
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="First Name" class="input-half" id="AddressFirstName">
+                <input type="text" placeholder="Last Name" class="input-half" id="AddressLastName">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="Company (optional)" class="input-block" id="AddressCompany">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="Address" class="input-block" id="AddressAddress1">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="Apartment, suite, etc. (optional)" class="input-block" id="AddressAddress2">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="City" class="input-third" id="AddressCity">
+                <select class="input-third" id="AddressProvince" name="province">
+                  <option value="">State</option>
+                </select>
+                <input type="text" placeholder="ZIP code" class="input-third" id="AddressZip">
+              </div>
+              <div class="form-row">
+                 <input type="text" placeholder="Phone" class="input-block" id="AddressPhone">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div id="detailed-subtotal">
+          <p class="warning">
+            Final costs may vary pending installer review (actual square footage, prior flooring conditions, etc).
+            Additional charges may apply.
+          </p>
+          <div class="detailed-info">
+            <div class="terms-checkbox">
+              <input type="checkbox" id="agree_terms">
+              <label for="agree_terms">
+                 To continue please agree to the 
+                <a href="/pages/installation-terms-of-service" target="_blank"> Terms &amp; Conditions </a>
+              </label>
+            </div>
+
+            <button id="addDepositToCart">{{ settings.cta-text }}</button>
+            <p class="addCartWarning" style="display: none;">Please accept the terms and conditions to continue.</p>
+
+            <div class="deposit">
+              <img src="{{ 'install-card.svg' | asset_url }}" width="16" height="16"> {{ settings.below-cta-one-text }}
+            </div>
+            <div class="deposit">
+              <img src="{{ 'install-shield.svg' | asset_url }}" width="16" height="16"> {{ settings.below-cta-two-text }}
+            </div>
+          </div>
+
+          <div class="install-guarantee">
+              <div class="guarantee-title"><img src="{{ 'info.svg' | asset_url }}" width="20" height="20"><span>{{ settings.first-heading }}</span></div>
+              <p>{{ settings.first-contnet }}</p>
+          </div>
+
+          <div class="install-help">
+              <div class="help-title"><img src="{{ 'call.svg' | asset_url }}" width="20" height="20"><span>{{ settings.second-heading }}</span></div>
+              <p>{{ settings.second-contnet }}</p>
+          </div>
+
+          <div class="install-next">
+              <div class="next-title"><img src="{{ 'next.svg' | asset_url }}" width="20" height="20"><span>{{ settings.third-heading }}</span></div>
+              <p>{{ settings.third-contnet  }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+function animateCounter(element, targetNumber, duration = 1500) {
+    if (!element) return;
+    const start = 0;
+    const end = targetNumber;
+    const startTime = performance.now();
+
+    function updateCounter(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = progress < 1
+            ? 1 - Math.pow(1 - progress, 2)
+            : 1;
+        const current = Math.round(start + (end - start) * ease);
+        element.textContent = current.toLocaleString();
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        } else {
+            element.textContent = end.toLocaleString();
+        }
+    }
+    requestAnimationFrame(updateCounter);
+}
+
+// Intersection Observer to run animation when element appears
+document.addEventListener('DOMContentLoaded', function() {
+    const counterEl = document.querySelector('.counter');
+    if (!counterEl) return;
+
+    let hasAnimated = false;
+    const observer = new IntersectionObserver(
+        (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !hasAnimated) {
+                    animateCounter(counterEl, {{settings.install-number}}, 1500);
+                    hasAnimated = true;
+                    observer.unobserve(entry.target); // Stop observing after animation
+                }
+            });
+        },
+        { threshold: 0.5 } // 50% of element should be visible
+    );
+
+    observer.observe(counterEl);
+});
+
+</script>  
+
+<script>
+  // Add gallery images for each tier
+  const tierGalleryImages = {
+    bronze: [
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image-2_BRONZE.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image2_BRONZE_Installers_ICON_d49d33b9-1691-4c7e-9d90-b4a3f5e1b180.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image3_BRONZE_US_ICON_70dbe1ff-774f-4da0-9d46-91d8a5b23060.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image4_BRONZE_CleanWorksite_ICON_cfdb0985-6e10-4097-8710-0bbbf18bba5e.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image5_BRONZE_Guarantee_ICON_61f10393-6113-40c1-82b6-b3b44e5c7ac4.jpg'
+    ],
+    silver: [
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image-2_SILVER.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image2_SILVER_Installers_ICON_334c936e-b437-45bd-81a4-b1ea6f15dbb9.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image3_SILVER_30day_ICON_cb46c277-3add-429e-8c2e-d342deebc02b.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image4_SILVER_US_ICON_6350c7e0-3123-4a4f-b589-85fed4ad94dd.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image5_SILVER_CleanWorksite_ICON_6dc97b69-9015-4c65-a67c-0cccf0e75860.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image6_SILVER_Guarantee_ICON_b0a1e612-7a3f-4b84-8cc1-4c4d39a81558.jpg'
+    ],
+    gold: [
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image2_GOLD.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image3_GOLD_60day_ICON_999bd21c-37a2-4e51-957b-ea7bf2f4c02e.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image4_GOLD_Kit_ICON_6e211ad3-6ac7-4dfd-8bf3-d76bb212010f.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image5_GOLD.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image6_GOLD.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image7_GOLD_Guarantee_ICON_6e7aa378-3d4e-4032-a8d8-d3012fe4f7ea.jpg',
+      'https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Image8_GOLD_Support_ICON_bf43ab89-62a2-4bfd-a499-43d4cc546485.jpg'
+    ]
+  };
+
+  const thumbnailStrip = document.getElementById("thumbnailStrip");
+  const mainImage = document.getElementById("mainImage");
+
+  let currentThumbnails = [];
+
+  function loadTier(tier) {
+    const images = tierGalleryImages[tier];
+    if (!images || !thumbnailStrip || !mainImage) return;
+
+    thumbnailStrip.innerHTML = ""; // Clear previous
+    currentThumbnails = [];
+
+    images.forEach((src, index) => {
+      const thumb = document.createElement("img");
+      thumb.src = src;
+      thumb.className = "thumbnail";
+      thumb.onclick = () => selectThumb(thumb);
+      thumbnailStrip.appendChild(thumb);
+      currentThumbnails.push(thumb);
+    });
+
+    if (images.length > 0) {
+      mainImage.classList.add("active");
+    }
+
+    // Select first image by default
+    if (currentThumbnails.length > 0) {
+        selectThumb(currentThumbnails[0]);
+    }
+  }
+
+  function selectThumb(thumb) {
+    if (!thumb) return;
+    currentThumbnails.forEach(t => t.classList.remove("active"));
+    thumb.classList.add("active");
+    const loader = document.getElementById("imageLoader");
+    loader.style.display = "block";
+    mainImage.src = thumb.src;
+    
+    mainImage.onload = () => {
+      loader.style.display = "none";
+    };
+
+    const rect = thumb.getBoundingClientRect();
+    const containerRect = thumbnailStrip.getBoundingClientRect();
+    const padding = 10;
+
+    if (rect.right > containerRect.right - padding) {
+      thumbnailStrip.scrollLeft += rect.right - containerRect.right + padding;
+    } else if (rect.left < containerRect.left + padding) {
+      thumbnailStrip.scrollLeft -= containerRect.left - rect.left + padding;
+    }
+  }
+
+  function selectRelativeThumb(direction) {
+    const index = currentThumbnails.findIndex(t => t.classList.contains("active"));
+    let newIndex = index + direction;
+    if (newIndex < 0) newIndex = 0;
+    if (newIndex >= currentThumbnails.length) newIndex = currentThumbnails.length - 1;
+    selectThumb(currentThumbnails[newIndex]);
+  }
+
+  // Load gold tier by default
+  window.onload = () => {
+    if(document.querySelector('.carousel-container')) {
+        loadTier('gold');
+    }
+  };
+</script>
+
+<script>
+
+function updateCartCount() {
+  fetch('/cart.js')
+    .then(res => res.json())
+    .then(cart => {
+      // This targets any element with the class 'js-cart-count' to update the number
+      document.querySelectorAll('.js-cart-count').forEach(el => {
+        el.textContent = cart.item_count;
+      });
+
+      // This handles showing/hiding the count if it's zero
+      const cartCountWrapper = document.querySelector('.cart-count-bubble'); // Common selector in Dawn theme
+      if (cartCountWrapper) {
+        if (cart.item_count > 0) {
+          cartCountWrapper.classList.remove('hidden');
+        } else {
+          cartCountWrapper.classList.add('hidden');
+        }
+      }
+    })
+    .catch(err => {
+      console.error('Failed to fetch cart count:', err);
+    });
+}
+
+
+async function refreshAndOpenDrawer() {
+    console.log("Attempting to refresh cart with selectors from old code...");
+
+    // --- Clue #1: We are now using 'pop-cart' as the section name ---
+    const cartDrawerSectionName = 'pop-cart';
+
+    // --- Clue #3: We are now using '.js-cart-drawer-trigger' as the trigger ---
+    const cartTriggerSelector = '.js-cart-drawer-trigger';
+
+    // --- Clue #2: We will TRY using '.pop-cart' as the main drawer element. ---
+    // This is our best guess. If this doesn't work, we'll need to find the specific ID.
+    const cartDrawerSelector = '.pop-cart';
+
+
+    try {
+        const res = await fetch(`/?sections=${cartDrawerSectionName}`);
+        if (!res.ok) throw new Error(`Section '${cartDrawerSectionName}' not found.`);
+        
+        const sections = await res.json();
+        const newCartDrawerHtml = sections[cartDrawerSectionName];
+
+        const cartDrawerElement = document.querySelector(cartDrawerSelector);
+
+        if (cartDrawerElement && newCartDrawerHtml) {
+            console.log("Success: Found cart drawer element, updating its content.");
+            const parser = new DOMParser();
+            const newDOM = parser.parseFromString(newCartDrawerHtml, 'text/html');
+            
+            // Find the content inside the new HTML and replace the old content
+            const newInnerContent = newDOM.querySelector(cartDrawerSelector);
+            if (newInnerContent) {
+                cartDrawerElement.innerHTML = newInnerContent.innerHTML;
+            } else {
+                cartDrawerElement.innerHTML = newCartDrawerHtml;
+            }
+        } else {
+            console.error("Failed to find the cart drawer element with selector:", cartDrawerSelector);
+        }
+
+        const triggerElement = document.querySelector(cartTriggerSelector);
+        if (triggerElement) {
+            console.log("Success: Found trigger element, clicking to open drawer.");
+            triggerElement.click();
+        } else {
+            console.error("Failed to find the cart trigger element with selector:", cartTriggerSelector);
+        }
+        console.log('dedededeeeededeeddeededed')
+        // Assuming you have an updateCartCount function
+        updateCartCount();
+
+    } catch (error) {
+        console.error("Error in refreshAndOpenDrawer:", error);
+        alert("Sorry, there was an error updating the cart.");
+    }
+}
+
+
+const countrySelect = document.querySelector('select[name="country"]');
+if (countrySelect) {
+  countrySelect.value = "United States"; // or match using innerText loop if needed
+  countrySelect.dispatchEvent(new Event('change')); // trigger dependent events
+}
+
+(function() {
+  // Global prices object to be populated by Liquid and the fetch function
+  const prices = {
+    {% for variant in product_service.variants %}
+      {{ variant.id }}: {{ variant.price }}{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  };
+
+  // =================================================================
+  // 1. DATA FETCHING & HELPER FUNCTIONS
+  // =================================================================
+
+  async function fetchProductVariantsGrouped() {
+    const catalogueEl = document.querySelector('#install-catalogue');
+    if (!catalogueEl) {
+        console.error("Installation catalogue not found. Please ensure the #install-catalogue element exists.");
+        return null;
+    }
+    const catalogue = JSON.parse(catalogueEl.textContent);
+    const serviceProduct = catalogue.find(v => v.handle === 'custom-service');
+    const { productType, variants = [] } = serviceProduct;
+    const grouped = {
+      Installation: [],
+      Demolition: [],
+      "Add-Ons": [],
+      productType: productType
+    };
+    variants.forEach(v => {
+      const key = v.installationType ? v.installationType.trim() : null;
+      if (key && grouped[key]) {
+        grouped[key].push(v);
+        // Populate the global prices object with cents
+        prices[v.id] = Math.round(v.price * 100);
+      }
+    });
+    return grouped;
+  }
+
+  function formatMoney(cents) {
+    const locale = window.shopSettings?.locale || 'en-US';
+    const currency = window.shopSettings?.currency || 'USD';
+    return (cents / 100).toLocaleString(locale, {
+      style: 'currency',
+      currency: currency
+    });
+  }
+
+  // =================================================================
+  // 2. RENDERING FUNCTIONS FOR EACH PACKAGE
+  // =================================================================
+
+  function renderInstallationPackage(installVariants = [], productType) {
+    const tierSection = document.querySelector('.tier__section .tier-grid');
+    const tierInstallSection = document.querySelector('.tier_install .service-selector');
+    const additionalTierInstall = document.querySelector('.tier_install .additional-service-install');
+    if (!tierSection || !tierInstallSection) return;
+    
+    const createInputHtml = (v, hidden = false) => `
+        <div class="service-item ${hidden ? 'additional-tier-install hidden' : ''}">
+          <label for="service-${v.id}">${v.title}</label>
+          <div class="sf-input-wrapper">
+            <input type="text" id="service-${v.id}" name="service-quantity[${v.id}]" value="" min="0" placeholder="0" class="service-quantity" data-variant-id="${v.id}" data-price-cents="${prices[v.id] || 0}">
+            <span class="unit">${v?.installationInfo?.unit || 'SQ FT'}</span>
+          </div>
+        </div>`;
+
+    const skuTitleMap = { 'IS-FL-THRE': 'lvp', 'IS-FL-HERR': 'lvp', 'IS-FL-LAMI': 'Laminate', 'IS-FL-HARD': 'hardwood', 'IS-FL-HARD-G': 'hardwood-g' };
+    let hasHiddenItems = false;
+    installVariants.forEach(v => {
+        const isHidden = productType && skuTitleMap[v.sku] !== productType;
+        tierInstallSection.insertAdjacentHTML('beforeend', createInputHtml(v, isHidden));
+        if (isHidden) hasHiddenItems = true;
+    });
+    
+    if (hasHiddenItems) {
+      additionalTierInstall.insertAdjacentHTML('beforeend', `
+        <div class='additional-flooring'>
+          <span class="toggle-text">Add additional flooring types</span>
+          <img class="chevron-icon" src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/chevron_blue.png" width="20" height="20" alt="chevron"/>
+        </div>`);
+      document.querySelector('.additional-flooring').addEventListener('click', function () {
+        const additionalItems = document.querySelectorAll('.additional-tier-install');
+        const isHidden = additionalItems[0]?.classList.contains('hidden');
+        additionalItems.forEach(el => el.classList.toggle('hidden', !isHidden));
+        this.querySelector('.toggle-text').textContent = isHidden ? 'Hide additional flooring types' : 'Add additional flooring types';
+        this.querySelector('.chevron-icon').style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+      });
+    }
+  }
+
+  function renderDemolitionPackage(demolitionVariants = []) {
+    const demoSection = document.querySelector('.demolition__section .service-selector');
+    if (!demoSection) return;
+
+    const createInputHtml = (v) => `
+        <div class="service-item">
+          <label for="service-${v.id}">${v.title}</label>
+          <div class="sf-input-wrapper">
+            <input type="text" id="service-${v.id}" name="service-quantity[${v.id}]" value="" min="0" placeholder="0" class="service-quantity" data-variant-id="${v.id}" data-price-cents="${prices[v.id] || 0}">
+            <span class="unit">${v?.installationInfo?.unit || 'SQ FT'}</span>
+          </div>
+        </div>`;
+
+    demolitionVariants.forEach(v => demoSection.insertAdjacentHTML('beforeend', createInputHtml(v)));
+  }
+
+  function renderAddonsPackage(addOnsVariants = []) {
+    const addonsSection = document.querySelector('.additional_services_addons .service-selector');
+    const warrantySection = document.querySelector('.additional_services_warranty .service-selector');
+    if (!addonsSection || !warrantySection) return;
+
+    const createRadioHtml = (v) => `<label><input type="radio" name="warranty" class="warranty-input" value="${v.id}">${v.title}</label>`;
+    const createInputHtml = (v) => `
+        <div class="service-item">
+          <label for="service-${v.id}">${v.title}</label>
+          <div class="sf-input-wrapper">
+            <input type="text" id="service-${v.id}" name="service-quantity[${v.id}]" value="" min="0" placeholder="0" class="service-quantity" data-variant-id="${v.id}" data-price-cents="${prices[v.id] || 0}">
+            <span class="unit">${v?.installationInfo?.unit || 'SQ FT'}</span>
+          </div>
+        </div>`;
+
+    addOnsVariants.forEach(v => {
+      if(v.title.toLowerCase().includes('warranty')) {
+        warrantySection.insertAdjacentHTML('beforeend', createRadioHtml(v));
+      } else {
+        addonsSection.insertAdjacentHTML('beforeend', createInputHtml(v));
+      }
+    });
+  }
+
+  // =================================================================
+  // 3. EVENT BINDING & PRICE CALCULATION
+  // =================================================================
+  
+  function updateDetailedSubtotal() {
+    const installationList = document.getElementById('installation_summary');
+    const demolitionList = document.getElementById('demolition_summary');
+    const addonsList = document.getElementById('addons_summary');
+    
+
+    installationList.innerHTML = '';
+    demolitionList.innerHTML = '';
+    addonsList.innerHTML = '';
+    let totalCents = 0;
+    const summary = {
+      installation: false,
+      demolition: false,
+      addons: false
+    }
+
+    document.querySelectorAll('.service-quantity').forEach(input => {
+        const id  = parseInt(input.dataset.variantId, 10);
+        const serviceType = input.closest('.demolition__section') ? 'demolition' :
+                           input.closest('.additional_services_addons') ? 'addons' : 'installation';
+        const qty = parseInt(input.value, 10) || 0;
+        if (qty > 0 && prices[id]) {
+            const lineCents = prices[id] * qty;
+            totalCents += lineCents;
+            const label = document.querySelector(`label[for="service-${id}"]`).innerText.trim();
+            if (installationList && serviceType === 'installation') {
+              installationList.innerHTML += `<div class="summary-row">
+                    <div class="label">${label} </div>
+                    <div class="qty" >${qty}</div>
+                    {% comment %} <div class="price">${formatMoney(lineCents)}</div> {% endcomment %}
+                  </div>`;
+              summary.installation = true;
+            }
+            if (demolitionList && serviceType === 'demolition') {
+              demolitionList.innerHTML += `<div class="summary-row">
+                    <div class="label">${label} </div>
+                    <div class="qty" >${qty}</div>
+                    {% comment %} <div class="price">${formatMoney(lineCents)}</div> {% endcomment %}
+                  </div>`;
+              summary.demolition = true;
+            }
+            if (addonsList && serviceType === 'addons') {
+              addonsList.innerHTML += `<div class="summary-row">
+                    <div class="label">${label} </div>
+                    <div class="qty" >${qty}</div>
+                    {% comment %} <div class="price">${formatMoney(lineCents)}</div> {% endcomment %}
+                  </div>`;
+              summary.addons = true;
+            }
+
+        }
+    });
+
+
+    // installation_summary, demolition_summary, addons_summary
+
+    const warEl = document.querySelector('input[name="warranty"]:checked');
+    if (warEl) {
+        const id = parseInt(warEl.value, 10);
+        if (id !== 0 && prices[id]) {
+            const lineCents = prices[id] || 0;
+            totalCents += lineCents;
+            const warLabel = warEl.parentNode.innerText.split(':')[0].trim();
+            if (addonsList) {
+              addonsList.innerHTML += `<div class="summary-row">
+                    <div class="label">${warLabel}</div>
+                    {% comment %} <div class="price">${formatMoney(lineCents)}</div> {% endcomment %}
+                  </div>`;
+              summary.addons = true;
+            }
+
+        }
+    }
+
+    if (summary.installation) {
+      installationList.closest('.product-summary-container').style.display = 'flex';
+    } else {
+      installationList.closest('.product-summary-container').style.display = 'none';
+    }
+    if (summary.demolition) {
+      demolitionList.closest('.product-summary-container').style.display = 'flex';
+    } else {
+      demolitionList.closest('.product-summary-container').style.display = 'none';
+    }
+    if (summary.addons) {
+      addonsList.closest('.product-summary-container').style.display = 'flex';
+    } else {
+      addonsList.closest('.product-summary-container').style.display = 'none';
+    }
+    // totalEl.innerText = formatMoney(totalCents);
+  }
+
+  function bindSubtotalListeners() {
+    const inputs = document.querySelectorAll('.service-quantity, input[name="warranty"]');
+    inputs.forEach(el => {
+      if (el.name === 'warranty' && el.type === 'radio') {
+        el.addEventListener('click', function () {
+          if (this.previousChecked) {
+            this.checked = false;
+            this.previousChecked = false;
+            updateDetailedSubtotal(); // Re-trigger since "change" won't fire when unchecked
+          } else {
+            // Reset all radios in this group
+            document.querySelectorAll('input[name="warranty"]').forEach(r => r.previousChecked = false);
+            this.previousChecked = true;
+          }
+        });
+      }
+       el.addEventListener('input', updateDetailedSubtotal);
+       el.addEventListener('change', updateDetailedSubtotal);
+    });
+  }
+
+  function getFormattedAddress() {
+    if (!document.getElementById('toggle-install-address')?.checked) return '';
+    const fields = ['AddressFirstName', 'AddressLastName', 'AddressCompany', 'AddressAddress1', 'AddressAddress2', 'AddressCity', 'AddressProvince', 'AddressZip', 'AddressPhone'];
+    const values = fields.map(id => document.getElementById(id)?.value || '');
+    const country = document.getElementById('AddressCountry')?.options[document.getElementById('AddressCountry').selectedIndex]?.text || '';
+    
+    return [`${values[0]} ${values[1]}`, values[2], values[3], values[4], `${values[5]} ${values[6]} ${values[7]}`, country, values[8]]
+        .filter(line => line && line.trim()).join('\n');
+  }
+
+  const packageBundles = {
+    installation: {},
+    demolition: {},
+    addons: {}
+  };
+
+  // =================================================================
+  // 4. MAIN EXECUTION
+  // =================================================================
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const grouped = await fetchProductVariantsGrouped();
+        if (grouped) {
+            renderInstallationPackage(grouped.Installation.filter(g => g.sku !== ''), grouped.productType);
+            renderDemolitionPackage(grouped.Demolition.filter(g => g.sku !== ''));
+            renderAddonsPackage(grouped['Add-Ons'].filter(g => g.sku !== ''));
+            packageBundles.installation = grouped['Installation'].find(ins => ins.title === 'Installation - 1 Year Warranty Included');
+            packageBundles.demolition = grouped['Demolition'].find(ins => ins.title === 'Demolition - 1 Year Warranty Included');
+            packageBundles.addons = grouped['Add-Ons'].find(ins => ins.title === 'Addons - 1 Year Warranty Included');
+
+            bindSubtotalListeners();
+            updateDetailedSubtotal();
+            
+            const serviceQuantities = document.querySelectorAll('.service-quantity');
+
+            serviceQuantities.forEach((serviceQuantity) => {
+              serviceQuantity.addEventListener('input', function () {
+                this.value = this.value.replace(/\D/g, ''); // Remove non-digits
+              });
+            })
+        }
+    } catch (error) {
+        console.error("Failed to initialize installation packages:", error);
+    }
+
+    
+  });
+})();
+</script>
+
+
+<script>
+  const isTermChecked = () => {
+    const termsCheckbox = document.getElementById('agree_terms');
+    return termsCheckbox.checked;
+  }
+  const scrollToTerms = () => {
+    const termsCheckbox = document.getElementById('agree_terms');
+    termsCheckbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    // Terms & Conditions Checkbox
+    const termsCheckbox = document.getElementById('agree_terms');
+    termsCheckbox.addEventListener('change', function () {
+        const warningElements = document.querySelectorAll('.addCartWarning');
+        warningElements.forEach(el => {
+          el.style.display = 'none';
+        });
+    });
+
+    // Total Square Footage Listener
+    function setupInstallListener() {
+      const section = document.querySelector('.tier_install');
+      if (!section) return;
+      const inputs = section.querySelectorAll('.service-quantity');
+      const totalEl = section.querySelector('.total-square-foot .qty');
+      const updateSqFt = () => {
+          let total = 0;
+          inputs.forEach(i => { total += parseFloat(i.value) || 0; });
+          totalEl.textContent = total.toFixed(2);
+      };
+      inputs.forEach(input => input.addEventListener('input', updateSqFt));
+    }
+    const observer = new MutationObserver(() => {
+        if (document.querySelector('.tier_install .service-quantity')) {
+            setupInstallListener();
+            observer.disconnect();
+        }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Accordion setup
+    document.querySelectorAll('.tier__section, .demolition__section, .additional_services__section').forEach(section => {
+      const header = section.querySelector('.header');
+      if (header) header.addEventListener('click', () => section.classList.toggle('is-collapsed'));
+    });
+
+    // Address control
+    const toggleAddress = document.getElementById('toggle-install-address');
+    const addressForm = document.getElementById('install-address-form');
+    const countrySelect = document.getElementById('AddressCountry');
+    const provinceSelect = document.getElementById('AddressProvince');
+    if(toggleAddress && addressForm) {
+      // Initialize provinces for the selected country
+      function initializeProvinces(countryCode) {
+        // Clear existing options
+        provinceSelect.innerHTML = '<option value="">State</option>';
+
+        const selectedOption = document.querySelector(`option[value="${countryCode}"]`);
+        const provincesData = selectedOption.getAttribute('data-provinces');
+        
+        // Unescape HTML entities and parse as JSON
+        const provinces = JSON.parse(provincesData.replace(/&quot;/g, '"'));
+
+        if (provinces) {
+          provinceSelect.parentElement.style.display = '';
+          provinces.forEach(province => {
+            const option = document.createElement('option');
+            option.value = province[0];
+            option.textContent = province[1];
+            provinceSelect.appendChild(option);
+          });
+        } else {
+          provinceSelect.parentElement.style.display = 'none';
+        }
+      }
+
+      // Handle country change
+      countrySelect.addEventListener('change', function() {
+        initializeProvinces(this.value);
+      });
+
+        toggleAddress.addEventListener('change', function () {
+            addressForm.style.display = this.checked ? 'flex' : 'none';
+            if (this.checked && countrySelect.value) {
+              initializeProvinces(countrySelect.value);
+            }
+        });
+
+      // Initialize provinces for default country if one is selected
+      if (countrySelect.value) {
+        initializeProvinces(countrySelect.value);
+      }
+    }
+  });
+</script>
+
+
+<script>
+(function() { // This is the main wrapper for all your JS logic
+
+    // =================================================================
+    // ** FIX: ADD THIS OBJECT DEFINITION BACK IN AT THE TOP **
+    // This object holds all the variant prices, populated by Liquid.
+    // It MUST be defined here to be accessible by the functions below.
+    // =================================================================
+    const prices = {
+      {% for variant in product_service.variants %}
+        {{ variant.id }}: {{ variant.price }}{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    };
+
+
+    //==================================================================
+    // YOUR EXISTING "NEW LOGIC FOR SINGLE DEPOSIT BUTTON" GOES HERE
+    //==================================================================
+
+    const DEPOSIT_SKU = "IS-DEP-250";
+    // It's better to find this dynamically, but hardcoding works if you're sure of the ID.
+    let depositVariantId = 52133060477203;
+
+    function getFormattedAddress() {
+        if (!document.getElementById('toggle-install-address')?.checked) return '';
+        const fields = ['AddressFirstName', 'AddressLastName', 'AddressCompany', 'AddressAddress1', 'AddressAddress2', 'AddressCity', 'AddressProvince', 'AddressZip', 'AddressPhone'];
+        const values = fields.map(id => document.getElementById(id)?.value || '');
+        const country = document.getElementById('AddressCountry')?.options[document.getElementById('AddressCountry').selectedIndex]?.text || '';
+        
+        return [`${values[0]} ${values[1]}`, values[2], values[3], values[4], `${values[5]} ${values[6]} ${values[7]}`, country, values[8]]
+            .filter(line => line && line.trim()).join('\n');
+    }
+
+    function formatMoney(cents) {
+      const locale = window.shopSettings?.locale || 'en-US';
+      const currency = window.shopSettings?.currency || 'USD';
+      return (cents / 100).toLocaleString(locale, {
+        style: 'currency',
+        currency: currency
+      });
+    }
+
+    // New master function to calculate totals and update the UI
+    function updateMasterSummary() {
+        const masterSummaryContainer = document.querySelector('.master-summary-container');
+        const summaryDetailsEl = document.getElementById('master_summary_details');
+        const totalCostEl = document.getElementById('total_project_cost');
+        const depositDueEl = document.getElementById('deposit_due_amount');
+        
+        let totalCents = 0;
+        let summaryHtml = '';
+
+        // Calculate cost from all quantity inputs
+        document.querySelectorAll('.service-quantity').forEach(input => {
+            const qty = parseInt(input.value, 10) || 0;
+            if (qty > 0) {
+                const label = document.querySelector(`label[for="service-${input.dataset.variantId}"]`).innerText.trim();
+
+                // Core addition: Get the .unit span text located in the closest .sf-input-wrapper
+                let unit = "";
+                const wrapper = input.closest('.sf-input-wrapper');
+                if (wrapper) {
+                    const unitSpan = wrapper.querySelector('.unit');
+                    if (unitSpan) unit = unitSpan.textContent.trim();
+                }
+
+                summaryItems.push({ label, qty, unit, variantId: input.dataset.variantId });
+            }
+        });
+
+
+        // Calculate cost from warranty radio
+        const warEl = document.querySelector('input[name="warranty"]:checked');
+        if (warEl) {
+            const id = parseInt(warEl.value, 10);
+            // This line will also work now
+            if (id !== 0 && prices[id]) {
+                const lineCents = prices[id] || 0;
+                totalCents += lineCents;
+                const warLabel = warEl.parentNode.innerText.split(':')[0].trim();
+                summaryHtml += `<div class="summary-row"><div class="label">${warLabel}</div><div class="price">${formatMoney(lineCents)}</div></div>`;
+            }
+        }
+
+        if (totalCents > 0) {
+            const depositCents = totalCents / 2;
+            summaryDetailsEl.innerHTML = summaryHtml;
+            totalCostEl.innerText = formatMoney(totalCents);
+            depositDueEl.innerText = formatMoney(depositCents);
+            if(masterSummaryContainer) {
+              masterSummaryContainer.style.display = 'block';
+            }
+        } else {
+             if(masterSummaryContainer) {
+              masterSummaryContainer.style.display = 'none';
+            }
+        }
+    }
+
+    // This function remains the same
+    function bindSubtotalListeners() {
+        const inputs = document.querySelectorAll('.service-quantity, input[name="warranty"]');
+        inputs.forEach(el => {
+            el.addEventListener('input', updateMasterSummary);
+            el.addEventListener('change', updateMasterSummary);
+        });
+    }
+
+    // New Add to Cart Handler - This will now work correctly
+    // Updated Add to Cart Handler
+    // Updated Add to Cart Handler
+    document.getElementById('addDepositToCart').addEventListener('click', async (e) => {
+        e.preventDefault();
+        if (!isTermChecked()) {
+            const warningElement = document.querySelector('.addCartWarning');
+            if (warningElement) warningElement.style.display = 'block';
+            scrollToTerms();
+            return;
+        }
+        
+        if (!depositVariantId) {
+            alert(`Error: The deposit product with SKU ${DEPOSIT_SKU} could not be found.`);
+            return;
+        }
+
+        // NEW: Fetch current cart to check for existing deposit
+        try {
+            const cartResponse = await fetch('/cart.js', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const cart = await cartResponse.json();
+            
+            // Check if deposit variant is already in cart
+            const existingDeposit = cart.items.find(item => item.variant_id === depositVariantId);
+            if (existingDeposit && existingDeposit.quantity >= 1) {
+                alert('You can only add one installtion service to your cart. It is already added!');
+                // Optional: If you want to update properties on the existing item instead, add logic here (e.g., /cart/update.js)
+                return; // Prevent adding duplicate
+            }
+        } catch (error) {
+            console.error('Error checking cart:', error);
+            // Proceed anyway or handle error
+        }
+
+        // Recalculate totals and collect items (unchanged)
+        let totalProjectCents = 0;
+        const summaryItems = []; // Still using an array, but won't join it
+
+        document.querySelectorAll('.service-quantity').forEach(input => {
+            const qty = parseInt(input.value, 10) || 0;
+            if (qty > 0) {
+                const label = document.querySelector(`label[for="service-${input.dataset.variantId}"]`).innerText.trim();
+                let unit = "";
+                const wrapper = input.closest('.sf-input-wrapper');
+                if (wrapper) {
+                    const unitSpan = wrapper.querySelector('.unit');
+                    if (unitSpan) unit = unitSpan.textContent.trim();
+                }
+                totalProjectCents += prices[input.dataset.variantId] * qty;
+                summaryItems.push({ label, qty, unit, variantId: input.dataset.variantId });
+            }
+        });
+
+        // Warranty (unchanged, unless you have unit for it too)
+        const warEl = document.querySelector('input[name="warranty"]:checked');
+        if (warEl) {
+            totalProjectCents += prices[warEl.value] || 0;
+            const warLabel = warEl.parentNode.innerText.split(':')[0].trim();
+            summaryItems.push({ label: warLabel, qty: null, unit: null, variantId: warEl.value });
+        }
+        
+        // if (totalProjectCents === 0) {
+        //     alert("Please select at least one service or enter a quantity.");
+        //     return;
+        // }
+
+        const installationAddress = getFormattedAddress();
+        const installationZipCode = document.querySelector('#installation_zipcode').value;
+
+        // UPDATED: Build properties object with individual keys
+        const properties = {};
+        if (installationZipCode && installationZipCode.trim() !== "") {
+            properties['Installation Zip Code'] = `Zip Code: ${installationZipCode}`;
+        }
+        if (installationAddress && installationAddress.trim() !== "") {
+            properties['Installation Address'] = `Installation Address: ${installationAddress}`;
+        }
+
+        // UPDATED: Add each summary item as a separate property
+        summaryItems.forEach((item, index) => {
+            const key = `Service ${index + 1}`;
+            let value;
+            if (item.qty) {
+                value = `${item.label} : ${item.qty}${item.unit ? ' ' + item.unit : ''}`;
+            } else {
+                value = `${item.label} : Selected`;
+            }
+            properties[key] = value;
+        });
+
+        const payload = {
+            items: [{
+                id: depositVariantId,
+                quantity: 1,  // Always add quantity 1, but only if not already in cart
+                properties: properties
+            }]
+        };
+        
+        const button = e.target;
+        button.textContent = "Adding...";
+        button.disabled = true;
+
+        try {
+            const response = await fetch('/cart/add.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) throw new Error('Shopify API issue.');
+
+            document.querySelectorAll('.service-quantity').forEach(input => input.value = '');
+            if (warEl) warEl.checked = false;
+            
+            updateMasterSummary();
+            refreshAndOpenDrawer();
+
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            // alert('Could not add deposit to cart. Please try again.');
+        } finally {
+            button.textContent = "Reserve Installation – $250 Deposit";
+            button.disabled = false;
+        }
+    });
+
+
+
+    // Don't forget to re-add the function that populates the HTML, binds listeners, etc.
+    // Example from the original code:
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const grouped = await fetchProductVariantsGrouped();
+            if (grouped) {
+                renderInstallationPackage(grouped.Installation.filter(g => g.sku !== ''), grouped.productType);
+                renderDemolitionPackage(grouped.Demolition.filter(g => g.sku !== ''));
+                renderAddonsPackage(grouped['Add-Ons'].filter(g => g.sku !== ''));
+                
+                // This part can be removed if you are hardcoding the ID, but it's better to keep it dynamic.
+                const allVariants = [...grouped.Installation, ...grouped.Demolition, ...grouped['Add-Ons']];
+                const depositVariant = allVariants.find(v => v.sku === DEPOSIT_SKU);
+                if (depositVariant) {
+                    depositVariantId = depositVariant.id;
+                } else {
+                    console.error(`CRITICAL: Deposit variant with SKU "${DEPOSIT_SKU}" not found in product data.`);
+                }
+
+                bindSubtotalListeners();
+                updateMasterSummary();
+            }
+        } catch (error) {
+            console.error("Failed to initialize installation packages:", error);
+        }
+    });
+
+})(); // End of the main JS wrapper
+
+
+</script>

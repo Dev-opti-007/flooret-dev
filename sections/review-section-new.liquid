@@ -1,0 +1,781 @@
+<div class="rating-slide-homepage-new" style="background:{{ section.settings.bg-color }}">
+
+  <div class="page-width" > 
+        <div class="left-content">
+                <div class="no-slide">
+                {{ section.settings.rating-text }}
+            </div>
+        </div>
+        <div class="slider" id="rmMobile">
+            {% for block in section.blocks %}
+                <div class="slide" >
+                    {{ block.settings.text }}<span class="person-name"> - {{ block.settings.person-name-text }}</span>
+                </div>
+            {% endfor %}
+        </div>
+     
+          <div class="right-content">
+            <div class="no-slide first">
+                {{ section.settings.right-text-one }}
+            </div>
+            <div class="stars">
+                      {% render 'star' %}
+                      {% render 'star' %}
+                      {% render 'star' %}
+                      {% render 'star' %}
+                      {% render 'star' %}
+                    </div>
+            <div class="no-slide last">
+                {{ section.settings.right-text-two }}
+            </div>
+          </div>
+          <div class="mobile-review">
+                {% comment %} FIRST LOOP: left + right + reviews {% endcomment %}
+                <div class="marquee-content">
+                    <div class="left-content">
+                      <div class="no-slide">{{ section.settings.rating-text }}</div>
+                      </div>
+                      
+                    <div class="right-content">
+                      <div class="no-slide first">{{ section.settings.right-text-one }}</div>
+                      <div class="stars">
+                        {% render 'star' %}
+                        {% render 'star' %}
+                        {% render 'star' %}
+                        {% render 'star' %}
+                        {% render 'star' %}
+                      </div>
+                      <div class="no-slide last">{{ section.settings.right-text-two }}</div>
+                    </div>
+
+                    {% for block in section.blocks %}
+                    <div class="mob-r">{{ block.settings.text }}<span class="person-name"> - {{ block.settings.person-name-text }}</span></div>
+                    {% endfor %}
+                    
+                </div>
+                
+
+    
+  </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', ()=>{
+    $('.slider').slick({
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 8000,
+        dots: false,
+        arrows:false
+      });
+  })
+</script>
+
+<style>
+  .rating-slide-homepage-new .slider {
+    max-height:{{ section.settings.slider-height-desk }}px;
+  }
+
+  .rating-slide-homepage-new .slider {
+        max-width: 600px;
+    }
+    .mobile-review {
+        display:none;
+    }
+  
+  @media (min-width:1600px) {
+    .rating-slide-homepage-new .page-width .left-content .no-slide:nth-child(4) p {
+      width:130px;
+    }
+  }
+  .rating-slide-homepage-new {
+      background: rgb(89 104 107);
+  }
+  
+  .rating-slide-homepage-new .page-width {
+      display: flex;
+      align-items: center;
+      padding: 13px 40px;
+      justify-content: space-between;
+  }
+  
+  .rating-slide-homepage-new .page-width .left-content {
+        width: fit-content;
+        text-align: center;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+    }
+
+  .rating-slide-homepage-new .page-width .left-content:after {
+      {% comment %} content: ""; {% endcomment %}
+      position: absolute;
+      right: 0;
+      top: -20%;
+      height: 140%;
+      width: 1px;
+      background: #fff;
+  }
+
+  .rating-slide-homepage-new .page-width .right-content .slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rating-slide-homepage-new .page-width .right-content .slick-arrow.prev {
+      order: 2;
+  }
+
+  .rating-slide-homepage-new .page-width .right-content .slider .slick-list {
+      width: calc(100% - 100px );
+      order: 1;
+      margin-right: 15px;
+      {% comment %} max-width: 465px; {% endcomment %}
+  }
+
+  .rating-slide-homepage-new .page-width .right-content .slick-arrow.next {
+      order: 4;
+  }
+
+  .rating-slide-homepage-new .page-width .right-content .slider ul.slick-dots {
+      order: 3;
+      margin: 0px;
+      list-style: none;
+      display: flex;
+      margin: 0px 10px;
+      gap:8px;
+  }
+
+  .rating-slide-homepage-new .page-width .right-content .slider ul.slick-dots {
+      display:flex;
+      align-items: center;
+      justify-content:center;
+      position: relative;
+      top: unset;
+      left: unset;
+      right: unset;
+      transform: none !important;
+      bottom: unset;
+  }
+  .rating-slide-homepage-new .page-width .right-content .slider ul.slick-dots li {
+      list-style: none;
+      margin: 0px;
+      height: auto;
+      display:flex;
+  }
+
+  .rating-slide-homepage-new .page-width .right-content .slider ul.slick-dots li button {color: transparent;height: 7px;width: 7px;padding: 0px;border-radius: 50%;border:none; cursor:pointer; transition:all 300ms ease;}
+
+  .rating-slide-homepage-new .page-width .right-content .slider ul.slick-dots li.slick-active button {
+      width:10px;
+      height:10px
+      
+  }
+  .rating-slide-homepage-new .slider.slick-initialized button {
+      cursor: pointer;
+  }
+  .rating-slide-homepage-new .slider .slide {
+      display: inline-flex !important;
+  }
+  .rating-slide-homepage-new .slide p {
+      font-family: Montserrat;
+      font-weight: 500;
+      font-style: Medium;
+      font-size: 14px;
+      leading-trim: NONE;
+      letter-spacing: 0%;
+      color: #000;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      width: 88%;
+  }
+  .rating-slide-homepage-new .slider .slide span.person-name {
+      display: block;
+      width: 12%;
+      font-family: Montserrat;
+      font-weight: 600;
+      font-style: SemiBold;
+      font-size: 14px;
+      leading-trim: NONE;
+      letter-spacing: 0%;
+      color: #000000;
+  }
+  .rating-slide-homepage-new .page-width .right-content .no-slide.first p {
+      font-family: Montserrat;
+      font-weight: 500;
+      font-style: Medium;
+      font-size: 14px;
+      leading-trim: NONE;
+      line-height: 100%;
+      letter-spacing: 0%;
+      color: #000000;
+  }
+  .rating-slide-homepage-new .page-width .right-content .no-slide.last p {
+      font-family: Montserrat;
+      font-weight: 500;
+      font-style: Regular;
+      font-size: 12px;
+      leading-trim: NONE;
+      line-height: 100%;
+      letter-spacing: 0%;
+  }
+  .stars svg {
+      height: 10px;
+      width: 10px;
+  }
+  .stars {
+      display: flex;
+      gap: 2px;
+      margin-left: 7px;
+      margin-right: 15px;
+  }
+  .rating-slide-homepage-new .page-width .right-content .slick-arrow {
+      background: none;
+      border: none;
+      width: fit-content;
+      height: fit-content;
+  }
+    
+    .rating-slide-homepage-new .page-width .left-content .no-slide {
+          color: #000000;
+              font-family: Montserrat;
+      font-weight: 500;
+      font-style: Regular;
+      font-size: 14px;
+      leading-trim: NONE;
+      line-height: 100%;
+      letter-spacing: 0%;
+      }
+      .rating-slide-homepage-new .page-width .left-content .no-slide:nth-child(1) span {
+          color: #fff;
+          margin-left: 12px;
+          font-weight: 700;
+          font-size: 18px;
+          line-height: 100%;
+      }
+
+      .rating-slide-homepage-new .page-width .left-content .no-slide:nth-child(3) p {
+      font-family: Montserrat;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 100%;
+  }
+
+      .divider {
+          background: #fff;
+          width: 1px;
+          height: 39px;
+      }
+
+      .rating-slide-homepage-new .page-width .left-content .no-slide:nth-child(2) p {
+      font-family: Montserrat;
+      font-weight: 600;
+      font-style: SemiBold;
+      font-size: 18px;
+      leading-trim: NONE;
+      line-height: 100%;
+      letter-spacing: 0%;
+  }
+
+  .rating-slide-homepage-new .page-width .left-content .no-slide:nth-child(3) p {
+      font-family: Montserrat;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 100%;
+  }
+
+  .rating-slide-homepage-new .page-width .left-content .no-slide:nth-child(4) p {font-style:SemiBold;background: #D9D9D933;font-family: Montserrat;font-weight: 600;font-size: 10px;width: 114px;height: 21px;display: flex;align-items: center;justify-content: space-evenly;border-radius: 4px;}
+
+  .rating-slide-homepage-new .page-width .right-content {
+      width: fit-content;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+  }
+
+  .rating-slide-homepage-new .page-width .right-content .no-slide,  .rating-slide-homepage-new .page-width .right-content .slider {
+
+    position: relative;
+    text-align: center;
+    }
+
+   .rating-slide-homepage-new .page-width .right-content .slick-slide {
+      display: flex;
+      align-items: center;
+     justify-content:center;
+     margin:0px 0px 0px 1px;
+  }
+  .rating-slide-homepage-new .page-width .right-content .slider {
+    width:100%;
+  }
+
+  .rating-slide-homepage-new .page-width .left-content p {
+      font-size: 16px;
+      color: #000000;
+  }
+  
+  .rating-slide-homepage-new .page-width .right-content .slide p {
+    color: #000000;
+    font-size: 16px;
+  }
+  .rating-slide-homepage-new .page-width .right-content .slide::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: -20%;
+      height: 140%;
+      width: 1px;
+      background: #fff;
+  }
+  .rating-slide-homepage-new .page-width .right-content .slide:nth-last-child(1)::after {
+      content: none;
+  }
+  .rating-slide-homepage-new .page-width .right-content .slide img {
+      width: 65%;
+  }
+
+  .rating-slide-homepage-new .page-width .right-content .slider .slick-list .slick-track {
+      display: flex;
+      align-items: center;
+  }
+
+  .rating-slide-homepage-new .slider {
+    opacity:0;
+    transition:all 300ms ease;
+  }
+  .rating-slide-homepage-new .slider.slick-initialized  {
+    opacity:1;
+  }
+  @media (max-width:1050px){
+      .rating-slide-homepage-new .page-width .left-content .no-slide {
+          font-size: 12px;
+      }
+
+      .rating-slide-homepage-new .page-width .right-content .no-slide.first p {
+          font-size: 12px;
+      }
+
+      .rating-slide-homepage-new .page-width .right-content .no-slide.last p {
+          font-size: 10px;
+      }
+
+      .rating-slide-homepage-new .slide p {
+          font-size: 13px;
+      }
+
+      .rating-slide-homepage-new .slider .slide span.person-name {
+          font-size: 13px;
+      }
+
+      .rating-slide-homepage-new .page-width {
+          padding: 13px 15px;
+      }
+  }  
+  @media (max-width:991px){
+      .rating-slide-homepage-new .page-width > .left-content, .rating-slide-homepage-new .page-width > .right-content {
+          display: none !important;
+      }
+      .rating-slide-homepage-new .slider {
+          max-width: 450px;
+      }
+      .rating-slide-homepage-new .page-width {
+          padding: 13px 20px;
+      }
+      .rating-slide-homepage-new .page-width {
+          opacity:1;
+          transition:all 300ms ease;
+      }
+      .rating-slide-homepage-new .page-width.slick-initialized {
+          opacity:1;
+      }
+      .rating-slide-homepage-new .slider {
+          display:none;
+      }
+      .rating-slide-homepage-new .page-width .slick-track {
+          display: flex;
+          align-items: center;
+          transition: transform 22000ms linear !important;
+      }
+      .rating-slide-homepage-new .page-width .mobile-review .left-content {
+              display: flex !important;
+      }
+      .rating-slide-homepage-new .page-width {
+          padding: 5px 15px;
+          min-height: 49px;
+      }
+      .rating-slide-homepage-new .page-width .left-content .no-slide {
+          font-size: 10px;
+          display: flex;
+          gap: 3px;
+      }
+      .rating-slide-homepage-new .page-width .left-content .no-slide b {
+          font-size: 12px;
+      }
+      .rating-slide-homepage-new .page-width .right-content .no-slide.first p {
+          font-family: Montserrat;
+          font-weight: 700;
+          font-style: Bold;
+          font-size: 12px;
+          leading-trim: NONE;
+          line-height: 100%;
+          letter-spacing: -4%;
+          text-align: center;
+      }
+      .rating-slide-homepage-new .page-width .right-content .no-slide.last p {
+          font-family: Montserrat;
+          font-weight: 400;
+          font-style: Regular;
+          font-size: 10px;
+          leading-trim: NONE;
+          line-height: 100%;
+          letter-spacing: 0%;
+          text-align: center;
+      }
+      .mobile-review .mob-r p {
+          font-family: Montserrat;
+          font-weight: 500;
+          font-style: Medium;
+          font-size: 12px;
+          leading-trim: NONE;
+          line-height: 100%;
+          letter-spacing: -4%;
+          text-align: center;
+      }
+
+      .mobile-review .mob-r span.person-name {
+          font-family: Montserrat;
+          font-weight: 700;
+          font-style: Bold;
+          font-size: 12px;
+          leading-trim: NONE;
+          line-height: 100%;
+          letter-spacing: -4%;
+          text-align: center;
+      }
+      .stars {
+          margin-left: 5px;
+          margin-right: 5px;
+      }
+      .mobile-review {
+          display:block !important;
+      }
+      .rating-slide-homepage-new .page-width .mobile-review .right-content {
+              display: flex !important;
+      }
+      .rating-slide-homepage-new .page-width .slick-track .slick-slide {
+          margin-right: 35px;
+      }
+      .mobile-review .mob-r {
+          display:flex;
+      }
+  }
+  @media (max-width:768px){
+      .rating-slide-homepage-new .page-width > .left-content, .rating-slide-homepage-new .page-width > .right-content {
+          display: none !important;
+      }
+      .rating-slide-homepage-new .page-width {
+          opacity:1;
+          transition:all 300ms ease;
+      }
+      .rating-slide-homepage-new .page-width.slick-initialized {
+          opacity:1;
+      }
+      .rating-slide-homepage-new .slider {
+          display:none;
+      }
+      .rating-slide-homepage-new .page-width .slick-track {
+          display: flex;
+          align-items: center;
+          transition: transform 22000ms linear !important;
+      }
+      .rating-slide-homepage-new .page-width .mobile-review .left-content {
+              display: flex !important;
+      }
+      .rating-slide-homepage-new .page-width {
+          padding: 5px 15px;
+          min-height: 49px;
+      }
+      .rating-slide-homepage-new .page-width .left-content .no-slide {
+          font-size: 10px;
+          display: flex;
+          gap: 3px;
+      }
+      .rating-slide-homepage-new .page-width .left-content .no-slide b {
+          font-size: 12px;
+      }
+      .rating-slide-homepage-new .page-width .right-content .no-slide.first p {
+          font-family: Montserrat;
+          font-weight: 700;
+          font-style: Bold;
+          font-size: 12px;
+          leading-trim: NONE;
+          line-height: 100%;
+          letter-spacing: -4%;
+          text-align: center;
+      }
+      .rating-slide-homepage-new .page-width .right-content .no-slide.last p {
+          font-family: Montserrat;
+          font-weight: 400;
+          font-style: Regular;
+          font-size: 10px;
+          leading-trim: NONE;
+          line-height: 100%;
+          letter-spacing: 0%;
+          text-align: center;
+      }
+      .mobile-review .mob-r p {
+          font-family: Montserrat;
+          font-weight: 500;
+          font-style: Medium;
+          font-size: 12px;
+          leading-trim: NONE;
+          line-height: 100%;
+          letter-spacing: -4%;
+          text-align: center;
+      }
+
+      .mobile-review .mob-r span.person-name {
+          font-family: Montserrat;
+          font-weight: 700;
+          font-style: Bold;
+          font-size: 12px;
+          leading-trim: NONE;
+          line-height: 100%;
+          letter-spacing: -4%;
+          text-align: center;
+      }
+      .stars {
+          margin-left: 5px;
+          margin-right: 5px;
+      }
+      .mobile-review {
+          display:block !important;
+      }
+      .rating-slide-homepage-new .page-width .mobile-review .right-content {
+              display: flex !important;
+      }
+      .rating-slide-homepage-new .page-width .slick-track .slick-slide {
+          margin-right: 35px;
+      }
+    }
+
+    @media (max-width:768px){
+    /* keep your current show/hide rules */
+    .rating-slide-homepage-new .slider { display:none; }
+    .mobile-review { display:block !important; }
+
+    /* make it behave like a continuous ticker */
+    .mobile-review{
+      overflow: hidden;
+    }
+
+    /* slick track should stay in one row */
+    .mobile-review .slick-track{
+      display:flex !important;
+      align-items:center;
+    }
+
+    /* IMPORTANT: nothing wraps */
+    .mobile-review .mob-r,
+    .mobile-review .mob-r p,
+    .mobile-review .mob-r .person-name{
+      white-space: nowrap;
+    }
+
+    /* each slide sizes to its content so the ticker is smooth */
+    .mobile-review .slick-slide{
+      width: auto !important;
+    }
+
+    .mobile-review .mob-r{
+      display:inline-flex !important;
+      align-items:center;
+      gap: 8px;
+      padding-right: 40px; /* spacing between reviews */
+    }
+
+    .mobile-review .mob-r p{
+      margin: 0;
+      display:inline;
+    }
+
+    .mobile-review .mob-r .person-name{
+      display:inline;
+    }
+  }
+
+</style>
+
+<style>
+    @media (max-width:991px){
+  /* Hide desktop slider */
+  .rating-slide-homepage-new .slider { display: none !important; }
+  
+  /* Page width = marquee container */
+  .rating-slide-homepage-new .page-width {
+    padding: 5px 15px;
+    min-height: 49px;
+    overflow: hidden;
+  }
+  
+  /* Mobile review = scrolling marquee */
+  .mobile-review {
+    display: block !important;
+    overflow: hidden;
+    width: 100%;
+  }
+  
+  /* Each marquee-content = full unit (left + reviews + right) */
+  .mobile-review .marquee-content {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 20px;
+    white-space: nowrap;
+    animation: marquee-right-to-left 70s linear infinite;
+  }
+  
+  /* All text prevents wrapping */
+  .left-content, .right-content, .mob-r, .no-slide, .person-name {
+    white-space: nowrap !important;
+    flex-shrink: 0;
+  }
+  
+  /* Mobile typography */
+  .page-width .left-content .no-slide { font-size: 10px; }
+  .page-width .left-content .no-slide b { font-size: 12px; }
+  .page-width .right-content .no-slide.first p { 
+    font-weight: 700; font-size: 12px; letter-spacing: -4%; 
+  }
+  .page-width .right-content .no-slide.last p { 
+    font-weight: 400; font-size: 10px; 
+  }
+  .mobile-review .mob-r p { 
+    font-weight: 500; font-size: 12px; letter-spacing: -4%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  .mobile-review .person-name { 
+    font-weight: 700; font-size: 12px; letter-spacing: -4%; 
+  }
+  
+  /* Stars spacing */
+  .stars { margin-left: 5px; margin-right: 5px; gap: 2px; }
+  
+  /* Pause on hover */
+  .mobile-review:hover .marquee-content {
+    {% comment %} animation-play-state: paused; {% endcomment %}
+  }
+  
+  /* CONTINUOUS right→left animation */
+  @keyframes marquee-right-to-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-84%); }
+  }
+}
+
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if(window.innerwidth < 991){
+       
+            document.querySelector('#rmMobile')?.remove(); // only remove slider
+   }
+});
+</script>
+
+
+{% schema %}
+  {
+    "name": "Rating Section New",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Slider Max Height"
+      },
+      {
+        "type": "range",
+        "id": "slider-height-desk",
+        "label": "Slider Height Desktop",
+        "min": 10,
+        "max": 110,
+        "step": 1,
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "slider-height-mob",
+        "label": "Slider Height Mobile",
+        "min": 10,
+        "max": 110,
+        "step": 1,
+        "default": 50
+      },
+      {
+          "type": "html",
+          "id": "bg-color",
+          "label":"Background-color"
+      },
+      {
+        "type": "header",
+        "content": "Left Content"
+      },
+      {
+        "type": "html",
+        "id": "rating-text",
+        "label": "Rating Text"
+      },
+      {
+        "type": "header",
+        "content": "Middle Content"
+      },
+      {
+        "type": "richtext",
+        "id": "right-text-one",
+        "label": "Right Slide Text One"
+      },
+      {
+        "type": "richtext",
+        "id": "right-text-two",
+        "label": "Right Slide Text Two"
+      },
+      {
+        "type": "header",
+        "content": "Right Content",
+        "info": "For right content slider add blocks."
+      }
+    ],
+    "blocks": [
+        {
+            "type": "slider-text",
+            "name":"Slider Text",
+            "settings": [
+                {
+                    "type": "richtext",
+                    "id": "text",
+                    "label": "Text"
+                },
+                {
+                    "type": "text",
+                    "id":"person-name-text",
+                    "label":"Person name text"
+                }
+            ]
+        }
+    ],
+    "presets": [
+      {
+        "name": "Rating Section New"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,39 @@
+{% assign module = section.settings %}
+
+<section class="store-locator">
+    <div class="container">
+
+        <div class="store-locator__intro">
+            <h1>{{ module.heading }}</h1>
+            {{ module.content }}
+        </div>
+    
+        <div data-storerocket-id="Y287y574AP" data-storerocket-env="p" style="width: 100%;" id="storerocket-widget"></div>
+        <script>(function(){var a=document.createElement('script');a.type='text/javascript';a.async=!0;a.src='https://cdn.storerocket.io/js/widget.js';var b=document.getElementsByTagName('script')[0];b.parentNode.insertBefore(a,b);}());</script>
+    
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Store Locator",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Store locator",
+      "category": "Store locator"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,54 @@
+{%- liquid
+  assign total_active_values = 0
+  assign sort_by = collection.sort_by | default: 'manual'
+
+  for filter in collection.filters
+    assign total_active_values = total_active_values | plus: filter.active_values.size
+    if filter.min_value.value != null or filter.max_value.value != null
+      assign total_active_values = total_active_values | plus: 1
+    endif
+  endfor
+-%}
+
+<div class="col-filters js-header-sticky">
+  <div class="container">
+    <button class="reset show-filters mob-only" type="button">
+      {% render 'svg-filter' %}
+      {{ 'global.show_all_filters' | t }}
+    </button>
+    {% render 'view-button' %}
+
+    <div class="filter filter--sortby">
+      <label class="">Sort By </label>
+      <div class="select-menu">
+        <select
+          name="facet-filter__sort"
+          class="facet-filters__sort select__select caption-large"
+          id="SortBy"
+          aria-describedby="a11y-refresh-page-message"
+        >
+          {%- for option in collection.sort_options -%}
+            {% unless option.value == 'price-ascending' or option.value == 'price-descending' %}
+              <option
+                value="{{ option.value | escape }}"
+                {% if option.value == sort_by %}
+                  selected="selected"
+                {% endif %}
+              >
+                {{ option.name | escape }}
+              </option>
+            {% endunless %}
+          {%- endfor -%}
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% unless request.path contains 'inspiration' %}
+  <style>
+    .gallery-view.container {
+      visibility: hidden;
+    }
+  </style>
+{% endunless %}

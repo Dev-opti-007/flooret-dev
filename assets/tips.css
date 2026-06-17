@@ -1,0 +1,40 @@
+.tips-section {
+  display: flex;
+  justify-content: center;
+}
+.tips-container {
+  max-width: 1232px;
+  width: 100%;
+  display: flex;
+}
+
+.tips-section .install-guarantee,
+.tips-section .install-next,
+.tips-section .install-help {
+  display: flex;
+  margin: 15px;
+  padding: 15px;
+  background: #f4f3f1;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 8px;
+}
+
+.install-guarantee > .guarantee-title,
+.install-help > .help-title,
+.install-next > .next-title {
+  display: flex;
+  gap: 8px;
+  color: #000;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  align-items: center;
+}
+@media (max-width: 768px) {
+    .tips-container {
+        flex-direction: column;
+    }
+}

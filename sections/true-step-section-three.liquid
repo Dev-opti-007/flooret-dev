@@ -1,0 +1,871 @@
+{% comment %}
+  Stair Type Selector Section
+  Two block types:
+  — stair_card  : the selector card (image + title + desc)
+  — result_card : product result row (label + 2 products), linked to a stair_card via data-card-index
+  Both blocks carry {{ block.shopify_attributes }} so they are fully editable in the customizer.
+{% endcomment %}
+
+<section class="sts sts--{{ section.id }}{% if section.settings.full_width %} sts--full-width{% endif %}">
+
+  {%- comment -%} ══ HEADER ROW ══ {%- endcomment -%}
+  <div class="sts__header">
+    <div class="sts__header-left">
+      {%- if section.settings.step_number != blank -%}
+        <span class="sts__step-number" aria-hidden="true">{{ section.settings.step_number }}</span>
+      {%- endif -%}
+      <div class="sts__header-meta">
+        {%- if section.settings.step_label != blank -%}
+          <p class="sts__step-label">{{ section.settings.step_label }}</p>
+        {%- endif -%}
+        {%- if section.settings.section_title != blank -%}
+          <h2 class="sts__title">{{ section.settings.section_title }}</h2>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- if section.settings.header_description != blank -%}
+      <div class="sts__header-right">
+        <p class="sts__header-desc">{{ section.settings.header_description }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ══ STAIR TYPE CARDS GRID ══ {%- endcomment -%}
+  <div class="sts__grid" role="radiogroup" aria-label="Select your stair type">
+    {%- assign card_i = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'stair_card' -%}
+        <button
+          class="sts__card{% if card_i == 0 %} is-selected{% endif %}"
+          role="radio"
+          aria-checked="{% if card_i == 0 %}true{% else %}false{% endif %}"
+          data-card-index="{{ card_i }}"
+          type="button"
+          {{ block.shopify_attributes }}>
+
+          <span class="sts__card-check" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+
+          <div class="sts__card-img">
+            {%- if block.settings.card_image != blank -%}
+              <img
+                src="{{ block.settings.card_image | image_url: width: 500 }}"
+                alt="{{ block.settings.card_image.alt | default: block.settings.card_title | escape }}"
+                loading="lazy" width="500" height="220">
+            {%- elsif block.settings.card_svg != blank -%}
+              <div class="sts__card-svg">{{ block.settings.card_svg }}</div>
+            {%- else -%}
+              <div class="sts__card-img-placeholder"></div>
+            {%- endif -%}
+          </div>
+
+          <div class="sts__card-body">
+            {%- if block.settings.card_title != blank -%}
+              <p class="sts__card-title">{{ block.settings.card_title }}</p>
+            {%- endif -%}
+            {%- if block.settings.card_desc != blank -%}
+              <p class="sts__card-desc">{{ block.settings.card_desc }}</p>
+            {%- endif -%}
+          </div>
+
+        </button>
+        {%- assign card_i = card_i | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} ══ PRODUCT RESULTS ══ {%- endcomment -%}
+  <div class="sts__results" id="sts-results-{{ section.id }}">
+
+    {%- assign result_i = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'result_card' -%}
+
+        <div
+          class="sts__result-group{% if result_i == 0 %} is-active{% endif %}"
+          data-result-index="{{ result_i }}"
+          {% unless result_i == 0 %}style="display:none"{% endunless %}
+          {{ block.shopify_attributes }}>
+
+          {%- if block.settings.result_label != blank -%}
+            <p class="sts__result-label">{{ block.settings.result_label }}</p>
+          {%- endif -%}
+
+          <div class="sts__product-cards">
+
+            {%- comment -%} Product 1 {%- endcomment -%}
+            {%- if block.settings.prod1_title != blank -%}
+              <a class="sts__product-card" href="{{ block.settings.prod1_url }}" aria-label="{{ block.settings.prod1_title | escape }}">
+                <div class="sts__product-img">
+                  {%- if block.settings.prod1_image != blank -%}
+                    <img
+                      src="{{ block.settings.prod1_image | image_url: width: 400 }}"
+                      alt="{{ block.settings.prod1_image.alt | default: block.settings.prod1_title | escape }}"
+                      loading="lazy" width="400" height="260">
+                  {%- else -%}
+                    <div class="sts__product-img-placeholder"></div>
+                  {%- endif -%}
+                </div>
+                <div class="sts__product-info">
+                  <div class="sts__product-text">
+                    {%- if block.settings.prod1_badge != blank -%}
+                      <span class="sts__product-badge">{{ block.settings.prod1_badge }}</span>
+                    {%- endif -%}
+                    <p class="sts__product-title">{{ block.settings.prod1_title }}</p>
+                    {%- if block.settings.prod1_subtitle != blank -%}
+                      <p class="sts__product-subtitle">{{ block.settings.prod1_subtitle }}</p>
+                    {%- endif -%}
+                  </div>
+                  <span class="sts__product-arrow" aria-hidden="true">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="22" viewBox="0 0 13 22" fill="none">
+                    <path d="M2 19.5L10.75 10.75L2 2" stroke="#FAAF4F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
+              </a>
+            {%- endif -%}
+
+            {%- comment -%} Product 2 {%- endcomment -%}
+            {%- if block.settings.prod2_title != blank -%}
+              <a class="sts__product-card" href="{{ block.settings.prod2_url }}" aria-label="{{ block.settings.prod2_title | escape }}">
+                <div class="sts__product-img">
+                  {%- if block.settings.prod2_image != blank -%}
+                    <img
+                      src="{{ block.settings.prod2_image | image_url: width: 400 }}"
+                      alt="{{ block.settings.prod2_image.alt | default: block.settings.prod2_title | escape }}"
+                      loading="lazy" width="400" height="260">
+                  {%- else -%}
+                    <div class="sts__product-img-placeholder"></div>
+                  {%- endif -%}
+                </div>
+                <div class="sts__product-info">
+                  <div class="sts__product-text">
+                    {%- if block.settings.prod2_badge != blank -%}
+                      <span class="sts__product-badge">{{ block.settings.prod2_badge }}</span>
+                    {%- endif -%}
+                    <p class="sts__product-title">{{ block.settings.prod2_title }}</p>
+                    {%- if block.settings.prod2_subtitle != blank -%}
+                      <p class="sts__product-subtitle">{{ block.settings.prod2_subtitle }}</p>
+                    {%- endif -%}
+                  </div>
+                  <span class="sts__product-arrow" aria-hidden="true">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="22" viewBox="0 0 13 22" fill="none">
+                    <path d="M2 19.5L10.75 10.75L2 2" stroke="#FAAF4F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
+              </a>
+            {%- endif -%}
+
+          </div>
+        </div>
+
+        {%- assign result_i = result_i | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+  </div>
+
+</section>
+
+<style>
+
+.sts--{{ section.id }} {
+  --sts-accent:             {{ section.settings.accent_color | default: '#f5a623' }};
+  --sts-accent-hover:       {{ section.settings.accent_hover_color | default: '#d48f0f' }};
+  --sts-bg:                 {{ section.settings.section_bg | default: '#f5f3ef' }};
+  --sts-card-bg:            {{ section.settings.card_bg | default: '#ffffff' }};
+  --sts-card-bg-hover:      {{ section.settings.card_bg_hover | default: '#fdfcfa' }};
+  --sts-card-border:        {{ section.settings.card_border_color | default: '#e0dbd4' }};
+  --sts-card-border-sel:    {{ section.settings.card_border_selected | default: '#f5a623' }};
+  --sts-card-img-bg:        {{ section.settings.card_img_bg | default: '#f0ede8' }};
+  --sts-text:               {{ section.settings.text_color | default: '#1a1a1a' }};
+  --sts-text-muted:         {{ section.settings.text_muted | default: '#6b6b6b' }};
+  --sts-step-number-color:  {{ section.settings.step_number_color | default: '#e4e0d8' }};
+  --sts-result-label-color: {{ section.settings.result_label_color | default: '#1a1a1a' }};
+  --sts-product-bg:         {{ section.settings.product_card_bg | default: '#ffffff' }};
+  --sts-product-border:     {{ section.settings.product_card_border | default: '#e8e4dc' }};
+  --sts-product-arrow:      {{ section.settings.product_arrow_color | default: '#f5a623' }};
+  --sts-badge-bg:           {{ section.settings.badge_bg | default: '#ffffff' }};
+  --sts-badge-text:         {{ section.settings.badge_text_color | default: '#1a1a1a' }};
+  --sts-badge-border:       {{ section.settings.badge_border_color | default: '#d0cbc3' }};
+  --sts-radius-card:        {{ section.settings.card_radius | default: 12 }}px;
+  --sts-radius-product:     {{ section.settings.product_radius | default: 12 }}px;
+  --sts-font-heading:       '{{ section.settings.font_heading | default: 'system-ui' }}', sans-serif;
+  --sts-font-body:          '{{ section.settings.font_body | default: 'system-ui' }}', sans-serif;
+}
+
+.sts--{{ section.id }} {
+  width: 100%;
+  background: var(--sts-bg);
+  font-family: var(--sts-font-body);
+  color: var(--sts-text);
+  {% unless section.settings.full_width %}
+    max-width: {{ section.settings.section_max_width | default: 1200 }}px;
+    margin-inline: auto;
+  {% endunless %}
+  padding: {{ section.settings.padding_top | default: 60 }}px
+           {{ section.settings.padding_h | default: 24 }}px
+           {{ section.settings.padding_bottom | default: 60 }}px;
+  box-sizing: border-box;
+}
+
+/* ══ HEADER ══ */
+.sts--{{ section.id }} .sts__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: {{ section.settings.header_gap | default: 40 }}px;
+  margin-bottom: {{ section.settings.header_mb | default: 40 }}px;
+}
+
+.sts--{{ section.id }} .sts__header-left {
+  display: flex;
+  align-items: flex-start;
+  gap: {{ section.settings.step_gap | default: 16 }}px;
+  flex: 1;
+}
+
+.sts--{{ section.id }} .sts__step-number {
+  font-family: var(--sts-font-heading);
+  font-size: {{ section.settings.step_number_size | default: 110 }}px;
+  font-weight: {{ section.settings.step_number_weight | default: 700 }};
+  line-height: 0.85;
+  color: var(--sts-step-number-color);
+  letter-spacing: -2px;
+  user-select: none;
+  flex-shrink: 0;
+  font-family: Playfair;
+font-weight: 600;
+font-style: SemiBold;
+font-size: 200px;
+leading-trim: NONE;
+line-height: 50.4px;
+letter-spacing: 0%;
+vertical-align: middle;
+color:#E9E4E4;
+}
+
+.sts--{{ section.id }} .sts__header-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 4px;
+}
+
+.sts--{{ section.id }} .sts__step-label {
+  margin: 0 0 6px;
+  font-size: {{ section.settings.step_label_size | default: 12 }}px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sts-text-muted);
+  font-family: Montserrat;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 12px;
+  leading-trim: NONE;
+  line-height: 18px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color:#4A5565;
+}
+
+.sts--{{ section.id }} .sts__title {
+  margin: 0;
+  font-family: var(--sts-font-heading);
+  font-size: {{ section.settings.title_size | default: 36 }}px;
+  font-weight: {{ section.settings.title_weight | default: 700 }};
+  line-height: 1.15;
+  color: var(--sts-text);
+  max-width: 14em;
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 30px;
+  leading-trim: NONE;
+  line-height: 36px;
+  letter-spacing: 0.4px;
+  color:#000000;
+}
+
+.sts--{{ section.id }} .sts__header-right {
+  max-width: {{ section.settings.header_desc_max_width | default: 320 }}px;
+  flex-shrink: 0;
+  padding-top: 6px;
+}
+
+.sts--{{ section.id }} .sts__header-desc {
+  margin: 0;
+  font-size: {{ section.settings.header_desc_size | default: 15 }}px;
+  line-height: 1.65;
+  color: var(--sts-text-muted);
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 24px;
+  letter-spacing: -0.31px;
+  color:#000000;
+}
+
+/* ══ GRID ══ */
+.sts--{{ section.id }} .sts__grid {
+  display: grid;
+  grid-template-columns: repeat({{ section.settings.grid_columns | default: 3 }}, 1fr);
+  gap: {{ section.settings.grid_gap | default: 16 }}px;
+  margin-bottom: {{ section.settings.grid_mb | default: 32 }}px;
+}
+
+/* ══ CARD ══ */
+.sts--{{ section.id }} .sts__card {
+  position: relative;
+  background: var(--sts-card-bg);
+  border: {{ section.settings.card_border_width | default: 1 }}px solid var(--sts-card-border);
+  border-radius: var(--sts-radius-card);
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  overflow: hidden;
+  outline: none;
+}
+
+.sts--{{ section.id }} .sts__card:hover {
+  background: var(--sts-card-bg-hover);
+  border-color: color-mix(in oklch, var(--sts-card-border-sel) 50%, var(--sts-card-border));
+  box-shadow: 0 2px 12px oklch(0.2 0.01 80 / 0.07);
+}
+
+.sts--{{ section.id }} .sts__card:focus-visible {
+  outline: 2px solid var(--sts-accent);
+  outline-offset: 2px;
+}
+
+.sts--{{ section.id }} .sts__card.is-selected {
+  border-color: var(--sts-card-border-sel);
+  border-width: {{ section.settings.card_border_sel_width | default: 2 }}px;
+}
+
+/* Checkmark badge */
+.sts--{{ section.id }} .sts__card-check {
+  position: absolute;
+  top: {{ section.settings.check_top | default: 12 }}px;
+  right: {{ section.settings.check_right | default: 12 }}px;
+  width: {{ section.settings.check_size | default: 28 }}px;
+  height: {{ section.settings.check_size | default: 28 }}px;
+  border-radius: 50%;
+  background: var(--sts-accent);
+  color: {{ section.settings.check_icon_color | default: '#ffffff' }};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.sts--{{ section.id }} .sts__card.is-selected .sts__card-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Card image */
+.sts--{{ section.id }} .sts__card-img {
+  width: 100%;
+  height: {{ section.settings.card_img_height | default: 160 }}px;
+  background: var(--sts-card-img-bg);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sts--{{ section.id }} .sts__card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: {{ section.settings.card_img_fit | default: 'cover' }};
+  display: block;
+  padding:25px;
+}
+
+.sts--{{ section.id }} .sts__card-img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--sts-card-img-bg);
+}
+
+.sts--{{ section.id }} .sts__card-svg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.sts--{{ section.id }} .sts__card-svg svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Card body */
+.sts--{{ section.id }} .sts__card-body {
+  padding: 0px 25px 23px 25px;
+}
+
+.sts--{{ section.id }} .sts__card-title {
+  margin: 0 0 4px;
+  font-size: {{ section.settings.card_title_size | default: 15 }}px;
+  font-weight: {{ section.settings.card_title_weight | default: 600 }};
+  line-height: 1.3;
+  color: var(--sts-text);
+  font-family: Montserrat;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 16.05px;
+  leading-trim: NONE;
+  line-height: 22.92px;
+  letter-spacing: -0.17px;
+  color:#0A0A0A;
+}
+
+.sts--{{ section.id }} .sts__card-desc {
+  margin: 0;
+  font-size: {{ section.settings.card_desc_size | default: 13 }}px;
+  line-height: 1.5;
+  color: var(--sts-text-muted);
+  font-family: Montserrat;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 13.75px;
+  leading-trim: NONE;
+  line-height: 17.19px;
+  letter-spacing: 0px;
+  color:#4A5565;
+}
+
+/* ══ RESULTS ROW ══ */
+.sts--{{ section.id }} .sts__result-label {
+  margin: 0 0 {{ section.settings.result_label_mb | default: 16 }}px;
+  font-size: {{ section.settings.result_label_size | default: 11 }}px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sts-result-label-color);
+  font-family: Montserrat;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 12px;
+  leading-trim: NONE;
+  line-height: 18px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color:#4A5565;
+}
+
+/* ══ PRODUCT CARDS ══ */
+.sts--{{ section.id }} .sts__product-cards {
+  display: grid;
+  grid-template-columns: repeat({{ section.settings.product_cols | default: 2 }}, 1fr);
+  gap: {{ section.settings.product_gap | default: 16 }}px;
+}
+
+.sts--{{ section.id }} .sts__product-card {
+  display: flex;
+  align-items: stretch;
+  background: var(--sts-product-bg);
+  border: 1px solid var(--sts-product-border);
+  border-radius: var(--sts-radius-product);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.sts--{{ section.id }} .sts__product-card:hover {
+  box-shadow: 0 4px 16px oklch(0.2 0.01 80 / 0.09);
+  border-color: color-mix(in oklch, var(--sts-card-border-sel) 40%, var(--sts-product-border));
+}
+
+.sts--{{ section.id }} .sts__product-img {
+  position: relative;
+  width: {{ section.settings.product_img_width | default: 180 }}px;
+  flex-shrink: 0;
+  background: var(--sts-card-img-bg);
+  overflow: hidden;
+}
+
+.sts--{{ section.id }} .sts__product-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sts--{{ section.id }} .sts__product-img-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+  background: var(--sts-card-img-bg);
+}
+
+.sts--{{ section.id }} .sts__product-badge {
+    background: var(--sts-badge-bg);
+    color: var(--sts-badge-text);
+    border: 1px solid var(--sts-badge-border);
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    white-space: nowrap;
+    width: fit-content;
+    font-family: Inter;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 12px;
+    leading-trim: NONE;
+    line-height: 16px;
+    letter-spacing: 0px;
+    border: 1px solid #000000;
+    margin-bottom: 7px;
+}
+
+.sts--{{ section.id }} .sts__product-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: {{ section.settings.product_info_padding_v | default: 20 }}px
+           {{ section.settings.product_info_padding_h | default: 24 }}px;
+  gap: 12px;
+}
+
+.sts--{{ section.id }} .sts__product-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sts--{{ section.id }} .sts__product-title {
+  margin: 0;
+  font-size: {{ section.settings.product_title_size | default: 18 }}px;
+  font-weight: {{ section.settings.product_title_weight | default: 700 }};
+  line-height: 1.25;
+  color: var(--sts-text);
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 24px;
+  leading-trim: NONE;
+  line-height: 26px;
+  letter-spacing: 0.4px;
+  vertical-align: middle;
+  color:#000;
+}
+
+.sts--{{ section.id }} .sts__product-subtitle {
+  margin: 0;
+  font-size: {{ section.settings.product_subtitle_size | default: 13 }}px;
+  line-height: 1.4;
+  color: var(--sts-text-muted);
+  font-family: Montserrat;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 14px;
+  leading-trim: NONE;
+  line-height: 16px;
+  letter-spacing: 0px;
+  color:#4A5565;
+  margin-top:11px;
+}
+
+.sts--{{ section.id }} .sts__product-arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  {% comment %} background: var(--sts-accent); {% endcomment %}
+  color: {{ section.settings.arrow_icon_color | default: '#ffffff' }};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.sts--{{ section.id }} .sts__product-card:hover .sts__product-arrow {
+  {% comment %} background: var(--sts-accent-hover); {% endcomment %}
+  transform: translateX(2px);
+}
+
+/* ══ MOBILE ══ */
+@media (max-width: 768px) {
+  .sts--{{ section.id }} {
+    padding: {{ section.settings.padding_top_mob | default: 32 }}px
+             {{ section.settings.padding_h_mob | default: 16 }}px
+             {{ section.settings.padding_bottom_mob | default: 32 }}px;
+  }
+
+  .sts--{{ section.id }} .sts__header {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .sts--{{ section.id }} .sts__header-right { max-width: 100%; }
+
+  .sts--{{ section.id }} .sts__step-number {
+    font-size: {{ section.settings.step_number_size_mob | default: 72 }}px;
+  }
+
+  .sts--{{ section.id }} .sts__title {
+    font-size: {{ section.settings.title_size_mob | default: 26 }}px !important;
+  }
+
+  .sts--{{ section.id }} .sts__grid {
+    grid-template-columns: repeat({{ section.settings.grid_columns_mob | default: 2 }}, 1fr);
+    gap: {{ section.settings.grid_gap_mob | default: 10 }}px;
+  }
+
+  .sts--{{ section.id }} .sts__card-img {
+    height: {{ section.settings.card_img_height_mob | default: 110 }}px;
+  }
+
+  .sts--{{ section.id }} .sts__product-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .sts--{{ section.id }} .sts__product-img {
+    width: {{ section.settings.product_img_width_mob | default: 120 }}px;
+  }
+
+  .sts--{{ section.id }} .sts__product-title {
+    font-size: {{ section.settings.product_title_size_mob | default: 15 }}px !important;
+  }
+}
+
+</style>
+
+<script>
+(function () {
+  var sec    = document.querySelector('.sts--{{ section.id }}');
+  if (!sec) return;
+
+  var cards  = sec.querySelectorAll('.sts__card');
+  var groups = sec.querySelectorAll('.sts__result-group');
+
+  function selectCard(index) {
+    cards.forEach(function(c, i) {
+      var sel = i === index;
+      c.classList.toggle('is-selected', sel);
+      c.setAttribute('aria-checked', sel ? 'true' : 'false');
+    });
+
+    groups.forEach(function(g, i) {
+      if (i === index) {
+        g.style.display = '';
+        g.style.opacity = '0';
+        g.style.transform = 'translateY(8px)';
+        requestAnimationFrame(function() {
+          g.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+          g.style.opacity = '1';
+          g.style.transform = 'translateY(0)';
+        });
+        g.classList.add('is-active');
+      } else {
+        g.style.display = 'none';
+        g.style.opacity = '';
+        g.style.transform = '';
+        g.classList.remove('is-active');
+      }
+    });
+  }
+
+  cards.forEach(function(card, i) {
+    card.addEventListener('click', function() { selectCard(i); });
+  });
+
+  selectCard(0);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Stair Type Selector",
+  "settings": [
+
+    { "type": "header", "content": "Section Layout" },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width", "default": false },
+    { "type": "range", "id": "section_max_width", "min": 800, "max": 1600, "step": 20, "label": "Max Width (px)", "default": 1200 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "label": "Padding Top — Desktop (px)", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "label": "Padding Bottom — Desktop (px)", "default": 60 },
+    { "type": "range", "id": "padding_h", "min": 0, "max": 80, "step": 4, "label": "Padding Horizontal — Desktop (px)", "default": 24 },
+    { "type": "range", "id": "padding_top_mob", "min": 0, "max": 80, "step": 4, "label": "Padding Top — Mobile (px)", "default": 32 },
+    { "type": "range", "id": "padding_bottom_mob", "min": 0, "max": 80, "step": 4, "label": "Padding Bottom — Mobile (px)", "default": 32 },
+    { "type": "range", "id": "padding_h_mob", "min": 0, "max": 40, "step": 4, "label": "Padding Horizontal — Mobile (px)", "default": 16 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "section_bg", "label": "Section Background", "default": "#f5f3ef" },
+    { "type": "color", "id": "accent_color", "label": "Accent Color", "default": "#f5a623" },
+    { "type": "color", "id": "accent_hover_color", "label": "Accent Hover Color", "default": "#d48f0f" },
+    { "type": "color", "id": "text_color", "label": "Primary Text Color", "default": "#1a1a1a" },
+    { "type": "color", "id": "text_muted", "label": "Muted Text Color", "default": "#6b6b6b" },
+    { "type": "color", "id": "step_number_color", "label": "Step Number Color", "default": "#e4e0d8" },
+
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "step_number", "label": "Step Number", "default": "02" },
+    { "type": "range", "id": "step_number_size", "min": 60, "max": 160, "step": 5, "label": "Step Number Size — Desktop (px)", "default": 110 },
+    { "type": "range", "id": "step_number_size_mob", "min": 40, "max": 100, "step": 4, "label": "Step Number Size — Mobile (px)", "default": 72 },
+    { "type": "select", "id": "step_number_weight", "label": "Step Number Weight", "options": [{ "value": "400", "label": "Normal" }, { "value": "600", "label": "Semi Bold" }, { "value": "700", "label": "Bold" }, { "value": "800", "label": "Extra Bold" }], "default": "700" },
+    { "type": "text", "id": "step_label", "label": "Step Label", "default": "STEP 2 - CHOOSE" },
+    { "type": "range", "id": "step_label_size", "min": 9, "max": 16, "step": 1, "label": "Step Label Size (px)", "default": 12 },
+    { "type": "text", "id": "section_title", "label": "Section Title", "default": "How to choose the right solution for your stairs" },
+    { "type": "range", "id": "title_size", "min": 20, "max": 56, "step": 2, "label": "Title Size — Desktop (px)", "default": 36 },
+    { "type": "range", "id": "title_size_mob", "min": 16, "max": 36, "step": 2, "label": "Title Size — Mobile (px)", "default": 26 },
+    { "type": "select", "id": "title_weight", "label": "Title Weight", "options": [{ "value": "400", "label": "Normal" }, { "value": "600", "label": "Semi Bold" }, { "value": "700", "label": "Bold" }], "default": "700" },
+    { "type": "textarea", "id": "header_description", "label": "Header Description (right)", "default": "The right solution depends on your stair construction. Select your stair type below." },
+    { "type": "range", "id": "header_desc_size", "min": 12, "max": 20, "step": 1, "label": "Description Size (px)", "default": 15 },
+    { "type": "range", "id": "header_desc_max_width", "min": 200, "max": 520, "step": 10, "label": "Description Max Width (px)", "default": 320 },
+    { "type": "range", "id": "header_gap", "min": 16, "max": 100, "step": 4, "label": "Header Columns Gap (px)", "default": 40 },
+    { "type": "range", "id": "header_mb", "min": 16, "max": 110, "step": 1, "label": "Header Margin Bottom (px)", "default": 40 },
+    { "type": "range", "id": "step_gap", "min": 8, "max": 40, "step": 2, "label": "Step Number → Meta Gap (px)", "default": 16 },
+
+    { "type": "header", "content": "Stair Type Grid" },
+    { "type": "select", "id": "grid_columns", "label": "Columns — Desktop", "options": [{ "value": "2", "label": "2 columns" }, { "value": "3", "label": "3 columns" }, { "value": "4", "label": "4 columns" }], "default": "3" },
+    { "type": "select", "id": "grid_columns_mob", "label": "Columns — Mobile", "options": [{ "value": "1", "label": "1 column" }, { "value": "2", "label": "2 columns" }], "default": "2" },
+    { "type": "range", "id": "grid_gap", "min": 0, "max": 50, "step": 0.5, "label": "Grid Gap — Desktop (px)", "default": 16 },
+    { "type": "range", "id": "grid_gap_mob", "min": 4, "max": 24, "step": 2, "label": "Grid Gap — Mobile (px)", "default": 10 },
+    { "type": "range", "id": "grid_mb", "min": 8, "max": 60, "step": 4, "label": "Grid Margin Bottom (px)", "default": 32 },
+
+    { "type": "header", "content": "Stair Card Style" },
+    { "type": "color", "id": "card_bg", "label": "Card Background", "default": "#ffffff" },
+    { "type": "color", "id": "card_bg_hover", "label": "Card Background — Hover", "default": "#fdfcfa" },
+    { "type": "color", "id": "card_border_color", "label": "Card Border Color", "default": "#e0dbd4" },
+    { "type": "color", "id": "card_border_selected", "label": "Card Border — Selected", "default": "#f5a623" },
+    { "type": "range", "id": "card_border_width", "min": 1, "max": 3, "step": 1, "label": "Card Border Width (px)", "default": 1 },
+    { "type": "range", "id": "card_border_sel_width", "min": 1, "max": 4, "step": 1, "label": "Card Border Width — Selected (px)", "default": 2 },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 24, "step": 2, "label": "Card Border Radius (px)", "default": 12 },
+    { "type": "color", "id": "card_img_bg", "label": "Card Image Area Background", "default": "#f0ede8" },
+    { "type": "range", "id": "card_img_height", "min": 80, "max": 280, "step": 8, "label": "Card Image Height — Desktop (px)", "default": 160 },
+    { "type": "range", "id": "card_img_height_mob", "min": 60, "max": 180, "step": 5, "label": "Card Image Height — Mobile (px)", "default": 110 },
+    { "type": "select", "id": "card_img_fit", "label": "Card Image Fit", "options": [{ "value": "cover", "label": "Cover" }, { "value": "contain", "label": "Contain" }, { "value": "fill", "label": "Fill" }], "default": "cover" },
+    { "type": "range", "id": "card_body_padding_v", "min": 8, "max": 32, "step": 2, "label": "Card Body Vertical Padding (px)", "default": 16 },
+    { "type": "range", "id": "card_body_padding_h", "min": 8, "max": 32, "step": 2, "label": "Card Body Horizontal Padding (px)", "default": 16 },
+    { "type": "range", "id": "card_title_size", "min": 12, "max": 20, "step": 1, "label": "Card Title Size (px)", "default": 15 },
+    { "type": "select", "id": "card_title_weight", "label": "Card Title Weight", "options": [{ "value": "400", "label": "Normal" }, { "value": "500", "label": "Medium" }, { "value": "600", "label": "Semi Bold" }, { "value": "700", "label": "Bold" }], "default": "600" },
+    { "type": "range", "id": "card_desc_size", "min": 11, "max": 16, "step": 1, "label": "Card Description Size (px)", "default": 13 },
+
+    { "type": "header", "content": "Checkmark Badge" },
+    { "type": "range", "id": "check_size", "min": 20, "max": 44, "step": 2, "label": "Check Badge Size (px)", "default": 28 },
+    { "type": "range", "id": "check_top", "min": 4, "max": 24, "step": 2, "label": "Check Badge — Top Offset (px)", "default": 12 },
+    { "type": "range", "id": "check_right", "min": 4, "max": 24, "step": 2, "label": "Check Badge — Right Offset (px)", "default": 12 },
+    { "type": "color", "id": "check_icon_color", "label": "Check Icon Color", "default": "#ffffff" },
+
+    { "type": "header", "content": "Results Row" },
+    { "type": "color", "id": "result_label_color", "label": "Result Label Color", "default": "#1a1a1a" },
+    { "type": "range", "id": "result_label_size", "min": 9, "max": 14, "step": 1, "label": "Result Label Size (px)", "default": 11 },
+    { "type": "range", "id": "result_label_mb", "min": 8, "max": 32, "step": 4, "label": "Result Label Margin Bottom (px)", "default": 16 },
+
+    { "type": "header", "content": "Product Cards" },
+    { "type": "color", "id": "product_card_bg", "label": "Product Card Background", "default": "#ffffff" },
+    { "type": "color", "id": "product_card_border", "label": "Product Card Border Color", "default": "#e8e4dc" },
+    { "type": "range", "id": "product_radius", "min": 0, "max": 24, "step": 2, "label": "Product Card Border Radius (px)", "default": 12 },
+    { "type": "select", "id": "product_cols", "label": "Product Columns — Desktop", "options": [{ "value": "1", "label": "1 column" }, { "value": "2", "label": "2 columns" }], "default": "2" },
+    { "type": "range", "id": "product_gap", "min": 0, "max": 50, "step": 1, "label": "Product Cards Gap (px)", "default": 16 },
+    { "type": "range", "id": "product_img_width", "min": 80, "max": 280, "step": 5, "label": "Product Image Width — Desktop (px)", "default": 180 },
+    { "type": "range", "id": "product_img_width_mob", "min": 60, "max": 160, "step": 5, "label": "Product Image Width — Mobile (px)", "default": 120 },
+    { "type": "range", "id": "product_info_padding_v", "min": 8, "max": 40, "step": 4, "label": "Product Info Vertical Padding (px)", "default": 20 },
+    { "type": "range", "id": "product_info_padding_h", "min": 8, "max": 48, "step": 4, "label": "Product Info Horizontal Padding (px)", "default": 24 },
+    { "type": "range", "id": "product_title_size", "min": 14, "max": 28, "step": 1, "label": "Product Title Size — Desktop (px)", "default": 18 },
+    { "type": "range", "id": "product_title_size_mob", "min": 13, "max": 22, "step": 1, "label": "Product Title Size — Mobile (px)", "default": 15 },
+    { "type": "select", "id": "product_title_weight", "label": "Product Title Weight", "options": [{ "value": "400", "label": "Normal" }, { "value": "600", "label": "Semi Bold" }, { "value": "700", "label": "Bold" }], "default": "700" },
+    { "type": "range", "id": "product_subtitle_size", "min": 11, "max": 16, "step": 1, "label": "Product Subtitle Size (px)", "default": 13 },
+    { "type": "color", "id": "product_arrow_color", "label": "Arrow Button Color", "default": "#f5a623" },
+    { "type": "color", "id": "arrow_icon_color", "label": "Arrow Icon Color", "default": "#ffffff" },
+
+    { "type": "header", "content": "Best Fit Badge" },
+    { "type": "color", "id": "badge_bg", "label": "Badge Background", "default": "#ffffff" },
+    { "type": "color", "id": "badge_text_color", "label": "Badge Text Color", "default": "#1a1a1a" },
+    { "type": "color", "id": "badge_border_color", "label": "Badge Border Color", "default": "#d0cbc3" },
+    { "type": "range", "id": "badge_font_size", "min": 9, "max": 14, "step": 1, "label": "Badge Font Size (px)", "default": 11 },
+    { "type": "range", "id": "badge_radius", "min": 0, "max": 50, "step": 2, "label": "Badge Border Radius (px)", "default": 50 },
+    { "type": "range", "id": "badge_bottom", "min": 4, "max": 24, "step": 2, "label": "Badge Bottom Offset (px)", "default": 10 },
+    { "type": "range", "id": "badge_left", "min": 4, "max": 24, "step": 2, "label": "Badge Left Offset (px)", "default": 10 },
+
+    { "type": "header", "content": "Font Families" },
+    { "type": "select", "id": "font_heading", "label": "Heading Font", "options": [{ "value": "system-ui", "label": "Default (Theme Font)" }, { "value": "Montserrat", "label": "Montserrat" }, { "value": "Roboto", "label": "Roboto" }, { "value": "Helvetica Neue", "label": "Helvetica Neue" }, { "value": "Playfair Display", "label": "Playfair Display" }, { "value": "Georgia", "label": "Georgia" }], "default": "system-ui" },
+    { "type": "select", "id": "font_body", "label": "Body Font", "options": [{ "value": "system-ui", "label": "Default (Theme Font)" }, { "value": "Montserrat", "label": "Montserrat" }, { "value": "Roboto", "label": "Roboto" }, { "value": "Helvetica Neue", "label": "Helvetica Neue" }, { "value": "Playfair Display", "label": "Playfair Display" }, { "value": "Georgia", "label": "Georgia" }], "default": "system-ui" }
+
+  ],
+
+  "blocks": [
+    {
+      "type": "stair_card",
+      "name": "Stair Type Card",
+      "settings": [
+        { "type": "header", "content": "Card Content" },
+        { "type": "image_picker", "id": "card_image", "label": "Card Illustration Image" },
+        { "type": "html", "id": "card_svg", "label": "Card SVG Illustration (if no image)" },
+        { "type": "text", "id": "card_title", "label": "Card Title", "default": "Closed riser" },
+        { "type": "text", "id": "card_desc", "label": "Card Description", "default": "Solid panel between treads. Most common." }
+      ]
+    },
+    {
+      "type": "result_card",
+      "name": "Result — Product Cards",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "⚠️ Add one Result block per Stair Card, in the same order. Result #1 shows when Stair Card #1 is selected, Result #2 when Stair Card #2 is selected, etc."
+        },
+        { "type": "text", "id": "result_label", "label": "Result Label (above products)", "default": "SHOP AVAILABLE CLOSED RISER SOLUTIONS" },
+
+        { "type": "header", "content": "Product 1" },
+        { "type": "image_picker", "id": "prod1_image", "label": "Product 1 — Image" },
+        { "type": "text", "id": "prod1_badge", "label": "Product 1 — Badge Text", "default": "Best fit", "info": "Leave blank to hide badge" },
+        { "type": "text", "id": "prod1_title", "label": "Product 1 — Title", "default": "Signature TruePlank Round Nosing" },
+        { "type": "text", "id": "prod1_subtitle", "label": "Product 1 — Subtitle", "default": "72\" long · Works on all types" },
+        { "type": "url", "id": "prod1_url", "label": "Product 1 — URL" },
+
+        { "type": "header", "content": "Product 2" },
+        { "type": "image_picker", "id": "prod2_image", "label": "Product 2 — Image" },
+        { "type": "text", "id": "prod2_badge", "label": "Product 2 — Badge Text", "info": "Leave blank to hide badge" },
+        { "type": "text", "id": "prod2_title", "label": "Product 2 — Title", "default": "Signature TrueStep Overlapping" },
+        { "type": "text", "id": "prod2_subtitle", "label": "Product 2 — Subtitle", "default": "72\" long · Closed riser only" },
+        { "type": "url", "id": "prod2_url", "label": "Product 2 — URL" }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Stair Type Selector",
+      "blocks": [
+        { "type": "stair_card", "settings": { "card_title": "Closed riser", "card_desc": "Solid panel between treads. Most common." } },
+        { "type": "result_card", "settings": { "result_label": "SHOP AVAILABLE CLOSED RISER SOLUTIONS", "prod1_title": "Signature TruePlank Round Nosing", "prod1_subtitle": "72\" long · Works on all types", "prod1_badge": "Best fit", "prod2_title": "Signature TrueStep Overlapping", "prod2_subtitle": "72\" long · Closed riser only" } },
+
+        { "type": "stair_card", "settings": { "card_title": "Open riser", "card_desc": "No panel between treads. Modern look." } },
+        { "type": "result_card", "settings": { "result_label": "SHOP AVAILABLE OPEN RISER SOLUTIONS", "prod1_title": "Signature TrueStep Flush", "prod1_subtitle": "72\" long · Open riser compatible", "prod1_badge": "Best fit", "prod2_title": "Signature TruePlank Square Nosing", "prod2_subtitle": "72\" long · Works on all types" } },
+
+        { "type": "stair_card", "settings": { "card_title": "Landing / top step", "card_desc": "Flat surface at top or bottom." } },
+        { "type": "result_card", "settings": { "result_label": "SHOP AVAILABLE LANDING SOLUTIONS", "prod1_title": "Signature TruePlank Landing Piece", "prod1_subtitle": "Available in multiple widths", "prod1_badge": "Best fit", "prod2_title": "Signature TrueStep Landing Cap", "prod2_subtitle": "72\" long · Universal fit" } },
+
+        { "type": "stair_card", "settings": { "card_title": "Full tread replacement", "card_desc": "Replace the entire tread surface." } },
+        { "type": "result_card", "settings": { "result_label": "SHOP FULL TREAD REPLACEMENT", "prod1_title": "Signature TruePlank Full Tread", "prod1_subtitle": "Custom cut to size", "prod1_badge": "Best fit", "prod2_title": "Signature TrueStep Full Tread", "prod2_subtitle": "Pre-cut standard sizes" } },
+
+        { "type": "stair_card", "settings": { "card_title": "Room transition", "card_desc": "Where stairs meet another floor." } },
+        { "type": "result_card", "settings": { "result_label": "SHOP ROOM TRANSITION SOLUTIONS", "prod1_title": "Signature Transition Reducer", "prod1_subtitle": "72\" long · Multiple heights", "prod1_badge": "Best fit", "prod2_title": "Signature T-Molding", "prod2_subtitle": "72\" long · Same level floors" } },
+
+        { "type": "stair_card", "settings": { "card_title": "Not sure", "card_desc": "We'll help you find the right fit." } },
+        { "type": "result_card", "settings": { "result_label": "POPULAR STARTER SOLUTIONS", "prod1_title": "Signature TruePlank Round Nosing", "prod1_subtitle": "72\" long · Works on all types", "prod1_badge": "Most popular", "prod2_title": "Signature TrueStep Overlapping", "prod2_subtitle": "72\" long · Most stair types" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

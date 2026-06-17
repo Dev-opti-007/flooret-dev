@@ -1,0 +1,178 @@
+<section class="finance-hero" id="finance-hero">
+    <div class="finance-hero__container">
+      <div class="finance-hero__title-container">
+        <h1 class="finance-hero__title">Get Financed and Pay at Your Pace</h1>
+      </div>
+      <div class="finance-hero__content">
+        <p class="finance-hero__description">
+          At Flooret, we believe that everyone should have access to beautiful, high-quality flooring without financial strain. That's why we offer flexible financing options tailored to meet the needs of both our individual customers and our commercial partners.
+        </p>
+        <div class="finance-hero__buttons">
+          <a href="#affirm-section" class="finance-hero__button finance-hero__button--primary js-scroll-to">Individual Financing</a>
+          <a href="#resolve-section" class="finance-hero__button finance-hero__button--primary js-scroll-to">Partner+ Financing</a>
+        </div>
+      </div>
+    </div>
+    <div class="finance-hero__image">
+      <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/finance-page-image.png?v=1724362640" alt="Beautiful living room with Flooret flooring" class="finance-hero__img">
+    </div>
+  </section>
+  
+  <style>
+    .finance-hero {
+        position: relative;
+        background: linear-gradient(to bottom, #F4F3F1 60%, #ffffff 40%);
+      }
+      
+      .finance-hero__container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 80px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      
+      .finance-hero__title-container {
+        flex: 1;
+        padding-right: 40px;
+      }
+      
+      .finance-hero__title {
+        color: #000;
+        font-family: "Playfair Display", serif;
+        font-size: 64px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 126%;
+      }
+      
+      .finance-hero__content {
+        flex: 1;
+      }
+      
+      .finance-hero__description {
+        color: #000;
+        font-family: Montserrat, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 150%;
+        margin-bottom: 30px;
+      }
+      
+      .finance-hero__buttons {
+        display: flex;
+        gap: 20px;
+      }
+      
+      .finance-hero__button {
+        padding: 5px;
+        font-family: Montserrat, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%;
+        text-decoration: none;
+        border-radius: 24px;
+        transition: all 0.3s ease;
+        display: inline-block;
+        min-width: 200px;
+        text-align: center;
+      }
+      
+      .finance-hero__button--primary {
+        background-color: #000;
+        color: #fff;
+        border: 2px solid #000;
+      }
+      
+      .finance-hero__button--primary:hover {
+        background-color: transparent;
+        color: #000;
+      }
+      
+      .finance-hero__image {
+        margin-top: 40px;
+        width: 100%;
+        height: 628px;
+        align-self: stretch;
+        border-radius: var(--Radius-lg, 16px);
+        overflow: hidden;
+      }
+      
+      .finance-hero__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+      
+      @media (max-width: 768px) {
+        .finance-hero__container {
+          flex-direction: column;
+        }
+      
+        .finance-hero__title-container,
+        .finance-hero__content {
+          width: 100%;
+          padding-right: 0;
+        }
+      
+        .finance-hero__title {
+          font-size: 48px;
+          margin-bottom: 20px;
+        }
+      
+        .finance-hero__buttons {
+          flex-direction: column;
+        }
+      
+        .finance-hero__button {
+          width: 100%;
+        }
+      
+        .finance-hero__image {
+          height: 400px;
+        }
+      }
+  </style>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const scrollButtons = document.querySelectorAll('.js-scroll-to');
+      
+      scrollButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
+  
+  {% schema %}
+  {
+    "name": "Finance Hero",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "hero_image",
+        "label": "Hero Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Finance Hero",
+        "category": "Custom Sections"
+      }
+    ]
+  }
+  {% endschema %}

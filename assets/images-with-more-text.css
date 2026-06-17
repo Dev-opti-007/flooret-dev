@@ -1,0 +1,245 @@
+.how-it-works {
+  padding: 60px 20px;
+  background-color: #f5f9fc;
+  padding-bottom: 0;
+  overflow: visible;
+}
+.how-it-works-container {
+  max-width: 1232px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  margin-bottom: 5rem;
+}
+.how-it-works .hiw-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.get-started-image-overlay {
+  margin-bottom: -3.5rem;
+  z-index: 1;
+  position: relative;
+}
+
+.how-it-works .how-it-works-text .hiw-col p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 100%;
+  font-family: Montserrat, sans-serif;
+}
+
+.how-it-works .how-it-works-container .first-section-row .how-it-works-text h2 {
+  margin-bottom: 32px;
+}
+
+.first-section-row {
+  align-items: center;
+}
+.get-started-button-container {
+  display: flex;
+}
+.how-it-works .get-started-text p {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 100%;
+  font-family: Montserrat, sans-serif;
+}
+.how-it-works .how-it-works-image {
+  max-width: 450px;
+  width: 100%;
+}
+.how-it-works .how-it-works-image img {
+  border-radius: 20px;
+}
+.how-it-works .how-it-works-text {
+  max-width: 630px;
+  width: 100%;
+}
+.how-it-works .get-started-text {
+  max-width: 467px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.how-it-works .get-started-image {
+  max-width: 708px;
+  width: 100%;
+}
+.how-it-works .hiw-col h2 {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 100%;
+  font-family: "Playfair Display", serif;
+  margin-bottom: 0;
+}
+.how-it-works .hiw-col ul {
+  line-height: 100%;
+}
+.how-it-works img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+.how-it-works h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+.how-it-works ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.how-it-works li {
+  display: flex;
+  margin-bottom: 20px;
+}
+.how-it-works .hiw-icon {
+  flex: 0 0 40px;
+  margin-right: 15px;
+}
+.how-it-works .hiw-icon img {
+  width: 40px;
+  height: 40px;
+}
+.how-it-works h3 {
+  font-size: 22px;
+  margin: 0 0 5px;
+}
+.how-it-works p {
+  margin: 0;
+}
+.how-it-works .hiw-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #1a73e8;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.custom-icon-1 {
+  position: relative;
+}
+.custom-icon-1::before {
+  content: "";
+  position: absolute;
+  left: 18.5px;
+  top: 32px;
+  width: 2px;
+  height: 80%;
+  background-color: #64c2a5;
+}
+
+.custom-icon-2::before {
+  content: "";
+  position: absolute;
+  left: 18.5px;
+  top: 32px;
+  width: 2px;
+  height: 80%;
+  border-left: 2px dashed #b0dfd2;
+}
+
+.custom-text-2, .custom-text-3 {
+  color: #888A8B;
+}
+
+@media (max-width: 1024px) {
+  .get-started-text {
+    align-items: center;
+  }
+
+  .get-started-image-overlay {
+    display: flex;
+    justify-content: center;
+  }
+
+  .how-it-works-image {
+    display: flex;
+    justify-content: center;
+  }
+  .how-it-works-container {
+    gap: 40px;
+    margin-bottom: 3rem;
+  }
+
+  /* Haz que cada fila pase a columna y centre su contenido */
+  .how-it-works .hiw-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* Cada columna ocupa el 100% */
+  .how-it-works .hiw-col {
+    flex: 1 1 100%;
+    max-width: 100%;
+    width: 100%;
+    text-align: center;
+  }
+
+  .custom-text-1, .custom-text-2, .custom-text-3, .how-it-works p {
+    text-align: start;
+  }
+
+  /* Quita el margen negativo del overlay para que no se superponga */
+  .get-started-image-overlay {
+    margin-bottom: 0;
+  }
+
+  /* Ajusta iconos: céntralos y reduce la línea vertical */
+  .custom-icon-2::before {
+    top: 40px;
+    height: 60%;
+    left: 18.5px;
+  }
+
+  .custom-icon-1::before {
+    top: 40px;
+    height: 90%;
+    left: 18.5px;
+  }
+
+  /* Opcional: reduce un poco los espacios de texto */
+  .how-it-works .how-it-works-text .hiw-col p,
+  .how-it-works .get-started-text p {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .how-it-works h3 {
+    font-size: 18px;
+  }
+  .how-it-works li {
+    gap: 8px;
+  }
+  .how-it-works .hiw-col h2 {
+    font-size: 32px;
+  }
+  .how-it-works-text {
+    margin-top: 1rem;
+  }
+  .how-it-works .hiw-row {
+    flex-direction: column;
+    justify-content: initial;
+    align-items: center;
+  }
+  .how-it-works .hiw-col {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+  .how-it-works .hiw-icon {
+    margin: 0 auto 10px;
+  }
+  .get-started-button-container {
+    justify-content: center;
+  }
+  
+}

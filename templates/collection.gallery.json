@@ -1,0 +1,42 @@
+{
+  "sections": {
+    "collection-gallery": {
+      "type": "collection-gallery",
+      "blocks": {
+        "block_yUmqL3": {
+          "type": "Block",
+          "settings": {
+            "bg_color": "#e0f3ed",
+            "text_color": "",
+            "heading": "Connect with #myflooret",
+            "content": "<p>Our Instagram feed is a dynamic showcase of real homes with Flooret floors. Search for #myflooret to see how others have upgraded their spaces. From cozy bedrooms to elegant living areas, these are genuine makeovers that speak for themselves.</p>",
+            "cta_text": "Explore #myflooret",
+            "cta_url": "https://www.instagram.com/explore/tags/myflooret/top/"
+          }
+        },
+        "block_RdWBHn": {
+          "type": "Block",
+          "settings": {
+            "bg_color": "#d6d6de",
+            "text_color": "",
+            "heading": "Show Us Your Style",
+            "content": "<p>Have you installed Flooret in your home? Share your makeover with the <strong>#myflooret</strong> hashtag and add to the collective inspiration. Your design choices could be the guide someone else needs to make their decision.</p>",
+            "cta_text": "Shop Now",
+            "cta_url": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "block_yUmqL3",
+        "block_RdWBHn"
+      ],
+      "settings": {
+        "hero_bg_color": "#f4f3f1",
+        "hero_text_color": "#000000"
+      }
+    }
+  },
+  "order": [
+    "collection-gallery"
+  ]
+}

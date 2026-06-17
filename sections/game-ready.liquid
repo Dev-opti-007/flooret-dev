@@ -1,0 +1,360 @@
+<div class="game-ready-section">
+  <div class="game-ready-container">
+    <!-- Left Side - Video -->
+    <div class="video-column">
+      {% if section.settings.video_enable == true %}
+        {%- if section.settings.video_url != blank -%}
+          <img class="thumb-image-{{ section.id }}" src="{{ section.settings.video_thumbnail | img_url:'1920x' }}" alt="{{ section.settings.video_thumbnail.alt }}">
+        {% endif %}
+      {% else %}
+        {% if section.settings.fallback_image != blank %}
+          {{ section.settings.fallback_image | image_url: width: 800 | image_tag: alt: section.settings.fallback_image.alt }}
+        {% else %}
+          {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      {% endif %}
+      
+      {% if section.settings.video_enable == true %}
+        <div class="video-overlay" style="background-color: {{ section.settings.overlay_color }};opacity:{{ section.settings.bg_opacity }};"></div>
+      {% endif %}
+    </div>
+
+    <!-- Right Side - Content -->
+    <div class="content-column">
+      <div class="content-wrapper">
+        {% if section.settings.section_title != blank %}
+          <h2 class="section-title">{{ section.settings.section_title }}</h2>
+        {% endif %}
+        
+        {% if section.settings.section_subtitle != blank %}
+          <div class="section-subtitle">
+            <p>{{ section.settings.section_subtitle }}</p>
+          </div>
+        {% endif %}
+        
+        {% if section.settings.button_text != blank and section.settings.button_url != blank %}
+          <div class="button-wrapper">
+            <a class="game-ready-btn" href="{{ section.settings.button_url }}">
+              {{ section.settings.button_text }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if section.settings.video_enable == true %}
+  <script>
+    var videoHTML = `<video
+      src="{{ section.settings.video_url }}"
+      autoplay
+      muted
+      loop
+      playsinline
+      class="custom-video-{{ section.id }}"
+      width="100%"
+      height="auto"
+    >
+      Your browser does not support the video tag.
+    </video>`;
+
+    function loadVideoOnInteraction() {
+      var thumbImage = document.querySelector('.thumb-image-{{ section.id }}');
+
+      if (thumbImage) {
+        thumbImage.insertAdjacentHTML('afterend', videoHTML);
+        thumbImage.remove();
+      }
+    }
+
+    var userInteractionEvents = ['mousemove', 'mousedown', 'scroll', 'keydown', 'touchstart'];
+    userInteractionEvents.forEach(function(event) {
+      document.addEventListener(event, loadVideoOnInteraction, { once: true });
+    });
+  </script>
+{% endif %}
+
+<style>
+  .game-ready-section {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .game-ready-container {
+    display: flex;
+    {% comment %} min-height: 60vh; {% endcomment %}
+    align-items: stretch;
+  }
+
+  .video-column {
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+    {% if section.settings.video-manual-height-desk == true %}
+      height:{{ section.settings.height-desktop }}vh;
+    {% endif %}
+  }
+
+  .content-column {
+     width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    background: #f8f8f8;
+  }
+
+  .content-wrapper {
+    max-width: 500px;
+    width: 100%;
+    text-align: left;
+  }
+
+  .video-column img,
+  .video-column svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .video-column video.custom-video-{{ section.id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 42px;
+    line-height: 1.2;
+    color: #0F2924;
+    margin-bottom: 20px;
+  }
+
+  .section-subtitle {
+    margin-bottom: 30px;
+  }
+
+  .section-subtitle p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #666;
+    margin: 0;
+  }
+
+  .button-wrapper {
+    margin-top: 40px;
+  }
+
+  .game-ready-btn {
+    display: inline-block;
+    background: #236A99;
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 15px 30px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .game-ready-btn:hover {
+    background: #1e5a82;
+    color: #fff;
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    .video-column {
+      width: 100%;
+    }
+    
+    .game-ready-container .video-column {
+        width: 92%;
+        margin: auto;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .content-column {
+      width: 100%;
+    }
+    .game-ready-container {
+      flex-direction: column;
+      min-height: auto;
+    }
+
+    .video-column {
+      {% if section.settings.video-manual-height-mob == true %}
+      height:{{ section.settings.height-mobile }}vh;
+      {% endif %}
+      min-height: 300px;
+    }
+
+    .content-column {
+      padding: 40px 20px;
+    }
+
+    .section-title {
+      font-size: 32px;
+    }
+
+    .section-subtitle p {
+      font-size: 16px;
+    }
+
+    .game-ready-btn {
+      font-size: 14px;
+      padding: 12px 24px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .content-column {
+      padding: 30px 15px;
+    }
+
+    .section-title {
+      font-size: 28px;
+    }
+
+    .content-wrapper {
+      text-align: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Game Ready Section",
+  "class": "game-ready-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "From Concept to Creation"
+    },
+    {
+      "type": "textarea",
+      "id": "section_subtitle",
+      "label": "Section Subtitle",
+      "default": "René curated a series of exclusive mood boards featuring her favorite Flooret colors."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "SHOP $1 CUT SAMPLES"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Video Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "video_enable",
+      "label": "Enable Video",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "video_thumbnail",
+      "label": "Video Thumbnail Image"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video File URL",
+      "info": "Upload your video in Content > Files, then paste the URL here."
+    },
+    {
+      "type": "image_picker",
+      "id": "fallback_image",
+      "label": "Fallback Image (when video is disabled)"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Video Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "bg_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Overlay Opacity",
+      "default": 0.3
+    },
+    {
+      "type": "header",
+      "content": "Height Video"
+    },
+    {
+      "type": "checkbox",
+      "id": "video-manual-height-desk",
+      "label": "Manual Height Desktop",
+      "default":false
+    },
+    {
+      "type": "range",
+      "id": "height-desktop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "Height Desktop",
+      "default": 100
+    },
+    {
+      "type": "checkbox",
+      "id": "video-manual-height-mob",
+      "label": "Manual Height Mobile",
+      "default":false
+    },
+    {
+      "type": "range",
+      "id": "height-mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "Height Mobile",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Game Ready Section"
+    }
+  ]
+}
+{% endschema %}

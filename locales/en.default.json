@@ -1,0 +1,39 @@
+{
+  "blog": {
+    "latest_posts": "Latest Articles",
+    "share_this": "Share This Article"
+  },
+  "cart": {
+    "calculated_at_checkout": "Calculated at Checkout",
+    "checkout": "CHECKOUT",
+    "shipping": "Shipping",
+    "subtotal": "Subtotal",
+    "summary": "Summary",
+    "taxes": "Taxes",
+    "your_cart": "Your Cart",
+    "your_cart_is_empty": "Your cart is empty"
+  },
+  "global": {
+    "account": "Account",
+    "add_to_cart": "Add to Cart",
+    "continue_shopping": "Continue Shopping",
+    "description": "Description",
+    "learn_more": "Learn More",
+    "menu": "Menu",
+    "out_of_stock": "Out of Stock",
+    "read_more": "Read More",
+    "search_suggestions": "Search Suggestions",
+    "shop_all": "Shop All",
+    "shop_now": "Shop Now",
+    "show_all_filters": "Filters",
+    "view_all": "View All",
+    "view_cart": "View Cart",
+    "view_collection": "View Collection",
+    "view_details": "View Details",
+    "you_may_also_like": "You may also like"
+  },
+  "product": {
+    "collection": "Collection",
+    "price": "Price"
+  }
+}

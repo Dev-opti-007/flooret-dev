@@ -1,0 +1,151 @@
+{{ 'images-with-more-text.css' | asset_url | stylesheet_tag }}
+
+<section class="how-it-works">
+  <div class="how-it-works-container">
+    <div class="hiw-row first-section-row">
+      <div class="hiw-col how-it-works-image">
+        {% if section.settings.work_image %}
+          <img
+            src="{{ section.settings.work_image | img_url: '1024x' }}"
+            alt="{{ section.settings.work_image_alt }}"
+          >
+        {% endif %}
+      </div>
+      <div class="hiw-col how-it-works-text">
+        <h2>{{ section.settings.work_heading }}</h2>
+        <ul class="custom-border-list second-custom-border-list">
+          {% for block in section.blocks %}
+            {% if block.type == 'step' %}
+              <li>
+                {% if block.settings.step_icon %}
+                  <div class="hiw-icon custom-icon-{{ forloop.index }}">
+                    <img src="{{ block.settings.step_icon | img_url: '40x40' }}" alt="">
+                  </div>
+                {% endif %}
+                <div>
+                  <h3 class="custom-text-{{ forloop.index }}">{{ block.settings.step_title }}</h3>
+                  <p>{{ block.settings.step_text }}</p>
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="hiw-row">
+      <div class="hiw-col get-started-text">
+        <h2>{{ section.settings.get_started_heading }}</h2>
+        <p>{{ section.settings.get_started_text }}</p>
+        {% if section.settings.get_started_button_link %}
+          <div class="get-started-button-container">
+            <a
+              href="{{ section.settings.get_started_button_link }}"
+              class="custom-button custom-primary-button "
+            >
+              {{ section.settings.get_started_button_text }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+      <div class="hiw-col get-started-image">
+        {% if section.settings.get_started_image %}
+          <div class="get-started-image-overlay">
+            <img
+              src="{{ section.settings.get_started_image | img_url: '1024x' }}"
+              alt="{{ section.settings.get_started_image_alt }}"
+            >
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image with More Text",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "work_image",
+      "label": "Image (How It Works)"
+    },
+    {
+      "type": "text",
+      "id": "work_image_alt",
+      "label": "Image Alt Text (How It Works)"
+    },
+    {
+      "type": "text",
+      "id": "work_heading",
+      "label": "How It Works Section Title",
+      "default": "How It Works"
+    },
+    {
+      "type": "text",
+      "id": "get_started_heading",
+      "label": "Get Started Section Title",
+      "default": "Get Started"
+    },
+    {
+      "type": "textarea",
+      "id": "get_started_text",
+      "label": "Get Started Description Text",
+      "default": "Lorem ipsum is placeholder text used in design and publishing."
+    },
+    {
+      "type": "text",
+      "id": "get_started_button_text",
+      "label": "Button Text",
+      "default": "Get Started"
+    },
+    {
+      "type": "url",
+      "id": "get_started_button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "get_started_image",
+      "label": "Image (Get Started)"
+    },
+    {
+      "type": "text",
+      "id": "get_started_image_alt",
+      "label": "Image Alt Text (Get Started)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step (How It Works)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "step_icon",
+          "label": "Step Icon"
+        },
+        {
+          "type": "text",
+          "id": "step_title",
+          "label": "Step Title",
+          "default": "Step Title"
+        },
+        {
+          "type": "textarea",
+          "id": "step_text",
+          "label": "Step Description",
+          "default": "Detailed description of this step."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Image with More Text"
+    }
+  ]
+}
+{% endschema %}

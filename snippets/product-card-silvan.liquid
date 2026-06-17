@@ -1,0 +1,193 @@
+{%- liquid
+  assign meta = product.metafields
+  assign featured_collections = 'modin-luxury-vinyl-plank,silvan-hardwood,trim-accessories,sample-kit' | split: ','
+  assign selected_variant = product.selected_or_first_available_variant
+
+  for tag in product.tags
+    if tag contains 'Badge--'
+      assign badge = tag | split: 'Badge--'
+      break
+    endif
+  endfor
+
+  for collection in product.collections
+    if featured_collections contains collection.handle
+      assign featured_collection = collection
+      break
+    endif
+  endfor
+
+  for product_model in shop.metaobjects.product_model.values
+    if selected_variant.options contains product_model.name
+      assign cost_per_sqft = product_model.cost_per_sqft
+      assign product_length = product_model.length
+      assign product_width = product_model.width
+      assign wear_layer_thickness = product_model.thickness
+    endif
+  endfor
+
+  assign link = product.url
+  if color_link != blank
+    assign link = link | append: '?select-color=' | append: color_link
+  endif
+-%}
+
+<div class="product-card {{ class }}" data-handle="{{ product.handle }}" data-options="{{ product.selected_or_first_available_variant.options }}">
+  <div class="product-card__image-container">
+    <div class="product-card__image image-no-filter">
+      {%- if badge != blank -%}
+        <div class="product-card__tags">
+          <span class="product-card__badge btn btn--small btn--white btn--badge">{{ badge }}</span>
+        </div>
+      {%- endif -%}
+      <a href="{{ link }}">
+        {%- assign image = selected_variant.featured_image | default: product.featured_image -%}
+        {% render 'lazy-image', image: image, width: 1000, alt: product.title, class: 'product-card__product-img' %}
+      </a>
+    </div>
+  </div>
+
+  <div class="product-card__content">
+    <form method="post" action="/cart/add" class="product-card__form">
+      <input type="hidden" name="id" value="{{ selected_variant.id }}">
+
+      <div class="product-card__header">
+        {%- if featured_collection != blank -%}
+          <div class="product-card__collection">
+            <a href="{{ featured_collection.url }}" class="btn btn--small btn--white">
+              {{- featured_collection.title -}}
+            </a>
+          </div>
+        {%- endif -%}
+        
+        {%# REMOVED: The 'add-sample' button is gone as requested. %}
+      </div>
+
+      <h3 class="product-card__title h5">
+        <a href="{{ link }}">
+        {% if product.title == 'Silvan 7" Hardwood Bestsellers Sample Kit' %}
+          Silvan Bestsellers Sample Kit (5 Samples)
+          {% else %}
+          {{ product.title }}
+          {% endif %}
+        </a>
+
+        {%- unless product.tags contains 'Cat--Accessories' -%}
+        <div class="product-card__meta no-filter">
+          <div class="product-card__model-info pack-silvan">
+
+              
+
+                <span class="price price-wrap-pro-page">
+                  <span class="actual-price" >{{- product.price | money -}}</span>
+
+                  {%- if product.compare_at_price > product.price -%}
+                    <del class="compare-at-price">
+                      {{- product.compare_at_price | money -}}
+                    </del>
+                    
+                    {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                    
+                    <span class="off_text">{{ savings }}% OFF</span>
+                  {%- endif -%}
+                </span>
+              
+          </div>
+        </div>
+      {%- endunless -%}
+      </h3>
+    {% if product.id == 8964836262163 or product.id == 10050042233107 %}
+      <div class="contnet" >
+        <p>Kit contains: Evern, Lyon, Balboa, Anza, and Norde</p>
+      </div>
+      {% endif %}
+      {% if product.id == 8964835705107 %}
+      <div class="contnet" >
+        <p>Notes of caramel latte, walnut, and sepia create a grounded floor</p>
+      </div>
+        {% endif %}
+        {% if product.id == 8964834361619 %}
+      <div class="contnet" >
+        <p>Light and cool varied greige tones that create an airy Swiss Alps feel</p>
+      </div>
+        {% endif %}
+          {% if product.id == 8964835016979 %}
+      <div class="contnet" >
+        <p>Neutral greys and muted taupes that blend beautifully together</p>
+      </div>
+        {% endif %}
+            {% if product.id == 8964837441811 %}
+      <div class="contnet" >
+        <p>Relaxing and warm mid-tone browns that bring hygge to any space</p>
+      </div>
+      {% endif %}
+              {% if product.id == 8964833870099 %}
+      <div class="contnet" >
+        <p>Naturally varied neutral sepia hues that work with any color scheme</p>
+      </div>
+      {% endif %}
+      <div class="collection-reviews-wrapper">
+        {%- assign skus_array = product.variants | map: 'sku' -%}
+        {%- assign skus = skus_array | join: ';' -%}
+        <div class="ruk_rating_snippet collection" data-sku="{{ skus }}" data-done="false"></div>
+      </div>
+
+   
+      
+      <div class="product-card-swatches">
+        
+      <div class="product-card-options">
+        {% for option in product.options_with_values %}
+          <div class="product-card-option-group {{ option.name }}">
+{% comment %}
+            <label class="product-card-option__title">{{ option.name }}</label>
+       {% endcomment %}
+            <div class="product-card-option__values">
+              {% for value in option.values %}
+                
+                <div class="product-card-option__swatch">
+                  <input
+                    type="radio"
+                    name="{{ product.id }}-{{ option.name }}"
+                    id="swatch-{{ product.id }}-{{ option.name | handleize }}-{{ value | handleize }}"
+                    value="{{ value | escape }}"
+                    {% if option.selected_value == value %}checked{% endif %}
+                  >
+                  <label
+                    for="swatch-{{ product.id }}-{{ option.name | handleize }}-{{ value | handleize }}"
+                    title="{{ value }}"
+                  >
+                   {{- value -}}
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      </div>
+      
+      {%# NEW: Add to Cart button added #%}
+      <button type="submit" name="add" class="button button--primary add-to-cart-btn" {% unless selected_variant.available %}disabled{% endunless %}>
+        {%- if selected_variant.available -%}
+          {% if product.id == 8964836262163  %}
+            Add Sample Kit
+            {% else %}
+            Add Sample
+            {% endif %}
+        {%- else -%}
+          Sold Out
+        {%- endif -%}
+      </button>
+
+
+
+    </form>
+  </div>
+  <script type="application/json" data-variant-json>
+    {{ product.variants | json }}
+  </script>
+</div>
+
+
+

@@ -1,0 +1,721 @@
+
+<div class="container-full slide-vi-secid--{{ section.id }}">
+  <div class=" imageSlider">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide">
+          {% if block.settings.video-enable == true %}
+            {%- if block.settings.video_url != blank -%}
+            
+              <img class="thumb-image-{{ block.id }}" src="{{ block.settings.video_thumbnail | img_url:'1920x' }}" alt="{{ block.settings.video_thumbnail.alt }}" >
+    
+            {% endif %}
+          {% else %}
+            {% if block.settings.image != blank %}
+              {{ block.settings.image | image_url: width: 1000 | image_tag: alt: block.settings.image.alt }}
+            {% else %}
+              {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+            {% if block.settings.mobile-image != blank %}
+              <img class="mob-img" src="{{ block.settings.mobile-image | image_url: width: 700 }} alt="{{ block.settings.mobile-image.alt }}">
+              {% endif %}
+          {% endif %}
+        <div class="content">
+          <h2>{{ block.settings.heading }}</h2>
+          <div class='desc'>
+            {{ block.settings.desc }}
+          </div>
+          <div class="btns">
+            {% if block.settings.btn-one-text != blank %}
+            <a class="btn btn-one" href="{{ block.settings.btn-one-link }}">{{ block.settings.btn-one-text }}</a>
+            {% endif %}
+            {% if block.settings.btn-two-text != blank %}
+            <a class="btn two" href="{{ block.settings.btn-two-link }}">{{ block.settings.btn-two-text }}</a>
+            {% endif %}
+          </div>
+        </div>
+          <div class="overlay" {% if block.settings.video-enable == true %}style="background-color: {{ block.settings.color }};width:100%;opacity:{{ block.settings.bg_opacity  }};"{% endif %}></div>
+        </div>
+         {% comment %} <script>
+          setTimeout(()=>{
+          
+        
+            var videoHTML = `<video
+              src="{{ block.settings.video_url }}"
+              autoplay
+              muted
+              loop
+              playsinline
+              class="custom-video"
+              width="100%"
+              height="100%"
+            >
+              Your browser does not support the video tag.
+            </video>`;
+            function loadVideoOnInteraction() {
+              var thumbImage = document.querySelector('.thumb-image-{{ block.id }}');
+
+              // Check if the thumbnail image exists
+              if (thumbImage) {
+                // Insert the video HTML right after the thumbnail image
+                thumbImage.insertAdjacentHTML('afterend', videoHTML);
+                
+                // Remove the thumbnail image from the page
+                thumbImage.remove();
+              }
+            }
+
+            // An array of events that constitute a user interaction
+            var userInteractionEvents = ['mousemove', 'mousedown', 'scroll', 'keydown', 'touchstart'];
+
+            // Set up a one-time listener for each interaction type
+            userInteractionEvents.forEach(function(event) {
+              document.addEventListener(event, loadVideoOnInteraction, { once: true });
+            });
+
+              }, 100)
+          </script> {% endcomment %}
+
+        <script>
+setTimeout(()=>{
+  var videoHTML = `<video
+    src="{{ block.settings.video_url }}"
+    autoplay
+    muted
+    loop
+    playsinline
+    class="custom-video"
+    width="100%"
+    height="100%"
+    style="opacity: 0; position: absolute; top: 0; left: 0; z-index: 2; transition: opacity 0.5s ease-in-out;"
+  >
+    Your browser does not support the video tag.
+  </video>`;
+  
+  function loadVideoOnInteraction() {
+    var thumbImage = document.querySelector('.thumb-image-{{ block.id }}');
+    
+    // **KEY FIX: Check if video already exists for this block**
+    var existingVideo = thumbImage ? thumbImage.parentNode.querySelector('.custom-video') : null;
+    
+    if (thumbImage && !existingVideo) {
+      // Insert video first
+      thumbImage.insertAdjacentHTML('afterend', videoHTML);
+      var video = thumbImage.nextElementSibling;
+      
+      // Wait for video to be ready, then transition
+      if (video && video.tagName === 'VIDEO') {
+        video.addEventListener('canplay', function() {
+          // Fade in video
+          video.style.opacity = '1';
+          // Fade out thumbnail
+          thumbImage.style.opacity = '0';
+          
+          // Remove thumbnail after fade completes
+          setTimeout(function() {
+            if (thumbImage.parentNode) {
+              thumbImage.remove();
+            }
+            // Make video static positioned after image removal
+            video.style.position = 'static';
+            video.style.zIndex = 'auto';
+          }, 500);
+        });
+        
+        // Fallback: if video loads immediately
+        video.addEventListener('loadeddata', function() {
+          if (video.readyState >= 2) {
+            video.style.opacity = '1';
+            thumbImage.style.opacity = '0';
+            setTimeout(function() {
+              if (thumbImage.parentNode) {
+                thumbImage.remove();
+              }
+              video.style.position = 'static';
+              video.style.zIndex = 'auto';
+            }, 500);
+          }
+        });
+      }
+    }
+  }
+
+  // **IMPROVED: Block-specific interaction handling**
+  var blockInteractionFired = false;
+  var userInteractionEvents = ['mousemove', 'mousedown', 'scroll', 'keydown', 'touchstart'];
+
+  function handleBlockInteraction() {
+    if (!blockInteractionFired) {
+      blockInteractionFired = true;
+      loadVideoOnInteraction();
+      
+      // Remove listeners for this block
+      userInteractionEvents.forEach(function(event) {
+        document.removeEventListener(event, handleBlockInteraction);
+      });
+    }
+  }
+
+  userInteractionEvents.forEach(function(event) {
+    document.addEventListener(event, handleBlockInteraction, { once: true, passive: true });
+  });
+
+}, 100)
+</script>
+
+
+          {% if block.settings.video-enable == true %}
+            <style>
+            .sustain-slider .swiper-slide video.custom-video {
+                width: 100%;
+                height: 100%;
+                display: flex;
+            }
+            </style>
+          {% endif %}
+      {% endfor %}
+    </div>
+    <!-- <div class="swiper-controls">
+      <div class="button-prev">{% render 'icon-prev' %}</div>
+      <div class="button-next">{% render 'icon-next' %}</div>
+    </div> -->
+  </div>
+</div>
+
+
+
+{% style %} 
+  .sustain-slider {
+    position: relative;
+  }
+ 
+  .sustain-slider .swiper-slide .content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: 0;
+      max-width: 50%;
+      z-index: 2;
+      padding: 0px 4%;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      align-items: baseline;
+      justify-content: center;
+  }
+  .sustain-slider .swiper-slide .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      opacity: 0.8;
+  }
+  .sustain-slider .swiper-pagination  .swiper-pagination-bullet {
+      width: 13px;
+      height: 13px;
+      background: #fff;
+  }
+ 
+  .sustain-slider .swiper-slide .mob-img {
+    display:none;
+  }
+
+    .sustain-slider .swiper-slide .content h2 {
+        color: #0F2924;
+        font-family: Playfair Display;
+        font-weight: 400;
+        font-size: 48px;
+        line-height: 64px;
+        letter-spacing: 0%;
+        vertical-align: middle;
+    }
+    .sustain-slider .swiper-slide .content .desc {
+        margin-top: 25px;
+    }
+
+    .sustain-slider .swiper-slide .content .desc h4 {
+        color: #0F2924;
+    }
+
+    .sustain-slider .swiper-slide .content .desc p {
+        font-family: Montserrat;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 19.2px;
+        leading-trim: NONE;
+        line-height: 30.72px;
+        letter-spacing: 0%;
+        vertical-align: middle;
+        color:#FFFFFF;
+        max-width:535px;
+    }   
+
+    .sustain-slider .swiper-slide .content .btns .btn {
+        font-family: Montserrat;
+        font-weight: 600;
+        font-style: SemiBold;
+        font-size: 16px;
+        leading-trim: NONE;
+        line-height: 25.6px;
+        letter-spacing: 1px;
+        vertical-align: middle;
+        text-transform: uppercase;
+        border-radius: 4px;
+        margin: 0px;
+    }
+
+        .sustain-slider .swiper-slide .content .btns .btn.two {
+        border: 1px solid #111;
+        background: transparent;
+        color: #111;
+    }
+
+    .sustain-slider .swiper-slide .content .btns {
+        margin-top: 50px;
+    }
+
+    .sustain-slider .swiper-slide .content .btns .btn.btn-one {
+        margin-right: 10px;
+        background: #111;
+    }
+
+    .sustain-slider .swiper-slide .content .btns .btn.btn-one:hover {
+        background: #fff;
+    }
+
+  .sustain-slider .imageSlider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .sustain-slider .imageSlider img,
+ .sustain-slider  .imageSlider svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+ .sustain-slider  .imageSlider .swiper-controls {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
+  }
+  .sustain-slider .imageSlider .swiper-controls .button-prev,
+  .sustain-slider .imageSlider .swiper-controls .button-next {
+    cursor: pointer;
+  }
+
+
+    .sustain-slider .swiper-slide .content h2 > img {
+      min-height: unset !important;
+  }
+
+    /* Smooth transition styles for video replacement */
+  .sustain-slider .swiper-slide {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sustain-slider .swiper-slide img[class*="thumb-image"] {
+    transition: opacity 0.5s ease-in-out;
+    position: relative;
+    z-index: 1;
+  }
+
+  .sustain-slider .swiper-slide video.custom-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 2;
+    transition: opacity 0.5s ease-in-out;
+    animation: videoFadeIn 0.5s ease-in-out forwards;
+  }
+
+  @keyframes videoFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  /* Ensure video loads smoothly */
+  .sustain-slider .swiper-slide video.custom-video[src] {
+    opacity: 1;
+  }
+
+  .sustain-slider .slide-vi-secid--{{ section.id }} .swiper-slide .content h2 {
+    font-family:{{ section.settings.font-heading }};
+    font-size:{{ section.settings.font_size_heading_desk }}px;
+    {% if section.settings.heading-color != blank %} color:{{ section.settings.heading-color }}; {% endif %}
+  }
+
+  .sustain-slider .slide-vi-secid--{{ section.id }} .swiper-slide .content .desc p {
+    font-family:{{ section.settings.font-body }};
+    font-size:{{ section.settings.font_size_body_desk }}px;
+    {% if section.settings.body-color != blank %} color:{{ section.settings.body-color }}; {% endif %}
+  }
+
+  .sustain-slider .slide-vi-secid--{{ section.id }} .swiper-slide .content .btns .btn {
+    font-family:{{ section.settings.font-button }};
+    font-size:{{ section.settings.font_size_button_desk }}px !important;
+  }
+
+  .sustain-slider .slide-vi-secid--{{ section.id }} .swiper-slide .content .btns .btn.btn-one {
+    {% if section.settings.button-bg-color != blank %} background:{{ section.settings.button-bg-color }}; {% endif %}
+    {% if section.settings.button-font-color != blank %} color:{{ section.settings.button-font-color }}; {% endif %}
+  }
+
+  .sustain-slider .slide-vi-secid--{{ section.id }} .swiper-slide .content .btns .btn.btn-two {
+    {% if section.settings.button-bg-color-two != blank %} background:{{ section.settings.button-bg-color-two }}; {% endif %}
+    {% if section.settings.button-font-color-two != blank %} color:{{ section.settings.button-font-color-two }}; {% endif %}
+  }
+
+  @media (max-width: 1300px) {
+    .sustain-slider .imageSlider img {
+            min-height:500px;        
+        }
+  }
+  @media (max-width:768px){
+    .swiper-slide > img:nth-child(1){
+        display:none;
+    }
+     .swiper-slide .mob-img {
+        display:block !important;
+    }
+  }
+  @media (max-width:768px){
+    .sustain-slider .slide-vi-secid--{{ section.id }} .swiper-slide .content h2 {
+      font-size:{{ section.settings.font_size_heading_mob }}px;
+    }
+    .sustain-slider .slide-vi-secid--{{ section.id }} .swiper-slide .content .desc p {
+      font-size:{{ section.settings.font_size_body_mob }}px !important;
+    }
+    .sustain-slider .slide-vi-secid--{{ section.id }} .swiper-slide .content .btns .btn {
+      font-size:{{ section.settings.font_size_button_mob }}px !important;
+    }
+    .sustain-slider .slide-vi-secid--{{ section.id }} .swiper-slide .content {
+        background: linear-gradient(180.72deg, rgba(208, 173, 129, 0) 0.62%, {{section.settings.mobile-bg}} 72.14%);
+    }
+  }
+{% endstyle %}
+
+{% if section.settings.manual-height == true %}
+<style>
+.sustain-slider .container-full.slide-vi-secid--{{ section.id }} .swiper-slide > img,
+.container-full.slide-vi-secid--template--{{ section.id }} .swiper-slide video.custom-video {
+    max-height: {{  section.settings.desktop-height }}vh;
+} 
+.sustain-slider .container-full.slide-vi-secid--{{ section.id }} .imageSlider img {
+  max-height: {{  section.settings.desktop-height }}vh;
+  min-height:unset !important;
+}
+@media (max-width:768px){
+  .container-full.slide-vi-secid--template--{{ section.id }} .swiper-slide {
+    height: {{  section.settings.mobile-height }}vh;
+  }
+}
+</style>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Rene Banner Banner",
+  "class": "shopify-section sustain-slider",
+  "settings": [
+        {
+          "type":"checkbox",
+          "id":"manual-height",
+          "label":"Manual Height",
+          "default":false
+        },
+        {
+          "type": "range",
+          "id": "desktop-height",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "label": "Dekstop Height",
+          "default":0,
+          "info":"For both Image and Video"
+        },
+        {
+          "type": "range",
+          "id": "mobile-height",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "label": "Mobile Height",
+          "default":0,
+          "info":"For both Image and Video"
+        },
+        {
+      "type": "header",
+      "content": "Font family"
+    },
+    {
+      "type": "select",
+      "id": "font-heading",
+      "label": "Font Family Heading",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font-body",
+      "label": "Font Family Subtext",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font-button",
+      "label": "Font Family Button",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes Desktop"
+    },
+    {
+      "type": "range",
+      "id": "font_size_heading_desk",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Heading Desktop",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "font_size_body_desk",
+      "min": 5,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Body Desktop",
+      "default": 19
+    },
+    {
+      "type": "range",
+      "id": "font_size_button_desk",
+      "min": 5,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Button Desktop",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes Mobile"
+    },
+    {
+      "type": "range",
+      "id": "font_size_heading_mob",
+      "min": 1,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Heading Mobile",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "font_size_body_mob",
+      "min": 1,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Body Mobile",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "font_size_button_mob",
+      "min": 1,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Button Mobile",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section-bg",
+      "label": "Section Color"
+    },
+    {
+      "type": "color",
+      "id": "mobile-bg",
+      "label": "Mobile Overlay Color"
+    },
+    {
+      "type": "color",
+      "id":"heading-color",
+      "label": "Heading Color"
+    },
+    {
+      "type": "color",
+      "id":"body-color",
+      "label": "Body Color"
+    },
+    {
+      "type": "color",
+      "id": "button-bg-color",
+      "label": "Button One Background Color"
+    },
+    {
+      "type": "color",
+      "id": "button-font-color",
+      "label": "Button One Font Color"
+    },
+    {
+      "type": "color",
+      "id": "button-bg-color-two",
+      "label": "Button Two Background Color"
+    },
+    {
+      "type": "color",
+      "id": "button-font-color-two",
+      "label": "Button Two Font Color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_picker",
+      "name": "Image",
+      "settings": [
+        {
+          "type":"checkbox",
+          "id":"video-enable",
+          "label":"Video Enable",
+          "default":false
+        },
+        {
+          "type": "image_picker",
+          "id": "video_thumbnail",
+          "label": "Thumbnail Image"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video File URL",
+          "info": "Upload your video in Content > Files, then paste the URL here."
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Background color",
+          "info": "The color will cover top half of the section and part of the section above"
+        },
+        {
+          "type": "range",
+          "id": "bg_opacity",
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "label": "Background Opacity",
+          "default": 0.2
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile-image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "html",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "desc",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "btn-one-text",
+          "label": "Button One Text"
+        },
+        {
+          "type": "url",
+          "id": "btn-one-link",
+          "label": "Button One Link"
+        },
+        {
+          "type": "text",
+          "id": "btn-two-text",
+          "label": "Button Two Text"
+        },
+        {
+          "type": "url",
+          "id": "btn-two-link",
+          "label": "Button Two Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rene Banner Banner",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

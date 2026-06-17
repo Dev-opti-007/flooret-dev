@@ -1,0 +1,12 @@
+{% assign meta = product.metafields %}
+
+<section id="product-addsamplepopup">
+  <div class="mproduct pdp-atc">
+    <div class="container container--large">
+      <div class="mproduct__wrap js-product-container {% unless product.available %}oos-product{% endunless %}">
+        {% render 'product-gallery', isAddSamplePopup: true %}
+        {% render 'product-details', product: product, isAddSamplePopup: true %}
+      </div>
+    </div>
+  </div>
+</section>

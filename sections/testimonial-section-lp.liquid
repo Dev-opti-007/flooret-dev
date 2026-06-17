@@ -1,0 +1,818 @@
+<div class="testimonial-section testimonial-section-{{ section.id }} {{ section.settings.className }}">
+<div class="page-width">
+    <div class="head-wrap">
+      {% if section.settings.heading != blank %}
+      <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.sub-heading != blank %}
+      <div class="desc">
+          {{ section.settings.sub-heading }}
+      </div>
+      {% endif %}
+    </div>
+  
+  <div class="testimonial-grid {% if section.settings.image-above == true %}grid-style-img-above{% endif %}">
+    {%- for block in section.blocks -%}
+      <div class="testimonial-grid__item" {{ block.shopify_attributes }}>
+        {%- case block.type -%}
+
+          {%- when 'review-card-text-only' -%}
+            <div class="testimonial-card">
+              <div class="testimonial-card__header">
+                {%- if block.settings.review-person-img != blank -%}
+                  <img
+                    src="{{ block.settings.review-person-img | image_url: width: 120 }}"
+                    alt="{{ block.settings.review-person-name | escape }}"
+                    class="testimonial-card__avatar"
+                    width="60"
+                    height="60"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+                <div class="testimonial-card__author-info">
+                  <p class="testimonial-card__name">{{ block.settings.review-person-name }}</p>
+                  <p class="testimonial-card__id"><a href="{{ block.settings.review-person-id-url }}" >{{ block.settings.review-person-id }}</a></p>
+                </div>
+              </div>
+              <div class="testimonial-card__body">
+                {{ block.settings.review-text }}
+              </div>
+            </div>
+
+          {%- when 'review-card-with-img' -%}
+            <div class="testimonial-card img-v-text {% if section.settings.image-above == true %}style-fix-modin{% endif %}">
+              {% if block.settings.card-url != blank %}
+              <a href="{{ block.settings.card-url }}" class="overlay-link" ></a>
+              {% endif %}
+              {% if section.settings.image-above == false %}
+              <div class="testimonial-card__header">
+                {%- if block.settings.review-person-img != blank -%}
+                  <img
+                    src="{{ block.settings.review-person-img | image_url: width: 120 }}"
+                    alt="{{ block.settings.review-person-name | escape }}"
+                    class="testimonial-card__avatar"
+                    width="60"
+                    height="60"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+                <div class="testimonial-card__author-info">
+                  <p class="testimonial-card__name">{{ block.settings.review-person-name }}</p>
+                  <p class="testimonial-card__id"><a target="_blank" href="{{ block.settings.review-person-id-url }}" >{{ block.settings.review-person-id }}</a></p>
+                </div>
+              </div>
+              {% endif %}
+              <div class="testimonial-card__body {% if section.settings.image-above == true %}reverse-card-content{% endif %}">
+                {% if section.settings.image-above == true %}
+                <div class="testimonial-card__author-info">
+                  <p class="testimonial-card__name">{{ block.settings.review-person-name }}</p>
+                  <p class="testimonial-card__id"><a target="_blank" href="{{ block.settings.review-person-id-url }}" >{{ block.settings.review-person-id }}</a></p>
+                </div>
+                {% endif %}
+                {{ block.settings.review-text }}
+                {%- if block.settings.youtube-video-url != blank -%}
+                  <div class="testimonial-card__video-wrapper" style="padding-top: 56.25%; position: relative;">
+                    <iframe
+                    src="https://www.youtube.com/embed/{{ block.settings.youtube-video-url.id }}?autoplay=1&mute=1&playsinline=1&loop=1&playlist={{ block.settings.youtube-video-url.id }}&controls=0&showinfo=0&rel=0"
+                    title="YouTube video player for testimonial"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                    loading="lazy"
+                  ></iframe>
+                  </div>
+                {%- elsif block.settings.review-image != blank -%}
+                  <img
+                    src="{{ block.settings.review-image | image_url: width: 800 }}"
+                    alt="Review image"
+                    class="testimonial-card__review-image"
+                    width="{{ block.settings.review-image.width }}"
+                    height="{{ block.settings.review-image.height }}"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+              </div>
+
+            </div>
+
+          {%- when 'video-only' -%}
+            <div class="testimonial-card testimonial-card--video">
+               <div class="testimonial-card__author-info">
+                 {%- if block.settings.review-person-img != blank -%}
+                  <img
+                    src="{{ block.settings.review-person-img | image_url: width: 120 }}"
+                    alt="{{ block.settings.review-person-name | escape }}"
+                    class="testimonial-card__avatar"
+                    width="60"
+                    height="60"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+                  <p class="testimonial-card__name">{{ block.settings.review-person-name }}</p>
+                  <p class="testimonial-card__id"><a target="_blank" href="{{ block.settings.review-person-id-url }}" >{{ block.settings.review-person-id }}</a></p>
+                </div>
+              {%- if block.settings.video != blank -%}
+                <div class="testimonial-card__video-wrapper">
+                  <div class="overlay">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="34" height="38" viewBox="0 0 34 38" fill="none"> <path d="M32 15.5359C34.6667 17.0755 34.6667 20.9245 32 22.4641L6.5 37.1865C3.83334 38.7261 0.5 36.8016 0.5 33.7224V4.27757C0.5 1.19837 3.83333 -0.726134 6.5 0.813467L32 15.5359Z" fill="white"/> </svg>
+                  <img src="{{ block.settings.cover_image | img_url:'large' }}" >
+                  </div>
+                  <video
+                    controls
+                    playsinline
+                  >
+                    <source src="{{ block.settings.video.sources[1].url }}" type="video/mp4">
+                  </video>
+                </div>
+              {%- else -%}
+                 <div class="testimonial-card__video-placeholder">
+                   <p>No video selected.</p>
+                 </div>
+              {%- endif -%}
+            </div>
+
+        {%- endcase -%}
+      </div>
+    {%- endfor -%}
+
+   
+  </div>
+                         <div class="btns-wrap">
+        {% if section.settings.btn-one-text != blank %}
+      <a class="btn" href="{{ section.settings.btn-one-link }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"> <path d="M6.53516 0.130859C6.83594 0.0214844 7.16406 0.0214844 7.4375 0.130859L13.125 2.26367C13.6445 2.45508 13.9727 2.94727 13.9727 3.49414V9.64648C13.9727 10.1387 13.6992 10.6035 13.2617 10.8223L7.57422 13.666C7.19141 13.8574 6.78125 13.8574 6.39844 13.666L0.710938 10.8223C0.273438 10.6035 0 10.1387 0 9.64648V3.49414C0 2.94727 0.328125 2.45508 0.847656 2.26367L6.53516 0.130859ZM7 1.82617L1.75 3.79492V3.82227L7 5.95508L12.25 3.82227V3.79492L7 1.82617ZM7.875 11.5605L12.25 9.37305V5.70898L7.875 7.48633V11.5605Z" fill="white"/> </svg>
+          {{ section.settings.btn-one-text }}</a>
+        {% endif %}
+         {% if section.settings.btn-two-text != blank %}
+      <a class="btn trans-bg" href="{{ section.settings.btn-two-link }}">{{ section.settings.btn-two-text }} </a>
+         {% endif %}
+      </div>
+</div>
+</div>
+<style>
+  .testimonial-section-{{ section.id }} {
+    padding-top:{{ section.settings.padding-top }}px;
+    padding-bottom:{{ section.settings.padding-bottom }}px;
+  }
+  .testimonial-grid {
+      display: block;
+      column-count: 3;
+  }
+
+  .testimonial-section .head-wrap h2 {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-style: ExtraBold;
+  font-size: 52px;
+  line-height: 89.6px;
+  letter-spacing: -1.12px;
+  text-align: center;
+  vertical-align: middle;
+    margin-bottom: 30px;
+}
+
+.testimonial-section .head-wrap .desc {
+  max-width: 894px;
+  margin: auto;
+}
+
+.testimonial-section .head-wrap .desc P {
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 32px;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+
+}
+
+  
+  .testimonial-section .btns-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin: 50px auto 0px;
+}
+
+  .testimonial-section .btn {
+      background: #B8956A;
+      border: 1px solid #B8956A;
+      border-radius: 8px;
+      color: #fff;
+      display: flex;
+      font-family: Montserrat;
+      font-weight: 700;
+      font-style: Bold;
+      font-size: 14px;
+      leading-trim: NONE;
+      line-height: 22.4px;
+      letter-spacing: 0%;
+      vertical-align: middle;
+      gap: 10px;
+  }
+    
+     .testimonial-section .btn:hover {
+        background: #25393d;
+        border-color: #25393d;
+        color:#fff;
+    }
+    
+.testimonial-section .btn.trans-bg {
+    background: none;
+    border: 2px solid #25393d;
+    margin: 0px;
+    color: #25393d;
+}
+    
+    .testimonial-section .btn.trans-bg:hover {
+        color: #000;
+      background:#fff;
+    }
+
+
+  .testimonial-card {
+      position: relative;
+  }
+  
+  .testimonial-card .overlay-link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+  }
+
+  .testimonial-grid .testimonial-grid__item {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      /* margin: 20px 0px; */
+      break-inside: avoid;
+      page-break-inside: avoid;
+  }
+  
+  .testimonial-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width:100%;
+  }
+
+   .testimonial-card.img-v-text {
+     margin-top:15px;
+      background: #dde9d8;
+      outline: 1px solid #fff;
+      outline-offset: -5px;
+      border-radius: 15px;
+  }
+  
+  .testimonial-card__header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .testimonial-card__author-info {
+    line-height: 1.2;
+  }
+
+  .testimonial-card__avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .testimonial-card__name {
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .testimonial-card__id {
+    font-size: 0.9em;
+    color: #555;
+    margin: 0;
+  }
+
+  .testimonial-card__body {
+    flex-grow: 1;
+  }
+  
+  .testimonial-card__review-image {
+    width: 100%;
+    height: auto;
+    margin-top: 15px;
+    border-radius: 4px;
+  }
+  
+  .testimonial-card__footer {
+    margin-top: 15px;
+  }
+
+  .testimonial-card__date {
+    font-size: 0.8em;
+    color: #777;
+    text-align: right;
+    margin: 0;
+  }
+
+  .testimonial-card__video-wrapper {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .testimonial-card__video-wrapper video {
+    width: 100%;
+    border-radius: 4px;
+  }
+  
+  .testimonial-card--video {
+      padding: 0px;
+      border: none;
+    position:relative;
+  }
+
+
+  .testimonial-card--video {
+  cursor: pointer;
+}
+
+.testimonial-card--video .testimonial-card__author-info {
+  position: absolute;
+  bottom: 5%;
+  left: 34px;
+  z-index: 3;
+}
+
+.testimonial-card--video .testimonial-card__video-wrapper > .overlay svg {
+  position: absolute;
+  z-index: 99;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.testimonial-card--video .testimonial-card__video-wrapper {
+  width: 100%;
+  margin-top: 15px;
+  position: relative;
+}
+
+.testimonial-card--video .testimonial-card__video-wrapper > .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.testimonial-card--video .testimonial-card__video-wrapper > .overlay:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.35) 59.27%,
+    rgba(0, 0, 0, 0.5) 81.29%
+  );
+  z-index: 3;
+  height: 100%;
+}
+
+.testimonial-card--video .testimonial-card__video-wrapper > .overlay img {
+  width: 100%;
+  height: 100%;
+}
+
+.testimonial-card--video .testimonial-card__video-wrapper video {
+  width: 100%;
+  border-radius: 20px;
+}
+
+.testimonial-card--video .testimonial-card__id {
+  font-size: 0.9em;
+  color: #fff;
+  margin: 0;
+}
+
+.testimonial-card--video p.testimonial-card__name {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-style: ExtraBold;
+  font-size: 17px;
+  leading-trim: NONE;
+  line-height: 35px;
+  letter-spacing: 0%;
+  text-align: start;
+  vertical-align: middle;
+  color: #fff;
+}
+
+  
+  .testimonial-card__video-placeholder {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     background-color: #f0f0f0;
+     min-height: 200px;
+     border-radius: 4px;
+     margin-top: 15px;
+  }
+
+
+.testimonial-card.testimonial-card--video .testimonial-card__author-info {
+    display: grid;
+    grid-template-columns: 60px auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.testimonial-card.testimonial-card--video .testimonial-card__author-info p.testimonial-card__id {
+    grid-column: 2/3;
+}
+
+.testimonial-card.testimonial-card--video .testimonial-card__author-info img.testimonial-card__avatar {
+    grid-row: 1/3;
+}
+.overlay.is-hidden {
+  display: none;
+  pointer-events: none; /* Makes the element non-interactive */
+}
+  /* Responsive Columns */
+  @media (max-width: 990px) {
+    .testimonial-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 749px) {
+    .testimonial-grid {
+      grid-template-columns: 1fr;
+    }
+    .testimonial-section .testimonial-grid {
+      overflow:hidden;
+    }
+  }
+</style>
+
+
+<script>
+ document.addEventListener('DOMContentLoaded', () => {
+
+    if (window.innerWidth > 768){
+      
+        var all = document.querySelectorAll('.testimonial-card__video-wrapper');
+
+        all.forEach((a) => {
+            var imgWrap = a.querySelector('.overlay');
+            var vid = a.querySelector('video');
+
+            // Only proceed if both the overlay and video exist for this item
+            if (imgWrap && vid) {
+                imgWrap.addEventListener('click', () => {
+                    // --- Pause all other videos first ---
+                    all.forEach((otherWrapper) => {
+                        const otherVid = otherWrapper.querySelector('video');
+                        const otherImgWrap = otherWrapper.querySelector('.overlay');
+
+                        // Check if otherVid EXISTS and if it's NOT the video we clicked on
+                        if (otherVid && otherVid !== vid) {
+                            otherVid.pause();
+                            
+                            if (otherImgWrap) {
+                                otherImgWrap.style.display = 'block';
+                            }
+                        }
+                    });
+
+                    // --- Play the clicked video ---
+                    imgWrap.style.display = 'none';
+                    vid.play();
+                });
+            }
+        });
+
+    } else {
+        /**
+        * Adds a click-to-toggle play/pause listener to a video for mobile screens.
+        * Uses a data attribute to ensure the listener is only attached once.
+        * @param {HTMLVideoElement} video - The video element to add the listener to.
+        */
+        const addMobileVideoToggle = (video) => {
+            if (window.innerWidth < 768 && !video.dataset.mobileToggleAdded) {
+                video.addEventListener('click', () => {
+                    if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                });
+                video.dataset.mobileToggleAdded = 'true';
+            }
+        };
+
+        const allVideoWrappers = document.querySelectorAll('.testimonial-card__video-wrapper');
+
+        allVideoWrappers.forEach((wrapper) => {
+            const overlay = wrapper.querySelector('.overlay');
+            const video = wrapper.querySelector('video');
+
+            if (overlay && video) {
+                overlay.addEventListener('click', () => {
+                    // Pause all other videos and show their overlays
+                    allVideoWrappers.forEach((otherWrapper) => {
+                        const otherVideo = otherWrapper.querySelector('video');
+                        const otherOverlay = otherWrapper.querySelector('.overlay');
+
+                        if (otherVideo && otherVideo !== video) {
+                            otherVideo.pause();
+                            if (otherOverlay) {
+                                // Use classList to show the overlay
+                                otherOverlay.classList.remove('is-hidden'); 
+                            }
+                        }
+                    });
+
+                    // Play the clicked video
+                    // Use classList to hide the overlay
+                    overlay.classList.add('is-hidden'); 
+                    video.removeAttribute('controls')
+                    video.play();
+
+                    // Activate the mobile play/pause toggle for this video
+                    addMobileVideoToggle(video);
+                });
+            }
+        });
+    }
+
+});
+
+  {% comment %} document.addEventListener('DOMContentLoaded', () =>{
+   var all = document.querySelectorAll('.testimonial-card__video-wrapper');
+
+all.forEach((a) => {
+    var imgWrap = a.querySelector('.overlay');
+    var vid = a.querySelector('video');
+
+    // Only proceed if both the overlay and video exist for this item
+    if (imgWrap && vid) {
+        imgWrap.addEventListener('click', () => {
+            // --- Pause all other videos first ---
+            all.forEach((otherWrapper) => {
+                const otherVid = otherWrapper.querySelector('video');
+                const otherImgWrap = otherWrapper.querySelector('.overlay');
+
+                // Check if otherVid EXISTS and if it's NOT the video we clicked on
+                if (otherVid && otherVid !== vid) {
+                    otherVid.pause();
+                    
+                    if (otherImgWrap) {
+                        otherImgWrap.style.display = 'block';
+                    }
+                }
+            });
+
+            // --- Play the clicked video ---
+            imgWrap.style.display = 'none';
+            vid.play();
+        });
+    }
+});
+  }) {% endcomment %}
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () =>{
+    if(window.innerWidth < 768) {
+    $('.testimonial-grid').slick({
+      infinite: true,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: true,
+      adaptiveHeight: true,
+      prevArrow: '<button class="slick-prev slick-arrow" aria-label="Previous" type="button" style=""><svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none"> <path d="M15 6L9 12L15 18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg></button>',
+      nextArrow: '<button class="slick-next slick-arrow" aria-label="Next" type="button" style=""><svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none"> <path d="M9 6L15 12L9 18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg></button>'
+    });
+
+    $('.all-video-section .testimonial-grid').on('beforeChange', function(event, slick, currentSlide, nextSlide){
+      var videos = $('.all-video-section .testimonial-card__video-wrapper video');
+      videos.each(function() {
+          // Pause the video
+          this.pause();
+          // Reset the video's time to the beginning
+          this.currentTime = 0;
+      });
+    });
+    }
+  })
+  
+</script>
+
+
+{% schema %}
+  {
+    "name": "Testimonial Section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "className",
+        "label": "Class Name"
+      },
+      {
+        "type":"checkbox",
+        "id": "image-above",
+        "label": "Image Above text below",
+        "info": "Only for Review Card with image",
+        "default":false
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "sub-heading",
+        "label": "Sub-heading"
+      },
+      {
+        "type": "text",
+        "id": "btn-one-text",
+        "label": "Button One Text"
+      },
+      {
+        "type": "url",
+        "id": "btn-one-link",
+        "label": "Button One Link"
+      },
+      {
+        "type": "text",
+        "id": "btn-two-text",
+        "label": "Button Two Text"
+      },
+      {
+        "type": "url",
+        "id": "btn-two-link",
+        "label": "Button Two Link"
+      },
+      {
+        "type": "range",
+        "id": "padding-top",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Top",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "padding-bottom",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Bottom",
+        "default": 2
+      }
+    ],
+    "blocks": [
+      {
+        "type": "review-card-text-only",
+        "name":"Review Card only text",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "review-person-img",
+            "label": "Review Person Image"
+          },
+          {
+            "type": "text",
+            "id": "review-person-name",
+            "label": "Review Person Name"
+          },
+          {
+            "type": "text",
+            "id": "review-person-id",
+            "label": "Review Person Id"
+          },
+          {
+            "type": "url",
+            "id": "review-person-id-url",
+            "label": "Review Person Id URL"
+          },
+          {
+            "type": "richtext",
+            "id": "review-text",
+            "label": "Review Text"
+          }
+        ]
+      },
+      {
+          "type": "review-card-with-img",
+          "name": "Review Card with image",
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "review-person-img",
+              "label": "Review Person Image"
+            },
+            {
+              "type": "text",
+              "id": "review-person-name",
+              "label": "Review Person Name"
+            },
+            {
+              "type": "text",
+              "id": "review-person-id",
+              "label": "Review Person Id"
+            },
+            {
+              "type": "url",
+              "id": "review-person-id-url",
+              "label": "Review Person Id URL"
+            },
+            {
+              "type": "richtext",
+              "id": "review-text",
+              "label": "Review Text"
+            },
+            {
+              "type": "image_picker",
+              "id": "review-image",
+              "label": "Review Image"
+            },
+            {
+              "type": "video_url",
+              "id": "youtube-video-url",
+              "label": "YouTube Video",
+              "accept": ["youtube"],
+              "info": "Paste a YouTube video link. The video will autoplay on mute."
+            },
+            {
+              "type": "url",
+              "id": "card-url",
+              "label": "Card URL"
+            }
+          ]
+        },
+      {
+        "type": "video-only",
+        "name":"Video Only",
+         "settings": [
+            {
+              "type": "image_picker",
+              "id": "review-person-img",
+              "label": "Review Person Image"
+            },
+           {
+            "type": "text",
+            "id": "review-person-name",
+            "label": "Review Person Name"
+          },
+          {
+            "type": "text",
+            "id": "review-person-id",
+            "label": "Review Person Id"
+          },
+          {
+            "type": "url",
+            "id": "review-person-id-url",
+            "label": "Review Person Id URL"
+          },
+          {
+            "type": "video",
+            "id": "video",
+            "label": "Video",
+            "info": "Select a video from your library. MP4 format is recommended."
+          },
+          {
+            "type": "image_picker",
+            "id": "cover_image",
+            "label": "Thumbnail (Cover Image)",
+            "info": "Shows before the video plays."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Testimonial Section"
+      }
+    ]
+  }
+{% endschema %}

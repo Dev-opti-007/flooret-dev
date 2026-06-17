@@ -1,0 +1,116 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "912fea0e-fc63-4fcb-aeea-38c18973bdbb": {
+      "type": "hero-animated",
+      "settings": {
+        "bg_image": "shopify://shop_images/4716888c3f299882d3e3f619aa096123.jpg",
+        "heading": "Sustainable Flooring",
+        "content": "<p>Driven by eco-conscious principles, we at Flooret are committed to more than just reducing our environmental footprint; we're focused on positively transforming our world. In the building materials industry, known for significant waste, we stand as pioneers for change. Our dedication extends beyond our own practices to inspire a broader industry shift. By incorporating materials with a lower carbon footprint, like limestone and FSC® 100% Hardwood, our flooring options embody our deep commitment to sustainability.</p>"
+      }
+    },
+    "36f4c3df-b887-4e59-82c7-acd6007bcb96": {
+      "type": "background-overlay",
+      "settings": {
+        "bg_color": "#e0f3ed",
+        "bg_height": 50
+      }
+    },
+    "e7139fa0-a6df-4783-a157-36d13738010f": {
+      "type": "expanding-cards",
+      "blocks": {
+        "ce9b82bd-5829-49e0-acf5-800c962a1e7c": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/6c383f25772fa40f5397243a743054ec.jpg",
+            "preheading": "Air quality",
+            "title": "Breathing Life into Homes with Cleaner Air",
+            "content": "<p>All of our flooring collections feature key certifications like FloorScore, GreenGuard Gold, and Assure to guarantee clean air that's safe for everyone wherever they are installed. As we continuously improve our products, clean and healthy indoor air remains a cornerstone of our commitment to sustainability.</p>"
+          }
+        },
+        "9fe1d6b7-25e0-4a74-a0e5-0da9e809d700": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/440c4124c17e1abe028c509642d1dbd3.jpg",
+            "preheading": "Sustainable materials",
+            "title": "Choosing the Best-In-Class Materials for Truly Sustainable Flooring Products",
+            "content": "<p>Our flooring products are crafted to stand the test of time. We meticulously choose materials like FSC 100% Hardwood and sustainably sourced limestone to form the core of our products, leaving an enduring legacy while minimizing our environmental footprint.</p>"
+          }
+        },
+        "4cdc9bf9-2ca4-40a0-ab28-dced43c13de0": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/7c012dbefef5cfeafdc923648cbe8cc8.png",
+            "preheading": "Looking forward",
+            "title": "Continuously Improving for a Greener Future in Flooring",
+            "content": "<p>From sustainably-sourced products like our <a href=\"/pages/silvan-informational\" title=\"Silvan Informational\">Silvan Resilient Hardwood Collection</a> to offering paid volunteer time off for our team members, we continually seek fresh ways to foster sustainable practices within our company. Do you have suggestions for how we can enhance our efforts? We're eager to hear your ideas!</p>"
+          }
+        }
+      },
+      "block_order": [
+        "ce9b82bd-5829-49e0-acf5-800c962a1e7c",
+        "9fe1d6b7-25e0-4a74-a0e5-0da9e809d700",
+        "4cdc9bf9-2ca4-40a0-ab28-dced43c13de0"
+      ],
+      "settings": {
+        "heading": "Eco-Friendly Flooring: Our Steps Towards a Greener Planet",
+        "content": "<p>At Flooret, sustainability isn't just a feature – it's the foundation of our flooring solutions. We intertwine our eco-conscious values in every layer, from securing clean air certifications to handpicking sustainable materials. Join us as we pave the way for flooring that not only enhances your home but also cherishes our planet.</p>"
+      }
+    },
+    "d98ebd68-c999-4019-b834-1e46f97b74c6": {
+      "type": "global-ft-prod-col",
+      "blocks": {
+        "03df2b79-c8c1-49a0-b0de-635f85fdd2f0": {
+          "type": "product",
+          "settings": {
+            "product": "anza-7"
+          }
+        },
+        "0744e192-e1b8-4180-95ea-cd17d829aed9": {
+          "type": "product",
+          "settings": {
+            "product": "arbor"
+          }
+        },
+        "0567b803-19e1-4ac0-bd91-23fbea2208f3": {
+          "type": "product",
+          "settings": {
+            "product": "arlo"
+          }
+        },
+        "00fb146e-bffc-4caa-bfa4-1734e964c054": {
+          "type": "product",
+          "settings": {
+            "product": "balboa"
+          }
+        }
+      },
+      "block_order": [
+        "03df2b79-c8c1-49a0-b0de-635f85fdd2f0",
+        "0744e192-e1b8-4180-95ea-cd17d829aed9",
+        "0567b803-19e1-4ac0-bd91-23fbea2208f3",
+        "00fb146e-bffc-4caa-bfa4-1734e964c054"
+      ],
+      "settings": {
+        "heading": "Our Sustainable Flooring Products.",
+        "content": "<p>Our approach to flooring harmonizes elegance with eco-responsibility, symbolizing a fusion of art and environmental awareness in our products. This ensures that each step you take is on a floor that's not just visually stunning but also kind to our planet. We're here to redefine the essence of sustainable living, one floor at a time.</p>",
+        "cta": "Shop All",
+        "cta_link": "/collections/all"
+      }
+    }
+  },
+  "order": [
+    "912fea0e-fc63-4fcb-aeea-38c18973bdbb",
+    "36f4c3df-b887-4e59-82c7-acd6007bcb96",
+    "e7139fa0-a6df-4783-a157-36d13738010f",
+    "d98ebd68-c999-4019-b834-1e46f97b74c6"
+  ]
+}

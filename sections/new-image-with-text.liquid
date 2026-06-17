@@ -1,0 +1,1136 @@
+{% stylesheet %}
+
+.image-text-hero {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--hero-gap, 48px);
+  align-items: center;
+  min-height: 500px;
+  padding: 40px 20px;
+  background-color: var(--hero-bg-color, #ffffff);
+}
+
+
+@media (max-width: 768px) {
+  .image-text-hero {
+    flex-direction: column;
+    gap: var(--hero-gap-mobile, 32px);
+    min-height: auto;
+    padding: 30px 15px;
+  }
+}
+
+
+@media (min-width: 769px) {
+  .image-text-hero {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .image-text-hero__content,
+  .image-text-hero__image-wrapper {
+    flex: 1;
+  }
+}
+
+
+.image-text-hero__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  max-width: var(--hero-text-max-width, 100%);
+  order: 1;
+}
+
+
+.image-text-hero__image-wrapper {
+  width: 100%;
+  height: var(--hero-image-height, 500px);
+  position: relative;
+  /* border-radius: 8px; */
+  overflow: hidden;
+  order: 2;
+  flex: 1;
+}
+
+
+.image-text-hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.image-text-hero__image-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: var(--hero-image-overlay-color, transparent);
+  opacity: var(--hero-image-overlay-opacity, 0);
+}
+
+
+/* Image on left - default (content right, image left) */
+.image-text-hero--image-left .image-text-hero__content {
+  order: 2;
+}
+
+
+.image-text-hero--image-left .image-text-hero__image-wrapper {
+  order: 1;
+}
+
+
+/* Mobile: Order based on setting */
+@media (max-width: 768px) {
+  .image-text-hero--mobile-text-first .image-text-hero__content {
+    order: 1 !important;
+  }
+  .image-text-hero--mobile-text-first .image-text-hero__image-wrapper {
+    order: 2 !important;
+  }
+  .image-text-hero--mobile-image-first .image-text-hero__content {
+    order: 2 !important;
+  }
+  .image-text-hero--mobile-image-first .image-text-hero__image-wrapper {
+    order: 1 !important;
+  }
+  .image-text-hero__image-wrapper {
+    height: var(--hero-image-height-mobile, 300px);
+  }
+}
+
+
+.image-text-hero__heading {
+  margin: 0;
+  font-family: var(--hero-head-font-family);
+  font-size: var(--hero-head-size-d);
+  color: var(--hero-head-color);
+  line-height: 1.2;
+  font-weight: var(--hero-head-font-weight);
+}
+
+
+.image-text-hero__subheading {
+  margin: 0;
+  font-family: var(--hero-body-font-family);
+  font-size: var(--hero-sub-size-d);
+  color: var(--hero-sub-color);
+  line-height: 1.4;
+}
+
+
+.image-text-hero__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  /* padding: var(--hero-btn-padding-d, 14px 28px); */
+  font-family: var(--hero-btn-font-family);
+  font-size: var(--hero-btn-size-d);
+  color: var(--hero-btn-color);
+  background: none;
+  /* background: var(--hero-btn-bg); */
+  border:0px;
+  /* border: 1px solid var(--hero-btn-border); */
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  max-width: fit-content;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+
+.image-text-hero__button:hover {
+  color: var(--hero-btn-color-hover);
+  background: none;
+  border-color:none;
+  /* background: var(--hero-btn-bg-hover); */
+  /* border-color: var(--hero-btn-border-hover); */
+}
+
+
+/* Text alignment */
+.image-text-hero__content--left { text-align: left; }
+.image-text-hero__content--center { text-align: center; }
+.image-text-hero__content--right { text-align: right; }
+
+
+/* Mobile typography */
+@media (max-width: 768px) {
+  .image-text-hero__heading {
+    font-family: var(--hero-head-font-family);
+    font-size: var(--hero-head-size-m);
+  }
+  
+  .image-text-hero__subheading {
+    font-family: var(--hero-body-font-family);
+    font-size: var(--hero-sub-size-m);
+  }
+  
+  .image-text-hero__button {
+    font-family: var(--hero-btn-font-family);
+    font-size: var(--hero-btn-size-m);
+    padding: 0px;
+    justify-content: start;
+    width: 100%;
+    max-width: none;
+  }
+}
+
+
+/* Full bleed */
+.image-text-hero--fullbleed {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+
+@media (max-width: 768px) {
+  .image-text-hero--fullbleed {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+{% endstylesheet %}
+
+
+<style>
+  /* Prevent initial flash and set baseline */
+{% comment %} .image-text-hero .image-text-hero__heading,
+.image-text-hero .image-text-hero__subheading,
+.image-text-hero .image-text-hero__button {
+  opacity: 0;
+  transform: translateY(60px);
+  will-change: transform, opacity;
+} {% endcomment %}
+
+.image-text-hero--{{ section.id }} .image-text-hero__heading,
+.image-text-hero--{{ section.id }} .image-text-hero__subheading,
+.image-text-hero--{{ section.id }} .image-text-hero__button {
+  opacity: 0 ;
+  transform: translateY(60px) ;
+  will-change: transform, opacity;
+}
+
+
+.image-text-hero--{{ section.id }} {
+    padding-top: {{ section.settings.padding-top }}px;
+    padding-bottom: {{ section.settings.padding-bottom }}px;
+    padding-left: {{ section.settings.padding-left }}px;
+    padding-right: {{ section.settings.padding-right }}px;
+}
+@media (max-width:768px){
+    .image-text-hero--{{ section.id }} {
+      padding-top: {{ section.settings.padding-top-mob }}px;
+      padding-bottom: {{ section.settings.padding-bottom-mob }}px;
+      padding-left: {{ section.settings.padding-left-mob }}px;
+      padding-right: {{ section.settings.padding-right-mob }}px;
+    }
+}
+</style>
+
+
+<div class="image-text-hero--{{ section.id }} image-text-hero{% if section.settings.full_bleed %} image-text-hero--fullbleed{% endif %}{% if section.settings.image_position == 'left' %} image-text-hero--image-left{% endif %}{% if section.settings.mobile_order == 'text_first' %} image-text-hero--mobile-text-first{% else %} image-text-hero--mobile-image-first{% endif %}{% if section.settings.image_position == 'right' %} image-text-hero--image-right{% endif %}" 
+     style="--hero-gap: {{ section.settings.gap | default: 48 }}px; 
+             --hero-gap-mobile: {{ section.settings.gap_mobile | default: 32 }}px;
+             --hero-bg-color: {{ section.settings.bg_color | default: '#ffffff' }};">
+  
+  <div class="image-text-hero__content image-text-hero__content--{{ section.settings.text_alignment | default: 'left' }}" 
+       style="
+         --hero-head-font-family: '{{ section.settings.font_heading | default: 'system-ui' }}', sans-serif;
+         --hero-head-font-weight: {{ section.settings.heading_weight }};
+         --hero-body-font-family: '{{ section.settings.font_body | default: 'system-ui' }}', sans-serif;
+         --hero-btn-font-family: '{{ section.settings.font_buttons | default: 'system-ui' }}', sans-serif;
+         
+         --hero-head-size-d: {{ section.settings.heading_size_d }}px;
+         --hero-head-size-m: {{ section.settings.heading_size_m }}px;
+         --hero-sub-size-d: {{ section.settings.subtext_size_d }}px;
+         --hero-sub-size-m: {{ section.settings.subtext_size_m }}px;
+         --hero-btn-size-d: {{ section.settings.button_size_d }}px;
+         --hero-btn-size-m: {{ section.settings.button_size_m }}px;
+         
+         --hero-head-color: {{ section.settings.heading_color }};
+         --hero-sub-color: {{ section.settings.subtext_color }};
+         --hero-btn-color: {{ section.settings.button_text_color }};
+         --hero-btn-bg: {{ section.settings.button_bg_color }};
+         --hero-btn-color-hover: {{ section.settings.button_text_hover }};
+         --hero-btn-bg-hover: {{ section.settings.button_bg_hover }};
+         --hero-btn-border: {{ section.settings.button_bg_color }};
+         --hero-btn-border-hover: {{ section.settings.button_bg_hover }};
+         --hero-btn-padding-d: {{ section.settings.button_size_d | times: 0.875 }}px {{ section.settings.button_size_d | times: 1.75 }}px;
+         --hero-btn-padding-m: {{ section.settings.button_size_m | times: 0.857 }}px {{ section.settings.button_size_m | times: 1.714 }}px;
+         --hero-text-max-width: {{ section.settings.text_max_width }}%;
+       ">
+    
+    {% if section.settings.heading != blank %}
+      <h2 class="image-text-hero__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+    
+    {% if section.settings.subheading != blank %}
+      <div class="image-text-hero__subheading">{{ section.settings.subheading }}</div>
+    {% endif %}
+    
+    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+      <a href="{{ section.settings.button_link }}" class="image-text-hero__button">
+        {{ section.settings.button_label }}
+      </a>
+    {% endif %}
+  </div>
+
+
+  <div class="image-text-hero__image-wrapper" >
+    
+    {% assign hero_image = section.settings.image %}
+    {% if section.settings.image_mobile and request.page_type == 'index' %}
+      {% assign hero_image = section.settings.image_mobile %}
+    {% endif %}
+    
+    {% if hero_image != blank %}
+      <img src="{{ hero_image | image_url: width: 800 }}" 
+           alt="{{ section.settings.heading | escape | default: 'Hero image' }}" 
+           class="image-text-hero__image"
+           loading="lazy"
+           width="600" 
+           height="400"
+           srcset="{{ hero_image | image_url: width: 400 }} 400w, 
+                   {{ hero_image | image_url: width: 600 }} 600w, 
+                   {{ hero_image | image_url: width: 800 }} 800w, 
+                   {{ hero_image | image_url: width: 1200 }} 1200w"
+           sizes="(min-width: 769px) 50vw, 100vw">
+    {% else %}
+      <div class="image-text-hero__image" style="background: #f5f5f5; height: 100%;"></div>
+    {% endif %}
+  </div>
+</div>
+
+
+{% comment %} <script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Mid-page refresh guard (already exists globally)
+  scrollTriggerManager.revealIfInViewAll(
+    '.image-text-hero .image-text-hero__heading, ' +
+    '.image-text-hero .image-text-hero__subheading, ' +
+    '.image-text-hero .image-text-hero__button'
+  );
+
+  // Use matchMedia for responsive animations
+  gsap.matchMedia().add('(min-width: 769px)', () => {
+    // Desktop: unchanged behavior
+    document.querySelectorAll('.image-text-hero').forEach((hero) => {
+      const heading = hero.querySelector('.image-text-hero__heading');
+      const sub     = hero.querySelector('.image-text-hero__subheading');
+      const button  = hero.querySelector('.image-text-hero__button');
+      
+      if (!heading && !sub && !button) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: hero,
+          start: 'clamp(top 75%)',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse',
+          once: true,
+          markers: false
+        }
+      });
+
+      if (heading) tl.to(heading, { 
+        y: 0, 
+        opacity: 1, 
+        duration: 0.8, 
+        ease: 'power3.out' 
+      }, 0);
+      if (sub)     tl.to(sub,     { 
+        y: 0, 
+        opacity: 1, 
+        duration: 0.8, 
+        ease: 'power3.out' 
+      }, 0.15);
+      if (button)  tl.to(button,  { 
+        y: 0, 
+        opacity: 1, 
+        duration: 0.8, 
+        ease: 'power3.out' 
+      }, 0.30);
+    });
+  });
+
+  gsap.matchMedia().add('(max-width: 768px)', () => {
+    // Mobile: different timing and start position
+    document.querySelectorAll('.image-text-hero').forEach((hero) => {
+      const heading = hero.querySelector('.image-text-hero__heading');
+      const sub     = hero.querySelector('.image-text-hero__subheading');
+      const button  = hero.querySelector('.image-text-hero__button');
+      
+      if (!heading && !sub && !button) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: hero,
+          start: 'clamp(top 50%)', // Earlier trigger on mobile for better experience
+          end: 'bottom 10%',
+          toggleActions: 'play none none reverse',
+          once: true,
+          markers: false
+        }
+      });
+
+      if (heading) tl.to(heading, { 
+        y: 0, 
+        opacity: 1, 
+        duration: 0.7, // Slightly faster on mobile
+        ease: 'power3.out' 
+      }, 0);
+      if (sub)     tl.to(sub,     { 
+        y: 0, 
+        opacity: 1, 
+        duration: 0.7, 
+        ease: 'power3.out' 
+      }, 0.12);
+      if (button)  tl.to(button,  { 
+        y: 0, 
+        opacity: 1, 
+        duration: 0.7, 
+        ease: 'power3.out' 
+      }, 0.24);
+    });
+  });
+
+  // Robust refresh sequence
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      scrollTriggerManager.safeRefresh(50);
+    }, 50);
+  });
+});
+</script> {% endcomment %}
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Image Text Hero GSAP Script - DOMContentLoaded triggered');
+  
+  if (!window.gsap || !window.ScrollTrigger) {
+    console.error('Image Text Hero GSAP Script - GSAP or ScrollTrigger not loaded');
+    console.log('window.gsap:', !!window.gsap);
+    console.log('window.ScrollTrigger:', !!window.ScrollTrigger);
+    return;
+  }
+
+  console.log('Image Text Hero GSAP Script - GSAP and ScrollTrigger are available');
+  gsap.registerPlugin(ScrollTrigger);
+  console.log('Image Text Hero GSAP Script - ScrollTrigger plugin registered');
+
+  // Check for scrollTriggerManager availability
+  if (typeof scrollTriggerManager === 'undefined') {
+    console.warn('Image Text Hero GSAP Script - scrollTriggerManager is not available');
+  } else {
+    console.log('Image Text Hero GSAP Script - scrollTriggerManager is available');
+    console.log('scrollTriggerManager methods:', Object.keys(scrollTriggerManager));
+  }
+
+  // Mid-page refresh guard (already exists globally)
+  console.log('Image Text Hero GSAP Script - Attempting scrollTriggerManager.revealIfInViewAll');
+  const revealTargets = '.image-text-hero .image-text-hero__heading, ' +
+                        '.image-text-hero .image-text-hero__subheading, ' +
+                        '.image-text-hero .image-text-hero__button';
+  
+  console.log('Image Text Hero GSAP Script - Reveal targets string:', revealTargets);
+  
+  const revealElements = document.querySelectorAll(revealTargets);
+  console.log('Image Text Hero GSAP Script - Reveal target elements found:', revealElements.length);
+  
+  revealElements.forEach((el, index) => {
+    console.log(`Image Text Hero GSAP Script - Reveal target ${index + 1}:`, el.tagName, 'Classes:', el.className, 'ID:', el.id);
+  });
+
+  if (typeof scrollTriggerManager !== 'undefined' && scrollTriggerManager.revealIfInViewAll) {
+    try {
+      scrollTriggerManager.revealIfInViewAll(revealTargets);
+      console.log('Image Text Hero GSAP Script - scrollTriggerManager.revealIfInViewAll executed successfully');
+    } catch (error) {
+      console.error('Image Text Hero GSAP Script - Error in revealIfInViewAll:', error);
+    }
+  } else {
+    console.warn('Image Text Hero GSAP Script - scrollTriggerManager.revealIfInViewAll not available, skipping');
+  }
+
+  // Use matchMedia for responsive animations
+  console.log('Image Text Hero GSAP Script - Setting up matchMedia for responsive animations');
+  
+  const mm = gsap.matchMedia();
+  
+  mm.add('(min-width: 769px)', () => {
+    console.log('Image Text Hero GSAP Script - Desktop matchMedia activated (min-width: 769px)');
+    
+    // Find all image-text-hero sections
+    const heroSections = document.querySelectorAll('.image-text-hero');
+    console.log('Image Text Hero GSAP Script - Desktop: Found hero sections:', heroSections.length);
+    
+    heroSections.forEach((hero, heroIndex) => {
+      console.log(`Image Text Hero GSAP Script - Desktop: Processing hero ${heroIndex + 1}:`, hero.className, hero.id);
+      
+      const heading = hero.querySelector('.image-text-hero__heading');
+      const sub = hero.querySelector('.image-text-hero__subheading');
+      const button = hero.querySelector('.image-text-hero__button');
+      
+      console.log(`Image Text Hero GSAP Script - Desktop Hero ${heroIndex + 1}:`, {
+        heading: !!heading,
+        sub: !!sub,
+        button: !!button
+      });
+      
+      if (!heading && !sub && !button) {
+        console.warn(`Image Text Hero GSAP Script - Desktop Hero ${heroIndex + 1}: No target elements found, skipping`);
+        console.log(`Hero ${heroIndex + 1} available elements:`, hero.innerHTML.substring(0, 200) + '...');
+        return;
+      }
+
+      // Debug initial state
+      if (heading) {
+        console.log(`Hero ${heroIndex + 1} heading initial state:`, {
+          opacity: window.getComputedStyle(heading).opacity,
+          transform: window.getComputedStyle(heading).transform
+        });
+      }
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: hero,
+          start: 'clamp(top 75%)',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse',
+          once: true,
+          markers: false,
+          id: `hero-${heroIndex + 1}-desktop`,
+          onEnter: () => console.log(`Hero ${heroIndex + 1} desktop ScrollTrigger onEnter`),
+          onLeave: () => console.log(`Hero ${heroIndex + 1} desktop ScrollTrigger onLeave`),
+          onToggle: (self) => console.log(`Hero ${heroIndex + 1} desktop ScrollTrigger toggled, isActive:`, self.isActive),
+          onRefresh: (self) => console.log(`Hero ${heroIndex + 1} desktop ScrollTrigger refreshed, progress:`, self.progress)
+        }
+      });
+
+      console.log(`Hero ${heroIndex + 1} desktop timeline created:`, tl);
+
+      let hasAnimations = false;
+      
+      if (heading) {
+        tl.to(heading, { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.8, 
+          ease: 'power3.out',
+          onStart: () => console.log(`Hero ${heroIndex + 1} desktop heading animation started`),
+          onComplete: () => console.log(`Hero ${heroIndex + 1} desktop heading animation completed`)
+        }, 0);
+        hasAnimations = true;
+      }
+      
+      if (sub) {
+        tl.to(sub, { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.8, 
+          ease: 'power3.out',
+          onStart: () => console.log(`Hero ${heroIndex + 1} desktop subheading animation started`),
+          onComplete: () => console.log(`Hero ${heroIndex + 1} desktop subheading animation completed`)
+        }, 0.15);
+        hasAnimations = true;
+      }
+      
+      if (button) {
+        tl.to(button, { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.8, 
+          ease: 'power3.out',
+          onStart: () => console.log(`Hero ${heroIndex + 1} desktop button animation started`),
+          onComplete: () => console.log(`Hero ${heroIndex + 1} desktop button animation completed`)
+        }, 0.30);
+        hasAnimations = true;
+      }
+      
+      if (!hasAnimations) {
+        console.warn(`Hero ${heroIndex + 1} desktop: No animations created, timeline is empty`);
+      }
+    });
+    
+    console.log('Image Text Hero GSAP Script - Desktop matchMedia setup complete');
+  });
+
+  mm.add('(max-width: 768px)', () => {
+    console.log('Image Text Hero GSAP Script - Mobile matchMedia activated (max-width: 768px)');
+    
+    // Find all image-text-hero sections
+    const heroSections = document.querySelectorAll('.image-text-hero');
+    console.log('Image Text Hero GSAP Script - Mobile: Found hero sections:', heroSections.length);
+    
+    heroSections.forEach((hero, heroIndex) => {
+      console.log(`Image Text Hero GSAP Script - Mobile: Processing hero ${heroIndex + 1}:`, hero.className, hero.id);
+      
+      const heading = hero.querySelector('.image-text-hero__heading');
+      const sub = hero.querySelector('.image-text-hero__subheading');
+      const button = hero.querySelector('.image-text-hero__button');
+      
+      console.log(`Image Text Hero GSAP Script - Mobile Hero ${heroIndex + 1}:`, {
+        heading: !!heading,
+        sub: !!sub,
+        button: !!button
+      });
+      
+      if (!heading && !sub && !button) {
+        console.warn(`Image Text Hero GSAP Script - Mobile Hero ${heroIndex + 1}: No target elements found, skipping`);
+        return;
+      }
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: hero,
+          start: 'clamp(top 50%)', // Earlier trigger on mobile
+          end: 'bottom 10%',
+          toggleActions: 'play none none reverse',
+          once: true,
+          markers: false,
+          id: `hero-${heroIndex + 1}-mobile`,
+          onEnter: () => console.log(`Hero ${heroIndex + 1} mobile ScrollTrigger onEnter`),
+          onLeave: () => console.log(`Hero ${heroIndex + 1} mobile ScrollTrigger onLeave`),
+          onToggle: (self) => console.log(`Hero ${heroIndex + 1} mobile ScrollTrigger toggled, isActive:`, self.isActive),
+          onRefresh: (self) => console.log(`Hero ${heroIndex + 1} mobile ScrollTrigger refreshed, progress:`, self.progress)
+        }
+      });
+
+      console.log(`Hero ${heroIndex + 1} mobile timeline created:`, tl);
+
+      let hasAnimations = false;
+      
+      if (heading) {
+        tl.to(heading, { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.7, // Slightly faster on mobile
+          ease: 'power3.out',
+          onStart: () => console.log(`Hero ${heroIndex + 1} mobile heading animation started`),
+          onComplete: () => console.log(`Hero ${heroIndex + 1} mobile heading animation completed`)
+        }, 0);
+        hasAnimations = true;
+      }
+      
+      if (sub) {
+        tl.to(sub, { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.7, 
+          ease: 'power3.out',
+          onStart: () => console.log(`Hero ${heroIndex + 1} mobile subheading animation started`),
+          onComplete: () => console.log(`Hero ${heroIndex + 1} mobile subheading animation completed`)
+        }, 0.12);
+        hasAnimations = true;
+      }
+      
+      if (button) {
+        tl.to(button, { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.7, 
+          ease: 'power3.out',
+          onStart: () => console.log(`Hero ${heroIndex + 1} mobile button animation started`),
+          onComplete: () => console.log(`Hero ${heroIndex + 1} mobile button animation completed`)
+        }, 0.24);
+        hasAnimations = true;
+      }
+      
+      if (!hasAnimations) {
+        console.warn(`Hero ${heroIndex + 1} mobile: No animations created, timeline is empty`);
+      }
+    });
+    
+    console.log('Image Text Hero GSAP Script - Mobile matchMedia setup complete');
+  });
+
+  // Add cleanup for matchMedia
+  mm.add('all', () => {
+    // This runs on every breakpoint change
+    console.log('Image Text Hero GSAP Script - matchMedia breakpoint changed');
+  });
+
+  console.log('Image Text Hero GSAP Script - matchMedia setup complete');
+
+  // Robust refresh sequence
+  console.log('Image Text Hero GSAP Script - Setting up refresh sequence');
+  window.addEventListener('load', () => {
+    console.log('Image Text Hero GSAP Script - Window load event fired');
+    setTimeout(() => {
+      if (typeof scrollTriggerManager !== 'undefined' && scrollTriggerManager.safeRefresh) {
+        scrollTriggerManager.safeRefresh(50);
+        console.log('Image Text Hero GSAP Script - scrollTriggerManager.safeRefresh called');
+      } else {
+        // Fallback refresh
+        if (ScrollTrigger) {
+          ScrollTrigger.refresh();
+          console.log('Image Text Hero GSAP Script - Fallback ScrollTrigger.refresh called');
+        }
+      }
+    }, 50);
+  });
+
+  // Additional refresh on resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (ScrollTrigger) {
+        ScrollTrigger.refresh();
+        console.log('Image Text Hero GSAP Script - ScrollTrigger refreshed on resize');
+      }
+    }, 250);
+  });
+
+  // Debug all ScrollTriggers
+  console.log('Image Text Hero GSAP Script - Initial ScrollTriggers count:', ScrollTrigger ? ScrollTrigger.getAll().length : 0);
+
+  // Log all image-text-hero elements found
+  const allHeroes = document.querySelectorAll('.image-text-hero');
+  console.log('Image Text Hero GSAP Script - All hero sections found:', allHeroes.length);
+  allHeroes.forEach((hero, index) => {
+    console.log(`Hero ${index + 1}:`, hero.className, 'ID:', hero.id);
+    console.log(`  Structure:`, Array.from(hero.children).map(child => `${child.tagName}.${child.className || 'no-class'}`));
+  });
+});
+</script>
+
+
+
+
+{% schema %}
+{
+  "name": "Image Text Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_bleed",
+      "label": "Full-bleed width (extends edge to edge)",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Desktop image position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Image Left (Text Right)"
+        },
+        {
+          "value": "right",
+          "label": "Image Right (Text Left)"
+        }
+      ],
+      "default": "right",
+      "info": "Choose where the image appears on desktop. Mobile order can be set independently below."
+    },
+    {
+      "type": "select",
+      "id": "mobile_order",
+      "label": "Mobile order",
+      "options": [
+        {
+          "value": "text_first",
+          "label": "Text first"
+        },
+        {
+          "value": "image_first",
+          "label": "Image first"
+        }
+      ],
+      "default": "text_first",
+      "info": "Choose the stacking order on mobile devices."
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Desktop gap between columns (px)",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Mobile gap between elements (px)",
+      "min": 16,
+      "max": 60,
+      "step": 4,
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image (optional)",
+      "info": "Different image for mobile devices"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find Your Perfect Floor"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Visualize any color in your home with our instant previewer.</p>"
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subheading color",
+      "default": "#666666"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "See Our Floors In Your Space"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_hover",
+      "label": "Button hover text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_hover",
+      "label": "Button hover background",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_heading",
+      "label": "Font Family Heading",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        },
+        {
+          "value": "Playfair Display",
+          "label": "Playfair Display"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+    "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        {"value": "300", "label": "Light"},
+        {"value": "400", "label": "Normal"},
+        {"value": "500", "label": "Medium"},
+        {"value": "600", "label": "Semi Bold"},
+        {"value": "700", "label": "Bold"}
+      ],
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "font_body",
+      "label": "Font Family Body",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        },
+        {
+          "value": "Playfair Display",
+          "label": "Playfair Display"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font_buttons",
+      "label": "Font Family Buttons",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        },
+        {
+          "value": "Playfair Display",
+          "label": "Playfair Display"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_d",
+      "label": "Heading size desktop (px)",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "heading_size_m",
+      "label": "Heading size mobile (px)",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subtext_size_d",
+      "label": "Subheading size desktop (px)",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "subtext_size_m",
+      "label": "Subheading size mobile (px)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_size_d",
+      "label": "Button text desktop (px)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_size_m",
+      "label": "Button text mobile (px)",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "text_max_width",
+      "label": "Text container width (%)",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding-top",
+      "label": "Padding Top Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-bottom",
+      "label": "Padding Bottom Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-left",
+      "label": "Padding Left Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-right",
+      "label": "Padding Right Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding-top-mob",
+      "label": "Padding Top Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-bottom-mob",
+      "label": "Padding Bottom Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-left-mob",
+      "label": "Padding Left Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-right-mob",
+      "label": "Padding Right Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Text Hero",
+      "settings": {
+        "heading": "Find Your Perfect Floor",
+        "subheading": "<p>Visualize any color in your home with our instant previewer.</p>",
+        "button_label": "See Our Floors In Your Space",
+        "image_position": "right",
+        "mobile_order": "text_first",
+        "text_alignment": "left",
+        "gap": 48,
+        "gap_mobile": 32
+      }
+    }
+  ]
+}
+{% endschema %}

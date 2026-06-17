@@ -1,0 +1,210 @@
+<div class="testimonial-slider-pdp container">
+  <div class="testimonial-slider swiper">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="testimonial-slide swiper-slide">
+          <div class="testimonial-content">
+            <img
+              src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/1f49151004c207fcd82c8bfdbdffddf1.svg?v=1724965777"
+              alt="Quote"
+              class="quote-mark"
+            >
+            <blockquote>{{ block.settings.quote }}</blockquote>
+            <span class="name">{{ block.settings.name }}</span>
+            <span class="location">{{ block.settings.location }}</span>
+            <a href="https://www.flooret.com/pages/reviews" class="read-more">Read more</a>
+          </div>
+          <div class="testimonial-image">
+            {% if block.settings.image %}
+              {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.name }}
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .flooring101 .testimonial-slider-pdp {
+    padding: 0;
+  }
+  .testimonial-slider-pdp {
+    background-color: #ffffff;
+    padding: 40px 20px;
+    overflow: hidden;
+  }
+  .testimonial-slide {
+    display: flex;
+    gap: 20px;
+  }
+  .testimonial-content {
+    flex: 1;
+    padding: 40px;
+    background-color: #d1bea8;
+    border-radius: 16px;
+    min-width: 0;
+  }
+  .testimonial-image {
+    flex: 1;
+    border-radius: 16px;
+    overflow: hidden;
+    min-width: 0;
+  }
+  .testimonial-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .quote-mark {
+    mix-blend-mode: multiply;
+    width: 170px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  blockquote {
+    color: #000;
+    font-family: Montserrat, sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.4;
+    margin-bottom: 30px;
+  }
+  .name {
+    display: block;
+    color: #000;
+    font-family: Montserrat, sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+  .location {
+    display: block;
+    color: #000;
+    font-family: Montserrat, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .read-more {
+    color: #111;
+    font-family: Montserrat, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-decoration: underline;
+    transition: opacity 0.3s ease;
+  }
+  .read-more:hover {
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .testimonial-slider-pdp {
+      padding: 20px 0;
+    }
+    .testimonial-slide {
+      width: 200%; /* Make each slide twice as wide */
+    }
+    .testimonial-content,
+    .testimonial-image {
+      width: 50%; /* Each takes up half of the doubled slide width */
+    }
+    .testimonial-content {
+      padding: 20px;
+    }
+    .quote-mark {
+      width: 85px;
+      margin-bottom: 10px;
+    }
+    blockquote {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    .name {
+      font-size: 16px;
+    }
+    .location {
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .read-more {
+      font-size: 12px;
+    }
+  }
+{% endstyle %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new Swiper('.testimonial-slider', {
+      slidesPerView: 'auto',
+      centeredSlides: false,
+      spaceBetween: 20,
+      grabCursor: true,
+      breakpoints: {
+        320: {
+          slidesPerView: 0.65,
+        },
+        769: {
+          slidesPerView: 1.1,
+          spaceBetween: 30,
+        },
+      },
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Testimonial Flooring",
+  "tag": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Testimonial Quote",
+          "default": "Enter testimonial here"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Customer Name"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "City, Country"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Testimonial Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials Flooring",
+      "blocks": [
+        {
+          "type": "testimonial"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

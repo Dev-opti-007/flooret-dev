@@ -1,0 +1,212 @@
+{
+  "sections": {
+    "hero_animated_wCjTwJ": {
+      "type": "hero-animated",
+      "settings": {
+        "bg_image": "shopify://shop_images/kingswood-and-arbor-sig.jpg",
+        "heading": "Everything You Need To Know About Vinyl Floors",
+        "content": "<p>You've seen the photos, maybe even seen the product in person, and are convinced you want vinyl floors. Congratulations! Vinyl is the fastest growing flooring category, so you are not alone. Vinyl's popularity is fueled by a long list of benefits—it's waterproof, anti-bacterial, slip-resistant, and extremely durable.</p>"
+      }
+    },
+    "video_Uyt7hL": {
+      "type": "video",
+      "settings": {
+        "video": "https://youtu.be/CJU4GOIm_04"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "two_column_z7nUqM": {
+      "type": "two-column",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#343334",
+        "row_reverse": false,
+        "align_center": false,
+        "helper_classes": "",
+        "image": "shopify://shop_images/simplified-shipping_d87f7746-7f54-4a76-a16b-d39fcc0c5b3a.jpg",
+        "contain_image": false,
+        "sub_heading": "",
+        "heading": "Beyond Durability",
+        "content": "<p>The appeal isn't all just in hidden features either. The rapid advances in print-film technology and texture embossing mean vinyl flooring now comes in a <a href=\"https://www.flooret.com/collections/modin/\" target=\"_blank\" title=\"Modin Rigid Vinyl Plank Collection\">wide range of colors and patterns</a>, for a wood look that is real to the touch and eye. Flooring brands have not turned a blind eye to this trend; to the contrary there are more vinyl lines available on the market now than there have ever been. Much in the same way the popularity of laminate floors 10 years ago brought many low-priced options to the market, the same has started to happen with vinyl. Consumers can now find peel-and-stick vinyl for as low as $0.69 / sq ft, a price point once reserved for the cheapest laminates and carpet. Like with most building materials, however, you get what you pay for. Unlike many other products, vinyl flooring brands and suppliers have been surprisingly coy about explaining what specifications matter when comparing vinyl flooring. We decided to write this guide to help you get a grasp on some of the specifications you should consider when comparing products.</p>",
+        "link_text": "",
+        "link_url": ""
+      }
+    },
+    "two_column_wkJjkj": {
+      "type": "two-column",
+      "settings": {
+        "bg_color": "#343334",
+        "text_color": "#ffffff",
+        "row_reverse": true,
+        "align_center": false,
+        "helper_classes": "",
+        "image": "shopify://shop_images/vinyl-plank.jpg",
+        "contain_image": false,
+        "sub_heading": "",
+        "heading": "Modern Vinyl—Construction",
+        "content": "<p>Most modern vinyl is technically composite; vinyl, meaning it is a combination of PVC (polyvinyl chloride, the scientific name for vinyl), plasticizers, and print films. The product typically comes with a backing material, which is a mix of vinyl and plasticizers or fiberglass. That material is then covered with a paper print-film, which has the desired color pattern. On top of the print-film, a clear layer of virgin or recycled PVC (vinyl) is layered as the main protection to the floor.</p><p>This top layer of pure vinyl is called the wear-layer, and is the most expensive part of the flooring, since it is the only thing protecting the paper print film. Typically the wear-layer is given some level of texture, or embossing, to better compliment the look of the print film being used. Finally, a coating of urethane is applied to the wear-layer, to further protect wear and provide the desired sheen for the pattern. The whole product is then cut up into smaller planks or tiles, depending on the pattern.</p>",
+        "link_text": "",
+        "link_url": ""
+      }
+    },
+    "two_column_CBR8aa": {
+      "type": "two-column",
+      "settings": {
+        "bg_color": "#eadfed",
+        "text_color": "#343334",
+        "row_reverse": false,
+        "align_center": false,
+        "helper_classes": "",
+        "image": "shopify://shop_images/flat-rate-shipping-bg.jpg",
+        "contain_image": false,
+        "sub_heading": "",
+        "heading": "What Really Matters—Wear Layer",
+        "content": "<p>Vinyl flooring brands will often make a big deal about how durable their products are. They will mention their fancy coatings, their lifetime warranties, their patent-pending constructions. At the end of the day, once you understand how vinyl is constructed, it becomes clear there is only one spec that really matters: <a href=\"https://learn.flooret.com/whats-the-difference-between-modin-signature-and-modin-base\" target=\"_blank\" title=\"Wear Layer\">the wear-layer.</a></p><p>Once the wear-layer wears through, the paper pattern will damage, and the floor will need to be replaced. To reiterate, <strong>the thicker the wear-layer, the longer your floors will last and look great.</strong> If durability is crucial (and if you are opting for vinyl over laminate or wood then it probably is), then you now already have enough information to make an informed decision. But if a thick wear-layer equates to a longer lasting floor, what is considered thick? 0.1 mm? 0.3 mm? 0.5 mm? 12 mil? 20 mil? These numbers are so microscopic that it is hard for most people to comprehend the differences. After all, how can something that is a tiny fraction of an inch provide any substantial protection at all?</p><p>Flooret has burst onto the scene with a new standard in wear-layer: <a href=\"https://www.flooret.com/collections/modin/signature/\">Our Modin Signature Collection</a> boasts a 40 mil wear-layer and our <a href=\"https://www.flooret.com/collections/modin/base/\">Modin Base Collection</a> has a 20 mil wear-layer.</p><p>What are more differences between Modin Signature and Modin Base? Check out <a href=\"https://learn.flooret.com/whats-the-difference-between-modin-signature-and-modin-base\" target=\"_blank\" title=\"What's the difference between Modin Signature and Modin Base?\">this article</a> to learn more.</p>",
+        "link_text": "",
+        "link_url": ""
+      }
+    },
+    "centered_content_f36DyW": {
+      "type": "centered-content",
+      "custom_css": [],
+      "settings": {
+        "preheading": "MEASURING DURABILITY",
+        "heading": "Other key points to consider.",
+        "content": "<p><strong>A mil is not a millimeter—Let's first clarify how vinyl wear-layers are measured, because this is one key point of misinformation.<br/><br/></strong>With a couple exceptions, vinyl manufacturers are based in either Asia or Europe, and use the metric system. So even though some specifications are converted into inches for convenience (such as the width or length of the plank, for example), the original manufactured spec is always accurately measure as metric. Most American vinyl brands, however, convert the unit of measure to mil (one-thousandth of an inch). Unfortunately the word mil is conveniently similar to millimeter. What is not so convenient is that 1 mm is equal to roughly 40 mil. So for example, 0.5 mm is almost twice as thick as 12 mil. Confused yet? <a href=\"https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Flooret_Chart_Wear-Layers.webp?v=1706130032\" target=\"_blank\" title=\"https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Flooret_Chart_Wear-Layers.webp?v=1706130032\">View chart of a range of wear-layers</a>, listed in both mm and mil, and the typically offered commercial warranty (you should always ask for the commercial warranty--more on this later)</p>"
+      }
+    },
+    "two_column_8wrUyP": {
+      "type": "two-column",
+      "settings": {
+        "bg_color": "#e0f3ed",
+        "text_color": "#343334",
+        "row_reverse": true,
+        "align_center": false,
+        "helper_classes": "",
+        "image": "shopify://shop_images/simplified-shipping.jpg",
+        "contain_image": false,
+        "sub_heading": "INSTALLATION, WARRANTY, & MORE",
+        "heading": "Beyond the Specs",
+        "content": "<p><strong>Installation Considerations</strong></p><p>As you can see, the amount of use you get out of a vinyl floor can range dramatically. This is why it is important to consider the application of your project, and take into account the true life-cycle cost.</p><p>Every time you have to replace your floor, you have to consider not just the material cost, but also the cost of installation, baseboards, and any other related expenses. <a href=\"https://cdn.shopify.com/s/files/1/0698/3761/9475/files/commercial-space-wear-layers.webp?v=1706130734\" target=\"_blank\" title=\"https://cdn.shopify.com/s/files/1/0698/3761/9475/files/commercial-space-wear-layers.webp?v=1706130734\">For example, in a typical commercial space.</a></p><p>Add in other indirect costs related to floor replacement (not to mention the general inconvenience), and it becomes readily apparent that the smart decision is virtually always to go for the thickest wear-layer you can afford.<br/></p><p><strong>Warranty<br/><br/></strong>Here at Flooret, we make a big fuss about how the flooring industry treats warranties, and unfortunately vinyl is no different. The key points to understand about all flooring warranties. Labor costs for removal and replacement are NEVER included! This is probably the biggest item to note when considering your warranty. Keep in mind that especially with vinyl, professional installation is a large percentage of your total job cost.</p><p>Flooring warranties only cover the flooring that needs replacement. So if 10 sq ft in your entrance gets damaged, you will only have 10 sq ft of replacement product sent to you. Warranties are virtually never transferrable. They also usually require the original proof of purchase and must be filed through the original retailer. Going directly to the brand will result in them refusing your warranty, even if the retailer you purchased through is no longer in business.</p><p>Many warranties, especially for big box-store products, include so many exclusions that the brand has virtually unlimited power to deny any claim. Warranties always include an exclusion in the event the original product is no longer being manufactured.</p><p>This may all seem discouraging, but there are still two very tangible ways for you to gauge the quality of a product: the actual specification (in the case of vinyl, the wear-layer), and the commercial warranty. Brands get very nervous about commercial claims because heavy commercial environments can be unforgiving. Commercial projects also tend to be much larger than residential, so the cost of an expensive claim can be prohibitive. In short, while it is always best to make sure you have some kind of warranty, take those multi-decade warranties with a heavy grain of salt. What will ultimately determine how long your floor lasts is the quality of its specifications.</p>",
+        "link_text": "",
+        "link_url": ""
+      }
+    },
+    "centered_content_JXagza": {
+      "type": "centered-content",
+      "settings": {
+        "preheading": "COATINGS",
+        "heading": "Protecting the protective layer.",
+        "content": "<p><strong>Although the wear-layer is what provides the bulk of the protection, vinyl flooring is always coated with a surface finish as well. The quality of this finish provides that first line of defense for your floors, before wear-and-tear start affecting the wear-layer itself.</strong></p><p>There are many different finishes on the market with a range of names, but the standard you want to demand is aluminum oxide coating. This coating provides an additional layer of protection (and anti-slip properties). The coating is invisible, and does not affect indoor air quality, but is a nice additional benefit to look out for.</p>"
+      }
+    },
+    "two_column_bMT7Hg": {
+      "type": "two-column",
+      "settings": {
+        "bg_color": "#343334",
+        "text_color": "#ffffff",
+        "row_reverse": false,
+        "align_center": false,
+        "helper_classes": "",
+        "image": "shopify://shop_images/simplified-shipping_d9f4a0c6-69f9-452e-b12f-6d6de202cde5.jpg",
+        "contain_image": false,
+        "sub_heading": "",
+        "heading": "Virgin Versus Recycled Vinyl",
+        "content": "<p>One topic that is worth considering is whether your vinyl floor is made of pure <a href=\"https://learn.flooret.com/virgin-or-recycled-vinyl\" target=\"_blank\">virgin material, or is recycled</a>. Although the word recycled would imply a more ecological and sustainable alternative, the story is more complicated. It is important to understand what recycled means with PVC. The standards for vinyl recycling are not the same as other recycled products.</p><p>Recycled vinyl is in reality a mix of vinyl and any other materials that might have been mixed with it as part of the previous waste stream. That is to say, no standard says only pure PVC can be recycled. Examples of waste that is often used in recycled vinyl are old tires, power lines, and even copper wires.</p><p>The result can have numerous negative effects, both on performance and health safety. As soon as other materials are mixed with PVC, many of the major advantages of vinyl (durability, waterproofness, dimensional stability) are compromised. Because there is no standard specifying what waste-stream sources can be used in recycled vinyl, there is no way for the consumer to know what percentage of heavy metals or other materials are in their floor.</p><p>The issue of safety is equally concerning. Because the waste-stream mix can change from batch to batch, even independently tested recycled vinyl can be risky. Everything from lead to phthalates are found in recycled vinyl, and over time as the wear-layer wears down these dangerous materials are released.</p><p>The good news is that PVC is extremely recyclable, and loses very little of its dimensional stability when recycled. As the industry develops, the hope is for more rigorous standards for what waste inputs are allowed. So long as 100% pure vinyl is recycled, it can result in a great post-consumer product.</p><p>For now, however, we feel strongly that investing in pure virgin PVC is the best way to build a strong foundation for the future of recycled vinyl flooring, without risking the quality of your floor or your health. Since in all cases the future inputs for recycled vinyl will be virgin PVC, by getting 100% pure vinyl you are ensuring your floor will be recyclable, and not have to end up in a landfill.</p><p>Related Reading: <a href=\"http://floorcoveringweekly.com/Main/DailyUpdate/6969ed1e-dfbb-4527-b8f7-c43b4fa5aebb.aspx\" target=\"_blank\">Vinyl's toughest question: Pure or recycled content?</a></p>",
+        "link_text": "",
+        "link_url": ""
+      }
+    },
+    "accordions_T96HYB": {
+      "type": "accordions",
+      "blocks": {
+        "accordion_t47UPJ": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Overall Thickness",
+            "accordion_content": "<p>The overall thickness of your vinyl floor is generally a less important specification since it has little to do with durability (the wear-layer thickness is what determines how long the floor will last). That said, overall nominal thickness does matter in one specific case: Click flooring. The thicker a click vinyl plank, the easier it is to install, and the more secure the click mechanism. Through testing and feedback from hundreds of installers, we have found that 5 mm is the ideal minimum thickness for click flooring.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_VURbYk": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Vinyl Floorings Installation Methods & Constructions",
+            "accordion_content": "<p><strong>Click</strong> vinyl plank and tile have quickly become the most common construction in the industry. It is easy to install, provides a great lasting bond, and does not require additional messy adhesives. Click vinyl can be installed directly over most subfloors and existing flooring, without the need for an additional underlayment (an underlayment can be used if desired, however, for additional sound control). The only thing to note with click flooring is that the thickness of the plank should be a minimum of 5 mm, as anything thinner can result in a weak click mechanism, and is also considerably harder to install.</p><p>One concern with a click that comes from floating laminate and wood floors is the hollow feeling they often have. Vinyl is unique in this regard, however, in that both the higher density and the flexibility of the material means there are very few air pockets, even on less-than-perfect subfloors. This does mean that imperfections in the subfloor will telegraph to the surface, but as a result, it also means the hollow-spot effect isn't there.</p><p><strong>Dryback (glue-down)</strong> vinyl is designed to be full-trowel glued. The planks are generally thinner (2-3 mm), but otherwise have all the same specifications as their click counterparts. Because the product is thinner and does not have a click mechanism, it is often less expensive. That said, this savings is usually outweighed by the fact that you must purchase adhesive, and the cost of a more experienced installer who is familiar with full-trowel installs. Although the quality of high-quality click flooring has improved dramatically, glue-down is still considered the standard when the most solid installation is needed. Nothing keeps flooring in place quite like full-trowel glue.</p><p>For more information on click or glue-down vinyl, <a href=\"https://learn.flooret.com/click-or-glue-down-vinyl-flooring-whats-right-for-me\" target=\"_blank\">check out our Knowledge Base article.</a></p><p><strong>Loose-Lay</strong> is the newest technology in vinyl construction. The concept is based on small suction cups that create a vacuum seal with the sub-floor. The argument is that it is even easier to install than click since you can just put the planks side-by-side, and don't need to mess with getting the click mechanism to hold. In practice, loose-lay requires the perimeter of the room to be glued, especially in larger space. And even then, unless the installation is flawless, there are likely to be gaps develop between planks and tiles as the floor gets walked on.</p><p>Although a nice concept in theory, in practice the advantages of loose-lay over click or dry back are hard to quantify. When you consider that the price of loose-lay is rarely lower than click, you are better considering one of the alternatives.</p><p><strong>Peel-and-stick</strong> vinyl is on the low-end spectrum of vinyl flooring. Offered almost exclusively by big-box-stores like Home Depot, Lowes, and Lumber Liquidators, these are usually 0.1 or 0.2 mm wear-layer products, designed with a sticker backing that you peel off, and then stick the planks to your subfloor. The adhesive on these products is notoriously unreliable, especially if your subfloor is not perfectly clean and level. Even in ideal conditions, the corners of the product will come up over time, and as they get walked on and abused, the sticker will start to peel. Although in theory, these products are usable, the low quality generally makes it an option of last resort, for extremely low-traffic, low visibility applications. If you do go this route, it is recommended to purchase 50-75% waste over your square footage, to allow for plank replacement over time.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_qE3KHQ": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Width & Length",
+            "accordion_content": "<p>As with wood flooring, width and length can have a significant impact on how a floor looks. Generally speaking, the wider and longer the planks, the more luxurious the feel of the floor. Larger planks mean fewer seams, resulting in a cleaner, more open look. Vinyl plank typically comes 6\" or 7\" wide, and 3 or 4 ft long. For the Modin Collection, we were able to work with our supplier to provide a 9\" wide and 5 ft long plank.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_DCDFqF": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Embossing",
+            "accordion_content": "<p>Vinyl plank can come in a range of textures, from flat to heavily brushed. These textures help the product look more realistic, and help give depth to the print film. Different manufacturers use different plates for their texture, and some are certainly nicer than others.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_rE489j": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Bevels",
+            "accordion_content": "<p>With wood floors, bevels are the grooves found between planks. These are a nice detail on vinyl, and also help visually separate the planks. With some patterns, the planks can disappear into each other, and give the impression of a single homogenous surface. The bevels can help break this up. Bevels are only really possible with thicker vinyl, generally 5 mm or thicker.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_NEWKRt": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Sheen",
+            "accordion_content": "<p>The urethane coating applied to the wear-layer can come in different sheen levels. Although mostly an aesthetic factor, there is one practical consideration with sheen. The higher the gloss level on your floor, the more scratches and wear will show. When you also consider that a shiny vinyl floor accentuates the \"plastic\" look of the vinyl, we think a low sheen is both more practical and more visually appealing.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "accordion_t47UPJ",
+        "accordion_VURbYk",
+        "accordion_qE3KHQ",
+        "accordion_DCDFqF",
+        "accordion_rE489j",
+        "accordion_NEWKRt"
+      ],
+      "settings": {
+        "block_id": "",
+        "heading": "Thickness, Types, & More",
+        "content": "<p>LESS IMPORTANT FACTORS</p>",
+        "link_text": "",
+        "link_url": ""
+      }
+    }
+  },
+  "order": [
+    "hero_animated_wCjTwJ",
+    "video_Uyt7hL",
+    "main",
+    "two_column_z7nUqM",
+    "two_column_wkJjkj",
+    "two_column_CBR8aa",
+    "centered_content_f36DyW",
+    "two_column_8wrUyP",
+    "centered_content_JXagza",
+    "two_column_bMT7Hg",
+    "accordions_T96HYB"
+  ]
+}

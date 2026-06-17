@@ -1,0 +1,39 @@
+{%- liquid
+  assign module = section.settings
+
+  assign bg_color = module.bg_color
+  assign bg_height = module.bg_height
+-%}
+
+{% capture bg_styles %}
+style="background-color: {{ bg_color | color_rgba }}; height: {{ bg_height }}vw;"
+{% endcapture %}
+
+<div class="background-overlay" {{ bg_styles }}></div>
+
+{% schema %}
+{
+  "name": "Background Overlay",
+  "tag": "div",
+  "class": "background-overlay-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "number",
+      "id": "bg_height",
+      "label": "Background Height (in VW units)",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Background Overlay",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

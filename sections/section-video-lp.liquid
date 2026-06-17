@@ -1,0 +1,178 @@
+<style>
+  .video-thumb-section-{{ section.id }} {
+    padding-top:{{ section.settings.padding-top }}px;
+    padding-bottom:{{ section.settings.padding-bottom }}px;
+  }
+.video-thumb-section {
+  background: #25393D;
+}
+
+.video-thumb-section .heading-wrap > span {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 54px;
+  line-height: 102.4px;
+  vertical-align: middle;
+  text-align: center;
+  display: block;
+  color: #fff;
+}
+
+.video-thumb-section .heading-wrap h2 {
+  color: #fff;
+  font-family: Playfair Display;
+  font-weight: 500;
+  font-style: Italic;
+  font-size: 64px;
+  line-height: 102.4px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0px;
+}
+
+.video-thumb-section .video-wrap {
+  text-align: center;
+  margin-top: 60px;
+  background: #fff;
+  max-width: 935px;
+  margin: 60px auto 0px;
+  padding: 17px;
+  border-radius: 30px;
+}
+
+.video-thumb-section .video-wrap > img {
+  border-radius: 24px;
+}
+
+.video-thumb-section .thumb-wrap {
+  position: relative;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.video-thumb-section .thumb-wrap img {
+  border-radius: 10px;
+}
+
+.video-thumb-section #vid_wrap video.custom-video {
+  border-radius: 10px;
+}
+  
+.video-thumb-section .video-wrap #vid_wrap {
+    display: flex;
+}
+  
+.video-thumb-section .thumb-wrap svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width:768px){
+  .video-thumb-section .video-wrap {
+      padding: 5px;
+      border-radius: 15px;
+  }
+}  
+</style>
+
+<div class="video-thumb-section video-thumb-section-{{ section.id }}" >
+
+  <div class="page-width">
+     <div class="heading-wrap" >
+       <h2>{{ section.settings.heading }}</h2>
+       <span>{{ section.settings.sub-heading }}</span>  
+       
+     </div>
+
+    <div class="video-wrap" >
+      <div class="thumb-wrap">
+      <img src="{{ section.settings.thumb-image | img_url:'935x' }}" alt="{{ section.settings.thumb-image.alt }}" >
+      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="81" viewBox="0 0 80 81" fill="none">
+      <rect y="0.129883" width="80" height="80" rx="40" fill="white" fill-opacity="0.9"/>
+      <path d="M52.6719 37.5674C54.6094 38.7549 54.6094 41.5674 52.6719 42.7549L30.6719 55.7549C28.6719 56.9424 26.1719 55.5049 26.1719 53.1299V27.1299C26.1719 24.5674 28.8594 23.5049 30.6719 24.5674L52.6719 37.5674Z" fill="#2D4A3A"/>
+      </svg>
+      </div>
+       <div id="vid_wrap"  >
+         
+       </div>
+    </div>
+    
+  </div>
+</div>
+
+<script>
+  var vid = `<video
+        src="{{ section.settings.video_url }}"
+        autoplay
+        controls
+        loop
+        playsinline
+        class="custom-video"
+        width="100%"
+        height="auto"
+      >
+        Your browser does not support the video tag.
+      </video>`;
+  var t = document.querySelector('.thumb-wrap');
+  var vW  = document.querySelector('#vid_wrap');
+  t.addEventListener('click', ()=>{
+      t.style.display = 'none';
+      vW.insertAdjacentHTML('afterbegin', vid);
+  })
+</script>
+
+
+  
+{% schema %}
+  {
+    "name": "LP Video Section",
+    "settings": [
+      {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+       },
+      {
+         "type": "text",
+          "id": "sub-heading",
+          "label": "Sub Heading"
+      },
+      {
+        "type": "image_picker",
+        "id": "thumb-image",
+        "label": "Thumbnail Image"
+      },
+      {
+        "type": "text",
+        "id": "video_url",
+        "label": "Video File URL",
+        "info": "Upload your video in Content > Files, then paste the URL here."
+      },
+      {
+        "type": "range",
+        "id": "padding-top",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Top",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "padding-bottom",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Bottom",
+        "default": 2
+      }
+    ],
+    "presets": [
+      {
+        "name":"LP Video Section"
+      }
+    ]
+  }
+{% endschema %}

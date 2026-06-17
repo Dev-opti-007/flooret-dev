@@ -1,0 +1,2071 @@
+{% assign meta = product.metafields %}
+
+<section class="mproduct sample-pdp loading{% if product.title == 'Copy Dev Modin LVP 4-Model Comparison Kit' or product.title == "Modin LVP 4-Model Comparison Kit" or product.title == "Modin LVP 3-Model Comparison Kit" or product.title == "Modin LVP 2-Model Comparison Kit" or product.title == "Silvan Hardwood 2-Width Comparison Kit" or product.title == "Modin LVP Signature Sample Kits" or product.title == "Bestsellers Sample Kits" %}sample-kit-v2{% endif %}">
+  <div class="">
+    <div class="mproduct__wrap js-product-container {% unless product.available %}oos-product{% endunless %}">
+      {% render 'product-gallery' %}
+      {% render 'product-details-sample', product: product, isAddSamplePopup: false, section:section %}
+    </div>
+  </div>
+</section>
+
+      <div class="usp-section-with-bg" style="background:{{ section.settings.usp-section-bg }}" >
+            <div class="usp-section" >
+                {% for block in section.blocks %}
+                  {% case block.type %}
+                    {% when 'usp' %}
+                      <div class="usp-card" style="background-color:{{ block.settings.card-bg }};" >
+                        <div class="icon-wrap" style="background-color:{{ block.settings.icon-bg }};">
+                          <img src="{{ block.settings.icon | img_url:'30x' }}" alt="{{ block.settings.icon.alt }}" >
+                        </div>
+                        <span class="title">{{ block.settings.title }}</span>
+                        <div class="subtext" >
+                          {{ block.settings.subtext }}
+                        </div>
+                      </div>
+                  {% endcase %}
+                {% endfor %}
+            </div>
+      </div>
+      <div class="insallation-video" data-video-container style="background:{{ section.settings.accrodian-section-bg }}">        
+        <div class="video-wrapper video-wrapper--{{ section.id }}" 
+          data-video-lazy
+          data-video-url="{{ section.settings.video_url }}"
+          data-video-poster="{{ section.settings.video_poster | image_url: width: 1920 }}"
+          data-video-autoplay="{{ section.settings.video_autoplay }}"
+          data-video-loop="{{ section.settings.video_loop }}"
+          data-video-muted="{{ section.settings.video_muted }}"
+          data-video-controls="{{ section.settings.video_controls }}"
+          data-video-height-desktop="{{ section.settings.video_height_desktop }}"
+          data-video-height-mobile="{{ section.settings.video_height_mobile }}"
+        >
+          {% if section.settings.video_poster != blank %}
+            <img 
+              src="{{ section.settings.video_poster | image_url: width: 1920 }}" 
+              alt="Video poster" 
+              class="video-poster"
+              loading="lazy"
+            >
+          {% else %}
+            <div class="video-placeholder"></div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="accrodian-section-product-with-bg" style="background:{{ section.settings.accrodian-section-bg }}">
+          <div class="heading" >
+            <h2>{{ product.title }} {{ section.settings.accordian-title }}</h2>
+            <div class="subtext" >
+              {{ section.settings.accordian-subtext }}
+            </div>
+          </div>
+          <div class="product-info-accordion">
+            {% if product.metafields.flooret.product_specs != blank %}
+            <div class="accordion-item">
+              <h6 class="accordion-toggle"><img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Group.png"> Specs {% render 'icon-arrow-down' %}</h6>
+              <div class="accordion-content" style="display: none;">
+                {%- liquid
+                  assign meta = product.metafields.flooret
+                -%}
+                {%- if meta.product_specs != blank -%}
+                  {%- assign accord_content = meta.product_specs | metafield_tag -%}
+                  {{ accord_content | remove: ':' }}
+                {%- endif -%}
+              </div>
+            </div>
+            {% endif %}
+            <div class="accordion-item">
+              <h6 class="accordion-toggle"><img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Group_1_76fceb3c-70d1-4613-8220-266f6b7d7076.png" > Shipping {% render 'icon-arrow-down' %}</h6>
+              <div class="accordion-content" style="display: none;">
+                <div class="metafield-rich_text_field">
+                  <ul>
+                    <li>
+                      <strong>Freight Flooring Orders</strong>
+                      Flat rate $199
+                    </li>
+                    <li><strong>Less than 4 boxes</strong>$35 per box</li>
+                    <li><strong>All Trim Pieces & Sample Orders</strong>Free</li>
+                    <li>
+                      <strong>Watch video to learn more. </strong>
+                      <a href="https://www.youtube.com/watch?v=BO52Cs0vuMI">Flooret Shipping Video</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {% if product.metafields.flooret.product_documents != blank %}
+            <div class="accordion-item">
+              <h6 class="accordion-toggle"><img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/Group_2.png"> Manuals {% render 'icon-arrow-down' %}</h6>
+              <div class="accordion-content" style="display: none;">
+                {%- if meta.product_documents != blank -%}
+                  {%- assign accord_content = meta.product_documents | metafield_tag -%}
+                  {{ accord_content }}
+                {%- endif -%}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+{% if product.tags contains 'Cat--Modin LVP' %} <span style="display:none" >devesh</span> {% endif %}
+         {% comment %} For Modin only {% endcomment %}
+  {% if product.tags contains 'Cat--Modin LVP' %}
+              <div class="close-wrap-back-compare-model"></div>
+              <div class="compare-model-wrap">
+                <button class="close-btn">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.53342 24.8718L7.12842 23.4668L14.5951 16.0001L7.12842 8.53342L8.53342 7.12842L16.0001 14.5951L23.4668 7.12842L24.8718 8.53342L17.4051 16.0001L24.8718 23.4668L23.4668 24.8718L16.0001 17.4051L8.53342 24.8718Z" fill="#717171"></path>
+                  </svg>
+                </button>
+                <div class="main-wrap">
+                  {% comment %} Get the 'Model type' option values {% endcomment %}
+                  {% assign model_options = product.options_with_values | where: "name", "Model" | first %}
+
+                  {% comment %} Conditionally show Modin Base {% endcomment %}
+                  {% if model_options.values contains "Base" %}
+                    <div class="modinBase">
+                      <h3>Modin Base</h3>
+                      <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/base_67c05e112779a.png">
+                      <p>6” x 48” x 5mm | Wear Layer : 20 mil</p>
+                    </div>
+                  {% endif %}
+
+                  {% comment %} Conditionally show Modin Signature {% endcomment %}
+                  {% if model_options.values contains "Signature" %}
+                    <div class="modinSignature">
+                      <h3>Modin Signature</h3>
+                      <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/signature_67c0630195e46.png">
+                      <p>9” x 72” x 7mm | Wear Layer : 40 mil </p>
+                    </div>
+                  {% endif %}
+
+                  {% comment %} Conditionally show Modin Craftsman {% endcomment %}
+                  {% if model_options.values contains "Craftsman" %}
+                    <div class="modinCraftsman">
+                      <h3>Modin Craftsman</h3>
+                      <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/craftsman_67c062e56eaac.png">
+                      <p>3.35” x 72” x 7mm | Wear Layer : 40 mil </p>
+                    </div>
+                  {% endif %}
+
+                  {% comment %} Conditionally show Modin Herringbone {% endcomment %}
+                  {% if model_options.values contains "Herringbone" %}
+                    <div class="modinHerringbone">
+                      <h3>Modin Herringbone</h3>
+                      <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/herringbone_67c062f4cfc38.png">
+                      <p>4.2” x 23.3” x 7mm | Wear Layer : 40 mil </p>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+              <script>
+                document.addEventListener('DOMContentLoaded', () =>{
+                    var compareModelButton = document.querySelector('#compareModel');
+                    var compareModelWrap = document.querySelector('.compare-model-wrap');
+                    var comapreModelCloseWrap = document.querySelector('.close-wrap-back-compare-model');
+                    var compareCloseBtn = document.querySelector('.compare-model-wrap .close-btn')
+                    compareModelButton.addEventListener('click', ()=>{
+                        compareModelWrap.style.display = 'block';
+                        comapreModelCloseWrap.style.display = 'block'
+                        document.querySelector('body').style.overflow = 'hidden';
+                    })
+                    comapreModelCloseWrap.addEventListener('click', ()=>{
+                        compareModelWrap.style.display = 'none';
+                        comapreModelCloseWrap.style.display = 'none';
+                        document.querySelector('body').style.overflow = 'unset';
+                    })
+                    compareCloseBtn.addEventListener('click', ()=>{
+                        compareModelWrap.style.display = 'none';
+                        comapreModelCloseWrap.style.display = 'none'
+                        document.querySelector('body').style.overflow = 'unset';
+                    })
+                })
+                </script>
+            {% endif %}
+ {% comment %} For Modin only {% endcomment %}
+
+  
+
+<script>
+  var productTags = {% if product.metafields.custom.tags_to_show_in_image.value != blank %}"{{ product.metafields.custom.tags_to_show_in_image.value | escape }}"{% else %}null{% endif %};
+  
+  var variantMetafields = {
+    {%- for variant in product.variants -%}
+      "{{ variant.id }}": {
+        "sqft_price": {% if variant.metafields.custom.sqft_price.value != blank %}{{ variant.metafields.custom.sqft_price.value | json }}{% else %}null{% endif %},
+        "sqft_compare_at_price": {% if variant.metafields.custom.sqft_compare_at_price.value != blank %}{{ variant.metafields.custom.sqft_compare_at_price.value | json }}{% else %}null{% endif %},
+        "tag_to_show_in_image": {% if variant.metafields.custom.tag_to_show_in_image.value != blank %}"{{ variant.metafields.custom.tag_to_show_in_image.value }}"{% else %}null{% endif %}
+      }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  };
+</script>
+
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('%c=== Starting input click listeners ===', 'color: blue; font-weight: bold;'); // Highlighted start log
+
+  /* ------------------------------------------------------------------
+     Selectors
+  ------------------------------------------------------------------ */
+  const typeUL = document.querySelector('ul.pdp-atc__group__buttons.Type');
+  if (!typeUL) {
+    console.log('%c[Type UL not found - abort]', 'color: red; font-weight: bold;');
+    return;
+  }
+
+  const sampLis = typeUL.querySelectorAll('li.sample'); // Cut-sample + Plank-sample
+  const boxLi = typeUL.querySelector('li.box');         // Box option (single <li>)
+  const inputs = typeUL.querySelectorAll('input[type="radio"]');
+  const tabs = document.querySelector('.js-tabs.product-orderby');
+
+  // New: Tabs for "Order by Sample" and "Order by Box"
+  const sampleTab = document.querySelector('[data-items="sample"]');
+  const boxTab = document.querySelector('[data-items="box"]');
+
+  console.log('%cSamples found: ' + sampLis.length + ' | Box found: ' + (!!boxLi), 'color: purple;');
+  console.log('%cSample tab found: ' + (!!sampleTab) + ' | Box tab found: ' + (!!boxTab), 'color: purple;');
+
+  /* ------------------------------------------------------------------
+     Helper – toggle visibility and active class
+  ------------------------------------------------------------------ */
+  function toggleDisplay(showSamples) {
+    sampLis.forEach(li => { li.style.display = showSamples ? 'block' : 'none'; });
+    if (boxLi) { boxLi.style.display = showSamples ? 'none' : 'block'; }
+
+    // Toggle active class on tabs
+    if (showSamples) {
+      if (sampleTab) {
+        sampleTab.classList.add('pdp_tab--active');
+        console.log('%cActivated sample tab', 'color: cyan;');
+      }
+      if (boxTab) {
+        boxTab.classList.remove('pdp_tab--active');
+        console.log('%cDeactivated box tab', 'color: cyan;');
+      }
+    } else {
+      if (sampleTab) {
+        sampleTab.classList.remove('pdp_tab--active');
+        console.log('%cDeactivated sample tab', 'color: cyan;');
+      }
+      if (boxTab) {
+        boxTab.classList.add('pdp_tab--active');
+        console.log('%cActivated box tab', 'color: cyan;');
+      }
+    }
+
+    if (tabs) {
+      tabs.style.display = showSamples ? '' : 'none';
+      console.log('%cTabs ' + (showSamples ? 'shown' : 'hidden'), 'color: cyan;');
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Click handler
+  ------------------------------------------------------------------ */
+  function handleClick(e) {
+    const input = e.currentTarget;               // radio that was clicked
+    const parent = input.parentNode;             // corresponding <li>
+    const isBox = parent.classList.contains('box');
+
+    console.log('%cClicked:', 'color: teal; font-weight: bold;', input.value, '| isBox:', isBox);
+
+    // Hide/show whole <li> blocks and toggle tab active class  
+    toggleDisplay(!isBox);
+  }
+
+  /* ------------------------------------------------------------------
+     Wire listeners
+  ------------------------------------------------------------------ */
+  inputs.forEach(input => {
+    input.addEventListener('click', handleClick);
+  });
+
+  /* ------------------------------------------------------------------
+     One-time run for initial state
+  ------------------------------------------------------------------ */
+  const initiallyChecked = typeUL.querySelector('input[type="radio"]:checked');
+  if (initiallyChecked) {
+    console.log('%cInitial checked input:', 'color: green;', initiallyChecked.value);
+    toggleDisplay(!initiallyChecked.parentNode.classList.contains('box'));
+  } else {
+    // No radio pre-selected → default to “samples shown”
+    toggleDisplay(true);
+  }
+
+  console.log('%c=== Input click listeners initialized ===', 'color: blue; font-weight: bold;'); // Highlighted end log
+});
+
+
+</script>
+
+
+
+{% if product.type == 'trim' or product.type == 'sample kit' %}
+  <script>
+  console.log('nonne')
+  </script>
+      {% else %}
+  <script>
+  console.log('yessss')
+  </script>
+    <script>
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+      }
+      
+      let isStickyActive = false;
+      let ticking = false; // Prevents multiple calls per frame
+      
+      function stickyBtn() {
+        
+          let parent = document.querySelector('section.mproduct');
+          if(parent){
+            let button = parent.querySelector(".atc-wrap .atc-wrap__ctas");
+            let atc_btn = button.querySelector('#addtocart');
+          
+            if (!button || !parent || !atc_btn ) { console.log("Button not found!"); return; }
+          
+            const rect = parent.querySelector("#product-details .atc-wrap .qty-input ").getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            // console.log('rt > 0 ~~~ rb < wh',{rt: parseInt(rect.top) ,rb: parseInt(rect.bottom), wh: parseInt(windowHeight)});
+            
+            if ( parseInt(rect.top) > 0 && parseInt(rect.bottom) < parseInt(windowHeight)) { 
+              if (isStickyActive) { 
+                button.classList.remove("cstm_sticky--active");
+                atc_btn.type = 'submit';
+                isStickyActive = false;
+              }
+            } else { 
+              if (!isStickyActive) {
+                button.classList.add("cstm_sticky--active");
+                atc_btn.type = 'submit';
+                isStickyActive = true;
+              }
+            }
+            ticking = false; // Allow next frame
+          }
+      }
+      let debounce_sticky = debounce(() => { requestAnimationFrame(stickyBtn); ticking = false; }, 200);
+      
+      window.addEventListener("scroll", () => { if (!ticking) { debounce_sticky(); ticking = true; } });
+    </script>
+    {% endif %}
+
+
+ {%- liquid
+  assign is_silvan_product = false
+  for collection in product.collections
+    if collection.handle == 'silvan-hardwood'
+      assign is_silvan_product = true
+      break
+    endif
+  endfor
+-%}
+
+{% if is_silvan_product %}
+  <style>
+    /* Optional: CSS for a cleaner strikethrough style */
+    .product-option__name .original-price--struck {
+      text-decoration: line-through;
+      color: #6d6d6d;
+      margin-left: 8px;
+      font-weight: normal;
+    }
+    span.prd_type_cost.new {
+        margin-left: auto;
+    }
+  </style>
+
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const optionNameSpans = document.querySelectorAll('.product-option__name');
+
+      // document.querySelector('.pdp-atc__group__buttons.Model').style.flexDirection = 'column-reverse'
+      
+      optionNameSpans.forEach(span => {
+        let mainText = '';
+        for (const node of span.childNodes) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                mainText += node.textContent.trim();
+            }
+        }
+
+        // --- Logic for "Cut Sample" ---
+        // if (mainText === 'Cut Sample') {
+        //   const originalPriceSpan = span.querySelector('.prd_type_cost');
+          
+        //   if (originalPriceSpan && !span.querySelector('.prd_type_cost.new')) {
+        //     // This part remains the same
+        //     originalPriceSpan.classList.add('original-price--struck');
+        //     const newPriceSpan = document.createElement('span');
+        //     newPriceSpan.className = 'prd_type_cost new';
+        //     newPriceSpan.innerHTML = '$1.00';
+        //     span.insertBefore(newPriceSpan, originalPriceSpan);
+        
+        
+        //     // 2. Insert it immediately after the original price span
+        //     originalPriceSpan.insertAdjacentElement('afterend', offTextSpan);
+        //   }
+        // }
+                
+        // --- UPDATED LOGIC for "Full Length Plank Sample" ---
+        if (mainText.includes('Full Length') || mainText.includes('Plank Sample')) {
+          // Action 1: Change the inner HTML of the main span
+          {% comment %} span.innerHTML = '6" x 46" Plank Sample <span class="prd_type_cost">$20.00</span>'; {% endcomment %}
+
+          // Action 2: Add the description span after it
+          if (!span.parentElement.querySelector('.product-option__description')) {
+            const descriptionSpan = document.createElement('span');
+            descriptionSpan.className = 'product-option__description';
+            descriptionSpan.textContent = 'Available in 6" x 46" model only.';
+            span.insertAdjacentElement('afterend', descriptionSpan);
+          }
+        }
+      });
+    });
+  </script>
+
+
+
+
+ 
+{% endif %}   
+
+
+ {% if product.title == 'Modin LVP 2-Model Comparison Kit' or product.title == 'Modin LVP 3-Model Comparison Kit' or product.title == 'Modin LVP 4-Model Comparison Kit' %}
+              <div class="close-wrap-back-compare-model"></div>
+              <div class="compare-model-wrap">
+                <button class="close-btn"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M8.53342 24.8718L7.12842 23.4668L14.5951 16.0001L7.12842 8.53342L8.53342 7.12842L16.0001 14.5951L23.4668 7.12842L24.8718 8.53342L17.4051 16.0001L24.8718 23.4668L23.4668 24.8718L16.0001 17.4051L8.53342 24.8718Z" fill="#717171"></path> </svg></button>
+                <div class="main-wrap" >
+                    <div class="modinBase">
+                        <h3>Modin Base</h3><img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/base_67c05e112779a.png">
+                        <p>6” x 48” x 5mm | Wear Layer : 20 mil | Bevels : Micro Bevels</p>
+                    </div>
+                    <div class="modinSignature">
+                        <h3>Modin Signature</h3><img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/signature_67c0630195e46.png">
+                        <p>9” x 72” x 7mm | Wear Layer : 40 mil | Bevels : Enhanced Bevels</p>
+                    </div>
+                    {% if product.title == 'Modin LVP 3-Model Comparison Kit' or product.title == 'Modin LVP 4-Model Comparison Kit' %}
+                    <div class="modinCraftsman">
+                        <h3>Modin Craftsman</h3><img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/craftsman_67c062e56eaac.png">
+                        <p>3.35” x 72” x 7mm | Wear Layer : 40 mil | Bevels : Micro Bevels</p>
+                    </div>
+                    {% endif %}
+                    {% if product.title == 'Modin LVP 4-Model Comparison Kit' %}
+                    <div class="modinHerringbone">
+                        <h3>Modin Herringbone</h3><img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/herringbone_67c062f4cfc38.png">
+                        <p>4.2” x 23.3” x 7mm | Wear Layer : 40 mil | Bevels : Micro Bevels</p>
+                    </div>
+                    {% endif %}
+                  </div>
+              </div>
+                
+    <script>
+    document.addEventListener('DOMContentLoaded', () =>{
+        var compareModelButton = document.querySelector('#compareModel');
+        var compareModelWrap = document.querySelector('.compare-model-wrap');
+        var comapreModelCloseWrap = document.querySelector('.close-wrap-back-compare-model');
+        var compareCloseBtn = document.querySelector('.compare-model-wrap .close-btn')
+        compareModelButton.addEventListener('click', ()=>{
+            compareModelWrap.style.display = 'block';
+            comapreModelCloseWrap.style.display = 'block'
+            document.querySelector('body').style.overflow = 'hidden';
+        })
+        comapreModelCloseWrap.addEventListener('click', ()=>{
+            compareModelWrap.style.display = 'none';
+            comapreModelCloseWrap.style.display = 'none';
+            document.querySelector('body').style.overflow = 'unset';
+        })
+        compareCloseBtn.addEventListener('click', ()=>{
+            compareModelWrap.style.display = 'none';
+            comapreModelCloseWrap.style.display = 'none'
+            document.querySelector('body').style.overflow = 'unset';
+        })
+    })
+    </script>
+  {% endif %}
+
+
+  {% comment %} {% if product.title == 'Modin LVP 2-Model Comparison Kit' or product.title == 'Modin LVP 3-Model Comparison Kit' or product.title == 'Modin LVP 4-Model Comparison Kit' %}
+<section class="model-compare">
+  <div class="container">
+    <div class="section__header">
+      <h2>{{ section.settings.heading }}</h2>
+
+      <div style="text-align: center;">
+        {{ section.settings.subtext }}  
+      </div>
+    </div>
+    <div class="section__content swiper compareModels swiper-initialized swiper-horizontal swiper-backface-hidden">
+      <div class="swiper-wrapper"  aria-live="polite">
+        <div class="swiper-slide swiper-slide-active" style="width: 905px;" role="group" aria-label="1 / 4">
+          <div class="model-compare__model">
+            <div class="prodspec-card js-prodspec"
+              style="background-image: url({{ section.settings.base-image | image_url:width:300 }})">
+              <div class="prodspec-card__header">
+                <h5>{{ section.settings.base-title }}</h5>
+                <button class="prodspec-card__trigger js-prodspec__trigger" type="button">+</button>
+              </div>
+              <div class="prodspec-card__content js-prodspec__content">
+                <h6 class="prodspec-card__title">{{ section.settings.base-title }}</h6>
+                <div class="prodspec-card__specs">
+                  <div class="metafield-rich_text_field">
+                      {{ section.settings.base-subtext }}
+                  </div>
+                </div>
+                <button class="prodspec-card__trigger js-prodspec__close" type="button">×</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide swiper-slide-next" style="width: 905px;" role="group" aria-label="2 / 4">
+          <div class="model-compare__model">
+            <div class="prodspec-card js-prodspec"
+              style="background-image: url({{ section.settings.signature-image | image_url:width:300 }})">
+              <div class="prodspec-card__header">
+                <h5>{{ section.settings.signature-title }}</h5>
+                <button class="prodspec-card__trigger js-prodspec__trigger" type="button">+</button>
+              </div>
+              <div class="prodspec-card__content js-prodspec__content">
+                <h6 class="prodspec-card__title">{{ section.settings.signature-title }}</h6>
+                <div class="prodspec-card__specs">
+                  <div class="metafield-rich_text_field">
+                     {{ section.settings.signature-subtext }}
+                  </div>
+                </div>
+                <button class="prodspec-card__trigger js-prodspec__close" type="button">×</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if product.title == 'Modin LVP 3-Model Comparison Kit' or product.title == 'Modin LVP 4-Model Comparison Kit' %}
+        <div class="swiper-slide" style="width: 905px;" role="group" aria-label="3 / 4">
+          <div class="model-compare__model">
+            <div class="prodspec-card js-prodspec"
+              style="background-image: url({{ section.settings.craftsman-image | image_url:width:300 }})">
+              <div class="prodspec-card__header">
+                <h5>{{ section.settings.craftsman-title }}</h5>
+                <button class="prodspec-card__trigger js-prodspec__trigger" type="button">+</button>
+              </div>
+              <div class="prodspec-card__content js-prodspec__content">
+                <h6 class="prodspec-card__title">{{ section.settings.craftsman-title }}</h6>
+                <div class="prodspec-card__specs">
+                  <div class="metafield-rich_text_field">
+                     {{ section.settings.craftsman-subtext }}
+                  </div>
+                </div>
+                <button class="prodspec-card__trigger js-prodspec__close" type="button">×</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if product.title == 'Modin LVP 4-Model Comparison Kit' %}
+        <div class="swiper-slide" role="group" aria-label="4 / 4" style="width: 905px;">
+          <div class="model-compare__model">
+            <div class="prodspec-card js-prodspec"
+              style="background-image: url({{ section.settings.herringbone-image | image_url:width:300 }})">
+              <div class="prodspec-card__header">
+                <h5>{{ section.settings.herringbone-title }}</h5>
+                <button class="prodspec-card__trigger js-prodspec__trigger" type="button">+</button>
+              </div>
+              <div class="prodspec-card__content js-prodspec__content">
+                <h6 class="prodspec-card__title">{{ section.settings.herringbone-title }}</h6>
+                <div class="prodspec-card__specs">
+                  <div class="metafield-rich_text_field">
+                     {{ section.settings.herringbone-subtext }}
+                  </div>
+                </div>
+                <button class="prodspec-card__trigger js-prodspec__close" type="button">×</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      </div>
+      <div class="swiper-controls mob-only">
+        <div class="swiper-button-prev swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide"
+          aria-disabled="true"></div>
+        <div class="swiper-scrollbar swiper-scrollbar-horizontal">
+          <div class="swiper-scrollbar-drag" style="transform: translate3d(0px, 0px, 0px); width: 0px;"></div>
+        </div>
+        <div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide"
+          aria-disabled="false"></div>
+      </div>
+      <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+    </div>
+  </div>
+</section>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', ()=>{
+     var swiper = new Swiper('.compareModels', {
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      }
+    });
+  })
+</script>
+
+{% endif %} {% endcomment %}
+
+{% comment %} 
+<script>
+(function () {
+  let isSyncing = false; // reentrancy guard
+
+  const customWrap = document.querySelector('.qty-input__inputs_custom');
+  const origWrap   = document.querySelector('.qty-input__inputs.js-qty');
+  if (!customWrap || !origWrap) return;
+
+  const customInput = customWrap.querySelector('input[name="quantity"]');
+  const origInput   = origWrap.querySelector('input[name="quantity"]');
+
+  const readNum = (el, attr, fallback) => {
+    const v = el.getAttribute(attr);
+    const n = v == null || v === '' ? NaN : Number(v);
+    return Number.isFinite(n) ? n : fallback;
+  };
+  const getMin  = () => readNum(customInput, 'mm-min',  readNum(customInput, 'data-min', 1));
+  const getStep = () => readNum(customInput, 'mm-step', readNum(customInput, 'step', 1));
+  const getMax  = () => readNum(customInput, 'mm-stock-max', readNum(customInput, 'max', Infinity));
+
+  const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+
+  const setQty = (next, {emit=true} = {}) => {
+    if (isSyncing) return; // prevent re-entry
+    isSyncing = true;
+
+    const min = getMin();
+    const step = getStep();
+    const max = getMax();
+
+    const snapped = min + Math.round((next - min) / step) * step;
+    const value = clamp(snapped, min, max);
+
+    const prev = customInput.value;
+    if (String(value) !== prev) {
+      customInput.value = String(value);
+      origInput.value   = String(value);
+      if (emit) {
+        const ev = new Event('change', {bubbles: true});
+        // Prefer a single event (change) to avoid double-firing handlers
+        customInput.dispatchEvent(ev);
+        origInput.dispatchEvent(ev);
+      }
+    }
+
+    const minusDisabled = value <= min;
+    [customWrap, origWrap].forEach(w => {
+      const minus = w.querySelector('[data-action="subtract"]');
+      if (minus) minus.disabled = minusDisabled;
+    });
+
+    isSyncing = false;
+  };
+
+  // initialize once without emitting to avoid theme listeners on load
+  setQty(Number(customInput.value || origInput.value || getMin()), {emit:false});
+
+  // custom buttons with event delegation
+  customWrap.addEventListener('click', (e) => {
+    const btn = e.target.closest('.qty-input__button');
+    if (!btn) return;
+    const cur = Number(customInput.value) || getMin();
+    if (btn.dataset.action === 'add') setQty(cur + getStep());
+    if (btn.dataset.action === 'subtract') setQty(cur - getStep());
+  });
+
+  // typing in either input; only one handler needed with guard
+  const onTyped = (e) => setQty(Number(e.target.value || getMin()));
+  customInput.addEventListener('input', onTyped);
+  origInput.addEventListener('input', onTyped);
+})();
+</script>
+ {% endcomment %}
+
+ <script>
+(function () {
+  let isSyncing = false;
+
+  const customWrap = document.querySelector('.qty-input__inputs_custom');
+  const origWrap   = document.querySelector('.qty-input__inputs.js-qty');
+  if (!customWrap || !origWrap) return;
+
+  const customInput = customWrap.querySelector('input[name="quantity"]');
+  const origInput   = origWrap.querySelector('input[name="quantity"]');
+  if (!customInput || !origInput) return;
+
+  const readNum = (el, attr, fallback) => {
+    const v = el.getAttribute(attr);
+    const n = v == null || v === '' ? NaN : Number(v);
+    return Number.isFinite(n) ? n : fallback;
+  };
+
+  const getMin  = () => readNum(customInput, 'mm-min', readNum(customInput, 'data-min', 1));
+  const getStep = () => readNum(customInput, 'mm-step', readNum(customInput, 'step', 1));
+  const getMax  = () => readNum(customInput, 'mm-stock-max', readNum(customInput, 'max', Infinity));
+
+  const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+
+  const updateMinusState = (value) => {
+    const min = getMin();
+    const minusDisabled = Number(value) <= min;
+
+    [customWrap, origWrap].forEach((wrap) => {
+      const minus = wrap.querySelector('[data-action="subtract"]');
+      if (minus) minus.disabled = minusDisabled;
+    });
+  };
+
+  const setQty = (next, { emit = true } = {}) => {
+    if (isSyncing) return;
+    isSyncing = true;
+
+    const min = getMin();
+    const step = getStep();
+    const max = getMax();
+
+    const snapped = min + Math.round((next - min) / step) * step;
+    const value = clamp(snapped, min, max);
+
+    const nextValue = String(value);
+    const prevValue = customInput.value;
+
+    if (prevValue !== nextValue) {
+      customInput.value = nextValue;
+      origInput.value = nextValue;
+
+      if (emit) {
+        const ev = new Event('change', { bubbles: true });
+        customInput.dispatchEvent(ev);
+        origInput.dispatchEvent(ev);
+      }
+    }
+
+    updateMinusState(value);
+    isSyncing = false;
+  };
+
+  const setZero = ({ emit = true } = {}) => {
+    if (isSyncing) return;
+    isSyncing = true;
+
+    customInput.value = '0';
+    origInput.value = '0';
+
+    if (emit) {
+      const ev = new Event('change', { bubbles: true });
+      customInput.dispatchEvent(ev);
+      origInput.dispatchEvent(ev);
+    }
+
+    updateMinusState(0);
+    isSyncing = false;
+  };
+
+  setQty(Number(customInput.value || origInput.value || getMin()), { emit: false });
+
+  customWrap.addEventListener('click', (e) => {
+    const btn = e.target.closest('.qty-input__button');
+    if (!btn) return;
+
+    const isEmpty = customInput.value === '';
+    const current = isEmpty ? 0 : Number(customInput.value);
+
+    if (btn.dataset.action === 'add') {
+      setQty(current + getStep());
+      const addToCartBtn = document.querySelector('#addtocart');
+
+      if (addToCartBtn && addToCartBtn.hasAttribute('disabled')) {
+        addToCartBtn.removeAttribute('disabled');
+      }
+    }
+
+    if (btn.dataset.action === 'subtract') {
+      setQty(current - getStep());
+    }
+  });
+
+  const onTyped = (e) => {
+    if (isSyncing) return;
+    console.log('===========56678==============')
+    console.log(e.target.value)
+    console.log(typeof e.target.value);
+    const value = Number(e.target.value);
+    console.log(value, typeof value);
+    if (e.target.value > 0 ) { 
+      const addToCartBtn = document.querySelector('#addtocart');
+
+      if (addToCartBtn && addToCartBtn.hasAttribute('disabled')) {
+        addToCartBtn.removeAttribute('disabled');
+      }
+    }
+
+    if (e.target.value === '') {
+          console.log('===========123==============')
+    console.log(document.querySelector('#addtocart'))
+    document.querySelector('#addtocart').setAttribute('disabled', true)
+      setZero();
+      return;
+    }
+
+    const num = Number(e.target.value);
+    if (!Number.isFinite(num)) {
+      setZero();
+      return;
+    }
+
+    setQty(num, { emit: false });
+  };
+
+  customInput.addEventListener('input', onTyped);
+  origInput.addEventListener('input', onTyped);
+})();
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const videoContainers = document.querySelectorAll('.insallation-video[data-video-container]');
+  
+  videoContainers.forEach(container => {
+    const video = container.querySelector('video');
+    
+    if (!video) return;
+    
+    // Toggle play/pause and class on container click
+    container.addEventListener('click', () => {
+      if (video.paused) {
+        video.play();
+        container.classList.add('video-playing');
+      } else {
+        video.pause();
+        container.classList.remove('video-playing');
+      }
+    });
+    
+    // Sync class with video state changes
+    video.addEventListener('play', () => {
+      container.classList.add('video-playing');
+    });
+    
+    video.addEventListener('pause', () => {
+      container.classList.remove('video-playing');
+    });
+  });
+});
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if(window.innerWidth < 991){
+    var visualCta = document.querySelector('.product-gallery__visual-ctas');
+    var mainDesc = document.querySelector('.breadcrumb-back');
+    mainDesc.insertAdjacentElement('afterend', visualCta)
+  }
+  
+})
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var reviewBtn = document.querySelector('.product-details__header .review-wrapper');
+
+    if (!reviewBtn) return;
+
+    reviewBtn.addEventListener('click', function (e) {
+      e.preventDefault(); // prevent default on click
+
+      // Find / wait for widget when clicked
+      waitForReviewsWidget(function (reviewWrap) {
+        openReviews(reviewWrap);
+      });
+    });
+
+    function waitForReviewsWidget(callback) {
+      var existing = document.querySelector('reviewsio-product-reviews-widget');
+      if (existing) {
+        callback(existing);
+        return;
+      }
+
+      // If not in DOM yet, observe until it appears
+      var observer = new MutationObserver(function (mutations, obs) {
+        var el = document.querySelector('reviewsio-product-reviews-widget');
+        if (el) {
+          obs.disconnect();
+          callback(el);
+        }
+      });
+
+      observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+      });
+    }
+
+    function openReviews(reviewWrap) {
+      // Add class to show it
+      reviewWrap.classList.add('reviews-open');
+      // Lock body scroll
+      document.body.classList.add('reviews-open-body');
+
+      // Add close button once
+      if (!reviewWrap.querySelector('.reviews-close-btn')) {
+        var closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'reviews-close-btn';
+        closeBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M17.7727 1.41421L1.41431 17.7726" stroke="black" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/>
+          <path d="M17.7727 17.7726L1.41431 1.41421" stroke="black" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/>
+        </svg>`;
+
+        closeBtn.addEventListener('click', function () {
+          reviewWrap.classList.remove('reviews-open');
+          document.body.classList.remove('reviews-open-body');
+        });
+
+        reviewWrap.prepend(closeBtn);
+      }
+    }
+  });
+</script>
+
+<style>
+  
+  .video-wrapper--{{ section.id }} {
+    position: relative;
+    width: 100%;
+  }
+  
+  .video-wrapper--{{ section.id }} video,
+  .video-wrapper--{{ section.id }} .video-poster,
+  .video-wrapper--{{ section.id }} .video-placeholder {
+    width: 100%;
+    height: {{ section.settings.video_height_desktop }}px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .video-wrapper--{{ section.id }}.video-loaded .video-poster {
+    display: none;
+  }
+  
+  .video-wrapper--{{ section.id }} .video-placeholder {
+    background: #f0f0f0;
+  }
+  
+  @media (max-width: 768px) {
+    .video-wrapper--{{ section.id }} video,
+    .video-wrapper--{{ section.id }} .video-poster,
+    .video-wrapper--{{ section.id }} .video-placeholder {
+      height: {{ section.settings.video_height_mobile }}px;
+    }
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  window.addEventListener('load', function() {
+    initLazyVideos();
+  });
+  
+  function initLazyVideos() {
+    const videoContainers = document.querySelectorAll('[data-video-lazy]');
+    
+    videoContainers.forEach(function(container) {
+      const videoUrl = container.dataset.videoUrl;
+      
+      if (!videoUrl) return;
+      
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries, observer) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              loadVideo(container);
+              observer.unobserve(container);
+            }
+          });
+        }, {
+          rootMargin: '200px 0px',
+          threshold: 0
+        });
+        
+        observer.observe(container);
+      } else {
+        loadVideo(container);
+      }
+    });
+  }
+  
+  function loadVideo(container) {
+    const videoUrl = container.dataset.videoUrl;
+    const posterUrl = container.dataset.videoPoster;
+    const autoplay = container.dataset.videoAutoplay === 'true';
+    const loop = container.dataset.videoLoop === 'true';
+    const muted = container.dataset.videoMuted === 'true';
+    const controls = container.dataset.videoControls === 'true';
+    
+    const video = document.createElement('video');
+    video.style.width = '100%';
+    video.preload = 'metadata';
+    video.playsInline = true;
+    
+    if (posterUrl) video.poster = posterUrl;
+    if (autoplay) video.autoplay = true;
+    if (loop) video.loop = true;
+    if (muted) video.muted = true;
+    if (controls) video.controls = true;
+    
+    const source = document.createElement('source');
+    source.src = videoUrl;
+    source.type = 'video/mp4';
+    
+    video.appendChild(source);
+    video.innerHTML += 'Your browser does not support the video tag.';
+    
+    video.addEventListener('loadeddata', function() {
+      container.classList.add('video-loaded');
+    });
+    
+    container.appendChild(video);
+    
+    if (autoplay && muted) {
+      video.play().catch(function(error) {
+        console.log('Autoplay prevented:', error);
+      });
+    }
+  }
+});
+</script>
+
+<style>
+  .sample-pdp button.option-atc-btn {
+      display: none;
+  }
+  .sample-pdp label {
+      flex-direction: column !important;
+  }
+  .sample-pdp span.sample_free_shipping {
+      display: none !important;
+  }
+  .sample-pdp .pdp-atc__group__buttons {
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+  }
+  .sample-pdp .pdp-atc__group__buttons span.product-option__name {
+      font-family: Montserrat;
+      font-weight: 400 !important;
+      font-style: Regular;
+      font-size: 10px;
+      leading-trim: NONE;
+      line-height: 21.6px;
+      letter-spacing: 0%;
+      text-align: center;
+  }
+  .pdp-atc__group .pdp-atc__group__buttons.Kit:not(.pdp-atc__group--swatches) li input[type=radio]:checked+label, .pdp-atc__group .pdp-atc__group__buttons.Color:not(.pdp-atc__group--swatches) li input[type=radio]:checked+label {
+    border-color: #FAAF4F !important;
+    -webkit-box-shadow: 0 0 0 1px #FAAF4F !important;
+    box-shadow: 0 0 0 2px #FAAF4F !important;
+  }
+  .pdp-atc__group .pdp-atc__group__buttons.Kit:not(.pdp-atc__group--swatches) li input[type=radio]:checked+label::before, .pdp-atc__group .pdp-atc__group__buttons.Color:not(.pdp-atc__group--swatches) li input[type=radio]:checked+label::before {
+    content:none !important;
+  }
+
+  .sample-pdp .product-details__header {
+      flex-direction: column;
+      gap: 15px;
+  }
+  .sample-pdp .price.price-wrap-pro-page {
+        display: flex;
+        column-gap: 8px;
+        align-items: baseline;
+  }
+  .sample-pdp .price.price-wrap-pro-page span.off_text {
+      display: none;
+  }
+  .sample-pdp .price.price-wrap-pro-page span.actual-price {
+      font-family: Montserrat;
+      font-weight: 400;
+      font-style: Regular;
+      font-size: 30px;
+      leading-trim: NONE;
+      line-height: 36px;
+      letter-spacing: 0.4px;
+  }
+  .sample-pdp .price.price-wrap-pro-page del.compare-at-price.\32 {
+      font-family: Montserrat;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 25px;
+      letter-spacing: -0.31px;
+      text-decoration: line-through;
+      color: #717171;
+  }
+  .pdp-atc__group--color .pdp-atc__group__buttons {
+    display:grid !important;
+  }
+  .sample-pdp .pdp-atc__group__buttons label.product-option .product-option__details {
+      justify-content: center;
+  }
+  .pdp-atc__group:not(.pdp-atc__group--swatches) li input[type=radio]:checked+label {
+      background: #fff;
+  }
+  </style>
+
+    <style>
+    .roomvo-slider-container:has(.swiper-wrapper) {
+        display: none;
+    }
+    .tags-wrap-meta {
+        position: absolute;
+        top: 15px;
+        left: 16px;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    span.product-tag {
+        font-family: Montserrat;
+        font-weight: 600;
+        font-style: SemiBold;
+        font-size: 10px;
+        leading-trim: NONE;
+        line-height: 100%;
+        letter-spacing: 0%;
+        vertical-align: middle;
+        background: #2677A2;
+        color: #fff;
+        padding: 6px 10px;
+        border-radius: 6px;
+    }
+    section.mproduct.sample-kit-v2 {
+        padding-top: 10px !important;
+    }  
+    .sample-kit-v2 .product-gallery.mproduct__gallery {
+        padding: 0px;
+    }
+     .sample-kit-v2.mproduct .product-image .spacer {
+        border-radius: 0px;
+    }
+    .mproduct.sample-kit-v2 .product-details {
+        padding-top: 0px !important;
+    }
+
+    .up__arrow__text {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #fff;
+        padding: 15px 0px;
+        display:none;
+    }
+
+    .up__arrow__text svg {
+        width: 22px;
+        height: 22px;
+        fill: #2e79a3;
+    }
+
+    .up__arrow__text span {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        font-size: 12px;
+        color: #2677a2;
+    }
+
+    .mproduct.sample-kit-v2 .top-content {
+        margin: 0px -16px;
+    }
+
+    .mproduct.sample-kit-v2 .top-content h1.h4.product-heading {
+        font-family: Montserrat;
+        font-weight: 700;
+        font-style: Bold;
+        font-size: 21.48px;
+        leading-trim: NONE;
+        line-height: 28.6px !important;
+        letter-spacing: 0%;
+        vertical-align: middle;
+        color: #333333;
+    }
+
+    .mproduct.sample-kit-v2 .top-content span.actual-price-new {
+        font-family: Montserrat;
+        font-weight: 600;
+        font-style: SemiBold;
+        font-size: 21.48px;
+        leading-trim: NONE;
+        line-height: 28.6px;
+        letter-spacing: 0%;
+        vertical-align: middle;
+        color: #333333;
+      }
+
+    .mproduct.sample-kit-v2 .top-content span.actual-price-new span.sale-price {
+        font-family: Montserrat;
+        font-weight: 600;
+        font-style: SemiBold;
+        font-size: 21.48px;
+        leading-trim: NONE;
+        line-height: 28.6px;
+        letter-spacing: 0%;
+        vertical-align: middle;
+        color: #333333;
+    }
+    .mproduct.sample-kit-v2 .top-content .product-details__description {
+        display: none;
+    }
+    .mproduct.sample-kit-v2 .product-details .mproduct__form {
+        margin: 0px;
+    }
+    .pdp-atc__group__title label.color-label-ds {
+        font-family: Montserrat;
+        font-weight: 700;
+        font-style: Bold;
+        font-size: 16px;
+        leading-trim: NONE;
+        line-height: 100%;
+        letter-spacing: 0%;
+        color: #333333;
+        vertical-align: middle;
+    }
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit label,
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color label {
+        display: flex;
+        flex-direction: column;
+        border: 2px solid #E0E0E0;
+        padding: 10px;
+        border-radius:8px;
+        margin:0px;
+    }
+
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit,
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap:15px;
+        margin-top:15px;
+    }
+
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit label span.product-option__name,
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color label span.product-option__name {
+        font-family: Montserrat;
+        font-weight: 400 !important;
+        font-style: Bold;
+        font-size: 10px;
+        leading-trim: NONE;
+        line-height: 14.4px;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+        color:#333333;
+        display: block;
+        word-wrap: break-word;
+    }
+
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit input:checked + label span.product-option__name, .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color input:checked + label span.product-option__name {
+        font-weight: 700 !important;
+    }
+
+    .pdp-atc__group .pdp-atc__group__buttons.Kit:not(.pdp-atc__group--swatches) li input[type=radio]:checked+label,
+    .pdp-atc__group .pdp-atc__group__buttons.Color:not(.pdp-atc__group--swatches) li input[type=radio]:checked+label {
+        border-color: #2B5AA0;
+        -webkit-box-shadow: 0 0 0 1px #2B5AA0;
+        box-shadow: 0 0 0 1px #2B5AA0;
+    }
+    .pdp-atc__group .pdp-atc__group__buttons.Kit:not(.pdp-atc__group--swatches) li input[type=radio]:checked+label::before,
+    .pdp-atc__group .pdp-atc__group__buttons.Color:not(.pdp-atc__group--swatches) li input[type=radio]:checked+label::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        right: -4px;
+        height: 18px;
+        width: 18px;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"><rect width="18" height="18" rx="9" fill="%232B5AA0"/><path d="M6.69905 13.484C6.69905 13.3887 6.68072 13.341 6.64405 13.341L6.39105 13.462C6.39105 13.4107 6.36172 13.374 6.30305 13.352L6.21505 13.341C6.15638 13.341 6.08305 13.3667 5.99505 13.418C5.98038 13.3813 5.96205 13.3447 5.94005 13.308C5.91805 13.2713 5.89972 13.2383 5.88505 13.209C5.78972 13.0257 5.69438 12.824 5.59905 12.604C5.51105 12.3767 5.42672 12.1603 5.34605 11.955C5.27272 11.7497 5.21405 11.5883 5.17005 11.471C5.14072 11.3757 5.10772 11.2327 5.07105 11.042C5.03438 10.8513 4.99772 10.6093 4.96105 10.316C5.04172 10.3673 5.10405 10.393 5.14805 10.393C5.19938 10.393 5.24705 10.316 5.29105 10.162C5.31305 10.1913 5.35338 10.206 5.41205 10.206C5.45605 10.206 5.48905 10.1913 5.51105 10.162L5.68705 9.898L5.88505 9.964H5.89605C5.91072 9.964 5.92538 9.95667 5.94005 9.942C5.95472 9.92733 5.97672 9.91267 6.00605 9.898C6.06472 9.86133 6.10872 9.843 6.13805 9.843L6.17105 9.854C6.35438 9.942 6.47172 10.1033 6.52305 10.338C6.65505 10.8953 6.78705 11.174 6.91905 11.174C7.05105 11.174 7.20505 11.0347 7.38105 10.756C7.46905 10.6167 7.55705 10.4553 7.64505 10.272C7.74038 10.0887 7.83572 9.88333 7.93105 9.656C7.94572 9.744 7.96038 9.788 7.97505 9.788C8.01172 9.788 8.07405 9.69633 8.16205 9.513C8.25738 9.32967 8.40772 9.07667 8.61305 8.754C8.73038 8.556 8.87705 8.33233 9.05305 8.083C9.23638 7.83367 9.43072 7.577 9.63605 7.313C9.84138 7.049 10.0394 6.79967 10.23 6.565C10.428 6.33033 10.604 6.12867 10.758 5.96C10.912 5.79133 11.0257 5.68133 11.099 5.63C11.3777 5.43933 11.5977 5.256 11.759 5.08C11.7517 5.13133 11.7407 5.179 11.726 5.223C11.7187 5.25967 11.715 5.28533 11.715 5.3C11.715 5.32933 11.7297 5.344 11.759 5.344L12.067 5.19V5.234C12.067 5.29267 12.0817 5.322 12.111 5.322C12.133 5.322 12.177 5.289 12.243 5.223C12.309 5.157 12.3457 5.10933 12.353 5.08L12.331 5.234L12.705 5.014L12.617 5.212C12.7344 5.13133 12.8187 5.091 12.87 5.091C12.8994 5.091 12.9214 5.10933 12.936 5.146C12.9507 5.17533 12.958 5.20467 12.958 5.234C12.958 5.278 12.9397 5.32933 12.903 5.388C12.8664 5.44667 12.8187 5.51633 12.76 5.597C12.716 5.65567 12.6427 5.74367 12.54 5.861C12.4447 5.971 12.298 6.136 12.1 6.356C11.902 6.56867 11.638 6.86567 11.308 7.247C11.22 7.34233 11.0844 7.511 10.901 7.753C10.7177 7.98767 10.5087 8.26267 10.274 8.578C10.0467 8.886 9.81938 9.19767 9.59205 9.513C9.36472 9.82833 9.16305 10.1143 8.98705 10.371C8.81105 10.6203 8.68638 10.8073 8.61305 10.932L7.93105 12.087C7.78438 12.3363 7.66338 12.5417 7.56805 12.703C7.47272 12.857 7.39938 12.9633 7.34805 13.022C7.23805 13.154 7.11705 13.2713 6.98505 13.374L6.88605 13.319L6.79805 13.374L6.69905 13.484Z" fill="white"/></svg>');
+    }
+
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit label span.product-option__swatch ,
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color label span.product-option__swatch {
+        display: flex;
+        width: 100%;
+        margin: 0px 0px 8px;
+    }
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit label span.product-option__swatch,
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color label span.product-option__swatch {
+        display: flex;
+        width: 100%;
+        margin: 0px 0px 8px;
+    }
+    #compareModel {
+      display:none !important;
+    }
+    .mproduct .product-details .atc-wrap {
+      display:block !important;
+      margin-top:0px !important;
+    }
+    .mproduct .product-details .atc-wrap .product-details__description {
+        margin-bottom: 20px;
+    }
+    .product-details .top-content {
+        padding-bottom: 0px;
+    }
+    .js-product-form__group.pdp-atc__group.pdp-atc__group--kit,
+    .js-product-form__group.pdp-atc__group.pdp-atc__group--color {
+        {% comment %} background: #fbfafa; {% endcomment %}
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+    {% comment %} .js-product-form__group.pdp-atc__group.pdp-atc__group--kit::before,
+    .js-product-form__group.pdp-atc__group.pdp-atc__group--color::before {
+        content: "";
+        position: absolute;
+        left: -16px;
+        height: 100%;
+        top:0;
+        width: 16px;
+        background: #fbfafa;
+        z-index:-1;
+    }
+
+    .js-product-form__group.pdp-atc__group.pdp-atc__group--kit::after,
+    .js-product-form__group.pdp-atc__group.pdp-atc__group--color::after {
+        content: "";
+        position: absolute;
+        top:0;
+        height: 100%;
+        width: 16px;
+        background: #fbfafa;
+        right: -16px;
+        z-index:-1;
+    } {% endcomment %}
+    section.mproduct.sample-kit-v2 .product-description.v2 {
+        {% comment %} background: #fbfafa; {% endcomment %}
+        position: relative;
+        padding-top: 5px;
+        padding-bottom: 35px;
+    }
+
+    section.mproduct.sample-kit-v2 .product-description.v2::after {
+        content: "";
+        position: absolute;
+            top:0;
+            height: 100%;
+            width: 16px;
+            background: #fbfafa;
+            right: -16px;
+            z-index:-1;
+    }
+
+    section.mproduct.sample-kit-v2 .product-description.v2::before {
+        content: "";
+        position: absolute;
+            left: -16px;
+            height: 100%;
+            top:0;
+            width: 16px;
+            background: #fbfafa;
+            z-index:-1;
+    }
+
+    section.mproduct.sample-kit-v2 .product-description.v2 > h4 {
+        font-family: Montserrat;
+        font-weight: 700;
+        font-style: Bold;
+        font-size: 16px;
+        leading-trim: NONE;
+        line-height: 100%;
+        letter-spacing: 0%;
+        vertical-align: middle;
+        color: #333333;
+        margin-bottom: 14px;
+    }
+
+    section.mproduct.sample-kit-v2 .product-description.v2 p {
+        font-family: Montserrat;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 14px;
+        leading-trim: NONE;
+        line-height: 21px;
+        letter-spacing: 0%;
+        vertical-align: middle;
+        color: #666666;
+        margin-top: 15px;
+    }
+    button.color-view-more-btn {
+        border: none;
+        background: none;
+        font-family: Montserrat;
+        font-weight: 700;
+        font-style: Bold;
+        font-size: 14px;
+        leading-trim: NONE;
+        line-height: 100%;
+        letter-spacing: 0%;
+        vertical-align: middle;
+        color: #2B5AA0;
+        display: flex;
+        align-items: center;
+        margin: 16px auto 0px;
+        gap: 2px;
+    }
+
+    button.color-view-more-btn span.view-more-arrows {
+        display: flex;
+    }
+    .mproduct.sample-kit-v2 label.show_free_shipping .sample_free_shipping {
+      display:none;
+    }
+    .mproduct.sample-kit-v2 #product-details > .product-info-accordion {
+        display: none;
+    }
+    section.mproduct.sample-kit-v2 .product-gallery__visual-ctas {
+        display: none;
+    }
+    .pdp-atc__group__title {
+        display: flex;
+    }
+    {% comment %} .compare-model-wrap {
+        display:none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #fff;
+        z-index: 999999;
+        width: 97%;
+        right: 0;
+        margin: auto;
+        margin-top: 5px;
+        height: 100%;
+        overflow-y: auto;
+    } {% endcomment %}
+    .compare-model-wrap {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #fff;
+        z-index: 999999;
+        width: 97%;
+        right: 0;
+        margin: auto;
+        margin-top: 5px;
+        /* height: 100%; */
+        overflow-y: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+        bottom: 0;
+        height: fit-content;
+    }
+    #compareModel {
+        display: inline-block;
+        margin-left: auto;
+        width: fit-content;
+        color: #0000ff;
+        font-weight: 500;
+        font-size: 14.4px;
+        line-height: 14.4px;
+        text-align: center;
+        padding-bottom: 2px;
+        border-bottom: 1px solid #0000ff;
+        cursor: pointer;
+    }
+
+    {% comment %} .compare-model-wrap .close-wrap-back {
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        background: #00000094;
+        width: calc(100% + 10px );
+        height: calc(100% + 10px);
+        z-index: -4;
+    } {% endcomment %}
+
+    .compare-model-wrap button.close-btn {
+        border: none;
+        background: none;
+        margin-left: auto;
+        display: block;
+        cursor:pointer;
+    }
+    .compare-model-wrap .main-wrap h3 {
+        color: #000000;
+        font-weight: 700;
+        font-size: 14.4px;
+        line-height: 14.4px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .compare-model-wrap .main-wrap > div {
+        padding: 0px 10px 10px 10px;
+    }
+
+    .compare-model-wrap .main-wrap > div > p {
+        font-weight: 700;
+        font-style: italic;
+        font-size: 10px;
+        line-height: 14px;
+        color: #444444;
+        text-align: center;
+        background: #f2f2f2;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .compare-model-wrap .main-wrap {
+        overflow-y: auto;
+    }
+    .modinBase img {
+        max-width: 234px;
+    }
+
+    .modinSignature img {
+        max-width: 339px;
+    }
+
+    .modinCraftsman img {
+        max-width: 345px;
+    }
+
+    .modinHerringbone img {
+        max-width: 136px;
+    }
+
+    .compare-model-wrap .main-wrap > div:last-of-type {
+        border: aquamarine;
+    }
+    .close-wrap-back-compare-model {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #00000085;
+        z-index: 999;
+        display:none;
+    }
+    .tags-wrap-meta {
+        user-select: none;
+    }
+    .pdp-atc__group__title label.color-label-ds {
+        font-family: Montserrat;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 14px;
+        leading-trim: NONE;
+        line-height: 21.6px;
+        letter-spacing: 0%;
+        text-align: center;
+        color: #000000;
+    }
+    @media (min-width:769px){
+    
+      .mproduct.sample-kit-v2 .top-content {
+          padding-left: 17px;
+      }
+      .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit, .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color {
+        display: grid;
+        grid-template-columns: repeat(5, 100px);
+        gap: 15px;
+      }
+      .reg-section .mproduct.sample-kit-v2 .product-option__details {
+          justify-content: center;
+      }
+      button.color-view-more-btn {
+          position: absolute;
+          bottom: 7%;
+          right: 24%;
+      }
+      .compare-model-wrap {
+          max-width: 600px;
+      }
+    }
+    @media (max-width:1250px){
+      button.color-view-more-btn {
+          position: absolute;
+          bottom: 7%;
+          right: 0%;
+      }
+    }
+    @media (max-width:1100px){
+      .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit, .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color {
+          display: grid;
+          grid-template-columns: repeat(5,calc(20% - 12px));
+          gap: 15px;
+      }
+      {% comment %} section.mproduct.sample-kit-v2 .product-gallery .product-image .spacer {
+        min-height:unset;
+      } {% endcomment %}
+    }
+    @media (max-width:960px){
+      section.mproduct.sample-kit-v2 .mproduct__gallery {
+        width:100% !important;
+      }
+    }
+    @media (max-width:768px){
+      .sample-pdp .pdp-atc__group__buttons {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        column-gap: 10px;
+        padding-left: 2px;
+        padding-top: 5px;
+      }
+      .sample-pdp .pdp-atc__group__buttons li {
+          flex: 0 0 70px;
+          box-sizing: border-box;
+          width: 70px;
+      }
+      .sample-pdp .pdp-atc__group__buttons span.product-option__name {
+        text-wrap-mode:wrap;
+      }
+      .mproduct.sample-kit-v2 .product-gallery .product-image .spacer img {
+        object-position: center;
+      }
+      .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color label span.product-option__swatch img.
+      .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit label span.product-option__swatch img {
+          width: 100%;
+          max-width: 62px;
+      }
+      .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit label span.product-option__swatch, .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color label span.product-option__swatch {
+          width: 61px;
+      }
+      .reg-section section.mproduct.sample-kit-v2 .product-gallery .swiper-controls {
+          padding: 0px;
+      }
+      .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit, .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color {
+          grid-template-columns: repeat(4,1fr);
+      }
+      button.color-view-more-btn {
+          bottom: unset;
+          position: relative;
+          right: unset;
+      }
+      .mproduct.sample-kit-v2 .top-content span.actual-price-new,
+          .mproduct.sample-kit-v2 .top-content span.actual-price-new span.sale-price {
+            font-size: 17px;
+        }
+
+        .mproduct.sample-kit-v2 .top-content span.actual-price-new span.compare-at-price {
+        font-size: 17px;
+        }
+
+        .mproduct.sample-kit-v2 .top-content span.actual-price-new span.savings {
+        position:absolute;
+        right:-7px;
+        top:-20px
+        }
+
+        .mproduct.sample-kit-v2 .top-content span.actual-price-new {
+        position:relative;
+        }
+        button#addtocart {
+            max-width: 95%;
+        }
+        .metafield-rich_text_field ul li *, .metafield-rich_text_field ul li {
+            font-size: 12px;
+        }
+    }
+    @media (max-width:414px){
+      .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit, .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color {
+          display: grid;
+          grid-template-columns: repeat(4, calc(25% - 12px ));
+          gap: 15px;
+      }
+       .mproduct.sample-kit-v2 .top-content h1.h4.product-heading {
+          font-size: 20.48px;
+        }
+      .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit label span.product-option__name, .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color label span.product-option__name {
+          display: block;
+          word-wrap: normal;
+      }
+    }
+
+    @media (max-width:400px){
+      .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit label, .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color label {
+          padding: 5px;
+      }
+      .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit label span.product-option__swatch, .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color label span.product-option__swatch {
+        width:auto;
+      }
+      .metafield-rich_text_field ul li *, .metafield-rich_text_field ul li {
+            font-size: 10px;
+      }
+    }
+    @media (max-width:392px){
+    .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Kit, .mproduct.sample-kit-v2 .pdp-atc__group__buttons.Color {
+        grid-template-columns: repeat(4, calc(25% - 7px ));
+        gap: 10px;
+    }
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const colorOptionsContainer = document.querySelector('ul.pdp-atc__group__buttons.Color');
+      
+      if (!colorOptionsContainer) return;
+      
+      const colorOptions = colorOptionsContainer.querySelectorAll('li');
+      const maxVisibleOptions = 8;
+      
+      // Only proceed if there are more than 8 options
+      if (colorOptions.length <= maxVisibleOptions) return;
+      
+      // Initially hide options beyond the 8th one
+      colorOptions.forEach((option, index) => {
+        if (index >= maxVisibleOptions) {
+          option.style.display = 'none';
+          option.classList.add('hidden-color-option');
+        }
+      });
+      
+      // Create the View More button
+      const viewMoreButton = document.createElement('button');
+      viewMoreButton.className = 'color-view-more-btn';
+      viewMoreButton.textContent = 'View More';
+      viewMoreButton.type = 'button';
+      
+      // Add the >> arrows after the text
+      const arrowSpan = document.createElement('span');
+      arrowSpan.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" viewBox="0 0 10 20" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M8.46415 10.5925L3.74999 15.3067L2.57166 14.1283L6.69666 10.0033L2.57166 5.87835L3.74999 4.70001L8.46415 9.41418C8.62038 9.57045 8.70814 9.78238 8.70814 10.0033C8.70814 10.2243 8.62038 10.4362 8.46415 10.5925Z" fill="#2B5AA0"/> </svg><svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" viewBox="0 0 10 20" fill="none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M8.46415 10.5925L3.74999 15.3067L2.57166 14.1283L6.69666 10.0033L2.57166 5.87835L3.74999 4.70001L8.46415 9.41418C8.62038 9.57045 8.70814 9.78238 8.70814 10.0033C8.70814 10.2243 8.62038 10.4362 8.46415 10.5925Z" fill="#2B5AA0"/> </svg>`;
+      arrowSpan.className = 'view-more-arrows';
+      viewMoreButton.appendChild(arrowSpan);
+      
+      // Button click functionality - show all and remove button
+      viewMoreButton.addEventListener('click', function() {
+        const hiddenOptions = colorOptionsContainer.querySelectorAll('.hidden-color-option');
+        
+        // Show all hidden options
+        hiddenOptions.forEach(option => {
+          option.style.display = 'block';
+        });
+        
+        // Remove the button after clicking
+        viewMoreButton.remove();
+      });
+      
+      // Insert the button after the color options container
+      colorOptionsContainer.parentNode.insertBefore(viewMoreButton, colorOptionsContainer.nextSibling);
+    });
+
+  </script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const subtotalEl = document.querySelector('.js-product__subtotal');
+  const priceWrapEl = document.querySelector('.price-wrap-pro-page');
+
+  if (!subtotalEl || !priceWrapEl) return;
+
+  function syncPrices() {
+    const subtotalCompare = subtotalEl.querySelector('.compare-at-price');
+    const subtotalSale    = subtotalEl.querySelector('.sale-price');
+    const subtotalSaving  = subtotalEl.querySelector('.savings');
+
+    const targetActual   = priceWrapEl.querySelector('.actual-price');
+    const targetCompare  = priceWrapEl.querySelector('.compare-at-price');
+    const targetOffText  = priceWrapEl.querySelector('.off_text');
+
+    if (subtotalSale && targetActual) {
+      targetActual.textContent = subtotalSale.textContent;
+    }
+
+    if (subtotalCompare && targetCompare) {
+      targetCompare.textContent = subtotalCompare.textContent;
+    }
+
+    if (subtotalSaving && targetOffText) {
+      // "Save 67%" -> "67% OFF"
+      const match = subtotalSaving.textContent.match(/(\d+)%/);
+      if (match) {
+        targetOffText.textContent = match[1] + '% OFF';
+      } else {
+        targetOffText.textContent = subtotalSaving.textContent;
+      }
+    }
+  }
+
+  // Initial sync
+  syncPrices();
+
+  const observer = new MutationObserver(function (mutationsList) {
+    for (const mutation of mutationsList) {
+      if (
+        mutation.type === 'childList' ||
+        mutation.type === 'characterData' ||
+        mutation.type === 'attributes'
+      ) {
+        syncPrices();
+        break;
+      }
+    }
+  });
+
+  observer.observe(subtotalEl, {
+    subtree: true,
+    childList: true,
+    characterData: true,
+    attributes: true
+  });
+});
+
+</script>
+
+{% schema %}
+{
+  "name": "Product Main",
+  "class": "reg-section",
+  "settings": [
+    {
+      "type":"header",
+      "content": "Compare Model Content - Only works for new samples"
+    },
+    {
+      "type":"text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type":"richtext",
+      "id": "subtext",
+      "label": "Subtext"
+    },
+    {
+      "type":"header",
+      "content": "Base Model"
+    },
+    {
+      "type": "text",
+      "id": "base-title",
+      "label": "Title"
+    },
+    {
+      "type":"image_picker",
+      "id": "base-image",
+      "label": "Image"
+    },
+    {
+      "type":"richtext",
+      "id": "base-subtext",
+      "label": "Subtext"
+    },
+    {
+      "type":"header",
+      "content": "Signature Model"
+    },
+    {
+      "type": "text",
+      "id": "signature-title",
+      "label": "Title"
+    },
+    {
+      "type":"image_picker",
+      "id": "signature-image",
+      "label": "Image"
+    },
+    {
+      "type":"richtext",
+      "id": "signature-subtext",
+      "label": "Subtext"
+    },
+    {
+      "type":"header",
+      "content": "Craftsman Model"
+    },
+    {
+      "type": "text",
+      "id": "craftsman-title",
+      "label": "Title"
+    },
+    {
+      "type":"image_picker",
+      "id": "craftsman-image",
+      "label": "Image"
+    },
+    {
+      "type":"richtext",
+      "id": "craftsman-subtext",
+      "label": "Subtext"
+    },
+    {
+      "type":"header",
+      "content": "Herringbone Model"
+    },
+    {
+      "type": "text",
+      "id": "herringbone-title",
+      "label": "Title"
+    },
+    {
+      "type":"image_picker",
+      "id": "herringbone-image",
+      "label": "Image"
+    },
+    {
+      "type":"richtext",
+      "id": "herringbone-subtext",
+      "label": "Subtext"
+    },
+    {
+      "type":"color",
+      "id":"usp-section-bg",
+      "label": "USP Section Background Color",
+      "default":"#F4F3F1"
+    },
+    {
+      "type":"color",
+      "id":"accrodian-section-bg",
+      "label": "Accrodian Section Background Color",
+      "default":"#F4F3F1"
+    },
+    {
+      "type":"text",
+      "id": "heading-accordian",
+      "label": "Heading Accordian"
+    },
+    {
+      "type": "text",
+      "id":"accordian-title",
+      "label": "Specification Accordian title",
+      "default":"Product Specifications"
+    },
+    {
+      "type": "richtext",
+      "id":"accordian-subtext",
+      "label": "Specification Accordian Subtext",
+      "default":"<p>Engineered to perform beautifully — built to last a lifetime.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Installation Video"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video URL (MP4)",
+      "default": "https://cdn.shopify.com/videos/c/o/v/426ec7bf02884c308f8b4595ebb7809f.mp4",
+      "info": "Enter the full URL to your MP4 video file"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_poster",
+      "label": "Video Poster Image",
+      "info": "Shown before video loads"
+    },
+    {
+      "type": "range",
+      "id": "video_height_desktop",
+      "label": "Video Height Desktop (px)",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "default": 550
+    },
+    {
+      "type": "range",
+      "id": "video_height_mobile",
+      "label": "Video Height Mobile (px)",
+      "min": 150,
+      "max": 500,
+      "step": 10,
+      "default": 300
+    },
+    {
+      "type": "checkbox",
+      "id": "video_autoplay",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "video_muted",
+      "label": "Muted",
+      "default": true,
+      "info": "Required for autoplay to work"
+    },
+    {
+      "type": "checkbox",
+      "id": "video_loop",
+      "label": "Loop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "video_controls",
+      "label": "Show Controls",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type":"usp",
+      "name":"USP",
+      "settings":[
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label":"Icon"
+        },
+        {
+          "type":"text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id":"subtext",
+          "label": "Subtext"
+        },
+        {
+          "type":"color",
+          "id":"icon-bg",
+          "label": "Icon Background",
+          "info":"Applicable for full section only"
+        },
+        {
+          "type":"color",
+          "id":"card-bg",
+          "label": "Card Background",
+          "info":"Applicable for full section only"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Default"
+    }
+  ]
+}
+{% endschema %}
+ 

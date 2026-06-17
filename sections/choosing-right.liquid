@@ -1,0 +1,93 @@
+<div class="choosing-right" id="choosing-right">
+  <div class="choosing-right__container">
+    <div class="choosing-right__content">
+      <div class="heading--wrapper">
+        {% if section.settings.main_icon != blank %}
+          {{ section.settings.main_icon | image_url: width: 25 | image_tag: alt: section.settings.main_icon.alt }}
+        {% endif %}
+        <h2 class="budget-products__heading">{{ section.settings.main_title | default: 'Popular Flooring Types' }}</h2>
+      </div>
+      <div class="choosing-right__text">
+        {% for block in section.blocks %}
+          <div class="choosing-right__info">
+            <h3 class="choosing-right__subtitle">{{ block.settings.title }}</h3>
+            <p class="choosing-right__paragraph">
+              {{ block.settings.paragraph }}
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="choosing-right__image">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1000 | image_tag: alt: section.settings.image.alt }}
+      {% endif %}
+    </div>
+  </div>
+  {% if section.settings.button_label != blank %}
+    <div class="popular-flooring-types__cta">
+      <a href="{{ section.settings.button_url }}" class="btn btn--secondary">{{ section.settings.button_label }}</a>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Choosing Right",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main Title",
+      "default": "Choosing Right"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_icon",
+      "label": "Main Icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Information",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "title",
+          "default": "Consider Traffic"
+        },
+        {
+          "type": "textarea",
+          "id": "paragraph",
+          "label": "Paragraph",
+          "default": "For high-traffic areas like hallways, kitchens, and living rooms, durability is key. Choose materials that can withstand wear and tear, such as tile, vinyl, or hardwood. For low-traffic areas, like bedrooms, softer options like carpet or cork may be more suitable."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Choosing Right",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

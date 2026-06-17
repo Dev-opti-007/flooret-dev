@@ -1,0 +1,104 @@
+{% if product.metafields.custom.product_collection == 'Arista' %}
+  <section class="pdp-highlights">
+    <div class="container">
+      <div class="row">
+        <div class="col col--left">
+          <div class="pdp-highlights__content">
+            <div class="section__header">
+              <h2 class="h1">{{ section.settings.title }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col col--right">
+          <div class="pdp-highlights__accordions">
+            {% for i in (1..5) %}
+              {% capture highlight_title %}highlight_{{ i }}_title{% endcapture %}
+              {% capture highlight_content %}highlight_{{ i }}_content{% endcapture %}
+              {% if section.settings[highlight_title] != blank and section.settings[highlight_content] != blank %}
+                {% render 'accordion', 
+                  label: section.settings[highlight_title], 
+                  content: section.settings[highlight_content]
+                %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product Highlights-Arista",
+  "class": "pdp-highlights-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Highlights"
+    },
+    {
+      "type": "text",
+      "id": "highlight_1_title",
+      "label": "Highlight 1 Title",
+      "default": "Elevated Luxury with Signature"
+    },
+    {
+      "type": "richtext",
+      "id": "highlight_1_content",
+      "label": "Highlight 1 Content"
+    },
+    {
+      "type": "text",
+      "id": "highlight_2_title",
+      "label": "Highlight 2 Title",
+      "default": "Sleek durability with craftsman"
+    },
+    {
+      "type": "richtext",
+      "id": "highlight_2_content",
+      "label": "Highlight 2 Content"
+    },
+    {
+      "type": "text",
+      "id": "highlight_3_title",
+      "label": "Highlight 3 Title",
+      "default": "Affordable Quality with Base"
+    },
+    {
+      "type": "richtext",
+      "id": "highlight_3_content",
+      "label": "Highlight 3 Content"
+    },
+    {
+      "type": "text",
+      "id": "highlight_4_title",
+      "label": "Highlight 4 Title",
+      "default": "Uncompromising Features Across All Lines"
+    },
+    {
+      "type": "richtext",
+      "id": "highlight_4_content",
+      "label": "Highlight 4 Content"
+    },
+    {
+      "type": "text",
+      "id": "highlight_5_title",
+      "label": "Highlight 5 Title",
+      "default": "Tailor Your Space with Versatile Options"
+    },
+    {
+      "type": "richtext",
+      "id": "highlight_5_content",
+      "label": "Highlight 5 Content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Highlights-Arista"
+    }
+  ]
+}
+{% endschema %}

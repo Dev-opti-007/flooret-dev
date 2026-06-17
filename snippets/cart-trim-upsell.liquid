@@ -1,0 +1,43 @@
+{% assign has_box_item = false %}
+{% assign box_product_title = '' %}
+{% assign cart_product_titles = '' %}
+
+{% for item in cart.items %}
+  {% assign is_box_item = false %}
+  {% for option in item.variant.options %}
+    {% if option == 'Box' %}
+      {% assign is_box_item = true %}
+    {% endif %}
+  {% endfor %}
+
+  {% if is_box_item %}
+    {% assign has_box_item = true %}
+
+    {% assign clean_variant_parts = '' %}
+    {% for option in item.variant.options %}
+      {% unless option == 'Box' %}
+        {% if clean_variant_parts == '' %}
+          {% assign clean_variant_parts = option %}
+        {% else %}
+          {% assign clean_variant_parts = clean_variant_parts | append: ' ' | append: option %}
+        {% endif %}
+      {% endunless %}
+    {% endfor %}
+
+    {% assign box_product_title = item.product.title | append: ' ' | append: clean_variant_parts %}
+    {% break %}
+  {% endif %}
+
+  {% assign cart_product_titles = cart_product_titles | append: item.product.title | append: '||' %}
+{% endfor %}
+
+{% if has_box_item %}
+  <div
+    class="fr_24_upsell_minicart"
+    data-box-product-title="{{ box_product_title | escape }}"
+    data-cart-product-titles="{{ cart_product_titles | escape }}"
+  >
+    <h2>Trims purchased along with {{ box_product_title }}</h2>
+    <div class="fr_24_upsell_products_container"></div>
+  </div>
+{% endif %}

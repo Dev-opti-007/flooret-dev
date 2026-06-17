@@ -1,0 +1,21 @@
+{% render 'customer-nav' %}
+
+<section class="addresses">
+    <div class="container">
+
+        <h1 class="h3">My Addresses</h1>
+        
+        <div class="addresses__loop">
+            
+            {% render 'customer-addresses' %}
+            
+        </div>
+        
+        <div class="addresses__outro">
+            <button class="btn add-address">Add a new address</button>
+        </div>
+
+    </div>
+</section>
+
+{% render 'customer-add-address' %}

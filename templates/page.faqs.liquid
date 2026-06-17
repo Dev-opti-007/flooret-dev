@@ -1,0 +1,44 @@
+{% comment %} {% section 'faqs-hero' %} {% endcomment %}
+
+{% comment %} <section class="faq-wrapper">
+	<div class="container">
+		<div class="faq-row">
+			<div class="faq-row__nav pt">
+				{% section 'faqs-sticky-nav' %}
+			</div>
+			<div class="faq-row__main pt">
+				{% section 'faqs-block-general' %}
+				{% section 'faqs-block-shipping' %}
+				{% section 'faqs-block-modin-install' %}
+				{% section 'faqs-block-modin-cleaning' %}
+				{% section 'faqs-block-silvan-install' %}
+				{% section 'faqs-block-silvan-cleaning' %}
+			</div>
+		</div>
+	</div>
+</section> {% endcomment %}
+
+<section class="glady-app">
+	<div class="container">
+
+		<h1>Frequently Asked Questions</h1>
+
+		<div id="gladly-help-center"></div>
+		<script type="text/javascript">
+			window.gladlyHCConfig = { api: 'https://flooret.gladly.com', orgId: 'FdgQjXjETFO9pTtWfKpK_A', brandId: 'flooret.com-en-us', cdn: 'https://cdn.gladly.com', selector: '#gladly-help-center' };
+		  </script>
+		  <script type="text/javascript">
+			function l() {
+			  var t = document,
+				e = t.createElement('script');
+			  (e.type = 'text/javascript'), (e.async = !0), (e.src = 'https://cdn.gladly.com/help-center/hcl.js');
+			  var a = t.getElementsByTagName('script')[0];
+			  a.parentNode.insertBefore(e, a);
+			}
+			var w = window;
+			w.attachEvent ? w.attachEvent('onload', l) : w.addEventListener('DOMContentLoaded', l, !1);
+		  </script>
+	</div>
+</section>
+
+{% section 'contact-info' %}

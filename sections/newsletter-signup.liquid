@@ -1,0 +1,56 @@
+{%- liquid
+  assign module = section.settings
+-%}
+
+<section class="newsletter-signup">
+  <div class="container">
+    <div class="row">
+      <div class="col col--left">
+        <h2 class="newsletter-signup__heading">{{ module.heading }}</h2>
+        {{ module.content }}
+
+        <div class="newsletter-signup__form">
+          {% form 'customer' %}
+            <div class="input-group">
+              <input placeholder="Email Address" type="email" required id="email" name="email">
+            </div>
+            <input type="submit" class="btn btn--black" value="Submit">
+          {% endform %}
+        </div>
+      </div>
+      <div class="col col--right">
+        <div class="newsletter-signup__img">{% render 'lazy-image', image: module.image, width: '600' %}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter Signup",
+  "class": "newsletter-signup-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Signup",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

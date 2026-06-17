@@ -1,0 +1,27 @@
+{%- render 'section-compare-models', module: section.settings, product: product -%}
+
+{% schema %}
+{
+  "name": "Model Compare",
+  "class": "model-compare-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Used only on non-product pages"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Model Compare",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,144 @@
+{% assign _settings = section.settings %}
+{% assign _usps = section.blocks %}
+<section style="background-color: {{ _settings.section_bg_color }}; color: {{ _settings.text_color }};">
+  <div class="container">
+    <div class="usp-row {% if _settings.centered == true %}usp-row--centered{% endif %}">
+      <div class="usp-row__col">
+        <div class="usp-content-wrap">
+          {% if _settings.heading != blank %}
+            <h2 class="h1">{{ _settings.heading }}</h2>
+          {% endif %}
+
+          {% if _settings.sub_heading != blank %}
+            <span class="sub-heading">{{ _settings.sub_heading }}</span>
+          {% endif %}
+
+          {% if _settings.content != blank %}
+            <div
+              class="usp-content {% if _settings.content_bg_color != "#ffffff" %}usp-content--bg{% endif %}"
+              {% if _settings.content_bg_color != '#ffffff' %}
+                style="background-color: {{ _settings.content_bg_color }};"
+              {% endif %}
+            >
+              {{ _settings.content }}
+            </div>
+          {% endif %}
+
+          {% if _settings.link_text != blank and _settings.link_url != blank %}
+            <a
+              href="{{ _settings.link_url_1 }}"
+              class="btn btn--primary"
+            >
+              {{- _settings.link_text -}}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="usp-row__col">
+        {% if _usps != blank %}
+          <div class="usp-main">
+            {% for block in _usps %}
+              <div class="usp-item">
+                <div class="usp-item__icon">
+                  {% if block.settings.usp_icon != blank %}
+                    {% render 'lazy-image', image: block.settings.usp_icon, width: '30' %}
+                  {% else %}
+                    {{ forloop.index }}
+                  {% endif %}
+                </div>
+                <div class="usp-item__content">
+                  <span class="h6">{{ block.settings.usp_title }}</span>
+                  <p>{{ block.settings.usp_content }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "USP Block",
+  "class": "shopify-block usp-block",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "content_bg_color",
+      "label": "Content Background Color",
+      "default": "#343334"
+    },
+    {
+      "type": "checkbox",
+      "id": "centered",
+      "label": "Centered Layout"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Sub-Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "USP",
+      "type": "USP",
+      "settings": [
+        {
+          "type": "text",
+          "id": "usp_title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "usp_content",
+          "label": "USP Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "usp_icon",
+          "label": "USP Icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "USP Block",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}

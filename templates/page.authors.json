@@ -1,0 +1,171 @@
+{
+  "sections": {
+    "604c0887-b7ac-4277-8ae6-fe2fe94a43bf": {
+      "type": "hero-content-cta",
+      "settings": {
+        "pre_heading": "",
+        "heading": "Our Authors",
+        "content": "<p>Enim orci non arcu ipsum. Fringilla ultrices felis imperdiet commodo.</p>",
+        "link_text": "",
+        "link_url": ""
+      }
+    },
+    "3ed2ccad-0303-46e3-adb0-3aa58becd955": {
+      "type": "authors",
+      "blocks": {
+        "a83d75ac-dcf0-47b1-a4a0-f8958507c587": {
+          "type": "author",
+          "settings": {
+            "author_title": "Writer",
+            "name": "John Doe",
+            "image": "shopify://shop_images/Rectangle_434.jpg",
+            "bio": "<p>Vestibulum id ac facilisis volutpat amet. Magna proin diam sagittis nulla nunc tincidunt maecenas sed. Laoreet lacus aliquet auctor viverra. Lacus quis semper ut ac quis tempor nulla. </p><p>Velit lacinia commodo a quam. Varius morbi euismod ornare gravida. At id a tellus bibendum pellentesque vitae. Viverra eget sed nunc aliquam nibh.Id senectus quis maecenas sed lorem ut dui egestas. Eget faucibus in ornare auctor sit volutpat. Aenean egestas feugiat risus gravida ornare cursus commodo. Erat commodo ante facilisis urna urna tellus sed nisi ipsum. Sed morbi vestibulum congue pharetra mi sit. Aliquam maecenas sit faucibus adipiscing amet amet sagittis. Lacus dui sagittis molestie in odio fusce at et libero.</p>",
+            "blog_url": "/",
+            "facebook": "#",
+            "instagram": "#",
+            "twitter": "#",
+            "linkedin": "#"
+          }
+        },
+        "84782f5c-eb9f-4e32-814d-cfc27b1ae580": {
+          "type": "author",
+          "settings": {
+            "author_title": "Writer",
+            "name": "Jane Doe",
+            "image": "shopify://shop_images/Rectangle_434_1.jpg",
+            "bio": "<p>Vestibulum id ac facilisis volutpat amet. Magna proin diam sagittis nulla nunc tincidunt maecenas sed. Laoreet lacus aliquet auctor viverra. Lacus quis semper ut ac quis tempor nulla. </p><p>Velit lacinia commodo a quam. Varius morbi euismod ornare gravida. At id a tellus bibendum pellentesque vitae. Viverra eget sed nunc aliquam nibh.Id senectus quis maecenas sed lorem ut dui egestas. Eget faucibus in ornare auctor sit volutpat. Aenean egestas feugiat risus gravida ornare cursus commodo. Erat commodo ante facilisis urna urna tellus sed nisi ipsum. Sed morbi vestibulum congue pharetra mi sit. Aliquam maecenas sit faucibus adipiscing amet amet sagittis. Lacus dui sagittis molestie in odio fusce at et libero.</p>",
+            "blog_url": "/",
+            "facebook": "#",
+            "instagram": "#",
+            "twitter": "#",
+            "linkedin": "#"
+          }
+        },
+        "255eae10-5dfa-4c4b-b4d7-3d3a173ac71a": {
+          "type": "author",
+          "settings": {
+            "author_title": "Writer",
+            "name": "John Doe",
+            "image": "shopify://shop_images/Rectangle_434_2.jpg",
+            "bio": "<p>Vestibulum id ac facilisis volutpat amet. Magna proin diam sagittis nulla nunc tincidunt maecenas sed. Laoreet lacus aliquet auctor viverra. Lacus quis semper ut ac quis tempor nulla. </p><p>Velit lacinia commodo a quam. Varius morbi euismod ornare gravida. At id a tellus bibendum pellentesque vitae. Viverra eget sed nunc aliquam nibh.Id senectus quis maecenas sed lorem ut dui egestas. Eget faucibus in ornare auctor sit volutpat. Aenean egestas feugiat risus gravida ornare cursus commodo. Erat commodo ante facilisis urna urna tellus sed nisi ipsum. Sed morbi vestibulum congue pharetra mi sit. Aliquam maecenas sit faucibus adipiscing amet amet sagittis. Lacus dui sagittis molestie in odio fusce at et libero.</p>",
+            "blog_url": "/",
+            "facebook": "#",
+            "instagram": "#",
+            "twitter": "",
+            "linkedin": ""
+          }
+        },
+        "d5137bfc-914c-4eab-b4c3-fae5bc124e5f": {
+          "type": "author",
+          "settings": {
+            "author_title": "Writer",
+            "name": "Jane  Doe",
+            "image": "shopify://shop_images/Rectangle_434_3.jpg",
+            "bio": "<p>Vestibulum id ac facilisis volutpat amet. Magna proin diam sagittis nulla nunc tincidunt maecenas sed. Laoreet lacus aliquet auctor viverra. Lacus quis semper ut ac quis tempor nulla. </p><p>Velit lacinia commodo a quam. Varius morbi euismod ornare gravida. At id a tellus bibendum pellentesque vitae. Viverra eget sed nunc aliquam nibh.Id senectus quis maecenas sed lorem ut dui egestas. Eget faucibus in ornare auctor sit volutpat. Aenean egestas feugiat risus gravida ornare cursus commodo. Erat commodo ante facilisis urna urna tellus sed nisi ipsum. Sed morbi vestibulum congue pharetra mi sit. Aliquam maecenas sit faucibus adipiscing amet amet sagittis. Lacus dui sagittis molestie in odio fusce at et libero.</p>",
+            "blog_url": "/",
+            "facebook": "",
+            "instagram": "",
+            "twitter": "",
+            "linkedin": ""
+          }
+        },
+        "2874ccc5-f5d1-43ed-8e36-360c4d38f6bc": {
+          "type": "author",
+          "settings": {
+            "author_title": "Writer",
+            "name": "Jane Doe",
+            "image": "shopify://shop_images/Rectangle_434.png",
+            "bio": "<p>Vestibulum id ac facilisis volutpat amet. Magna proin diam sagittis nulla nunc tincidunt maecenas sed. Laoreet lacus aliquet auctor viverra. Lacus quis semper ut ac quis tempor nulla. </p><p>Velit lacinia commodo a quam. Varius morbi euismod ornare gravida. At id a tellus bibendum pellentesque vitae. Viverra eget sed nunc aliquam nibh.Id senectus quis maecenas sed lorem ut dui egestas. Eget faucibus in ornare auctor sit volutpat. Aenean egestas feugiat risus gravida ornare cursus commodo. Erat commodo ante facilisis urna urna tellus sed nisi ipsum. Sed morbi vestibulum congue pharetra mi sit. Aliquam maecenas sit faucibus adipiscing amet amet sagittis. Lacus dui sagittis molestie in odio fusce at et libero.</p>",
+            "blog_url": "",
+            "facebook": "",
+            "instagram": "#",
+            "twitter": "",
+            "linkedin": "#"
+          }
+        },
+        "0d13f8f8-6db0-4974-90d1-3057ef8cda26": {
+          "type": "author",
+          "settings": {
+            "author_title": "Writer",
+            "name": "John Doe",
+            "image": "shopify://shop_images/Rectangle_434_4.jpg",
+            "bio": "<p>Vestibulum id ac facilisis volutpat amet. Magna proin diam sagittis nulla nunc tincidunt maecenas sed. Laoreet lacus aliquet auctor viverra. Lacus quis semper ut ac quis tempor nulla. </p><p>Velit lacinia commodo a quam. Varius morbi euismod ornare gravida. At id a tellus bibendum pellentesque vitae. Viverra eget sed nunc aliquam nibh.Id senectus quis maecenas sed lorem ut dui egestas. Eget faucibus in ornare auctor sit volutpat. Aenean egestas feugiat risus gravida ornare cursus commodo. Erat commodo ante facilisis urna urna tellus sed nisi ipsum. Sed morbi vestibulum congue pharetra mi sit. Aliquam maecenas sit faucibus adipiscing amet amet sagittis. Lacus dui sagittis molestie in odio fusce at et libero.</p>",
+            "blog_url": "",
+            "facebook": "",
+            "instagram": "",
+            "twitter": "",
+            "linkedin": ""
+          }
+        },
+        "92308488-7d98-4f37-ae80-f54206a9178e": {
+          "type": "author",
+          "settings": {
+            "author_title": "Writer",
+            "name": "Jane Doe",
+            "image": "shopify://shop_images/Rectangle_434_5.jpg",
+            "bio": "<p>Vestibulum id ac facilisis volutpat amet. Magna proin diam sagittis nulla nunc tincidunt maecenas sed. Laoreet lacus aliquet auctor viverra. Lacus quis semper ut ac quis tempor nulla. </p><p>Velit lacinia commodo a quam. Varius morbi euismod ornare gravida. At id a tellus bibendum pellentesque vitae. Viverra eget sed nunc aliquam nibh.Id senectus quis maecenas sed lorem ut dui egestas. Eget faucibus in ornare auctor sit volutpat. Aenean egestas feugiat risus gravida ornare cursus commodo. Erat commodo ante facilisis urna urna tellus sed nisi ipsum. Sed morbi vestibulum congue pharetra mi sit. Aliquam maecenas sit faucibus adipiscing amet amet sagittis. Lacus dui sagittis molestie in odio fusce at et libero.</p>",
+            "blog_url": "/",
+            "facebook": "#",
+            "instagram": "",
+            "twitter": "#",
+            "linkedin": ""
+          }
+        },
+        "9b9d4909-61ff-4859-8c29-08cb367b5f82": {
+          "type": "author",
+          "settings": {
+            "author_title": "Writer",
+            "name": "John Doe",
+            "image": "shopify://shop_images/Rectangle_434_6.jpg",
+            "bio": "<p>Vestibulum id ac facilisis volutpat amet. Magna proin diam sagittis nulla nunc tincidunt maecenas sed. Laoreet lacus aliquet auctor viverra. Lacus quis semper ut ac quis tempor nulla. </p><p>Velit lacinia commodo a quam. Varius morbi euismod ornare gravida. At id a tellus bibendum pellentesque vitae. Viverra eget sed nunc aliquam nibh.Id senectus quis maecenas sed lorem ut dui egestas. Eget faucibus in ornare auctor sit volutpat. Aenean egestas feugiat risus gravida ornare cursus commodo. Erat commodo ante facilisis urna urna tellus sed nisi ipsum. Sed morbi vestibulum congue pharetra mi sit. Aliquam maecenas sit faucibus adipiscing amet amet sagittis. Lacus dui sagittis molestie in odio fusce at et libero.</p>",
+            "blog_url": "",
+            "facebook": "",
+            "instagram": "",
+            "twitter": "#",
+            "linkedin": ""
+          }
+        },
+        "d614f8a4-dd09-4a6d-91f2-a86007465549": {
+          "type": "author",
+          "settings": {
+            "author_title": "Writer",
+            "name": "Jane Doe",
+            "image": "shopify://shop_images/Rectangle_434_7.jpg",
+            "bio": "<p>Vestibulum id ac facilisis volutpat amet. Magna proin diam sagittis nulla nunc tincidunt maecenas sed. Laoreet lacus aliquet auctor viverra. Lacus quis semper ut ac quis tempor nulla. </p><p>Velit lacinia commodo a quam. Varius morbi euismod ornare gravida. At id a tellus bibendum pellentesque vitae. Viverra eget sed nunc aliquam nibh.Id senectus quis maecenas sed lorem ut dui egestas. Eget faucibus in ornare auctor sit volutpat. Aenean egestas feugiat risus gravida ornare cursus commodo. Erat commodo ante facilisis urna urna tellus sed nisi ipsum. Sed morbi vestibulum congue pharetra mi sit. Aliquam maecenas sit faucibus adipiscing amet amet sagittis. Lacus dui sagittis molestie in odio fusce at et libero.</p>",
+            "blog_url": "",
+            "facebook": "",
+            "instagram": "",
+            "twitter": "",
+            "linkedin": ""
+          }
+        }
+      },
+      "block_order": [
+        "a83d75ac-dcf0-47b1-a4a0-f8958507c587",
+        "84782f5c-eb9f-4e32-814d-cfc27b1ae580",
+        "255eae10-5dfa-4c4b-b4d7-3d3a173ac71a",
+        "d5137bfc-914c-4eab-b4c3-fae5bc124e5f",
+        "2874ccc5-f5d1-43ed-8e36-360c4d38f6bc",
+        "0d13f8f8-6db0-4974-90d1-3057ef8cda26",
+        "92308488-7d98-4f37-ae80-f54206a9178e",
+        "9b9d4909-61ff-4859-8c29-08cb367b5f82",
+        "d614f8a4-dd09-4a6d-91f2-a86007465549"
+      ],
+      "settings": {}
+    },
+    "5202ca35-1cc5-4d70-bbd7-59f228c6582b": {
+      "type": "recent-posts",
+      "settings": {
+        "heading": "Our Blogs",
+        "content": "<p>Need some inspiration? Ready to learn more about flooring? Check out these blogs.</p>",
+        "link_text": "View More Blogs",
+        "link_url": "#"
+      }
+    }
+  },
+  "order": [
+    "604c0887-b7ac-4277-8ae6-fe2fe94a43bf",
+    "3ed2ccad-0303-46e3-adb0-3aa58becd955",
+    "5202ca35-1cc5-4d70-bbd7-59f228c6582b"
+  ]
+}

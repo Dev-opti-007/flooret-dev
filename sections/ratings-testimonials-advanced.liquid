@@ -1,0 +1,682 @@
+{% comment %}
+  Ratings + Testimonials (Advanced)
+  - Top: stars + rating text
+  - Blocks: testimonial cards (quote + name + location)
+  - Fully customizable (bg, padding, max width, alignment, typography, spacing)
+  - Scoped CSS using section.id to avoid conflicts
+{% endcomment %}
+
+<section
+  id="RatingsTestimonials-{{ section.id }}"
+  class="rta"
+  style="
+    --rta-bg: {{ section.settings.section_bg_color }};
+    --rta-max: {{ section.settings.section_max_width }}px;
+
+    --rta-pt: {{ section.settings.padding_top_desktop }}px;
+    --rta-pr: {{ section.settings.padding_right_desktop }}px;
+    --rta-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --rta-pl: {{ section.settings.padding_left_desktop }}px;
+
+    --rta-pt-m: {{ section.settings.padding_top_mobile }}px;
+    --rta-pr-m: {{ section.settings.padding_right_mobile }}px;
+    --rta-pb-m: {{ section.settings.padding_bottom_mobile }}px;
+    --rta-pl-m: {{ section.settings.padding_left_mobile }}px;
+
+    --rta-head-gap: {{ section.settings.header_gap }}px;
+    --rta-head-mb: {{ section.settings.header_margin_bottom }}px;
+
+    --rta-stars-size: {{ section.settings.stars_size_desktop }}px;
+    --rta-stars-size-m: {{ section.settings.stars_size_mobile }}px;
+    --rta-stars-gap: {{ section.settings.stars_gap }}px;
+    --rta-stars-c: {{ section.settings.stars_color }};
+    --rta-stars-c-empty: {{ section.settings.stars_empty_color }};
+
+    --rta-rating-c: {{ section.settings.rating_text_color }};
+    --rta-rating-s: {{ section.settings.rating_text_size_desktop }}px;
+    --rta-rating-s-m: {{ section.settings.rating_text_size_mobile }}px;
+    --rta-rating-w: {{ section.settings.rating_text_weight }};
+    --rta-rating-lh: {{ section.settings.rating_text_line_height }};
+    --rta-rating-ls: {{ section.settings.rating_text_letter_spacing }}px;
+
+    --rta-grid-gap: {{ section.settings.cards_gap_desktop }}px;
+    --rta-grid-gap-m: {{ section.settings.cards_gap_mobile }}px;
+
+    --rta-card-bg: {{ section.settings.card_bg_color }};
+    --rta-card-radius: {{ section.settings.card_radius }}px;
+    --rta-card-py: {{ section.settings.card_padding_y_desktop }}px;
+    --rta-card-px: {{ section.settings.card_padding_x_desktop }}px;
+    --rta-card-py-m: {{ section.settings.card_padding_y_mobile }}px;
+    --rta-card-px-m: {{ section.settings.card_padding_x_mobile }}px;
+
+    --rta-quote-c: {{ section.settings.quote_color }};
+    --rta-quote-s: {{ section.settings.quote_size_desktop }}px;
+    --rta-quote-s-m: {{ section.settings.quote_size_mobile }}px;
+    --rta-quote-w: {{ section.settings.quote_weight }};
+    --rta-quote-lh: {{ section.settings.quote_line_height }};
+    --rta-quote-ls: {{ section.settings.quote_letter_spacing }}px;
+
+    --rta-name-c: {{ section.settings.name_color }};
+    --rta-name-s: {{ section.settings.name_size_desktop }}px;
+    --rta-name-s-m: {{ section.settings.name_size_mobile }}px;
+    --rta-name-w: {{ section.settings.name_weight }};
+    --rta-name-lh: {{ section.settings.name_line_height }};
+    --rta-name-ls: {{ section.settings.name_letter_spacing }}px;
+
+    --rta-loc-c: {{ section.settings.location_color }};
+    --rta-loc-s: {{ section.settings.location_size_desktop }}px;
+    --rta-loc-s-m: {{ section.settings.location_size_mobile }}px;
+    --rta-loc-w: {{ section.settings.location_weight }};
+    --rta-loc-lh: {{ section.settings.location_line_height }};
+    --rta-loc-ls: {{ section.settings.location_letter_spacing }}px;
+
+    --rta-space-quote-name: {{ section.settings.space_quote_to_name }}px;
+    --rta-space-name-loc: {{ section.settings.space_name_to_location }}px;
+  "
+>
+  <div class="rta__wrap {% unless section.settings.full_width %}rta__wrap--contained{% endunless %}">
+    <div class="rta__header rta__header--{{ section.settings.header_align }}">
+      {% if section.settings.show_stars %}
+        <div class="rta__stars" aria-label="{{ section.settings.stars_value }} out of 5 stars">
+          {%- liquid
+            assign full = section.settings.stars_value | floor
+            assign i = 1
+          -%}
+
+          {%- for n in (1..5) -%}
+            {%- if n <= full -%}
+              <span class="rta__star rta__star--full" aria-hidden="true">★</span>
+            {%- else -%}
+              <span class="rta__star rta__star--empty" aria-hidden="true">★</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {% endif %}
+
+      {% if section.settings.rating_text != blank %}
+        <div class="rta__rating-text">{{ section.settings.rating_text }}</div>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+  <div class="rta__slider-wrap">
+    <div class="rta__slider" data-rta-slider="{{ section.id }}">
+      {% for block in section.blocks %}
+        {% if block.type == 'testimonial' %}
+          <div class="rta__slide" {{ block.shopify_attributes }}>
+            <div class="rta__card">
+              {% if block.settings.quote != blank %}
+                <div class="rta__quote">{{ block.settings.quote }}</div>
+              {% endif %}
+
+              {% if block.settings.name != blank %}
+                <div class="rta__name">{{ block.settings.name }}</div>
+              {% endif %}
+
+              {% if block.settings.location != blank %}
+                <div class="rta__location">{{ block.settings.location }}</div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if section.settings.show_arrows %}
+      <button class="rta__arrow rta__arrow--prev" type="button" aria-label="Previous"></button>
+      <button class="rta__arrow rta__arrow--next" type="button" aria-label="Next"></button>
+    {% endif %}
+
+    {% if section.settings.show_dots %}
+      <div class="rta__dots"></div>
+    {% endif %}
+  </div>
+{% endif %}
+
+  </div>
+</section>
+
+<style>
+    #RatingsTestimonials-{{ section.id }} .rta__rating-text{
+  font-family: {{ section.settings.font_rating_text | json }}, sans-serif;
+}
+
+#RatingsTestimonials-{{ section.id }} .rta__quote{
+  font-family: {{ section.settings.font_quote | json }}, serif;
+}
+
+#RatingsTestimonials-{{ section.id }} .rta__name{
+  font-family: {{ section.settings.font_name | json }}, sans-serif;
+}
+
+#RatingsTestimonials-{{ section.id }} .rta__location{
+  font-family: {{ section.settings.font_location | json }}, sans-serif;
+}
+
+  /* Scoped styles */
+  #RatingsTestimonials-{{ section.id }}{
+    background: var(--rta-bg);
+    padding: var(--rta-pt) var(--rta-pr) var(--rta-pb) var(--rta-pl);
+  }
+  #RatingsTestimonials-{{ section.id }} .rta__wrap--contained{
+    max-width: var(--rta-max);
+    margin: 0 auto;
+  }
+
+  #RatingsTestimonials-{{ section.id }} .rta__header{
+    display: flex;
+    flex-direction: column;
+    gap: var(--rta-head-gap);
+    margin-bottom: var(--rta-head-mb);
+  }
+  #RatingsTestimonials-{{ section.id }} .rta__header--left{ align-items: flex-start; text-align: left; }
+  #RatingsTestimonials-{{ section.id }} .rta__header--center{ align-items: center; text-align: center; }
+  #RatingsTestimonials-{{ section.id }} .rta__header--right{ align-items: flex-end; text-align: right; }
+
+  #RatingsTestimonials-{{ section.id }} .rta__stars{
+    display: inline-flex;
+    gap: var(--rta-stars-gap);
+    font-size: var(--rta-stars-size);
+    line-height: 1;
+  }
+  #RatingsTestimonials-{{ section.id }} .rta__star--full{ color: var(--rta-stars-c); }
+  #RatingsTestimonials-{{ section.id }} .rta__star--empty{ color: var(--rta-stars-c-empty); }
+
+  #RatingsTestimonials-{{ section.id }} .rta__rating-text{
+    color: var(--rta-rating-c);
+    font-size: var(--rta-rating-s);
+    font-weight: var(--rta-rating-w);
+    line-height: var(--rta-rating-lh);
+    letter-spacing: var(--rta-rating-ls);
+  }
+
+  #RatingsTestimonials-{{ section.id }} .rta__grid{
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.cards_columns_desktop }}, minmax(0, 1fr));
+    gap: var(--rta-grid-gap);
+    align-items: start;
+  }
+
+  /* per-section overall alignment for the cards */
+  #RatingsTestimonials-{{ section.id }} .rta__grid--left{ justify-items: start; }
+  #RatingsTestimonials-{{ section.id }} .rta__grid--center{ justify-items: center; }
+  #RatingsTestimonials-{{ section.id }} .rta__grid--right{ justify-items: end; }
+
+  #RatingsTestimonials-{{ section.id }} .rta__card{
+    width: 100%;
+    max-width: {{ section.settings.card_max_width }}px;
+    background: var(--rta-card-bg);
+    border-radius: var(--rta-card-radius);
+    padding: var(--rta-card-py) var(--rta-card-px);
+    text-align: {{ section.settings.card_text_align_desktop }};
+  }
+
+  #RatingsTestimonials-{{ section.id }} .rta__quote{
+    color: var(--rta-quote-c);
+    font-size: var(--rta-quote-s);
+    font-weight: var(--rta-quote-w);
+    line-height: var(--rta-quote-lh);
+    letter-spacing: var(--rta-quote-ls);
+    font-style: {{ section.settings.quote_font_style }};
+    margin: 0;
+  }
+
+  #RatingsTestimonials-{{ section.id }} .rta__name{
+    margin-top: var(--rta-space-quote-name);
+    color: var(--rta-name-c);
+    font-size: var(--rta-name-s);
+    font-weight: var(--rta-name-w);
+    line-height: var(--rta-name-lh);
+    letter-spacing: var(--rta-name-ls);
+  }
+
+  #RatingsTestimonials-{{ section.id }} .rta__location{
+    margin-top: var(--rta-space-name-loc);
+    color: var(--rta-loc-c);
+    font-size: var(--rta-loc-s);
+    font-weight: var(--rta-loc-w);
+    line-height: var(--rta-loc-lh);
+    letter-spacing: var(--rta-loc-ls);
+    opacity: {{ section.settings.location_opacity }};
+  }
+
+  @media (max-width: 989px){
+    #RatingsTestimonials-{{ section.id }} .rta__grid{
+      grid-template-columns: repeat({{ section.settings.cards_columns_tablet }}, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 749px){
+    #RatingsTestimonials-{{ section.id }}{
+      padding: var(--rta-pt-m) var(--rta-pr-m) var(--rta-pb-m) var(--rta-pl-m);
+    }
+
+    #RatingsTestimonials-{{ section.id }} .rta__stars{ font-size: var(--rta-stars-size-m); }
+    #RatingsTestimonials-{{ section.id }} .rta__rating-text{ font-size: var(--rta-rating-s-m); }
+
+    #RatingsTestimonials-{{ section.id }} .rta__grid{
+      grid-template-columns: repeat({{ section.settings.cards_columns_mobile }}, minmax(0, 1fr));
+      gap: var(--rta-grid-gap-m);
+    }
+
+    #RatingsTestimonials-{{ section.id }} .rta__card{
+      padding: var(--rta-card-py-m) var(--rta-card-px-m);
+      text-align: {{ section.settings.card_text_align_mobile }};
+    }
+
+    #RatingsTestimonials-{{ section.id }} .rta__quote{ font-size: var(--rta-quote-s-m); }
+    #RatingsTestimonials-{{ section.id }} .rta__name{ font-size: var(--rta-name-s-m); }
+    #RatingsTestimonials-{{ section.id }} .rta__location{ font-size: var(--rta-loc-s-m); }
+  }
+  /* Slider wrapper */
+#RatingsTestimonials-{{ section.id }} .rta__slider-wrap{
+  position: relative;
+}
+
+/* Each slide spacing */
+#RatingsTestimonials-{{ section.id }} .rta__slide{
+  padding: 0 calc(var(--rta-grid-gap) / 2);
+  box-sizing: border-box;
+}
+
+/* Make slick track align nicely */
+#RatingsTestimonials-{{ section.id }} .rta__slider .slick-list{
+  margin: 0 calc(var(--rta-grid-gap) / -2);
+}
+
+/* Dots container (optional) */
+#RatingsTestimonials-{{ section.id }} .rta__dots{
+  margin-top: 24px;
+}
+#RatingsTestimonials-{{ section.id }} .rta__dots .slick-dots{
+  position: static;
+}
+
+/* Arrows (optional) */
+#RatingsTestimonials-{{ section.id }} .rta__arrow{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid {{ section.settings.arrow_border_color }};
+  background: {{ section.settings.arrow_bg_color }};
+  cursor: pointer;
+  z-index: 2;
+}
+#RatingsTestimonials-{{ section.id }} .rta__arrow--prev{ left: {{ section.settings.arrow_offset }}px; }
+#RatingsTestimonials-{{ section.id }} .rta__arrow--next{ right: {{ section.settings.arrow_offset }}px; }
+
+@media (max-width: 749px){
+  #RatingsTestimonials-{{ section.id }} .rta__slide{
+    padding: 0 calc(var(--rta-grid-gap-m) / 2);
+  }
+  #RatingsTestimonials-{{ section.id }} .rta__slider .slick-list{
+    margin: 0 calc(var(--rta-grid-gap-m) / -2);
+  }
+}
+
+</style>
+
+<script>
+{% comment %} document.addEventListener('DOMContentLoaded', function () {
+  var $root = $('#RatingsTestimonials-{{ section.id }}');
+  if (!$root.length) return;
+
+  var $slider = $root.find('[data-rta-slider="{{ section.id }}"]');
+  if (!$slider.length || $slider.hasClass('slick-initialized')) return;
+
+  $slider.slick({
+    slidesToShow: {{ section.settings.cards_columns_desktop }},
+    slidesToScroll: 1,
+    infinite: {{ section.settings.infinite }},
+    speed: {{ section.settings.speed }},
+    autoplay: {{ section.settings.autoplay }},
+    autoplaySpeed: {{ section.settings.autoplay_speed }},
+    arrows: {{ section.settings.show_arrows }},
+    dots: {{ section.settings.show_dots }},
+    prevArrow: $root.find('.rta__arrow--prev'),
+    nextArrow: $root.find('.rta__arrow--next'),
+    appendDots: $root.find('.rta__dots'),
+    adaptiveHeight: {{ section.settings.adaptive_height }},
+    responsive: [
+      {
+        breakpoint: 990,
+        settings: { slidesToShow: {{ section.settings.cards_columns_tablet }} }
+      },
+      {
+        breakpoint: 750,
+        settings: { slidesToShow: {{ section.settings.cards_columns_mobile }} }
+      }
+    ]
+  });
+}); {% endcomment %}
+document.addEventListener('DOMContentLoaded', function () {
+  var $root = $('#RatingsTestimonials-{{ section.id }}');
+  if (!$root.length) return;
+
+  var $slider = $root.find('[data-rta-slider="{{ section.id }}"]');
+  if (!$slider.length) return;
+
+  function initOrDestroy() {
+    var isDesktop = window.innerWidth >= 768;
+
+    if (isDesktop) {
+      if (!$slider.hasClass('slick-initialized')) {
+        $slider.slick({
+          slidesToShow: {{ section.settings.cards_columns_desktop }},
+          slidesToScroll: 1,
+          infinite: {{ section.settings.infinite }},
+          speed: {{ section.settings.speed }},
+          autoplay: {{ section.settings.autoplay }},
+          autoplaySpeed: {{ section.settings.autoplay_speed }},
+          arrows: {{ section.settings.show_arrows }},
+          dots: {{ section.settings.show_dots }},
+          prevArrow: $root.find('.rta__arrow--prev'),
+          nextArrow: $root.find('.rta__arrow--next'),
+          appendDots: $root.find('.rta__dots'),
+          adaptiveHeight: {{ section.settings.adaptive_height }},
+          responsive: [
+            { breakpoint: 990, settings: { slidesToShow: {{ section.settings.cards_columns_tablet }} } }
+            // No 750 breakpoint needed if you don’t want slider below 768
+          ]
+        });
+      }
+    } else {
+      if ($slider.hasClass('slick-initialized')) {
+        $slider.slick('unslick'); // destroys slick and shows normal layout
+      }
+    }
+  }
+
+  initOrDestroy();
+  window.addEventListener('resize', initOrDestroy);
+});
+
+</script>
+
+
+{% schema %}
+{
+  "name": "Ratings (advanced)",
+  "settings": [
+    { "type": "checkbox", "id": "full_width", "label": "Full width section", "default": false },
+
+    { "type": "header", "content": "Background & container" },
+    { "type": "color", "id": "section_bg_color", "label": "Section background", "default": "#ffffff" },
+    { "type": "range", "id": "section_max_width", "min": 800, "max": 1800, "step": 50, "label": "Section max width (px)", "default": 1400, "info": "Ignored when Full width is enabled." },
+
+    { "type": "header", "content": "Padding (desktop)" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 220, "step": 5, "label": "Padding top (px)", "default": 80 },
+    { "type": "range", "id": "padding_right_desktop", "min": 0, "max": 220, "step": 5, "label": "Padding right (px)", "default": 20 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 220, "step": 5, "label": "Padding bottom (px)", "default": 80 },
+    { "type": "range", "id": "padding_left_desktop", "min": 0, "max": 220, "step": 5, "label": "Padding left (px)", "default": 20 },
+
+    { "type": "header", "content": "Padding (mobile)" },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 180, "step": 5, "label": "Padding top (px)", "default": 60 },
+    { "type": "range", "id": "padding_right_mobile", "min": 0, "max": 180, "step": 5, "label": "Padding right (px)", "default": 15 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 180, "step": 5, "label": "Padding bottom (px)", "default": 60 },
+    { "type": "range", "id": "padding_left_mobile", "min": 0, "max": 180, "step": 5, "label": "Padding left (px)", "default": 15 },
+    {
+  "type": "header",
+  "content": "Slider (Slick)"
+},
+{ "type": "checkbox", "id": "show_arrows", "label": "Show arrows", "default": false },
+{ "type": "checkbox", "id": "show_dots", "label": "Show dots", "default": true },
+{ "type": "checkbox", "id": "infinite", "label": "Infinite loop", "default": true },
+{ "type": "checkbox", "id": "autoplay", "label": "Autoplay", "default": false },
+{ "type": "range", "id": "autoplay_speed", "min": 1000, "max": 9000, "step": 500, "label": "Autoplay speed (ms)", "default": 4000 },
+{ "type": "range", "id": "speed", "min": 100, "max": 1000, "step": 50, "label": "Transition speed (ms)", "default": 300 },
+{ "type": "checkbox", "id": "adaptive_height", "label": "Adaptive height", "default": false },
+
+{ "type": "header", "content": "Arrow style" },
+{ "type": "color", "id": "arrow_bg_color", "label": "Arrow background", "default": "#ffffff" },
+{ "type": "color", "id": "arrow_border_color", "label": "Arrow border color", "default": "#e6e6e6" },
+{ "type": "range", "id": "arrow_offset", "min": -40, "max": 40, "step": 2, "label": "Arrow horizontal offset (px)", "default": 0 },
+
+
+    { "type": "header", "content": "Header alignment" },
+    {
+      "type": "select",
+      "id": "header_align",
+      "label": "Header align",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    { "type": "range", "id": "header_gap", "min": 0, "max": 40, "step": 1, "label": "Header gap (px)", "default": 10 },
+    { "type": "range", "id": "header_margin_bottom", "min": 0, "max": 120, "step": 2, "label": "Header margin bottom (px)", "default": 60 },
+
+    { "type": "header", "content": "Stars" },
+    { "type": "checkbox", "id": "show_stars", "label": "Show stars", "default": true },
+    { "type": "range", "id": "stars_value", "min": 0, "max": 5, "step": 1, "label": "Stars value (0-5)", "default": 5 },
+    { "type": "color", "id": "stars_color", "label": "Stars color", "default": "#F0A23B" },
+    { "type": "color", "id": "stars_empty_color", "label": "Empty stars color", "default": "#E6E6E6" },
+    { "type": "range", "id": "stars_size_desktop", "min": 10, "max": 40, "step": 1, "label": "Stars size desktop (px)", "default": 18 },
+    { "type": "range", "id": "stars_size_mobile", "min": 10, "max": 34, "step": 1, "label": "Stars size mobile (px)", "default": 16 },
+    { "type": "range", "id": "stars_gap", "min": 0, "max": 16, "step": 1, "label": "Stars gap (px)", "default": 3 },
+
+    { "type": "header", "content": "Rating text" },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "4.9 Star Rating (120+ Reviews)" },
+    { "type": "color", "id": "rating_text_color", "label": "Rating text color", "default": "#111111" },
+    { "type": "range", "id": "rating_text_size_desktop", "min": 10, "max": 30, "step": 1, "label": "Rating text size desktop (px)", "default": 14 },
+    { "type": "range", "id": "rating_text_size_mobile", "min": 10, "max": 26, "step": 1, "label": "Rating text size mobile (px)", "default": 13 },
+    {
+      "type": "select",
+      "id": "rating_text_weight",
+      "label": "Rating text weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "rating_text_line_height", "min": 1, "max": 2.2, "step": 0.1, "label": "Rating text line height", "default": 1.4 },
+    { "type": "range", "id": "rating_text_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Rating text letter spacing (px)", "default": 0 },
+
+    { "type": "header", "content": "Cards layout" },
+    {
+      "type": "select",
+      "id": "cards_align",
+      "label": "Cards align",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    { "type": "range", "id": "cards_columns_desktop", "min": 1, "max": 4, "step": 1, "label": "Columns desktop", "default": 2 },
+    { "type": "range", "id": "cards_columns_tablet", "min": 1, "max": 3, "step": 1, "label": "Columns tablet", "default": 2 },
+    { "type": "range", "id": "cards_columns_mobile", "min": 1, "max": 3, "step": 1, "label": "Columns mobile", "default": 1 },
+    { "type": "range", "id": "cards_gap_desktop", "min": 0, "max": 120, "step": 2, "label": "Cards gap desktop (px)", "default": 80 },
+    { "type": "range", "id": "cards_gap_mobile", "min": 0, "max": 80, "step": 2, "label": "Cards gap mobile (px)", "default": 40 },
+    { "type": "range", "id": "card_max_width", "min": 260, "max": 900, "step": 10, "label": "Card max width (px)", "default": 620 },
+
+    { "type": "header", "content": "Card style" },
+    { "type": "color", "id": "card_bg_color", "label": "Card background", "default": "rgba(255,255,255,0)" },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 40, "step": 1, "label": "Card radius (px)", "default": 0 },
+    { "type": "range", "id": "card_padding_y_desktop", "min": 0, "max": 120, "step": 2, "label": "Card padding Y desktop (px)", "default": 0 },
+    { "type": "range", "id": "card_padding_x_desktop", "min": 0, "max": 120, "step": 2, "label": "Card padding X desktop (px)", "default": 0 },
+    { "type": "range", "id": "card_padding_y_mobile", "min": 0, "max": 100, "step": 2, "label": "Card padding Y mobile (px)", "default": 0 },
+    { "type": "range", "id": "card_padding_x_mobile", "min": 0, "max": 100, "step": 2, "label": "Card padding X mobile (px)", "default": 0 },
+
+    { "type": "header", "content": "Quote typography" },
+    { "type": "color", "id": "quote_color", "label": "Quote color", "default": "#111111" },
+    { "type": "range", "id": "quote_size_desktop", "min": 14, "max": 42, "step": 1, "label": "Quote size desktop (px)", "default": 22 },
+    { "type": "range", "id": "quote_size_mobile", "min": 12, "max": 32, "step": 1, "label": "Quote size mobile (px)", "default": 18 },
+    {
+      "type": "select",
+      "id": "quote_weight",
+      "label": "Quote weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "select",
+      "id": "quote_font_style",
+      "label": "Quote style",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "italic", "label": "Italic" }
+      ],
+      "default": "italic"
+    },
+    { "type": "range", "id": "quote_line_height", "min": 1, "max": 2.4, "step": 0.1, "label": "Quote line height", "default": 1.6 },
+    { "type": "range", "id": "quote_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Quote letter spacing (px)", "default": 0 },
+
+    { "type": "header", "content": "Name typography" },
+    { "type": "color", "id": "name_color", "label": "Name color", "default": "#111111" },
+    { "type": "range", "id": "name_size_desktop", "min": 12, "max": 30, "step": 1, "label": "Name size desktop (px)", "default": 16 },
+    { "type": "range", "id": "name_size_mobile", "min": 12, "max": 26, "step": 1, "label": "Name size mobile (px)", "default": 15 },
+    {
+      "type": "select",
+      "id": "name_weight",
+      "label": "Name weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "name_line_height", "min": 1, "max": 2.2, "step": 0.1, "label": "Name line height", "default": 1.3 },
+    { "type": "range", "id": "name_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Name letter spacing (px)", "default": 0 },
+
+    { "type": "header", "content": "Location typography" },
+    { "type": "color", "id": "location_color", "label": "Location color", "default": "#6a6a6a" },
+    { "type": "range", "id": "location_size_desktop", "min": 10, "max": 26, "step": 1, "label": "Location size desktop (px)", "default": 13 },
+    { "type": "range", "id": "location_size_mobile", "min": 10, "max": 22, "step": 1, "label": "Location size mobile (px)", "default": 13 },
+    {
+      "type": "select",
+      "id": "location_weight",
+      "label": "Location weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "location_line_height", "min": 1, "max": 2.2, "step": 0.1, "label": "Location line height", "default": 1.3 },
+    { "type": "range", "id": "location_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Location letter spacing (px)", "default": 0 },
+    { "type": "range", "id": "location_opacity", "min": 0.2, "max": 1, "step": 0.1, "label": "Location opacity", "default": 1 },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "space_quote_to_name", "min": 0, "max": 60, "step": 1, "label": "Space quote to name (px)", "default": 26 },
+    { "type": "range", "id": "space_name_to_location", "min": 0, "max": 40, "step": 1, "label": "Space name to location (px)", "default": 4 },
+
+    { "type": "header", "content": "Card text align" },
+    {
+      "type": "select",
+      "id": "card_text_align_desktop",
+      "label": "Text align desktop",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "card_text_align_mobile",
+      "label": "Text align mobile",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+     {
+  "type": "header",
+  "content": "Font families"
+},
+{
+  "type": "select",
+  "id": "font_rating_text",
+  "label": "Font family: Rating text",
+  "options": [
+    { "value": "Montserrat", "label": "Montserrat" },
+    { "value": "Roboto", "label": "Roboto" },
+    { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+    { "value": "Playfair Display", "label": "Playfair Display" }
+  ],
+  "default": "Montserrat"
+},
+{
+  "type": "select",
+  "id": "font_quote",
+  "label": "Font family: Quote",
+  "options": [
+    { "value": "Montserrat", "label": "Montserrat" },
+    { "value": "Roboto", "label": "Roboto" },
+    { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+    { "value": "Playfair Display", "label": "Playfair Display" }
+  ],
+  "default": "Playfair Display"
+},
+{
+  "type": "select",
+  "id": "font_name",
+  "label": "Font family: Name",
+  "options": [
+    { "value": "Montserrat", "label": "Montserrat" },
+    { "value": "Roboto", "label": "Roboto" },
+    { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+    { "value": "Playfair Display", "label": "Playfair Display" }
+  ],
+  "default": "Montserrat"
+},
+{
+  "type": "select",
+  "id": "font_location",
+  "label": "Font family: Location",
+  "options": [
+    { "value": "Montserrat", "label": "Montserrat" },
+    { "value": "Roboto", "label": "Roboto" },
+    { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+    { "value": "Playfair Display", "label": "Playfair Display" }
+  ],
+  "default": "Montserrat"
+}
+
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "“We were hesitant to buy flooring online, but the samples sold us. The texture of the Basel 260 is incredible—everyone thinks it's solid hardwood.”" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Elena R." },
+        { "type": "text", "id": "location", "label": "Location", "default": "San Francisco, CA" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Ratings (advanced)",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial", "settings": { "name": "Marcus T.", "location": "Austin, TX" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

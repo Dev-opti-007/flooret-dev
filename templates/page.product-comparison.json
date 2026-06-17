@@ -1,0 +1,146 @@
+{
+  "sections": {
+    "42e40fc0-93c2-453a-a750-47e862c3ae5e": {
+      "type": "hero-image-content",
+      "settings": {
+        "bg_color": "#e0f3ed",
+        "text_color": "#111111",
+        "row_reverse": false,
+        "heading": "Stunning. Durable. Competitively Priced.",
+        "content": "<p>Not sure which Collection fits your needs?</p>",
+        "link_text": "Take Our Quiz",
+        "link_url": "https://flooret.typeform.com/to/kGAV8Ivd",
+        "image": "shopify://shop_images/compare_modin_models.png"
+      }
+    },
+    "9178dccc-f21b-4b2e-8e9c-bf4c7136bb9a": {
+      "type": "usp-block",
+      "blocks": {
+        "f604ec42-5eb6-4b51-a74a-0dabed9fcdf3": {
+          "type": "USP",
+          "settings": {
+            "usp_title": "Direct-to-You Approach",
+            "usp_content": "<p>When you work with us, you’ll connect with us directly—not a middleman. This allows us to ensure enhanced convenience and customized care every step of the way.</p>",
+            "usp_icon": "shopify://shop_images/Flooret_Icon_Pack_Light_Mode-16_1_1.png"
+          }
+        },
+        "d9bcca1d-cd20-4db3-9b0c-998f490afc3e": {
+          "type": "USP",
+          "settings": {
+            "usp_title": "Unmatched Customer Service",
+            "usp_content": "<p>Our customer support team is the best in the biz, and no matter what you’re envisioning for your floors, our expert staff is here to guide you through all of our outstanding options.</p>",
+            "usp_icon": "shopify://shop_images/Flooret_Icon_Pack_Light_Mode-04_1.png"
+          }
+        },
+        "f9ca192f-e029-4b21-a31a-afac1e1ca2bc": {
+          "type": "USP",
+          "settings": {
+            "usp_title": "Thoughtful Principle",
+            "usp_content": "<p>Do you know where your floors came from? We do—because we always insist on transparent sourcing, done as sustainably as possible.</p>",
+            "usp_icon": "shopify://shop_images/Flooret_Icon_Pack_Light_Mode-16_1_1.png"
+          }
+        },
+        "bbcfe134-e3b2-4d22-a309-5d728b91c7eb": {
+          "type": "USP",
+          "settings": {
+            "usp_title": "Inspired Designs",
+            "usp_content": "<p>With a wide range of elegant yet contemporary designs, we make sure that our floors are easy on your feet and on your eyes.</p>",
+            "usp_icon": "shopify://shop_images/Flooret_Icon_Pack_Light_Mode_Designer_Curated_1.png"
+          }
+        }
+      },
+      "block_order": [
+        "f604ec42-5eb6-4b51-a74a-0dabed9fcdf3",
+        "d9bcca1d-cd20-4db3-9b0c-998f490afc3e",
+        "f9ca192f-e029-4b21-a31a-afac1e1ca2bc",
+        "bbcfe134-e3b2-4d22-a309-5d728b91c7eb"
+      ],
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "text_color": "#111111",
+        "content_bg_color": "#ffffff",
+        "centered": false,
+        "heading": "Customer Service That’ll Floor You",
+        "sub_heading": "",
+        "content": "<p>It’s not just our floors that are spotless—there’s also our reputation for sincere and sustainable business practices that always put the client first.</p>"
+      }
+    },
+    "be2c139b-819c-414e-9bed-c907fc9f4316": {
+      "type": "elevated-image-content",
+      "settings": {
+        "bg_color": "#e0f3ed",
+        "text_color": "#111111",
+        "image": "shopify://shop_images/compare_our_products_fe5f4a50-7b15-4bea-b441-6b89139d3bef.png",
+        "contain_image": true,
+        "heading": "Benefits",
+        "sub_heading": "",
+        "content": "<p><strong>Color Your Guests Impressed</strong></p><p>Perk up any space and express your unique style with flooring that flaunts one of our dazzling, designer-curated colors. With our variety of options, you’re sure to find the look you’ve been dreaming of.</p><p><strong>Only the Highest Quality to Hold You Up</strong></p><p>You + your floors may be one of the longest relationships of your life. That’s why we use only the highest quality materials to design floors that will support you through thick and thin.</p><p><strong>The Eco-Conscious Choice</strong></p><p>Bring the beauty of nature into your home without harming the Earth. With our commitment to transparent business practices and the use of sustainably-sourced materials, you can ensure a space that supports your lifestyle while also supporting the planet.</p>",
+        "link_text": "",
+        "link_url": ""
+      }
+    },
+    "6671104d-b37e-40fe-baf3-42c3e7dd880a": {
+      "type": "compare",
+      "blocks": {
+        "26100f2e-940a-40ae-b084-e846b3490817": {
+          "type": "compare",
+          "settings": {
+            "compare_title": "",
+            "compare_content": "",
+            "compare_image": "shopify://shop_images/Modin_VS_Silvan-_Comparison_Chart.png"
+          }
+        }
+      },
+      "block_order": [
+        "26100f2e-940a-40ae-b084-e846b3490817"
+      ],
+      "settings": {
+        "heading": "Compare Our Collections",
+        "collection_title_1": "",
+        "collection_title_2": "",
+        "collection_title_3": ""
+      }
+    },
+    "90a3bf15-fb68-47bb-a6ca-eaaeed52400d": {
+      "type": "collection-cards",
+      "blocks": {
+        "9ae1fb77-ae6c-46d0-a14b-c66b8307ad72": {
+          "type": "Card",
+          "settings": {
+            "card_title": "Modin Luxury Vinyl Plank",
+            "link_text_1": "Learn More",
+            "link_url_1": "shopify://pages/modin-luxury-vinyl-plank",
+            "link_text_2": "Shop Now",
+            "link_url_2": "shopify://collections/modin-luxury-vinyl-plank",
+            "image": "shopify://shop_images/4a2f57a8790f8a31f02bb85ef33fd832.jpg"
+          }
+        },
+        "94d2b12a-b1f9-4285-941e-43aadeca6054": {
+          "type": "Card",
+          "settings": {
+            "card_title": "Silvan Hardwood",
+            "link_text_1": "Learn More",
+            "link_url_1": "shopify://pages/silvan-informational",
+            "link_text_2": "Shop Now",
+            "link_url_2": "shopify://collections/silvan-hardwood",
+            "image": "shopify://shop_images/d67af13cb85ed7c3502e2c3dea163584.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "9ae1fb77-ae6c-46d0-a14b-c66b8307ad72",
+        "94d2b12a-b1f9-4285-941e-43aadeca6054"
+      ],
+      "settings": {
+        "heading": "Our Collections"
+      }
+    }
+  },
+  "order": [
+    "42e40fc0-93c2-453a-a750-47e862c3ae5e",
+    "9178dccc-f21b-4b2e-8e9c-bf4c7136bb9a",
+    "be2c139b-819c-414e-9bed-c907fc9f4316",
+    "6671104d-b37e-40fe-baf3-42c3e7dd880a",
+    "90a3bf15-fb68-47bb-a6ca-eaaeed52400d"
+  ]
+}

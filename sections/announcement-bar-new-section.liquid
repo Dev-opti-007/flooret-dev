@@ -1,0 +1,614 @@
+<div class="anuncement-main-wrap" id="pencil-banner">
+  <div class="announcement-wrap-container">
+    <div
+      class="announcement-wrap-out"
+      id="promoBanner"
+      data-start="{{ section.settings.start_date }}"
+      data-end="{{ section.settings.end_date }}"
+      style="display:none;"
+    >
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'announcement' %}
+            <div class="announcement-wrap-in">
+              {%- liquid
+                assign block_settings = block.settings
+                assign block_id = block.id
+                assign show_announcement = block_settings.show_announcement_bar
+              -%}
+
+              {% if show_announcement %}
+                <div
+                  id="announcement-bar-{{ block_id }}"
+                  class="announcement-bar"
+                  style="color: {{ block_settings.text_color }}; display: none;"
+                  {{ block.shopify_attributes }}
+                >
+                  {% if block_settings.button_link != blank %}
+                    <a href="{{ block_settings.button_link }}" class="announcement-bar__inner">
+                  {% else %}
+                    <div class="announcement-bar__inner">
+                  {% endif %}
+
+                  <div class="announcement-bar__header">
+                    {% if block_settings.text != blank %}
+                      <p class="announcement-bar__text">
+                        {{ block_settings.text }}
+                      </p>
+                    {% endif %}
+                    {% if block_settings.subheading != blank %}
+                      <div class="announcement-bar__subheading">{{ block_settings.subheading }}</div>
+                    {% endif %}
+                  </div>
+
+                  {% if block_settings.countdown != blank %}
+                    <span
+                      style="color: {{ block_settings.countdown_color }}"
+                      id="countdown-{{ block_id }}"
+                      class="announcement-bar__countdown"
+                    ></span>
+                  {% endif %}
+
+                  {% if block_settings.button_label != blank %}
+                    <div class="announcement-bar__button btn btn--white">
+                      {{- block_settings.button_label -}}
+                    </div>
+                  {% endif %}
+
+                  {% if block_settings.button_link != blank %}
+                    </a>
+                  {% else %}
+                    </div>
+                  {% endif %}
+
+                  {% if block_settings.show_close_icon %}
+                    <div class="close-icon" id="close-icon-{{ block_id }}">
+                      {% render 'icon-close' %}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <script>
+                  (function() {
+                    const blockId = '{{ block_id }}';
+                    const announcementBar = document.getElementById('announcement-bar-' + blockId);
+                    if (!announcementBar) return;
+
+                    const closeIcon = document.getElementById('close-icon-' + blockId);
+                    const countdownEl = document.getElementById('countdown-' + blockId);
+
+                    const storageKey = 'announcementClosed-' + blockId;
+                    const closedTimestamp = localStorage.getItem(storageKey);
+                    const daysToDisplay = {{ block_settings.days_to_display }};
+                    const hideDuration = daysToDisplay * 24 * 60 * 60 * 1000;
+
+                    // Note: Hardcoding PST is not recommended as it doesn't account for daylight saving.
+                    // A more robust solution would use a library or server-side time.
+                    function getPSTDate(date) {
+                      const utcDate = date.getTime() + (date.getTimezoneOffset() * 60000);
+                      const pstOffset = 7 * 60 * 60000; // Assuming PST is UTC-7
+                      return new Date(utcDate - pstOffset);
+                    }
+
+                    const currentTimePST = getPSTDate(new Date()).getTime();
+                    
+                    const showUntilDate = "{{ block_settings.show_until | default: '' }}";
+                    const showUntilHour = "{{ block_settings.show_until_hour | default: '00:00' }}";
+                    let showUntilTimestamp = null;
+
+                    if (showUntilDate) {
+                      const showUntilDateTime = showUntilDate + 'T' + showUntilHour + ':00';
+                      showUntilTimestamp = new Date(showUntilDateTime).getTime();
+                    }
+
+                    const shouldShowBanner = () => {
+                      const isNotExpired = !showUntilTimestamp || currentTimePST < showUntilTimestamp;
+                      const isNotClosedRecently = !closedTimestamp || (currentTimePST - closedTimestamp >= hideDuration);
+                      return isNotExpired && isNotClosedRecently;
+                    };
+
+                    if (shouldShowBanner()) {
+                      announcementBar.style.display = 'flex';
+                    }
+
+                    if (closeIcon) {
+                      closeIcon.addEventListener('click', function () {
+                        announcementBar.style.display = 'none';
+                        localStorage.setItem(storageKey, currentTimePST.toString());
+                      });
+                    }
+
+                    if (countdownEl) {
+                      const countdownDate = "{{ block_settings.countdown | default: '' }}";
+                      const countdownHour = "{{ block_settings.countdown_hour | default: '00:00' }}";
+
+                      if (countdownDate) {
+                        const futureDateTime = countdownDate + 'T' + countdownHour + ':00';
+                        const futureDate = new Date(futureDateTime);
+
+                        const updateCountdown = () => {
+                          const nowPST = getPSTDate(new Date());
+                          const diffTime = Math.max(0, futureDate - nowPST);
+
+                          if (diffTime === 0) {
+                            countdownEl.textContent = "0:00:00";
+                            clearInterval(countdownInterval);
+                            return;
+                          }
+
+                          const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                          const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                          const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+                          const diffSeconds = Math.floor((diffTime % (1000 * 60)) / 1000);
+
+                          countdownEl.textContent = `${diffDays}d ${diffHours}h ${diffMinutes}m ${diffSeconds}s left!`;
+                        };
+                        
+                        const countdownInterval = setInterval(updateCountdown, 1000);
+                        updateCountdown();
+                      }
+                    }
+                  })();
+                </script>
+
+                <style>
+                  #announcement-bar-{{ block_id }} .close-icon svg path {
+                    fill: {{ block_settings.text_color }};
+                  }
+                </style>
+              {% endif %}
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="floating-links">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'link' %}
+          <a
+            style="color:{{ block.settings.text-color }};font-size:{{ block.settings.font-size }}px"
+            href="{{ block.settings.link-url }}"
+          >
+            {{- block.settings['link-title'] -}}
+          </a>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+    .announcement-wrap-out {
+      overflow-x: hidden;
+      max-height:{{ section.settings.height }}px;
+    }
+    .announcement-wrap-container{
+      position:relative;
+      height:{{ section.settings.height }}px;
+      max-height:{{ section.settings.height }}px;
+      background-color:{{ section.settings.background_color }};
+    }
+    #shopify-section-header {
+      padding: 0px;
+      margin-top: 0px;
+    }
+    #shopify-section-header .gheader__main {
+      padding:0.5rem 3rem;
+    }
+    .announcement-wrap-out {
+      margin: 0px;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      position:relative;
+    }
+    .announcement-wrap-out .slick-track .slick-slide {
+      height: inherit;
+  }
+    .announcement-wrap-out .slick-track .slick-slide > div {
+        height: 100%;
+    }
+     .announcement-wrap-out .announcement-wrap-in {
+          display: block;
+          width: 100%;
+       height:inherit;
+      }
+    .announcement-bar {
+      padding: 8px 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .announcement-wrap-out .slick-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: transparent;
+          border: none;
+        z-index:4;
+      display:flex;
+      }
+    .announcement-wrap-out .slick-track {
+      display:flex;
+    }
+      .announcement-wrap-out .announcement-bar {
+        height: 100%;
+        display:flex !important;
+      }
+      .announcement-wrap-out button.slick-arrow.prev {
+          left: 0;
+      }
+
+      .announcement-wrap-out button.slick-arrow.next {
+          right: 0;
+          transform: translateY(-50%);
+      }
+      .announcement-bar__countdown,
+      .announcement-bar__header p {
+        font-size:{{ section.settings.font-size }}px;
+      }
+      .anuncement-main-wrap {
+          position: relative;
+      }
+
+      .anuncement-main-wrap .floating-links {
+          position: absolute;
+          right: 40px;
+          top: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 25px;
+          height:100%;
+      }
+      .anuncement-main-wrap .floating-links a {
+          text-decoration: none;
+      }
+    @media screen and (min-width: 960px) {
+      .announcement-bar {
+        gap: 32px;
+        flex-wrap: nowrap;
+      }
+    }
+    .announcement-bar__inner {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      flex-wrap: wrap;
+      color: inherit;
+    }
+    .announcement-bar__text a {
+      text-decoration:none;
+    }
+    .announcement-wrap-out {
+      width:{{ section.settings.main-slider-width }}%;
+      margin:auto;
+    }
+
+    @media screen and (min-width: 960px) {
+      .announcement-bar__inner {
+        gap: 32px;
+      }
+    }
+    .announcement-bar__text,
+    .announcement-bar .announcement-bar__button {
+      font-size: 14px;
+      font-weight: bold;
+      margin: 0;
+    }
+    .announcement-bar__header {
+      text-align: center;
+    }
+    .announcement-bar__header p {
+      margin: 0;
+    }
+    .announcement-bar__subheading {
+      font-size: 10px;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+    .announcement-bar .close-icon {
+      cursor: pointer;
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .announcement-bar__header a {
+        text-decoration: none;
+    }
+    @media screen and (min-width: 960px) {
+      .announcement-bar .close-icon {
+        position: static;
+        transform: none;
+        order: 3; /* Places the close icon at the end */
+      }
+    }
+    @media screen and (max-width:768px){
+      .anuncement-main-wrap .floating-links {
+        display:none;
+      }
+      .announcement-wrap-out .slick-arrow svg {
+          width: 9px;
+          height: 9px;
+      }
+      body.fr_07 .fr07_categoryCarousel_wrapper {
+                margin: 1rem 1rem 1rem;
+      }
+      .announcement-wrap-out button.slick-arrow.next {
+        right: 0px;
+      }
+      .announcement-wrap-out button.slick-arrow.prev {
+        left: 0px;
+      }
+      .announcement-wrap-container{
+        position:relative;
+        height:auto;
+        max-height:unset;
+      }
+      {% comment %} .announcement-wrap-out {
+        max-height:{{ section.settings.height-mobile }}px;
+      } {% endcomment %}
+       .announcement-wrap-out {
+          width:{{ section.settings.main-slider-width-mob }}%;
+        }
+        .announcement-wrap-out {
+          max-height:unset;
+        }
+    }
+    @media screen and (min-width:769px) and (max-width:1024px){
+      .announcement-wrap-out {
+        width:{{ section.settings.main-slider-width | minus: 5 }}%;
+        margin:auto;
+      }
+      .anuncement-main-wrap .floating-links{
+        gap: 15px;
+      }
+    }
+    
+</style>
+<script>
+  // Run on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    function parseLocalDate(dateStr) {
+      // dateStr = "2025-10-06"
+      const [y, m, d] = dateStr.split('-').map(Number);
+      return new Date(y, m - 1, d, 0, 0, 0); // local date at midnight
+    }
+
+    function showHideByDate(elementId, start, end) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+
+      const startDate = parseLocalDate(start);
+      const endDate = parseLocalDate(end);
+      const now = new Date();
+
+      console.log('start:', startDate);
+      console.log('end:', endDate);
+      console.log('now :', now);
+
+      if (now >= startDate && now <= endDate) {
+        el.style.display = 'flex';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+    showHideByDate('promoBanner', `{{ section.settings.start_date }}`, `{{ section.settings.end_date }}`);
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Schedule Announcement Bar"
+    },
+    {
+      "type": "text",
+      "id": "start_date",
+      "label": "Start Date",
+      "info": "Date format: yyyy-mm-dd"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End Date",
+      "info": "Date format: yyyy-mm-dd"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "Height Desktop",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "height-mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "Height Mobile",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "font-size",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "Font Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "main-slider-width",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "Slider Width",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "main-slider-width-mob",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "Slider Width Mobile",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#211e1e"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement Bar",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_announcement_bar",
+          "label": "Show this announcement",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Announcement",
+          "default": "<p>Announce something here</p>"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading (optional)"
+        },
+        {
+          "type": "header",
+          "content": "Countdown Timer"
+        },
+        {
+          "type": "text",
+          "id": "countdown",
+          "label": "Countdown end date",
+          "info": "Format: YYYY-MM-DD. Leave blank to disable."
+        },
+        {
+          "type": "text",
+          "id": "countdown_hour",
+          "label": "Countdown end hour",
+          "info": "Format: HH:MM (24-hour).",
+          "default": "23:59"
+        },
+        {
+          "type": "color",
+          "id": "countdown_color",
+          "label": "Countdown font color",
+          "default": "#faaf4f"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "header",
+          "content": "Visibility Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_close_icon",
+          "label": "Show close icon",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "days_to_display",
+          "min": 1,
+          "max": 30,
+          "step": 1,
+          "label": "Days to hide after closing",
+          "info": "Will not show again for this many days after a user closes it.",
+          "default": 7
+        },
+        {
+          "type": "text",
+          "id": "show_until",
+          "label": "Show until date (optional)",
+          "info": "Hide this bar automatically after this date. Format: YYYY-MM-DD"
+        },
+        {
+          "type": "text",
+          "id": "show_until_hour",
+          "label": "Show until hour (optional)",
+          "info": "Format: HH:MM (24-hour).",
+          "default": "23:59"
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "link-title",
+          "label": "Link title"
+        },
+        {
+          "type": "url",
+          "id": "link-url",
+          "label": "Link URL"
+        },
+        {
+          "type": "range",
+          "id": "font-size",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "label": "Font Size",
+          "default": 14
+        },
+        {
+          "type": "color",
+          "id": "text-color",
+          "label": "Text color",
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

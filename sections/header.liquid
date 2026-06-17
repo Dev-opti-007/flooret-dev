@@ -1,0 +1,1943 @@
+{% assign module = section.settings %}
+
+{% if section.settings.show_announcement_bar %}
+  {% render 'announcement-bar' %}
+{% endif %}
+
+<div class="gheader__main">
+  <button type="button" class="gheader__burger reset mob-only" title="Menu">
+    {% render 'svg-hamburger' %}
+  </button>
+
+  <nav class="mob-only gheader__mnav js-adjust-to-header js-header-sticky" aria-label="main navigation">
+    <button class="close-btn-drawer" >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"> <path d="M6 18L18 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M18 18L6 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg>
+    </button>
+    <div class="overflow">
+      {% render 'menu-list', menu: module.mobile_menu %}
+      <div class="gheader__mnav__fixed">
+        <a class="" href="/account">My Account</a>
+        <a class="" target="_blank" href="https://flooretcommercial.com/">Flooret Commercial</a>
+        <a class="" href="/pages/partner-plus">Partner +</a>
+      </div>
+    </div>
+  </nav>
+
+  <a class="gheader__logo" href="/">
+    <img style="display:none;"  src="{{ 'logo.svg' | asset_url }}" width="110" height="23" alt="{{ shop.name }}">
+    <img src="{{ 'new-logo.svg' | asset_url }}" width="110" height="23" alt="{{ shop.name }}">
+  </a>
+
+  {% if section.settings.show_bfcm_button %}
+   <li class="singlemenu only-mob">
+      <a class="menu__link  pill-menu-active" href="{{ section.settings.featured_btn_link }}">{{  section.settings.featured_btn_text }}</a>
+    </li>
+  {% endif %}
+
+  <div class="gheader__nav desk-only">
+    <ul>
+
+
+         <div class="wrap">
+      {% for block in section.blocks %}
+        {% case block.type %}
+        
+          {% when 'simplemenu' %}
+            <li class="singlemenu {% if block.settings.divider-in-front == true %}divider-in-front{% endif %} {% if block.settings.divider-in-end == true %}divider-in-end{% endif %} " {% if block.settings.align-all-next-right == true %}style="margin-left:auto !important;"{% endif %}>
+              <a class="menu__link {% if block.settings.pill-style-menu == true %} pill-menu-active {% endif %}" href="{{ block.settings.menu-url }}" >{{ block.settings.menu-title }} 
+                {% if block.settings.badge-menu == true %}
+                  <span class="custom-badge-new" style="background:{{ block.settings.badge-bg }};color:{{ block.settings.badge-text-color }};">{{ block.settings.badge-text }}</span>
+                {% endif %}
+              </a>
+            </li>
+
+          {% when 'menudropdown' %}
+            
+            <div class="menu-dropdown {% if block.settings.divider-in-front == true %}divider-in-front{% endif %} {% if block.settings.divider-in-end == true %}divider-in-end{% endif %}" {% if block.settings.align-all-next-right == true %}style="margin-left:auto !important;"{% endif %}>
+             {% if block.settings.main-drop-menu-title != blank %}
+                <a href="{{ block.settings.main-drop-menu-link }}" class="main-menu-item {% if block.settings.pill-style-menu == true %} pill-menu-active {% endif %}">
+                  {{ block.settings.main-drop-menu-title }}
+                  {% if block.settings.badge-menu == true %}
+                  <span class="custom-badge-new" style="background:{{ block.settings.badge-bg }};color:{{ block.settings.badge-text-color }};">{{ block.settings.badge-text }}</span>
+                {% endif %}
+                </a>
+                <ul class="dropdown-menu">
+                  {% if block.settings.drop-menu-title-one != blank %}
+                    <li>
+                      <a href="{{ block.settings.drop-menu-url-one }}">
+                        {{ block.settings.drop-menu-title-one }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if block.settings.drop-menu-title-two != blank %}
+                    <li>
+                      <a href="{{ block.settings.drop-menu-url-two }}">
+                        {{ block.settings.drop-menu-title-two }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if block.settings.drop-menu-title-three != blank %}
+                    <li>
+                      <a href="{{ block.settings.drop-menu-url-three }}">
+                        {{ block.settings.drop-menu-title-three }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if block.settings.drop-menu-title-four != blank %}
+                    <li>
+                      <a href="{{ block.settings.drop-menu-url-four }}">
+                        {{ block.settings.drop-menu-title-four }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if block.settings.drop-menu-title-five != blank %}
+                    <li>
+                      <a href="{{ block.settings.drop-menu-url-five }}">
+                        {{ block.settings.drop-menu-title-five }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if block.settings.drop-menu-title-six != blank %}
+                    <li>
+                      <a href="{{ block.settings.drop-menu-url-six }}">
+                        {{ block.settings.drop-menu-title-six }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if block.settings.drop-menu-title-seven != blank %}
+                    <li>
+                      <a href="{{ block.settings.drop-menu-url-seven }}">
+                        {{ block.settings.drop-menu-title-seven }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if block.settings.drop-menu-title-eight != blank %}
+                    <li>
+                      <a href="{{ block.settings.drop-menu-url-eight }}">
+                        {{ block.settings.drop-menu-title-eight }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if block.settings.drop-menu-title-nine != blank %}
+                    <li>
+                      <a href="{{ block.settings.drop-menu-url-nine }}">
+                        {{ block.settings.drop-menu-title-nine }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if block.settings.drop-menu-title-ten != blank %}
+                    <li>
+                      <a href="{{ block.settings.drop-menu-url-ten }}">
+                        {{ block.settings.drop-menu-title-ten }}
+                      </a>
+                    </li>
+                  {% endif %}
+                </ul>
+              {% endif %}
+            </div>  
+
+
+            {% when 'megamenu' %}
+            
+            {% comment %} <script>
+              console.log('{{ block.settings.menu_name | json }}');
+            </script> {% endcomment %}
+            <li class="mega-menu-li {% if block.settings.divider-in-front == true %}divider-in-front{% endif %} {% if block.settings.divider-in-end == true %}divider-in-end{% endif %}" {% if block.settings.align-all-next-right == true %}style="margin-left:auto !important;"{% endif %}>
+              <button class="reset mega-menu-button {% if block.settings.pill-style-menu == true %} pill-menu-active {% endif %}" data-menu="{{ block.settings.menu_name | handleize }}">
+              {% if block.settings.menu_link != blank %}
+                <a href="{{ block.settings.menu_link }}" >{{ block.settings.menu_name }}</a>
+              {% else %}
+                {{ block.settings.menu_name }}
+              {% endif %}
+                {% render 'svg-chevron' %}
+                {% if block.settings.badge-menu == true %}
+                  <span class="custom-badge-new" style="background:{{ block.settings.badge-bg }};color:{{ block.settings.badge-text-color }};">{{ block.settings.badge-text }}</span>
+                {% endif %}
+              </button>
+            </li>
+
+            {% when 'megamenu-two' %}
+
+            {% comment %} <script>
+              console.log('{{ block.settings.menu_name | json }}');
+            </script> {% endcomment %}
+            <li class="mega-menu-li {% if block.settings.divider-in-front == true %}divider-in-front{% endif %} {% if block.settings.divider-in-end == true %}divider-in-end{% endif %}" {% if block.settings.align-all-next-right == true %}style="margin-left:auto !important;"{% endif %}>
+              <button class="reset mega-menu-button {% if block.settings.pill-style-menu == true %} pill-menu-active {% endif %}" data-menu="{{ block.settings.menu_name | handleize }}">
+                {% if block.settings.menu_link != blank %}
+                  <a href="{{ block.settings.menu_link }}" >{{ block.settings.menu_name }}</a>
+                {% else %}
+                  {{ block.settings.menu_name }}
+                {% endif %}
+                {% render 'svg-chevron' %}
+                {% if block.settings.badge-menu == true %}
+                  <span class="custom-badge-new" style="background:{{ block.settings.badge-bg }};color:{{ block.settings.badge-text-color }};">{{ block.settings.badge-text }}</span>
+                {% endif %}
+              </button>
+            </li>  
+
+          {% endcase %}
+        
+      {% endfor %}
+      </div>
+
+
+    {% comment %} <div class="mega-menu-wrap">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'megamenu' %}
+            
+            <script>
+              console.log('{{ block.settings.menu_name | json }}');
+            </script>
+            <li>
+              <button class="reset mega-menu-button {% if block.settings.pill-style-menu == true %} pill-menu-active {% endif %}" data-menu="{{ block.settings.menu_name | handleize }}">
+                {{ block.settings.menu_name }}
+                {% render 'svg-chevron' %}
+              </button>
+            </li>
+
+
+          {% else %}
+            
+        {% endcase %}
+        
+      {% endfor %}
+      </div> {% endcomment %}
+   
+
+    </ul>
+  </div>
+
+  <div class="gheader__actions">
+    {% comment %} <a href="/pages/trade-rewards" class="btn btn--outline trade-button">Trade</a> {% endcomment %}
+    <div class="gheader__icons">
+      <a class="menu-icon menu-icon--phone" href="tel:{{ section.settings.phone_number | default: "1-700-800-8122" }}">
+        {% render 'svg-phone' %}
+      </a>
+
+      <button class="menu-icon menu-icon--search js-site-search__open reset">{% render 'svg-search' %}</button>
+
+      <a class="menu-icon menu-icon--account desk-only" href="/account">{% render 'svg-account' %}</a>
+
+      <a class="menu-icon menu-icon--cart js-cart-drawer-trigger" href="/cart">
+        {% render 'svg-cart' %}
+        <span class="cart-count {% if cart.item_count == 0 %}cart-empty{% endif %}">
+          <span class="cart-count__count js-cart-count">{{ cart.item_count }}</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% assign mega_blocks = section.blocks | where: 'type', 'megamenu' %}
+{% assign mega_two_blocks = section.blocks | where: 'type', 'megamenu-two' %}
+
+{% render 'mega-menus', blocks: mega_blocks %}
+{% render 'mega-menus-two', blocks: mega_two_blocks %}
+
+
+<script>
+  // Redirect mega-menu button to its inner <a href="...">
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('button.mega-menu-button');
+  if (!btn) return;
+
+  const link = btn.querySelector('a[href]');
+  if (!link) return;
+
+  // If your mega menu uses this button to toggle a dropdown, this will override that behavior.
+  // If you only want redirect in some cases, add conditions here.
+  window.location.href = link.href;
+});
+
+</script>
+
+<style>
+  .menu-dropdown {
+    position: relative;  /* For absolute positioning of dropdown */
+  }
+
+  .dropdown-menu {
+    display: none;          /* Initially hidden */
+    opacity: 0;             /* For fade effect */
+    max-height: 0;          /* For slide effect */
+    overflow: hidden;       /* Hide content during animation */
+    transition: opacity 0.2s ease, max-height 0.2s ease;  /* Animation duration */
+    position: absolute;     /* Position below main item */
+    background-color: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    min-width: 200px;
+    /* Add padding/margin as needed */
+  }
+
+  .dropdown-menu li {
+    margin-bottom: 5px;
+  }
+
+  .dropdown-menu a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .dropdown-menu a:hover {
+    text-decoration: underline;
+  }
+  a.main-menu-item {
+      text-decoration: none;
+      color: #000;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 2.5;
+      /* white-space: nowrap; */
+  }
+
+  .gheader__nav ul  li.singlemenu .menu__link {
+      text-decoration: none;
+      color: #000;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: normal;
+      border: none !important;
+      padding: 0px !important;
+      line-height:25px;
+  }
+  .gheader__nav.desk-only ul .singlemenu {
+      top: 0px;
+  }
+
+  .gheader__nav.desk-only {
+      width: 100%;
+      margin: 0px 0px 0px 12px;
+  }
+
+  {% comment %} .gheader__nav.desk-only ul .menu-dropdown:nth-child(5) {
+      position: relative;
+  }
+
+  .gheader__nav.desk-only ul .menu-dropdown:nth-child(5)::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background-color: rgba(0, 0, 0, 0.2);
+      right: -12%;
+  } {% endcomment %}
+
+  .gheader__nav.desk-only ul .menu-dropdown, .gheader__nav.desk-only ul .singlemenu {
+      text-align: center;
+      margin-left: 15px;
+  }
+
+  .gheader__actions {
+      min-width: 175px;
+  }
+
+  .gheader__icons {
+ justify-content: start;
+    width: fit-content;
+    margin-left: auto;
+  }
+
+  .gheader__actions a.btn.btn--outline.trade-button {padding: 0.5rem 0rem;width: 105px;display: block;}
+
+  .gheader__icons svg {
+      width: 20px !important;
+      height: 20px;
+  }
+
+  .gheader__nav .dropdown-menu a {
+      border: none !important;
+  }
+
+  .gheader__nav ul .menu-dropdown .dropdown-menu li a {
+      border: none !important;
+      display: block;
+      padding: 15px !important;
+      text-decoration: none;
+      color: #000;
+      background-color: #fff;
+      text-align: start;
+      font-weight: 100;
+  }
+  .gheader__nav ul .menu-dropdown .dropdown-menu li a:hover,
+  .gheader__nav ul li.singlemenu .menu__link:hover {
+    background-color:transparent !important;
+  }
+  .gheader__nav.desk-only ul {
+      width: 100%;
+      justify-content: start;
+      gap: 1%;
+  }
+
+  .gheader__nav.desk-only .wrap {
+      display: flex;
+      position: relative;
+      align-items: center;
+      padding-right: 0px;
+  }
+
+  .gheader__nav.desk-only .mega-menu-wrap {
+      display: flex;
+      padding-left:15px;
+  }
+
+  .gheader__nav.desk-only .wrap::after {
+      content: none !important;
+      position: absolute;
+      width: 1px;
+      background-color: rgba(0, 0, 0, 0.2);
+      height: 100%;
+      right: -10px;
+  }
+  .main-menu-item .tag, .dropdown-menu li a .tag {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #226B99;
+    color: #fff;
+    border-radius: 0.25rem;
+    line-height: 1;
+    vertical-align: super;
+}
+.mega-menu-button > a {
+    text-decoration: none;
+}
+.gheader__nav ul .menu-dropdown .dropdown-menu li a span.tag {
+    position: absolute;
+}
+
+.gheader__nav ul .menu-dropdown .dropdown-menu li a {
+  border-radius:0px !important;
+}
+
+.gheader__nav ul .menu-dropdown .dropdown-menu li a:hover {
+    background: #e8dcdc !important;
+    border-radius: 0px;
+}
+@media (min-width: 768px) {
+  .gfooter-menus
+    .accordion:nth-child(3)
+    .accordion__content
+    ul
+    li:last-of-type {
+    display: none;
+  }
+}
+</style>
+
+
+
+<style>
+  .new-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #226B99;
+    background-color: transparent;
+    border-radius: 0.25rem;
+    padding: 0.1rem 0.5rem;
+    margin-left: 0.5rem;
+    border: 1px solid #226B99;
+  }
+  <style>
+  .announcement-bar {
+    padding: 8px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  @media screen and (min-width: 960px) {
+    .announcement-bar {
+      gap: 32px;
+      flex-wrap: nowrap;
+    }
+  }
+  .announcement-bar__inner {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    flex-wrap: wrap;
+    color: inherit;
+  }
+  @media screen and (min-width: 960px) {
+    .announcement-bar__inner {
+      gap: 32px;
+    }
+  }
+  .announcement-bar__text,
+  .announcement-bar .announcement-bar__button {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+  }
+  .announcement-bar__header {
+    text-align: center;
+  }
+  .announcement-bar__header p {
+    margin: 0;
+  }
+  .announcement-bar__subheading {
+    font-size: 10px;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+  .announcement-bar .close-icon {
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  @media screen and (min-width: 960px) {
+    .announcement-bar .close-icon {
+      position: static;
+      transform: none;
+      order: 3; /* Places the close icon at the end */
+    }
+  }
+  @media (max-width:1290px){
+    .mega-menu__cards {
+        padding-right: 0px;
+        justify-content: start;
+    }
+    }
+      @media (max-width:1100px){
+    .gheader__nav.desk-only{
+       width:calc(100% + 50px);
+    }
+    }
+    @media (max-width:990px){
+      .gheader__mnav > .overflow {
+        padding-bottom: 120px;
+    }
+    }
+  @media (max-width:768px){
+    .template-index.no-scroll header#shopify-section-header {
+        top: 0px !important;
+    }
+    #shopify-section-header .gheader__main {
+        {% comment %} padding: .5rem 1rem; {% endcomment %}
+                padding: 1rem 1rem;
+    }
+    .gheader.sticky {
+          {% comment %} top: 37.59px; {% endcomment %}
+    }
+  }
+  
+}
+  @media (max-width:550px){
+  .gheader.sticky {
+      {% comment %} top: 37.59px; {% endcomment %}
+  }
+  }
+
+   @media (max-width:435px){
+    .gheader.sticky {
+        {% comment %} top: 59px; {% endcomment %}
+    }
+  }
+</style>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log('%c=== DOMContentLoaded: Starting dropdown hover initialization ===', 'color: blue; font-weight: bold;'); // Highlighted start log
+
+    // Vanilla JS for hover dropdown functionality
+    const menuDropdowns = document.querySelectorAll('.menu-dropdown');
+    console.log('%cFound ' + menuDropdowns.length + ' menu-dropdown elements', 'color: purple;'); // Log number of menus found
+
+    menuDropdowns.forEach(function(menu, index) {
+      const mainItem = menu.querySelector('.main-menu-item');
+      const dropdown = menu.querySelector('.dropdown-menu');
+
+      if (!mainItem) {
+        console.log('%cWarning: No .main-menu-item found in menu-dropdown #' + (index + 1), 'color: orange; font-weight: bold;'); // Warning if missing
+        return; // Skip if no main item
+      }
+      if (!dropdown) {
+        console.log('%cWarning: No .dropdown-menu found in menu-dropdown #' + (index + 1), 'color: orange; font-weight: bold;'); // Warning if missing
+        return; // Skip if no dropdown
+      }
+
+      // Log dropdown details even if empty
+      console.log('%cMenu-dropdown #' + (index + 1) + ' has ' + dropdown.children.length + ' sub-items.', 'color: cyan;'); // Log sub-item count
+
+      let hideTimeout; // For adding a slight delay on hide
+
+      // Mouse enter on the entire menu container: Show dropdown with animation
+      menu.addEventListener('mouseenter', function() {
+        console.log('%cMouseenter: Showing dropdown for menu-dropdown #' + (index + 1), 'color: teal; font-weight: bold;'); // Highlighted event log
+        clearTimeout(hideTimeout); // Cancel any pending hide
+        dropdown.style.display = 'block';  // Make visible
+        dropdown.style.opacity = '1';      // Fade in
+        dropdown.style.maxHeight = dropdown.scrollHeight + 'px';  // Slide down
+      });
+
+      // Mouse leave on the entire menu container: Hide dropdown with animation (with a short delay for usability)
+      menu.addEventListener('mouseleave', function() {
+        console.log('%cMouseleave: Preparing to hide dropdown for menu-dropdown #' + (index + 1), 'color: teal; font-weight: bold;'); // Highlighted event log
+        hideTimeout = setTimeout(() => {
+          dropdown.style.opacity = '0';      // Fade out
+          dropdown.style.maxHeight = '0';    // Slide up
+          setTimeout(() => { 
+            dropdown.style.display = 'none'; 
+            console.log('%cDropdown hidden after animation for menu-dropdown #' + (index + 1), 'color: gray;'); // Log after hide
+          }, 200);  // Hide after animation
+        }, 100);  // 100ms delay to allow moving to dropdown without flicker
+      });
+
+      // Optional: Close dropdown if clicking outside (for better UX)
+      document.addEventListener('click', function(e) {
+        if (!menu.contains(e.target)) {
+          console.log('%cClick outside: Closing dropdown for menu-dropdown #' + (index + 1), 'color: teal;'); // Log event trigger
+          dropdown.style.opacity = '0';
+          dropdown.style.maxHeight = '0';
+          setTimeout(() => { 
+            dropdown.style.display = 'none'; 
+            console.log('%cDropdown closed on outside click for menu-dropdown #' + (index + 1), 'color: gray;'); // Log after close
+          }, 200);
+        }
+      });
+    });
+
+    console.log('%c=== Dropdown hover initialization complete ===', 'color: blue; font-weight: bold;'); // Highlighted end log
+
+    // Rest of your existing code...
+  });
+</script>
+
+
+
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const parentLinks = document.querySelectorAll('li.parent-link.haslinks');
+  if (parentLinks.length > 1) {
+    const segundoLi = parentLinks[1];
+    const span = segundoLi.querySelector('span[itemprop="name"]');
+    if (span) {
+      const newBadge = document.createElement('span');
+      newBadge.textContent = ' NEW';
+      newBadge.classList.add('new-badge');
+      span.appendChild(newBadge);
+    }
+  }
+});
+</script> -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 1. Select all the target link elements
+  const links = document.querySelectorAll('.child .child-link a');
+
+  // 2. Loop through each link found
+  links.forEach(link => {
+    // 3. Find the first span inside the link
+    const textSpan = link.querySelector('span');
+
+    // 4. Proceed only if a span actually exists
+    if (textSpan) {
+      const textContent = textSpan.textContent.trim();
+
+      // 5. Check if the text is one of the ones you want to target
+      if ( textContent === 'Sample Kit') {
+        
+        // 6. Safety Check: Only add the badge if one doesn't already exist
+        if (!link.querySelector('.custom-badge-new')) {
+          
+          // 7. Create the new badge element
+          const newBadge = document.createElement('span');
+          newBadge.className = 'custom-badge-new';
+          newBadge.textContent = 'new';
+
+          // 8. Append the new badge to the link. It will appear next to the existing span.
+          link.appendChild(newBadge);
+        }
+      }
+    }
+  });
+});
+</script>
+
+{% comment %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const header = document.querySelector('.gheader');
+      let lastScrollTop = 0;
+      const scrollThreshold = 5; // Adjust this value to change sensitivity
+      let isScrolled = false;
+      let debounceTimer;
+
+      function debounce(func, delay) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(func, delay);
+      }
+
+      function handleScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (Math.abs(scrollTop - lastScrollTop) > scrollThreshold) {
+          if (scrollTop > lastScrollTop && scrollTop > 0) {
+            // Scrolling down
+            if (!isScrolled) {
+              header.classList.add('sticky--scrolled');
+              isScrolled = true;
+            }
+          } else {
+            // Scrolling up
+            if (scrollTop === 0) {
+              header.classList.remove('sticky--scrolled');
+              isScrolled = false;
+            }
+          }
+          lastScrollTop = scrollTop;
+        }
+      }
+
+      window.addEventListener('scroll', function () {
+        debounce(handleScroll, 10); // Adjust the debounce delay (in ms) as needed
+      });
+    });
+  </script>
+{% endcomment %}
+
+<style>
+
+  a.main-menu-item, .gheader__nav ul li.singlemenu .menu__link {
+    font-size:{{ section.settings.font-size-menu }}px;
+    font-family: Montserrat;
+    font-weight: 500;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 1%;
+  }
+
+  body .gheader__nav ul li button.mega-menu-button {
+    font-size:{{ section.settings.font-size-mega-menu }}px;
+    align-items: center;
+    font-family: Montserrat;
+    font-weight: 500;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 1%;
+    color:#000000;
+  }
+
+  body .gheader__nav ul li button.pill-menu-active {
+    font-size:{{ section.settings.font_size_pill_menu }}px;
+    border: 1px solid currentColor !important;
+  }
+
+  .gheader__nav ul .menu-dropdown .dropdown-menu li a {
+    font-size:{{ section.settings.font-size-menu-dropdown }}px;
+  }
+
+  .gheader__nav ul li.singlemenu a.menu__link.pill-menu-active {
+      font-size:{{ section.settings.font_size_pill_menu }}px !important;   
+      border: 1px solid currentColor !important;
+      padding: 5px 16px !important;
+      transition:all 300ms ease;
+  }
+  .gheader__nav ul li.singlemenu a.menu__link.pill-menu-active:hover  {
+    background: #000 !important;
+    color: #fff;
+  }
+  .gheader__actions {
+      min-width: 175px;
+  }
+  .mega-menu-li {
+    margin-left:15px !important;
+  }
+
+  .divider-in-front {
+      position: relative;
+  }
+
+  .divider-in-front::before {
+      content: "";
+      position: absolute;
+      width: 1px;
+      background-color: rgba(0, 0, 0, 0.2);
+      height: calc(100% + 10px );
+      left: 0px;
+      top: -5px;
+  }
+
+   .divider-in-end {
+      position: relative;
+  }
+
+  .divider-in-end::after {
+      content: "";
+      position: absolute;
+      width: 1px;
+      background-color: rgba(0, 0, 0, 0.2);
+      height: calc(100% + 10px );
+      right: 0px;
+      top: -5px;
+  }
+{% comment %} 
+  .gheader__nav.desk-only .wrap {
+      gap:15px;
+  } {% endcomment %}
+  .gheader__nav.desk-only ul .menu-dropdown, .gheader__nav.desk-only ul .singlemenu, .mega-menu-li {
+      margin-left:0px !important;
+          padding: 0px 10px;
+  }
+
+  .gheader__nav ul li a, .gheader__nav ul li button {
+      padding:0px !important;
+  }
+
+  .gheader__nav ul li a, .gheader__nav ul li button {
+    line-height:normal;
+    background: none !important;
+      border: none !important;
+  }
+  .gheader__nav ul li a.active, .gheader__nav ul li button.active,
+  .gheader__nav ul li a:hover, .gheader__nav ul li button:hover {
+      background: none !important;
+      border: none !important;
+  }
+  a.main-menu-item, .gheader__nav ul li.singlemenu .menu__link {
+      white-space: nowrap;
+  }
+  .gheader__nav.desk-only .wrap {
+      row-gap: 5px;
+  }
+
+  body .gheader__nav ul li button.mega-menu-button svg {
+    display: none;
+}
+
+  @media (max-width:1390px){
+    {% comment %} .divider-in-front::before {
+      left: -10px;
+    } {% endcomment %}
+  }
+
+  @media (max-width:1340px) {
+    .gheader__nav.desk-only .wrap {
+      flex-wrap:wrap;
+      justify-content:start;
+    }
+  }
+
+  @media (max-width:1100px){ 
+    .divider-in-front::before,
+    .divider-in-end::after {
+      content:none;
+    }
+  }
+
+  @media (max-width:768px){
+    .divider-in-end::after ,
+    .divider-in-front::before { 
+      contnet:none;
+    }
+  }
+
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const allMegaMenu = document.querySelectorAll('.mega-menu-li .mega-menu-button');
+  const allMegaMenuDrop = document.querySelectorAll('.mega-menu.desk-only');
+  
+  let activeMenuData = null; // Track the currently active menu globally
+  let hideTimeout; // Shared timeout for all menus
+
+  // Function to deactivate all menus
+  function deactivateAll() {
+    allMegaMenu.forEach(button => button.classList.remove('active'));
+    allMegaMenuDrop.forEach(drop => drop.classList.remove('active'));
+    activeMenuData = null;
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+    }
+  }
+
+  // Function to activate a specific menu
+  function activateMenu(menuData, button) {
+    deactivateAll(); // Close others first
+    const matchingDrop = document.querySelector(`.mega-menu.desk-only[data-menu="${menuData}"]`);
+    if (matchingDrop) {
+      button.classList.add('active');
+      matchingDrop.classList.add('active');
+      activeMenuData = menuData;
+    }
+  }
+
+  // Click handler (for mobile/accessibility)
+  allMegaMenu.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      const menuData = this.getAttribute('data-menu');
+      if (activeMenuData === menuData) {
+        deactivateAll(); // Toggle off if already active
+      } else {
+        activateMenu(menuData, this);
+      }
+    });
+  });
+
+  // Hover handlers for all buttons
+  allMegaMenu.forEach(button => {
+    const menuData = button.getAttribute('data-menu');
+
+    button.addEventListener('mouseenter', function() {
+      clearTimeout(hideTimeout);
+      activateMenu(menuData, this);
+    });
+
+    button.addEventListener('mouseleave', function(e) {
+      // Start hide timeout, but only if not moving toward dropdown
+      hideTimeout = setTimeout(() => {
+        if (activeMenuData === menuData) {
+          deactivateAll();
+        }
+      }, 100); // Short delay to allow mouse movement to dropdown
+    });
+  });
+
+  // Hover handlers for all dropdowns to keep menu open
+  allMegaMenuDrop.forEach(drop => {
+    const menuData = drop.getAttribute('data-menu');
+
+    drop.addEventListener('mouseenter', function() {
+      clearTimeout(hideTimeout);
+      if (activeMenuData !== menuData) {
+        // Find and activate the corresponding button if not already
+        const matchingButton = document.querySelector(`.mega-menu-button[data-menu="${menuData}"]`);
+        if (matchingButton) {
+          activateMenu(menuData, matchingButton);
+        }
+      }
+    });
+
+    drop.addEventListener('mouseleave', function() {
+      // Delay hide to account for mouse leaving the entire area
+      hideTimeout = setTimeout(() => {
+        deactivateAll();
+      }, 150); // Slightly longer delay here for smoother UX
+    });
+  });
+
+  // Optional: Close all on outside click
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.mega-menu-li')) {
+      deactivateAll();
+    }
+  });
+});
+
+</script>
+<style>
+span.mmcard__tag {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-style: Medium;
+    font-size: 8px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 1%;
+    background: #fff;
+    padding: 3px 3px;
+    border-radius: 2px;
+    text-transform: uppercase;
+}
+
+span.mmcard__tag.mmcard__tag--1 {
+    background: #F4F2EC;
+}
+
+span.mmcard__tag.mmcard__tag--2 {
+    background: #FAAF4F;
+}
+
+span.mmcard__tag.mmcard__tag--1:empty,
+span.mmcard__tag.mmcard__tag--2:empty {
+  display:none
+}
+
+.mmcard__tags {
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    z-index:9;
+    display: flex;
+}
+.mega-menu__cards.four-tiles {
+    padding-right: 0;
+}
+.singlemenu {
+    margin-bottom: 5px !important;
+}
+.mnav1__title span.custom-badge-new {
+    top: -12px;
+}
+@media (max-width:768px){
+.mmcard__tags {
+    top: 20px;
+    left: 6px;
+}
+}
+</style>
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "gheader sticky custom-sticky",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Featured Button Mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bfcm_button",
+      "label": "Show Featured Button",
+      "default": false
+    },
+    {
+      "type":"text",
+      "id":"featured_btn_text",
+      "label":"Featured Button Text",
+      "default":"Holiday Sale"
+    },
+    {
+      "type":"url",
+      "id":"featured_btn_link",
+      "label":"Featured Button URL"
+    },
+    {
+      "type": "link_list",
+      "id": "mobile_menu",
+      "label": "Mobile Menu"
+    },
+    {
+      "type": "header",
+      "content": "Announcement bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement_bar",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#211e1e"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Announcement"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "countdown",
+      "label": "Countdown date",
+      "default": "2024-10-14",
+      "info": "Format example: 2024-10-14"
+    },
+    {
+      "type": "text",
+      "id": "countdown_hour",
+      "label": "Countdown hour",
+      "info": "Format example: 09:00",
+      "default": "09:00"
+    },
+    {
+      "type": "text",
+      "id": "phone_number",
+      "label": "Call Us",
+      "info": "1-800-700-8122"
+    },
+    {
+      "type": "color",
+      "id": "countdown_color",
+      "label": "Countdown font color",
+      "default": "#faaf4f"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Order now and save"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "days_to_display",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "label": "Days to display the announcement bar",
+      "info": "After the user closes the announcement bar, it will not be shown again for the specified number of days.",
+      "default": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "show_close_icon",
+      "label": "Show close icon",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "show_until",
+      "label": "Show until date (optional)",
+      "info": "Format example: 2024-10-15"
+    },
+    {
+      "type": "text",
+      "id": "show_until_hour",
+      "label": "Show until hour (optional)",
+      "info": "Format example: 09:00",
+      "default": "09:00"
+    },
+    {
+      "type":"header",
+      "content":"Font sizes"
+    },
+    {
+      "type": "range",
+      "id": "font-size-menu",
+      "min": 1,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Menu Desktop",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "font-size-menu-dropdown",
+      "min": 1,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Dropdown Desktop",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "font-size-mega-menu",
+      "min": 5,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Mega Menu",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "font_size_pill_menu",
+      "min": 1,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Pill Menu",
+      "default": 14
+    },
+    {
+      "type":"header",
+      "content":"Mobile Menu Changes"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "megamenu",
+      "name": "Mega Menus",
+      "settings": [
+        { 
+          "type":"checkbox",
+          "id":"align-all-next-right",
+          "label":"Align this and all next to Right",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"pill-style-menu",
+          "label":"Pill Style Menu",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"divider-in-front",
+          "label":"Divider in front",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"divider-in-end",
+          "label":"Divider in End",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"badge-menu",
+          "label":"Enable Badge in Menu",
+          "default":false
+        },
+        { 
+          "type":"text",
+          "id":"badge-text",
+          "label":"Badge Text"
+        },
+        {
+          "type":"color",
+          "id":"badge-bg",
+          "label":"Badge Background Color"
+        },
+        {
+          "type":"color",
+          "id":"badge-text-color",
+          "label":"Badge Text Color"
+        },
+        {
+          "type": "text",
+          "id": "menu_name",
+          "label": "Menu Name"
+        },
+        {
+          "type":"url",
+          "id":"menu_link",
+          "label":"Menu Link"
+        },
+        {
+          "type": "text",
+          "id": "menu_name_one",
+          "label": "Menu Name One"
+        },
+        {
+          "type":"checkbox",
+          "id":"hide-name-and-center-align",
+          "label":"Hide name and menu from megamenu and center align content"
+        },
+        {
+          "type": "link_list",
+          "id": "mobile_menu",
+          "label": "Menu"
+        },
+        {
+          "type": "text",
+          "id": "cta",
+          "label": "CTA"
+        },
+        {
+          "type": "text",
+          "id": "cta_link",
+          "label": "CTA Link"
+        },
+
+        /* Card 1 */
+        {
+          "type": "image_picker",
+          "id": "feat_image_1",
+          "label": "Featured Image 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_1",
+          "label": "Featured Heading 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_1",
+          "label": "Featured CTA 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_1_1",
+          "label": "Card 1 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_1_2",
+          "label": "Card 1 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_1",
+          "label": "Featured CTA Link 1"
+        },
+
+        /* Card 2 */
+        {
+          "type": "image_picker",
+          "id": "feat_image_2",
+          "label": "Featured Image 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_2",
+          "label": "Featured Heading 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_2",
+          "label": "Featured CTA 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_2_1",
+          "label": "Card 2 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_2_2",
+          "label": "Card 2 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_2",
+          "label": "Featured CTA Link 2"
+        },
+
+        /* Card 3 */
+        {
+          "type": "image_picker",
+          "id": "feat_image_3",
+          "label": "Featured Image 3"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_3",
+          "label": "Featured Heading 3"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_3",
+          "label": "Featured CTA 3"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_3_1",
+          "label": "Card 3 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_3_2",
+          "label": "Card 3 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_3",
+          "label": "Featured CTA Link 3"
+        },
+
+        /* Card 4 */
+        {
+          "type": "image_picker",
+          "id": "feat_image_4",
+          "label": "Featured Image 4"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_4",
+          "label": "Featured Heading 4"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_4",
+          "label": "Featured CTA 4"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_4_1",
+          "label": "Card 4 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_4_2",
+          "label": "Card 4 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_4",
+          "label": "Featured CTA Link 4"
+        },
+
+        /* Card 5 */
+        {
+          "type": "image_picker",
+          "id": "feat_image_5",
+          "label": "Featured Image 5"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_5",
+          "label": "Featured Heading 5"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_5",
+          "label": "Featured CTA 5"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_5_1",
+          "label": "Card 5 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_5_2",
+          "label": "Card 5 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_5",
+          "label": "Featured CTA Link 5"
+        },
+
+        /* Card 6 */
+        {
+          "type": "image_picker",
+          "id": "feat_image_6",
+          "label": "Featured Image 6"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_6",
+          "label": "Featured Heading 6"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_6",
+          "label": "Featured CTA 6"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_6_1",
+          "label": "Card 6 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_6_2",
+          "label": "Card 6 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_6",
+          "label": "Featured CTA Link 6"
+        },
+        {
+          "type": "checkbox",
+          "id": "large_image",
+          "label": "Large Image?"
+        },
+        /* Card 7 */
+        {
+          "type": "image_picker",
+          "id": "feat_image_7",
+          "label": "Featured Image 7"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_7",
+          "label": "Featured Heading 7"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_7",
+          "label": "Featured CTA 7"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_7_1",
+          "label": "Card 7 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_7_2",
+          "label": "Card 7 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_7",
+          "label": "Featured CTA Link 7"
+        },
+        /* Card 8 */
+        {
+          "type": "image_picker",
+          "id": "feat_image_8",
+          "label": "Featured Image 8"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_8",
+          "label": "Featured Heading 8"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_8",
+          "label": "Featured CTA 8"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_8_1",
+          "label": "Card 8 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_8_2",
+          "label": "Card 8 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_8",
+          "label": "Featured CTA Link 8"
+        },
+        {
+          "type":"header",
+          "content":"Shop All"
+        },
+        {
+          "type":"text",
+          "id":"shop-all-text",
+          "label":"Shop All text"
+        },
+        {
+          "type":"url",
+          "id":"shop-all-url",
+          "label":"Shop All URL"
+        }
+      ]
+    },
+    {
+      "type":"simplemenu",
+      "name":"Simple Menu",
+      "settings": [
+        { 
+          "type":"checkbox",
+          "id":"align-all-next-right",
+          "label":"Align this and all next to Right",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"pill-style-menu",
+          "label":"Pill Style Menu",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"divider-in-front",
+          "label":"Divider in front",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"divider-in-end",
+          "label":"Divider in End",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"badge-menu",
+          "label":"Enable Badge in Menu",
+          "default":false
+        },
+        { 
+          "type":"text",
+          "id":"badge-text",
+          "label":"Badge Text"
+        },
+        {
+          "type":"color",
+          "id":"badge-bg",
+          "label":"Badge Background Color"
+        },
+        {
+          "type":"color",
+          "id":"badge-text-color",
+          "label":"Badge Text Color"
+        },
+        {
+          "type": "html",
+          "id": "menu-title",
+          "label":"Menu title"
+        },
+        {
+          "type": "url",
+          "id":"menu-url",
+          "label": "Menu Url"
+        }
+      ]
+    },
+    {
+      "type": "megamenu-two",
+      "name": "Mega Menus Two",
+      "settings": [
+        {
+          "type": "select",
+          "id": "rows",
+          "label": "Total Rows",
+          "options": [
+            {
+              "value": "3",
+              "label": "Three"
+            },
+            {
+              "value": "4",
+              "label": "Four"
+            }
+          ],
+          "default": "3"
+        },
+        { 
+          "type":"checkbox",
+          "id":"align-all-next-right",
+          "label":"Align this and all next to Right",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"pill-style-menu",
+          "label":"Pill Style Menu",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"divider-in-front",
+          "label":"Divider in front",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"divider-in-end",
+          "label":"Divider in End",
+          "default":false
+        },
+        {
+          "type":"checkbox",
+          "id":"badge-menu",
+          "label":"Enable Badge in Menu",
+          "default":false
+        },
+        { 
+          "type":"text",
+          "id":"badge-text",
+          "label":"Badge Text"
+        },
+        {
+          "type":"color",
+          "id":"badge-bg",
+          "label":"Badge Background Color"
+        },
+        {
+          "type":"color",
+          "id":"badge-text-color",
+          "label":"Badge Text Color"
+        },
+        {
+          "type": "text",
+          "id": "menu_name",
+          "label": "Menu Name"
+        },
+        {
+          "type": "url",
+          "id": "menu_link",
+          "label": "Menu Link"
+        },
+        {
+          "type": "text",
+          "id": "menu_name_one",
+          "label": "Menu Name One"
+        },
+        {
+          "type": "link_list",
+          "id": "mobile_menu",
+          "label": "Menu"
+        },
+        {
+          "type": "text",
+          "id": "cta",
+          "label": "CTA"
+        },
+        {
+          "type": "text",
+          "id": "cta_link",
+          "label": "CTA Link"
+        },
+        {
+          "type": "text",
+          "id": "menu_name_two",
+          "label": "Menu Name Two"
+        },
+        {
+          "type": "link_list",
+          "id": "mobile_menu_two",
+          "label": "Menu Two"
+        },
+        {
+          "type": "text",
+          "id": "cta_two",
+          "label": "CTA Two"
+        },
+        {
+          "type": "text",
+          "id": "cta_link_two",
+          "label": "CTA Link Two"
+        },
+
+        /* Same tag pattern for cards 1–6 */
+        {
+          "type": "image_picker",
+          "id": "feat_image_1",
+          "label": "Featured Image 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_1",
+          "label": "Featured Heading 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_1",
+          "label": "Featured CTA 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_1_1",
+          "label": "Card 1 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_1_2",
+          "label": "Card 1 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_1",
+          "label": "Featured CTA Link 1"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "feat_image_2",
+          "label": "Featured Image 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_2",
+          "label": "Featured Heading 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_2",
+          "label": "Featured CTA 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_2_1",
+          "label": "Card 2 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_2_2",
+          "label": "Card 2 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_2",
+          "label": "Featured CTA Link 2"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "feat_image_3",
+          "label": "Featured Image 3"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_3",
+          "label": "Featured Heading 3"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_3",
+          "label": "Featured CTA 3"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_3_1",
+          "label": "Card 3 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_3_2",
+          "label": "Card 3 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_3",
+          "label": "Featured CTA Link 3"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "feat_image_4",
+          "label": "Featured Image 4"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_4",
+          "label": "Featured Heading 4"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_4",
+          "label": "Featured CTA 4"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_4_1",
+          "label": "Card 4 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_4_2",
+          "label": "Card 4 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_4",
+          "label": "Featured CTA Link 4"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "feat_image_5",
+          "label": "Featured Image 5"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_5",
+          "label": "Featured Heading 5"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_5",
+          "label": "Featured CTA 5"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_5_1",
+          "label": "Card 5 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_5_2",
+          "label": "Card 5 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_5",
+          "label": "Featured CTA Link 5"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "feat_image_6",
+          "label": "Featured Image 6"
+        },
+        {
+          "type": "text",
+          "id": "feat_heading_6",
+          "label": "Featured Heading 6"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_6",
+          "label": "Featured CTA 6"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_6_1",
+          "label": "Card 6 Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "feat_tag_6_2",
+          "label": "Card 6 Tag 2"
+        },
+        {
+          "type": "text",
+          "id": "feat_cta_link_6",
+          "label": "Featured CTA Link 6"
+        },
+        {
+          "type": "checkbox",
+          "id": "large_image",
+          "label": "Large Image?"
+        },
+        {
+          "type":"header",
+          "content":"Shop All"
+        },
+        {
+          "type":"text",
+          "id":"shop-all-text",
+          "label":"Shop All text",
+          "info":"After third tile"
+        },
+        {
+          "type":"url",
+          "id":"shop-all-url",
+          "label":"Shop All URL",
+          "info":"After third tile"
+        },
+        {
+          "type":"text",
+          "id":"shop-all-text-two",
+          "label":"Shop All text",
+          "info":"After Sixth tile"
+        },
+        {
+          "type":"url",
+          "id":"shop-all-url-two",
+          "label":"Shop All URL",
+          "info":"After sixth tile"
+        }
+      ]
+    },
+
+  ]
+}
+{% endschema %}
+
+

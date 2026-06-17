@@ -1,0 +1,227 @@
+{%- liquid
+  assign meta = product.metafields
+-%}
+
+<div id="product-details" class="product-details js-header-sticky">
+  <div class="top-content">
+    <div class="desktop-only">
+      {%-  render 'product-details-header', isAddSamplePopup :  -%}
+    </div>
+
+   {%- liquid
+    assign current_variant = product.selected_or_first_available_variant
+    for option_value in current_variant.options
+      assign option_handle = option_value | handleize
+      for product_model in shop.metaobjects.product_model.values
+        assign model_handle = product_model.name | handleize
+        if model_handle == option_handle
+          assign current_product_model = product_model.name
+          assign cost_per_sqft = product_model.cost_per_sqft
+          assign compare_cost_per_sqft = product_model.compare_cost_per_sqft
+          break
+        endif
+      endfor
+    endfor
+  -%}
+  {%- assign off_percent = 0 -%}
+  {%- if compare_cost_per_sqft.value and compare_cost_per_sqft.value > cost_per_sqft.value -%}
+    {%- assign diff = compare_cost_per_sqft.value | minus: cost_per_sqft.value -%}
+    {%- assign raw_percent = diff | times: 100 | divided_by: compare_cost_per_sqft.value -%}
+    {%- assign off_percent = raw_percent | round -%}
+  {%- endif -%}
+
+
+ {% render 'product-form-sample', product: product, isAddSamplePopup: isAddSamplePopup %}
+  {% for block in section.blocks %}
+    {% render block %}
+  {% endfor %}
+
+    
+  <div class="order-wrap-for-mob">
+    
+
+
+    <span style="display:none;">{{ current_variant.title  }}{{ cost_per_sqft }}</span>
+    {%- if isAddSamplePopup -%}
+      <span class="product-option__cost-per-sqft js-product__price">
+        {{ product.price | money }}
+      </span>
+    {%- else -%}
+      {%- if cost_per_sqft -%}
+          <span class="product-option__cost-per-sqft js-product__cost-per-sqft"> 
+              <span class='p-r-ice'>
+                  {% assign selected_variant = product.selected_or_first_available_variant %}
+                  {% assign price_used = cost_per_sqft.value %}
+                  {% assign compare_used = compare_cost_per_sqft.value %}
+                  {% if selected_variant.metafields.custom.sqft_price %}
+                    {% assign price_used = selected_variant.metafields.custom.sqft_price.value %}
+                  {% endif %}
+                  {% if selected_variant.metafields.custom.sqft_compare_at_price %}
+                    {% assign compare_used = selected_variant.metafields.custom.sqft_compare_at_price.value %}
+                  {% endif %}
+                  {{ price_used | money }} 
+                  <del>{{ compare_used | money }}</del> <span class="sqft-text" >per sq ft</span>
+                  {%- assign off_percent = 0 -%}
+                  {%- if compare_used and compare_used > price_used -%}
+                    {%- assign diff = compare_used | minus: price_used -%}
+                    {%- assign raw_percent = diff | times: 100 | divided_by: compare_used -%}
+                    {%- assign off_percent = raw_percent | round -%}
+                  {%- endif -%}
+                  {% if off_percent > 0 %}
+                    <span class="off-percent">{{ off_percent }}% Off</span>
+                  {% endif %}
+                </span>
+          </span>
+      {%- endif -%}
+    {%- endif -%}
+  </div>  
+  </div>
+
+  <div id="bundler-target-element"></div>
+
+
+
+  {% comment %} <button
+      id="open-install-modal"
+      class="btn btn--secondary"
+      type="button"
+      data-flooring-title="{{ product.title | escape }}"
+      data-flooring-handle="{{ product.handle }}"
+    >
+      Installation Services
+  </button> {% endcomment %}
+      <div class="usp-wrap-minimal" >
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'usp' %}
+              <div class="usp-mm" >
+                <img src="{{ block.settings.icon | img_url:'30x' }}" alt="{{ block.settings.icon.alt }}" >
+                <span>{{ block.settings.title }}</span>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const accordionItems = document.querySelectorAll('.accordion-item');
+
+      accordionItems.forEach((item) => {
+        const toggle = item.querySelector('.accordion-toggle');
+        const content = item.querySelector('.accordion-content');
+
+        toggle.addEventListener('click', function () {
+          const isOpen = content.style.display === 'block';
+
+          // Close all accordion items
+          accordionItems.forEach((accItem) => {
+            accItem.querySelector('.accordion-content').style.display = 'none';
+            accItem.querySelector('.accordion-toggle').classList.remove('active');
+          });
+
+          // Open the clicked item if it was closed
+          if (!isOpen) {
+            content.style.display = 'block';
+            toggle.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+</div>
+
+
+
+{% unless isAddSamplePopup %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Function to update the low stock alert
+      function updateLowStockAlert(variantId) {
+        var alertElements = document.querySelectorAll('.low-stock-alert');
+
+        alertElements.forEach(function (alertElement) {
+          if (alertElement.getAttribute('data-variant-id') == variantId) {
+            alertElement.style.display = 'block';
+          } else {
+            alertElement.style.display = 'none';
+          }
+        });
+      }
+
+      // Function to get the current variant ID
+      function getCurrentVariantId() {
+        var mainSelect = document.querySelector('.js-product-form__main-select');
+        if (mainSelect) {
+          return mainSelect.value;
+        }
+
+        var selectedOptions = [];
+        document.querySelectorAll('.js-product-form__button:checked').forEach(function (radio) {
+          selectedOptions.push(radio.value);
+        });
+
+        for (var variantId in window.productInfo[window.productInfo.selectedVariant.handle]) {
+          var variant = window.productInfo[window.productInfo.selectedVariant.handle][variantId];
+          if (variant.options.every((option, index) => option === selectedOptions[index])) {
+            return variant.id;
+          }
+        }
+
+        return null;
+      }
+
+      // Function to handle variant changes
+      function handleVariantChange() {
+        setTimeout(function () {
+          var currentVariantId = getCurrentVariantId();
+          if (currentVariantId) {
+            updateLowStockAlert(currentVariantId);
+          }
+        }, 0);
+      }
+
+      // Set up a MutationObserver to watch for changes in the variant selectors
+      var variantSelectors = document.querySelectorAll('.js-product-form__main-select, .js-product-form__button');
+      var observer = new MutationObserver(handleVariantChange);
+
+      variantSelectors.forEach(function (selector) {
+        observer.observe(selector, { attributes: true, attributeFilter: ['checked', 'selected'] });
+      });
+
+      variantSelectors.forEach(function (selector) {
+        selector.addEventListener('change', handleVariantChange);
+      });
+
+      handleVariantChange();
+    });
+  </script>
+
+  <style>
+    .low-stock-alert {
+      position: absolute;
+      top: 11px;
+      right: 4px;
+      display: none;
+    }
+
+    .low-stock-image {
+      width: auto;
+      height: 24px;
+    }
+  </style>
+{% endunless %}
+
+<script>
+  // Function to update the review rating section ID
+  function updateReviewRatingId() {
+    const reviewBlock = document.querySelector('reviewsio-product-reviews-widget');
+    if (reviewBlock) {
+      reviewBlock.id = 'review-rating';
+      // Clear interval once updated
+      clearInterval(checkInterval);
+    }
+  }
+  
+  // Set interval to check and update every 100ms until element is found
+  const checkInterval = setInterval(updateReviewRatingId, 100);
+</script>
+  

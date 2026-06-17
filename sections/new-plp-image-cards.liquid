@@ -1,0 +1,466 @@
+<section class="new-plp-image-cards-container" id="plp-container--{{ section.id }}">
+  <div class="image-cards-inner-container">
+    <div class="img-cards-header-container">
+      {% if section.settings.section_heading != blank %}
+        <h2 class="section_hd_text">{{ section.settings.section_heading }}</h2>
+      {% endif %}
+      {% if section.settings.subtext != blank %}
+        <p class="section_sb_text">{{ section.settings.subtext }}</p>
+      {% endif %}
+    </div>
+    <div class="img-cards-body-container">
+      {% for block in section.blocks %}
+        <div
+          class="single-card-wrapper"
+          style="background: {{ block.settings.card_bg_color }};border-radius: {{ block.settings.card_border_radius }}px;"
+        >
+          <div class="card-img-wrapper">
+            <img
+              width="100"
+              height="100"
+              loading="lazy"
+              alt="icon-image"
+              src="{{ block.settings.icon | image_url: width:100, height:100 }}"
+            >
+          </div>
+          <div class="card-content-wrapper">
+            <h5>{{ block.settings.card_heading }}</h5>
+            <p>{{ block.settings.card_sub_text }}</p>
+          </div>
+        </div>
+        {% if forloop.first %}
+          <style>
+            .card-content-wrapper h5{
+                font-family: {{ block.settings.card_hd_font }};
+                font-weight: {{  block.settings.card_hd_weight }};
+                font-size: {{  block.settings.card_hd_size_d }}px;
+                line-height: 24px;
+                letter-spacing: -0.31px;
+                text-align: center;
+            }
+            .card-content-wrapper p{
+                font-family: {{  block.settings.card_sb_text_font }};
+                font-weight: {{  block.settings.card_sb_weight }};
+                font-size: {{  block.settings.card_sb_size_d }}px;
+                line-height: 24px;
+                letter-spacing: -0.31px;
+                text-align: center;
+            }
+            /* Mobile Design */
+            @media (max-width: 767px){
+              .card-content-wrapper h5{
+                  font-size: {{  block.settings.card_hd_size_m }}px;
+              }
+              .card-content-wrapper p{
+                  font-size: {{  block.settings.card_sb_size_m }}px;
+              }
+            }
+          </style>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .new-plp-image-cards-container{
+      background-color: {{ section.settings.section_bg_color }};
+      padding-top: {{ section.settings.section_d_padding_top }}px;
+      padding-bottom: {{ section.settings.section_d_padding_bottom }}px;
+      padding-left: {{ section.settings.section_d_padding_left }}px;
+      padding-right: {{ section.settings.section_d_padding_right }}px;
+      border-top: 15px solid #fff;
+  }
+  h2.section_hd_text {
+        text-align: center;
+        font-family: {{  section.settings.font_hd_text }};
+        font-weight: {{  section.settings.heading_weight }};
+        font-style: Medium;
+        font-size: {{  section.settings.heading_size_desktop }}px;
+        line-height: 30px;
+        letter-spacing: -0.45px;
+        color: {{ section.settings.heading_color }};
+    }
+    p.section_sb_text {
+        text-align: center;
+        font-family: {{  section.settings.font_sb_text }};
+        font-weight: {{  section.settings.subtext_weight }};
+        font-size: {{  section.settings.subtext_size_desktop }}px;
+        line-height: 24px;
+        letter-spacing: -0.31px;
+        color: {{ section.settings.subetext_color }};
+    }
+    .img-cards-body-container {
+          margin-top: 30px;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr 1fr;
+          gap: 40px;
+      }
+      .single-card-wrapper {
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+      }
+      .card-img-wrapper{
+        margin-bottom: 20px;
+    }
+        .card-img-wrapper img{
+            width: 64px;
+            height: 64px;
+            margin: auto;
+        }
+
+  /* Tablet and Small Laptop Layout */
+  @media (min-width: 768px) and (max-width: 1024px){
+    .img-cards-body-container {
+        grid-template-columns: 1fr 1fr;
+    }
+  }
+  /* Mobile Design */
+  @media (max-width: 767px){
+    .new-plp-image-cards-container{
+        padding-top: {{ section.settings.section_m_padding_top }}px;
+        padding-bottom: {{ section.settings.section_m_padding_bottom }}px;
+        padding-left: {{ section.settings.section_m_padding_left }}px;
+        padding-right: {{ section.settings.section_m_padding_right }}px;
+    }
+    h2.section_hd_text {
+        font-size: {{  section.settings.heading_size_mobile }}px;
+    }
+    p.section_sb_text {
+      font-size: {{  section.settings.subtext_size_mobile }}px;
+      width: 65%;
+      margin: 10px auto;
+    }
+    .img-cards-body-container {
+          grid-template-columns: 1fr;
+      }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "PLP Icon Cards",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop spacing configurations"
+    },
+    {
+      "type": "number",
+      "id": "section_d_padding_top",
+      "label": "Section Top Padding Desktop (px)",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "section_d_padding_bottom",
+      "label": "Section Bottom Padding Desktop (px)",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "section_d_padding_left",
+      "label": "Section Bottom Left Desktop (px)",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "section_d_padding_right",
+      "label": "Section Bottom Right Desktop (px)",
+      "default": 20
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile spacing configurations"
+    },
+    {
+      "type": "number",
+      "id": "section_m_padding_top",
+      "label": "Section Top Padding Mobile (px)",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "section_m_padding_bottom",
+      "label": "Section Bottom Padding Mobile (px)",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "section_m_padding_left",
+      "label": "Section Bottom Left Mobile (px)",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "section_m_padding_right",
+      "label": "Section Bottom Right Mobile (px)",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "html",
+      "id": "section_heading",
+      "label": "Section Heading Text"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "label": "Heading Size Desktop (px)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 18,
+      "max": 48,
+      "step": 2,
+      "label": "Heading Size Mobile (px)",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "font_hd_text",
+      "label": "Heading Font Family",
+      "options": [
+        { "value": "system-ui", "label": "Default" },
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "header",
+      "content": "Subtext"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext"
+    },
+    {
+      "type": "color",
+      "id": "subetext_color",
+      "label": "Subtext Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "subtext_size_desktop",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "label": "Subtext Size Desktop (px)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "subtext_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "label": "Subtext Size Mobile (px)",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "subtext_weight",
+      "label": "Subtext Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "select",
+      "id": "font_sb_text",
+      "label": "Subtext Font Family",
+      "options": [
+        { "value": "system-ui", "label": "Default" },
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Montserrat"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image-text-card",
+      "name": "Image Text Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Add Icon Image",
+          "info": "100x100 px recommended"
+        },
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Card Background",
+          "default": "#ffffff"
+        },
+        {
+          "type": "number",
+          "id": "card_border_radius",
+          "label": "Card Border Radius",
+          "default": 20,
+          "info": "It is used for rounded corners of a card"
+        },
+        {
+          "type": "text",
+          "id": "card_heading",
+          "label": "Card Heading",
+          "default": "Quick links"
+        },
+        {
+          "type": "number",
+          "id": "card_hd_size_d",
+          "label": "Heading Size Desktop (px)",
+          "default": 20
+        },
+        {
+          "type": "number",
+          "id": "card_hd_size_m",
+          "label": "Heading Size Mobile (px)",
+          "default": 20
+        },
+        {
+          "type": "select",
+          "id": "card_hd_font",
+          "label": "Heading Font Family",
+          "options": [
+            { "value": "system-ui", "label": "Default" },
+            { "value": "Montserrat", "label": "Montserrat" },
+            { "value": "Roboto", "label": "Roboto" },
+            { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+            { "value": "Playfair Display", "label": "Playfair Display" }
+          ],
+          "default": "Playfair Display"
+        },
+        {
+          "type": "select",
+          "id": "card_hd_weight",
+          "label": "Heading Font Weight",
+          "options": [
+            { "value": "300", "label": "Light" },
+            { "value": "400", "label": "Normal" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi Bold" },
+            { "value": "700", "label": "Bold" }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "textarea",
+          "id": "card_sub_text",
+          "label": "Sub Text",
+          "default": "Card Text"
+        },
+        {
+          "type": "number",
+          "id": "card_sb_size_d",
+          "label": "Sub Text Size Desktop (px)",
+          "default": 20
+        },
+        {
+          "type": "number",
+          "id": "card_sb_size_m",
+          "label": "Sub Text Size Mobile (px)",
+          "default": 20
+        },
+        {
+          "type": "select",
+          "id": "card_sb_text_font",
+          "label": "Sub Text Font Family",
+          "options": [
+            { "value": "system-ui", "label": "Default" },
+            { "value": "Montserrat", "label": "Montserrat" },
+            { "value": "Roboto", "label": "Roboto" },
+            { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+            { "value": "Playfair Display", "label": "Playfair Display" }
+          ],
+          "default": "Playfair Display"
+        },
+        {
+          "type": "select",
+          "id": "card_sb_weight",
+          "label": "Sub Text Font Weight",
+          "options": [
+            { "value": "300", "label": "Light" },
+            { "value": "400", "label": "Normal" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi Bold" },
+            { "value": "700", "label": "Bold" }
+          ],
+          "default": "400"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "PLP Icon Cards",
+      "category": "New PLP",
+      "blocks": [
+        {
+          "type": "image-text-card"
+        },
+        {
+          "type": "image-text-card"
+        },
+        {
+          "type": "image-text-card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

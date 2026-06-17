@@ -1,0 +1,403 @@
+{%- liquid
+  capture coverages
+    for p_model in shop.metaobjects.product_model.values
+      echo '"'
+      echo p_model.name | replace: '"', '&quote' | append: '":' | append: p_model.coverage_per_box
+      if forloop.last == false
+        echo ','
+      endif
+    endfor
+  endcapture
+
+  assign coverages = coverages | strip_newlines | strip
+-%}
+
+<div class="product-orderby js-tabs js-orderby {{ classes }}" style="display:none;">
+  <div class="product-orderby__buttons js-tabs__controller js-orderby__controller">
+    <button class="btn btn--outline active" data-id="area" type="button">Order by Area</button>
+    <button class="btn btn--outline" data-id="box" type="button">Order by Box</button>
+  </div>
+
+  <div class="product-orderby__inputs expanded">
+    {% comment %} <div class="toggle-visibility"></div> {% endcomment %}
+    <div class="d-flex-boxes">
+      <div class="custom-qty">
+        <div class="qty-custom-wrap-label">
+          <label>Quantity (Boxes)</label>
+          <div class="qty-input__inputs_custom">
+            <button class="qty-input__button js-qty__button" data-action="subtract" type="button" disabled="disabled">
+              −
+            </button>
+            <input class="qty-input__input js-qty__input" type="number" id="quantity" name="quantity" >
+            {% comment %} size="2" value="1" data-min="1" mm-min="1" mm-stock-max="NaN" step="1" mm-step="1" max="4" mm-max="4" {% endcomment %}
+            <button class="qty-input__button js-qty__button" data-action="add" type="button">+</button>
+          </div>
+        </div>
+        <div class="product-orderby__coverage-count js-orderby__coverage">
+                  {% comment %} <strong class="js-orderby__boxcount">1</strong> box(es) can cover {% endcomment %}
+                  <strong
+                    ><span class="js-orderby__sqft" data-areas="{ {{- coverages | escape_once -}} }"> </span> sq ft total</strong
+                  >
+        </div>
+        <span>OR</span>
+      </div>
+      <div class="product-orderby__content active js-tabs__content" data-id="area">
+        <div class="form-field">
+          <label for="orderby-area">
+            {% comment %} {% render 'icon-plus' %} {% endcomment %}
+
+              Calculate your project size
+
+          </label>
+
+          <input
+            id="orderby-area"
+            class="js-orderby__boxarea"
+            type="number"
+            placeholder="Enter sq ft"
+            onkeydown="return event.key != 'Enter';"
+            min="0"
+          >
+
+          
+        </div>
+      </div>
+      <div class="product-orderby__coverage js-orderby__coverage">
+            <div class="form-field">
+              <div class="product-orderby__coverage-checkbox">
+                <label for="extra-coverage">
+                  <input
+                    type="checkbox"
+                    name="aproperties[Include an extra 8%]"
+                    id="extra-coverage"
+                    class="js-orderby__extra-coverage"
+                    value=".08"
+                  >
+                  <span class="product-orderby__coverage-message">
+                    <strong>Recommended:</strong> Include an extra <strong>8%</strong> to cover potential waste. The
+                    quantity will be rounded up per full box.
+                  </span>
+                </label>
+              </div>
+              {% for block in section.blocks %}
+                {% case block.type %}
+                  {% when 'get-in-touch' %}
+                    <div class="get-in-touch-wrap">
+                      <div class="text-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 13.9584C9.83492 13.9562 9.67717 13.8897 9.56042 13.7729C9.44367 13.6562 9.37717 13.4984 9.375 13.3334V9.16669C9.375 9.00094 9.44083 8.84194 9.55808 8.72477C9.67525 8.60752 9.83425 8.54169 10 8.54169C10.1657 8.54169 10.3248 8.60752 10.4419 8.72477C10.5592 8.84194 10.625 9.00094 10.625 9.16669V13.3334C10.6228 13.4984 10.5563 13.6562 10.4396 13.7729C10.3228 13.8897 10.1651 13.9562 10 13.9584Z" fill="black"/>
+                        <path d="M10 7.70835C9.83492 7.7062 9.67717 7.63965 9.56042 7.52291C9.44367 7.40616 9.37717 7.24845 9.375 7.08335V6.66669C9.375 6.50093 9.44083 6.34195 9.55808 6.22475C9.67525 6.10754 9.83425 6.04169 10 6.04169C10.1657 6.04169 10.3248 6.10754 10.4419 6.22475C10.5592 6.34195 10.625 6.50093 10.625 6.66669V7.08335C10.6228 7.24845 10.5563 7.40616 10.4396 7.52291C10.3228 7.63965 10.1651 7.7062 10 7.70835Z" fill="black"/>
+                        <path d="M10 17.5C8.51667 17.5 7.06659 17.0602 5.83322 16.236C4.59986 15.4119 3.63857 14.2406 3.07091 12.8702C2.50325 11.4997 2.35472 9.99167 2.64412 8.53683C2.9335 7.08197 3.64781 5.7456 4.6967 4.6967C5.7456 3.64781 7.08197 2.9335 8.53683 2.64412C9.99167 2.35472 11.4997 2.50325 12.8702 3.07091C14.2406 3.63857 15.4119 4.59986 16.236 5.83322C17.0602 7.06659 17.5 8.51667 17.5 10C17.5 11.9892 16.7098 13.8968 15.3033 15.3033C13.8968 16.7098 11.9892 17.5 10 17.5ZM10 3.75C8.76383 3.75 7.5555 4.11656 6.52769 4.80332C5.49988 5.49007 4.6988 6.46619 4.22576 7.60823C3.75271 8.75025 3.62894 10.0069 3.87009 11.2193C4.11125 12.4317 4.70651 13.5453 5.58058 14.4194C6.45467 15.2935 7.56831 15.8887 8.78067 16.1299C9.99308 16.3711 11.2498 16.2473 12.3917 15.7743C13.5338 15.3012 14.5099 14.5001 15.1967 13.4723C15.8834 12.4445 16.25 11.2362 16.25 10C16.25 8.34242 15.5915 6.75269 14.4194 5.58058C13.2473 4.40848 11.6576 3.75 10 3.75Z" fill="black"/>
+                        </svg>
+                        {{ block.settings.main-text }}
+                      </div>
+                      <div id="btn-get-in-touch">{{ block.settings.button-label }}</div>
+                      <div class="btn-get-in-touch-popup">
+                        <div class="panel"></div>
+                        <div class="contnet-inner">
+                        {{ block.settings.floating-card-content }}
+                        </div>
+                      </div>
+                    </div>
+                  {% else %}
+                    
+                {% endcase %}
+              {% endfor %}
+            </div>
+          </div>
+      
+    </div>
+    {% style %}
+      .product-orderby__inputs {
+        padding: 8px 16px;
+        margin-top: 24px;
+        height: 74px;
+        /* overflow: hidden; */
+        transition: height 0.3s ease;
+      }
+
+      .product-orderby__inputs.expanded {
+        height: fit-content;
+      }
+.get-in-touch-wrap {
+    border: 1px solid #F4F3F1;
+    display: flex;
+    background: #FFFFFF;
+    padding: 4px 10px 4px 12px;
+    margin-top: 19px;
+    border-radius:4px;
+    margin-bottom: 4px;
+}
+
+.get-in-touch-wrap .text-wrap {
+    display: flex;
+    align-items: center;
+    gap:7px;
+}
+
+.get-in-touch-wrap .text-wrap > p {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 10px;
+    leading-trim: NONE;
+    line-height: 20px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    margin: 0px;
+    color:#000;
+}
+
+div#btn-get-in-touch {
+    font-family: Montserrat;
+    font-weight: 700;
+    font-style: Regular;
+    font-size: 10px;
+    leading-trim: NONE;
+    line-height: 20px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-wrap-mode: nowrap;
+    margin-left: auto;
+    position:relative;
+    cursor:pointer;
+       color:#000;
+}
+.btn-get-in-touch-popup > a {
+     cursor:pointer;
+}
+.btn-get-in-touch-popup {
+    position: absolute;
+    box-shadow: 0px 2px 10px 0px #00000040;
+    padding: 0px;
+    background: #fff;
+    max-width: 36%;
+    right: -38%;
+    top: 90%;
+    transform: translateY(-50%);
+    border-radius: 10px;
+    z-index: 4;
+        opacity: 0;
+    visibility: hidden;
+    transition: opacity 300ms linear;
+}
+.btn-get-in-touch-popup .contnet-inner {
+    padding: 12px 10px;
+    position: relative;
+    z-index: 5;
+    background: #fff;
+    border-radius: 10px;
+}
+div#btn-get-in-touch:hover + .btn-get-in-touch-popup {
+    opacity: 1;
+    visibility: visible;
+}
+
+.btn-get-in-touch-popup:hover {
+     opacity: 1;
+    visibility: visible;
+}
+
+div#btn-get-in-touch::after {
+    content:"";
+    position:absolute;
+    transform: translateY(-40%);
+    left:0;
+    width: calc(100% + 100px);
+    height: calc(100% + 40px);
+}
+
+div#btn-get-in-touch:hover::after{
+    opacity: 1;
+    visibility: visible;
+}
+
+.btn-get-in-touch-popup .contnet-inner > p {
+    font-family: Montserrat;
+    font-weight: 400;
+    /* font-style: SemiBold; */
+    font-size: 10px;
+    leading-trim: NONE;
+    line-height: 16px;
+    letter-spacing: 0%;
+    text-align: center;
+    vertical-align: middle;
+    margin:0px;
+    color:#000;
+}
+.panel {
+    position: absolute;
+    background: #ffffff;
+    box-shadow: 0px 2px 10px 0px #00000040;
+    left: -10px;
+    top: 50%;
+        z-index: -2;
+}
+.panel::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    transform: translateY(-50%) rotate(45deg);
+    box-shadow: -2px 2px 4px 0px rgba(0, 0, 0, .15);
+}
+#product-details > .shopify-block.shopify-app-block {
+    text-align: center !important;
+}
+
+#product-details > .shopify-block.shopify-app-block > * {
+        text-align: center !important;
+}
+
+#product-details > .shopify-block.shopify-app-block div[data-up-promo="zero-percent"]{
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-style: italic;
+    font-size: 12px;
+    leading-trim: NONE;
+    line-height: 24px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    color:#111111;
+}
+.usp-wrap-minimal.box-active {
+      margin: 35px 0px 50px;
+}
+@media (max-width:1762px){
+  div#btn-get-in-touch::after {
+      content: "";
+      position: absolute;
+      transform: unset;
+             right: 0px;
+        left: -54px;
+        bottom: 0;
+      width: 125px;
+      height: calc(100% + 40px);
+  }
+  .btn-get-in-touch-popup {
+      position: absolute;
+      box-shadow: 0px 2px 10px 0px #00000040;
+      padding: 0px;
+      background: #fff;
+      max-width: 36%;
+      right: 0px;
+      top: 37%;
+      transform: translateY(-50%);
+      border-radius: 10px;
+      z-index: 4;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 300ms linear;
+  }
+  .btn-get-in-touch-popup .contnet-inner {
+    padding: 12px 10px;
+    position: relative;
+    z-index: 5;
+    background: #fff;
+    border-radius: 10px;
+}
+  .panel {
+      position: absolute;
+      background: #ffffff;
+      box-shadow: 0px 2px 10px 0px #00000040;
+      left: unset;
+      top: unset;
+      right: 50px;
+      bottom: 0;
+  }
+  .panel::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      transform: translateY(-50%) rotate(-45deg);
+      box-shadow: -2px 2px 4px 0px rgba(0, 0, 0, .15);
+  }
+}
+@media (max-width: 1225px) {
+    .btn-get-in-touch-popup {
+        position: absolute;
+        box-shadow: 0px 2px 10px 0px #00000040;
+        padding: 0px;
+        background: #fff;
+        max-width: 225px;
+        right: 0px;
+        top: 37%;
+        transform: translateY(-50%);
+        border-radius: 10px;
+        z-index: 4;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 300ms linear;
+    }
+}
+@media (max-width:768px){
+  .btn-get-in-touch-popup {
+      position: absolute;
+      box-shadow: 0px 2px 10px 0px #00000040;
+      padding: 0px;
+      background: #fff;
+      max-width: 225px;
+      right: 0px;
+      top: 58%;
+      transform: translateY(-50%);
+      border-radius: 10px;
+      z-index: 4;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 300ms linear;
+  }
+  .get-in-touch-wrap {
+    align-items: center;
+  }
+  div#btn-get-in-touch {
+        font-weight: 700;
+  }
+  .get-in-touch-wrap .text-wrap > svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+  }
+
+  .get-in-touch-wrap .text-wrap > p {
+      width: calc(100% - 23px);
+  }
+}
+    {% endstyle %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const toggleButton = document.querySelector('.toggle-visibility');
+        const inputs = document.querySelector('.product-orderby__inputs');
+        if(toggleButton){
+          toggleButton.addEventListener('click', function () {
+          inputs.classList.toggle('expanded');
+        });
+        }
+      });
+    </script>
+
+    {% comment %}
+      <div class="product-orderby__content js-tabs__content" data-id="box">
+
+      <div class="form-field">
+      	{%- render 'qty-input', name: 'orderby-box', input_classes: 'js-orderby__boxqty', label: 'Boxes' -%}
+      </div>
+
+      </div>
+    {% endcomment %}
+  </div>
+
+  {% comment %}
+    <div class="product-orderby__footer">
+    	<div class="form-field"></div>
+    </div>
+  {% endcomment %}
+</div>

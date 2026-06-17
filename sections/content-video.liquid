@@ -1,0 +1,177 @@
+{% assign _settings = section.settings %}
+
+<section
+  class="{% if _settings.contain_image %}contain-img{% endif %}"
+  {% if _settings.block_id %}
+    id="{{ _settings.block_id }}"
+  {% endif %}
+  style="color: {{ _settings.text_color }};"
+>
+  <div class="overlay" style="background-color: {{ _settings.bg_color }};"></div>
+
+  {% if _settings.heading != blank and _settings.image != blank %}
+    <div class="container">
+      <div class="two-column-row">
+        <div class="two-column-row__col">
+          <div class="tc-content-wrap">
+            {% if _settings.sub_heading != blank %}
+              <span class="sub-heading h6">{{ _settings.sub_heading }}</span>
+            {% endif %}
+
+            {% if _settings.heading != blank %}
+              <h2 class="h1">{{ _settings.heading }}</h2>
+            {% endif %}
+
+            {% if _settings.content != blank %}
+              {{ _settings.content }}
+            {% endif %}
+
+            {% if _settings.link_text != blank and _settings.link_url != blank %}
+              <a
+                href="{{ _settings.link_url }}"
+                class="btn btn--primary {% if _settings.text_color == "#ffffff" %}btn--white{% endif %}"
+              >
+                {{- _settings.link_text -}}
+              </a>
+            {% endif %}
+          </div>
+          <!-- /.tc-content-wrap -->
+        </div>
+        <div class="two-column-row__col">
+          {% if _settings.image != blank %}
+            <div class="thumb">
+              <div class="positioner {% if  _settings.image2 != blank %}  show-lg{% endif %}">
+                {% render 'lazy-image', image: _settings.image, width: '600' %}
+              </div>
+              {% if  _settings.image2 != blank %}
+                <div class="positioner show-sm">
+                  {% render 'lazy-image', image: _settings.image2, width: '600' %}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <div class="container {% if _settings.contain_video == blank %} container--large {% endif %} video-container">
+    {% include 'section-content-video', _settings: section.settings %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Content + Video",
+  "class": "shopify-block content-video two-column",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#343334"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "block_id",
+      "label": "Block ID"
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_reverse",
+      "label": "Row Reverse",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "contain_video",
+      "label": "Add container to video block",
+      "default": false
+    },
+    {
+      "type": "textarea",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "text",
+      "id": "video_heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "video_content",
+      "label": "Content"
+    },
+    {
+      "type": "text",
+      "id": "video_link_text",
+      "label": "Link Text"
+    },
+    {
+      "type": "url",
+      "id": "video_link_url",
+      "label": "Link URL"
+    },
+
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "contain_image",
+      "label": "Contain Image",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Sub-heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Content + Video",
+      "category": "Content / Video"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,668 @@
+{% comment %} <nav class="mnav" aria-label="Mobile navigation">
+  <div class="mnav__inner">
+
+    {%- for link in linklists[menu].links -%}
+      <div class="mnav1 {% if forloop.first %}is-open{% endif %}" data-mnav1>
+        <button type="button"
+          class="mnav1__btn"
+          aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+          <span class="mnav1__title">{{ link.title }}</span>
+          <span class="mnav1__chev" aria-hidden="true"></span>
+        </button>
+
+        <div class="mnav1__panel" {% unless forloop.first %}hidden{% endunless %}>
+          {% if link.links != blank %}
+            <ul class="mnav2">
+
+              {% for child_link in link.links %}
+                {%- comment -%} L2 leaf (no children) => simple link row {%- endcomment -%}
+                {% if child_link.links == blank %}
+					  {%- assign title_to_match = child_link.title -%}
+
+                          {%- assign mo_key = title_to_match | handleize -%}
+                          {%- assign mo = metaobjects['menu_item_image'][mo_key] -%}
+
+                          {%- if mo == blank -%}
+                            {%- for entry in metaobjects.menu_item_image.values -%}
+                              {%- if entry.menu_name.value != blank and entry.menu_name.value == title_to_match -%}
+                                {%- assign mo = entry -%}
+                                {%- break -%}
+                              {%- endif -%}
+                            {%- endfor -%}
+                          {%- endif -%}
+
+                          {%- assign has_img = false -%}
+                          {%- if mo != blank and mo.image.value != blank -%}
+                            {%- assign has_img = true -%}
+                          {%- endif -%}
+                  <li class="mnav2__item is-leaf {% if has_img %}has-menu-image{% endif %}">
+                    <a class="mnav2__link" href="{{ child_link.url }}">
+						 {% if has_img %}
+                                <span class="mnavTile__img">
+                                  {{ mo.image.value | image_url: width: 360 | image_tag: loading: 'lazy', alt: title_to_match }}
+                                </span>
+                              {% endif %}
+                      {{ child_link.title }}
+                    </a>
+                  </li>
+
+                {% else %}
+                  {%- comment -%} L2 with children => accordion row + L3 grid {%- endcomment -%}
+                  <li class="mnav2__item is-parent" data-mnav2>
+                    <button type="button"
+                      class="mnav2__btn"
+                      aria-expanded="false">
+                      <span class="mnav2__title">{{ child_link.title }}</span>
+                      <span class="mnav2__chev" aria-hidden="true"></span>
+                    </button>
+
+                    <div class="mnav2__panel" hidden>
+                      <ul class="mnavGrid">
+                        {% for grandchild_link in child_link.links %}
+                          {%- assign title_to_match = grandchild_link.title -%}
+
+                          {%- assign mo_key = title_to_match | handleize -%}
+                          {%- assign mo = metaobjects['menu_item_image'][mo_key] -%}
+
+                          {%- if mo == blank -%}
+                            {%- for entry in metaobjects.menu_item_image.values -%}
+                              {%- if entry.menu_name.value != blank and entry.menu_name.value == title_to_match -%}
+                                {%- assign mo = entry -%}
+                                {%- break -%}
+                              {%- endif -%}
+                            {%- endfor -%}
+                          {%- endif -%}
+
+                          {%- assign has_img = false -%}
+                          {%- if mo != blank and mo.image.value != blank -%}
+                            {%- assign has_img = true -%}
+                          {%- endif -%}
+
+                          <li class="mnavTile {% if has_img %}has-menu-image{% endif %}">
+                            <a class="mnavTile__link" href="{{ grandchild_link.url }}">
+                              {% if has_img %}
+                                <span class="mnavTile__img">
+                                  {{ mo.image.value | image_url: width: 360 | image_tag: loading: 'lazy', alt: title_to_match }}
+                                </span>
+                              {% endif %}
+                              <span class="mnavTile__title">{{ title_to_match }}</span>
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </li>
+                {% endif %}
+              {% endfor %}
+
+            </ul>
+          {% endif %}
+        </div>
+	  </div>
+    {%- endfor -%}
+
+  </div>
+</nav> {% endcomment %}
+
+<nav class="mnav" aria-label="Mobile navigation">
+  <div class="mnav__inner">
+
+    {%- for link in linklists[menu].links -%}
+      <div class="mnav1 {% if forloop.first %}is-open{% endif %}" data-mnav1>
+        <button type="button"
+          class="mnav1__btn"
+          aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+          <span class="mnav1__title">{{ link.title }}
+            {% comment %} {% if link.title == "Provence Natural Hardwood"%}
+                                  <span class="custom-badge-new">New</span>
+                        {% endif %} {% endcomment %}
+                        {% assign showOnTrim = 'false' %}
+                          {% if link.title == "Modin Luxury Vinyl Plank"%}
+                                  <span class="custom-badge-new">New</span>
+                                  {% assign showOnTrim = 'true' %}
+                        {% endif %}
+          </span>
+          <span class="mnav1__chev" aria-hidden="true"></span>
+        </button>
+
+        <div class="mnav1__panel" {% unless forloop.first %}hidden{% endunless %}>
+          {% if link.links != blank %}
+            <ul class="mnav2">
+
+              {% for child_link in link.links %}
+
+                {%- comment -%} L2 leaf (no children) => simple link row {%- endcomment -%}
+                {% if child_link.links == blank %}
+
+                  {%- assign title_to_match = child_link.title -%}
+                  {%- assign title_norm = title_to_match | strip | downcase -%} 
+
+                  {%- assign mo = blank -%}
+                  {%- assign mo_key = title_to_match | handleize -%} 
+                  {%- assign mo = metaobjects['menu_item_image'][mo_key] -%}
+
+                  {%- if mo == blank -%}
+                    {%- assign found = blank -%}
+                    {%- assign found_count = 0 -%}
+                    {%- for entry in metaobjects.menu_item_image.values -%}
+                      {%- if entry.menu_name.value != blank -%}
+                        {%- assign entry_norm = entry.menu_name.value | strip | downcase -%}
+                        {%- if entry_norm == title_norm -%}
+                          {%- assign found = entry -%}
+                          {%- assign found_count = found_count | plus: 1 -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- if found_count == 1 -%}
+                      {%- assign mo = found -%}
+                    {%- endif -%}
+                  {%- endif -%}
+
+                  {%- if mo == blank -%}
+                    {%- assign found = blank -%}
+                    {%- assign found_count = 0 -%}
+                    {%- for entry in metaobjects.menu_item_image.values -%}
+                      {%- assign handle_norm = entry.system.handle | strip | downcase -%}
+                      {%- if handle_norm == title_norm -%}
+                        {%- assign found = entry -%}
+                        {%- assign found_count = found_count | plus: 1 -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- if found_count == 1 -%}
+                      {%- assign mo = found -%}
+                    {%- endif -%}
+                  {%- endif -%}
+
+                  {%- assign has_img = false -%}
+                  {%- if mo != blank and mo.image.value != blank -%}
+                    {%- assign has_img = true -%}
+                  {%- endif -%}
+
+                  <li class="mnav2__item is-leaf {% if has_img %}has-menu-image{% endif %}">
+                    <a class="mnav2__link" href="{{ child_link.url }}">
+                        
+                        <div class="mmcard__tags">
+                          {% if mo.tag_one.value %}
+                            <span class="mmcard__tag mmcard__tag--1">{{ mo.tag_one.value }}</span>
+                          {% endif %}
+                          {% if mo.tag_two.value %}
+                            <span class="mmcard__tag mmcard__tag--2">{{ mo.tag_two.value }}</span>
+                          {% endif %}
+                        </div>
+                        
+                      {% if has_img %}
+                        <span class="mnavTile__img">
+                          {{ mo.image.value | image_url: width: 360 | image_tag: loading: 'lazy', alt: title_to_match }}
+                        </span>
+                      {% endif %}
+                      {{ child_link.title }}
+                      {% if child_link.title == "Shop Floors" and showOnTrim == "true"%}
+                        <span class="custom-badge-new">New</span>
+                        {% endif %}
+                    </a>
+                  </li>
+
+                {% else %}
+
+                  {%- comment -%} L2 with children => accordion row + L3 grid {%- endcomment -%}
+                  <li class="mnav2__item is-parent" data-mnav2>
+                    <button type="button"
+                      class="mnav2__btn"
+                      aria-expanded="false">
+                      <span class="mnav2__title">{{ child_link.title }}
+                        {% if child_link.title == "Provence Natural Hardwood"%}
+                                  <span class="custom-badge-new">New</span>
+                        {% endif %}
+                      </span>
+                      <span class="mnav2__chev" aria-hidden="true"></span>
+                    </button>
+
+                    <div class="mnav2__panel" hidden>
+                      <ul class="mnavGrid">
+
+                        {% for grandchild_link in child_link.links %}
+
+                          {%- assign title_to_match = grandchild_link.title -%}
+                          {%- assign title_norm = title_to_match | strip | downcase -%}
+
+                          {%- assign mo = blank -%}
+                          {%- assign mo_key = title_to_match | handleize -%}
+                          {%- assign mo = metaobjects['menu_item_image'][mo_key] -%}
+
+                          {%- if mo == blank -%}
+                            {%- assign found = blank -%}
+                            {%- assign found_count = 0 -%}
+                            {%- for entry in metaobjects.menu_item_image.values -%}
+                              {%- if entry.menu_name.value != blank -%}
+                                {%- assign entry_norm = entry.menu_name.value | strip | downcase -%}
+                                {%- if entry_norm == title_norm -%}
+                                  {%- assign found = entry -%}
+                                  {%- assign found_count = found_count | plus: 1 -%}
+                                {%- endif -%}
+                              {%- endif -%}
+                            {%- endfor -%}
+                            {%- if found_count == 1 -%}
+                              {%- assign mo = found -%}
+                            {%- endif -%}
+                          {%- endif -%}
+
+                          {%- if mo == blank -%}
+                            {%- assign found = blank -%}
+                            {%- assign found_count = 0 -%}
+                            {%- for entry in metaobjects.menu_item_image.values -%}
+                              {%- assign handle_norm = entry.system.handle | strip | downcase -%}
+                              {%- if handle_norm == title_norm -%}
+                                {%- assign found = entry -%}
+                                {%- assign found_count = found_count | plus: 1 -%}
+                              {%- endif -%}
+                            {%- endfor -%}
+                            {%- if found_count == 1 -%}
+                              {%- assign mo = found -%}
+                            {%- endif -%}
+                          {%- endif -%}
+
+                          {%- assign has_img = false -%}
+                          {%- if mo != blank and mo.image.value != blank -%}
+                            {%- assign has_img = true -%}
+                          {%- endif -%}
+
+                          <li class="mnavTile {% if has_img %}has-menu-image{% endif %}">
+                            <a class="mnavTile__link" href="{{ grandchild_link.url }}">
+                                {% if title_to_match == "Provence Bestsellers Kits"%}
+                                    <span class="custom-badge-new">New</span>
+                          {% endif %}
+                              {% if has_img %}
+                                <span class="mnavTile__img">
+                                  {{ mo.image.value | image_url: width: 360 | image_tag: loading: 'lazy', alt: title_to_match }}
+                                </span>
+                              {% endif %}
+                              <span class="mnavTile__title">{{ title_to_match }}</span>
+                            </a>
+                          </li>
+
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </li>
+
+                {% endif %}
+
+              {% endfor %}
+
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    {%- endfor -%}
+
+  </div>
+</nav>
+
+
+<style>
+	.gheader__mnav {
+    background: #F4F2EC;
+}
+
+.gheader__mnav button.close-btn-drawer {
+    margin: 20px;
+    margin-left: auto;
+    width: fit-content;
+    display: block;
+    border: none;
+    background: none;
+}
+.mnavGrid li.mnavTile a.mnavTile__link {
+    display: flex !important;
+    align-items: center;
+}
+.mnavGrid li.mnavTile a.mnavTile__link span.custom-badge-new {
+    right: 0;
+    top: -12px;
+    position: relative;
+    order: 2;
+    margin-left: 14px;
+}
+.gheader__mnav__fixed {
+       margin-top: 30px;
+}
+
+.gheader__mnav > .overflow {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: calc(100% - 70px );
+}
+ul.mnav2 li.mnav2__item.is-parent {
+    width: 100%;
+}
+
+	.gheader__mnav {
+		background: #F4F2EC;
+	}
+
+	.gheader__mnav button.close-btn-drawer {
+		margin: 20px;
+		margin-left: auto;
+		width: fit-content;
+		display: block;
+		border: none;
+		background: none;
+	} 
+
+	.gheader__mnav.active { overflow-y:auto; }
+	.mnav { width: 100%; }
+	body .gheader__nav ul li button.mega-menu-button {
+	position: relative;
+	padding-bottom: 5px !important;
+}
+
+li.mega-menu-li button::after {
+     content: '';
+     display: block;
+     position: absolute;
+     left: 0;
+     right: 0;
+     bottom: 0px;
+     height: 1px;
+     width: 100%;
+     background: #000;
+     transform: scaleX(0);
+     transform-origin: right center;
+     transition: transform 0.5s linear;
+}
+
+li.mega-menu-li button:hover::after {
+	 transform: scaleX(1);
+	 transform-origin: left center;
+}
+
+
+.mnav__inner { padding: 0px; }
+
+.mnav2__item li.mnavTile.has-menu-image .mnavTile__img {
+    display: none;
+}
+.mnav2__item li.mnavTile.has-menu-image a.mnavTile__link .mnavTile__title {
+    display: block;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 14px;
+    leading-trim: NONE;
+    line-height: 130%;
+    letter-spacing: 1%;
+    text-decoration: none;
+    color: #000000;
+}
+.mnav2__item li.mnavTile.has-menu-image {
+    margin: 0px !important;
+}
+
+/* L1 accordion */
+.mnav1.is-open { border-bottom: 1px solid #000; }
+.mnav1__btn{
+  width:100%; padding:14px 0;
+  display:flex; align-items:center; justify-content:space-between;
+  border:0; background:transparent; text-align:left; cursor:pointer;border-bottom: 1px solid #F3F4F6;
+}
+.mnav1__title {
+    font-family: Playfair Display;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 18px;
+    leading-trim: NONE;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: #000000;
+    position:relative;
+}
+.mnav1__chev {
+    width: 8px;
+    height: 8px;
+    border-right: 1px solid #99A1AF;
+    border-bottom: 1px solid #99A1AF;
+    transform: rotate(45deg);
+    transition: transform .2s ease;
+}
+ul.mnav2 {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+ul.mnav2 li.mnav2__item.is-leaf {
+    width: 100%;
+}
+
+ul.mnav2 li.mnav2__item.is-leaf.has-menu-image {
+    width: calc(50% - 10px);
+    margin: 0px 5px;
+}
+
+ul.mnav2 li.mnav2__item.is-leaf.has-menu-image > a.mnav2__link {
+    font-family: Playfair Display;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 13px;
+    leading-trim: NONE;
+    line-height: 24px;
+    letter-spacing: 0px;
+    color: #000000;
+}
+.mnav1.is-open .mnav1__chev{ transform: rotate(-135deg); }
+.mnav1__panel{ padding: 0 0 12px; }
+
+/* L2 list */
+.mnav2{ list-style:none; padding:0; margin:0; }
+{% comment %} .mnav2__item{ border-top: 1px solid #efebe5; } {% endcomment %}
+
+/* L2 leaf link (no dropdown) */
+.mnav2__link {
+    display: block;
+    padding: 12px 0;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 14px;
+    leading-trim: NONE;
+    line-height: 130%;
+    letter-spacing: 1%;
+    text-decoration: none;
+    color: #000000;
+}
+
+/* L2 parent (dropdown) */
+.mnav2__btn{
+  width:100%;
+  padding:12px 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border:0;
+  background:transparent;
+  text-align:left;
+  cursor:pointer;
+}
+ul.mnav2 li.mnav2__item.is-parent {
+    width: 100%;
+}
+.mnav2__title {
+font-family: Playfair Display;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 18px;
+    leading-trim: NONE;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: #000000;
+    position:relative;
+}
+.mnav2__chev{
+  width: 8px;
+    height: 8px;
+    border-right: 1px solid #99A1AF;
+    border-bottom: 1px solid #99A1AF;
+  transform: rotate(45deg);
+  transition: transform .2s ease;
+}
+.mnav2__btn.is-open .mnav2__chev{ transform: rotate(-135deg); }
+
+.mnav2__panel{ padding: 0px 0 14px;  }
+
+/* Grid */
+.mnavGrid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+.mnavGrid li.mnavTile {
+    width: 100%;
+    {% comment %} border-top: 1px solid #000000; {% endcomment %}
+}
+
+.mnavGrid li.mnavTile a.mnavTile__link {
+    display: block;
+    padding: 12px 0;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 14px;
+    leading-trim: NONE;
+    line-height: 130%;
+    letter-spacing: 1%;
+    text-decoration: none;
+    color: #000000;
+}
+.mnavGrid li.mnavTile.has-menu-image {
+    width: calc(50% - 10px);
+    margin: 0px 5px;
+	border-top:none;
+}
+{% comment %} @media (min-width:420px){
+  .mnavGrid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+} {% endcomment %}
+
+.mnavTile__link{ display:block; text-decoration:none; }
+.mnavTile__img{
+  display:block;
+  border-radius:6px;
+  overflow:hidden;
+  background:#f4f3f1;
+}
+.mnavTile__img img{
+  width:100%;
+  {% comment %} height:110px; {% endcomment %}
+  object-fit:cover;
+  display:block;
+}
+.mnavTile__title{
+  display:block;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 14px;
+    leading-trim: NONE;
+    line-height: 130%;
+    letter-spacing: 1%;
+    text-decoration: none;
+    color: #000000;
+}
+.mnavGrid li.mnavTile.has-menu-image span.mnavTile__title {
+    font-family: Playfair Display;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 13px;
+    leading-trim: NONE;
+    line-height: 24px;
+    letter-spacing: 0px;
+    color: #000000;
+    margin-top: 0px;
+}
+.mnavTile:not(.has-menu-image) .mnavTile__title{ margin-top:0; }
+
+@media (max-width:768px) {
+.mnavGrid li.mnavTile.has-menu-image {
+    width: 100%;
+    margin: 0px !important;
+    border-top: none;
+}
+}
+</style>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+  const root = document.querySelector('.mnav');
+  if (!root) return;
+
+  // L1 accordion (single open)
+  root.querySelectorAll('[data-mnav1]').forEach(section => {
+    const btn = section.querySelector('.mnav1__btn');
+    const panel = section.querySelector('.mnav1__panel');
+    if (!btn || !panel) return;
+
+    btn.addEventListener('click', () => {
+      const isOpen = section.classList.contains('is-open');
+
+      root.querySelectorAll('[data-mnav1]').forEach(s => {
+        s.classList.remove('is-open');
+        const b = s.querySelector('.mnav1__btn');
+        const p = s.querySelector('.mnav1__panel');
+        if (b) b.setAttribute('aria-expanded', 'false');
+        if (p) p.setAttribute('hidden', '');
+      });
+
+      if (!isOpen) {
+        section.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+        panel.removeAttribute('hidden');
+      }
+    });
+  });
+
+  // L2 accordion only for items that actually have children (data-mnav2)
+  root.querySelectorAll('[data-mnav1]').forEach(section => {
+    const rows = section.querySelectorAll('[data-mnav2]');
+
+    rows.forEach(row => {
+      const btn = row.querySelector('.mnav2__btn');
+      const panel = row.querySelector('.mnav2__panel');
+      if (!btn || !panel) return;
+
+      btn.addEventListener('click', () => {
+        const isOpen = btn.classList.contains('is-open');
+
+        // close all L2 dropdowns within this L1
+        rows.forEach(r => {
+          const b = r.querySelector('.mnav2__btn');
+          const p = r.querySelector('.mnav2__panel');
+          if (b) { b.classList.remove('is-open'); b.setAttribute('aria-expanded', 'false'); }
+          if (p) p.setAttribute('hidden', '');
+        });
+
+        if (!isOpen) {
+          btn.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+          panel.removeAttribute('hidden');
+        }
+      });
+    });
+  });
+});
+
+</script>
+
+<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			var closeBtnMenuDrawer = document.querySelector('.close-btn-drawer');
+			var menuDrawer = document.querySelector('.mob-only.gheader__mnav');
+			var mainDrawerBtn = document.querySelector('.gheader__burger')
+
+			closeBtnMenuDrawer.addEventListener('click', ()=>{
+        document.querySelector('body').classList.remove('no-scroll')
+				menuDrawer.classList.remove('active');
+				menuDrawer.classList.remove('is-stuck');
+				mainDrawerBtn.classList.remove('active');
+			})
+		})
+</script>

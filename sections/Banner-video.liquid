@@ -1,0 +1,390 @@
+{% comment %}
+  This section allows you to display a video by providing a URL
+  from your Shopify Files.
+{% endcomment %}
+
+<div class="custom-video-section-wrapper">
+
+  {% if section.settings.image-only == true %}
+
+     <img class="only_image desktop" src="{{ section.settings.main_image_deskop | img_url:'1920x' }}" alt="{{ section.settings.main_image_deskop.alt }}" >
+     <img class="only_image mobile" src="{{ section.settings.main_image_mobile | img_url:'700x' }}" alt="{{ section.settings.main_image_mobile.alt }}" >
+      
+  {% else %} 
+
+    {%- if section.settings.video_url != blank -%}
+      <img class="thumb-image-{{ section.id }}" src="{{ section.settings.video_thumbnail | img_url:'1920x' }}" alt="{{ section.settings.video_thumbnail.alt }}" >
+      
+    {%- else -%}
+      <div class="placeholder-video">
+        <p>Please add a video URL in the theme customizer.</p>
+      </div>
+    {%- endif -%}
+
+  {% endif %}
+
+  <div class="content-wrap">
+    {% if section.settings.heading != blank %}
+    <h2>
+      {{ section.settings.heading }}
+    </h2>
+    {% endif %}
+    {% if  section.settings.subtext != blank %}
+    <div class="subtext">
+      {{ section.settings.subtext }}
+    </div>
+    {% endif %}
+    <div class="btns-wrap">
+    {% if section.settings.btn_text != blank %}
+    <a class="btn btn-one" href="{{ section.settings.btn_url }}">
+      {% if section.settings.btn-svg == true %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"> <path d="M6.53516 0.131409C6.83594 0.0220337 7.16406 0.0220337 7.4375 0.131409L13.125 2.26422C13.6445 2.45563 13.9727 2.94781 13.9727 3.49469V9.64703C13.9727 10.1392 13.6992 10.6041 13.2617 10.8228L7.57422 13.6666C7.19141 13.858 6.78125 13.858 6.39844 13.6666L0.710938 10.8228C0.273438 10.6041 0 10.1392 0 9.64703V3.49469C0 2.94781 0.328125 2.45563 0.847656 2.26422L6.53516 0.131409ZM7 1.82672L1.75 3.79547V3.82281L7 5.95563L12.25 3.82281V3.79547L7 1.82672ZM7.875 11.5611L12.25 9.3736V5.70953L7.875 7.48688V11.5611Z" fill="white"></path> </svg> 
+      {% endif %}
+      &nbsp;{{ section.settings.btn_text }}
+    </a>
+    {% endif %}
+    {% if section.settings.btn_text_two  != blank %}
+      <a class="btn btn-two" href="{{ section.settings.btn_url_two }}">
+        {{ section.settings.btn_text_two }}
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  </div>
+
+<script>
+  var videoHTML = `<video
+    src="{{ section.settings.video_url }}"
+    autoplay
+    muted
+    loop
+    playsinline
+    class="custom-video"
+    width="100%"
+    height="auto"
+  >
+    Your browser does not support the video tag.
+  </video>`;
+
+  function loadVideoOnInteraction() {
+    var thumbImage = document.querySelector('.thumb-image-{{ section.id }}');
+
+    // Check if the thumbnail image exists
+    if (thumbImage) {
+      // Insert the video HTML right after the thumbnail image
+      thumbImage.insertAdjacentHTML('afterend', videoHTML);
+      
+      // Remove the thumbnail image from the page
+      thumbImage.remove();
+    }
+  }
+
+  // An array of events that constitute a user interaction
+  var userInteractionEvents = ['mousemove', 'mousedown', 'scroll', 'keydown', 'touchstart'];
+
+  // Set up a one-time listener for each interaction type
+  userInteractionEvents.forEach(function(event) {
+    document.addEventListener(event, loadVideoOnInteraction, { once: true });
+  });
+
+</script>
+
+<style>
+  .custom-video-section-wrapper {
+    width: 100%;
+    position:relative;
+  }
+
+  
+  .only_image.desktop {
+    display:block;
+    width:100%;
+  }
+  .only_image.mobile {
+    display:none;
+  }
+
+  .custom-video-section-wrapper .content-wrap {
+      position: absolute;
+      top: 50%;
+      left: 10%;
+    transform:translateY(-50%);
+  }
+    .custom-video-section-wrapper .content-wrap h2 {
+      color:{{ section.settings.heading_color }};
+      margin-bottom:10px;
+    }
+    .custom-video-section-wrapper .content-wrap h2 span {
+      color:{{ section.settings.heading_span_color }};
+      display: block;
+    }
+  .custom-video-section-wrapper .content-wrap .subtext {
+      margin-bottom: 10px;
+  }
+  .custom-video-section-wrapper .content-wrap .subtext {
+    color:{{ section.settings.subetext_color }};
+  }
+  .custom-video-section-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: {{ section.settings.video_overlay_color }};
+    opacity:{{ section.settings.video_overlay_opacity }};
+}
+  .custom-video-section-wrapper .custom-video {
+    display: block;
+    max-width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .custom-video-section-wrapper .placeholder-video {
+    width: 100%;
+    background-color: #f2f2f2;
+    padding: 50px;
+    text-align: center;
+    border: 2px dashed #ccc;
+  }
+  .custom-video-section-wrapper .btn {
+    font-size:14px;
+    background:{{ section.settings.button_bg_color }};
+    color:{{ section.settings.btn_text_color }};
+  }
+  .custom-video-section-wrapper .btn:hover {
+     background:{{ section.settings.button_hover_bg_color }};
+     color:{{ section.settings.btn_hover_text }};
+  }
+  .custom-video-section-wrapper .btn:hover svg path {
+    fill:{{ section.settings.btn_hover_text }};
+  }
+  .custom-video-section-wrapper .btn.btn-two {
+    background:{{ section.settings.button_bg_color_two }};
+    color:{{ section.settings.btn_text_color_two }};
+  }
+  .custom-video-section-wrapper .btn.btn-two:hover {
+     background:{{ section.settings.button_hover_bg_color_two }};
+     color:{{ section.settings.btn_hover_text_two }};
+  }
+  .custom-video-section-wrapper .btns-wrap {
+      margin-top: 30px;
+  }
+  
+  @media (max-width:768px){
+    .custom-video-section-wrapper .content-wrap h2 {
+      font-size:22px;
+    }
+    .custom-video-section-wrapper .content-wrap {
+      padding-right:20px;
+      left:6.5%;
+    }
+    .custom-video-section-wrapper .custom-video {
+          min-height: 400px;
+      object-fit: cover;
+    }
+    .custom-video-section-wrapper .btn {
+      /* width:fit-content; */
+      /* font-size:12px; */
+      display: flex;
+      gap: 2px;
+    }
+    .custom-video-section-wrapper .btns-wrap {
+        margin-top: 15px;
+    }
+    .thumb-image-{{ section.id }} {
+      min-height:400px;
+    }
+    {% comment %} .img.only_image {
+        min-height: 400px;
+        object-fit: cover;
+    } {% endcomment %}
+    .only_image.desktop {
+      display:none !important;
+    }
+    .only_image.mobile {
+      display:block !important;
+      width:100%;
+    }
+  }
+  /* @media (max-width:768px){
+    .custom-video-section-wrapper .btn {
+      font-size:10px;
+    }
+  } */
+</style>
+
+{% schema %}
+{
+  "name": "Banner Video",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "image-only",
+      "label": "Only Image",
+      "info": "No video will be added",
+      "default":false
+    },
+    {
+      "type": "header",
+      "content": "Only Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image_deskop",
+      "label": "Main Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image_mobile",
+      "label": "Main Image Image"
+    },
+    {
+      "type": "header",
+      "content": "Video with Thumbnail"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_thumbnail",
+      "label": "Thumbnail Image",
+      "info": "Required when using Video File URL"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video File URL",
+      "info": "Upload your video in Content > Files, then paste the URL here."
+    },
+     {
+      "type":"color",
+      "id": "video_overlay_color",
+      "label": "Overaly Color",
+      "default":"#000000"
+    },
+    {
+      "type": "range",
+      "id": "video_overlay_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Overlay Opacity",
+      "default": 0.2
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type":"color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default":"#ffffff"
+    },
+    {
+      "type":"color",
+      "id": "heading_span_color",
+      "label": "Heading Span Color",
+      "default":"#937E4E"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Subtext"
+    },
+    {
+      "type":"color",
+      "id": "subetext_color",
+      "label": "Subtext Color",
+      "default":"#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Button One"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button Url"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text"
+    },
+    {
+      "type":"color",
+      "id": "btn_text_color",
+      "label": "Button Text Color",
+      "default":"#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_text",
+      "label": "Button Hover Text Color",
+      "default":"#111111"
+    },
+    {
+      "type":"color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default":"#111111"
+    },
+    {
+      "type":"color",
+      "id": "button_hover_bg_color",
+      "label": "Button Hover Background Color",
+      "default":"#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "btn-svg",
+      "label": "Show Button Image",
+      "default":true
+    },
+    {
+      "type": "header",
+      "content": "Button Two"
+    },
+    {
+      "type": "url",
+      "id": "btn_url_two",
+      "label": "Button Url"
+    },
+    {
+      "type": "text",
+      "id": "btn_text_two",
+      "label": "Button Text"
+    },
+    {
+      "type":"color",
+      "id": "btn_text_color_two",
+      "label": "Button Text Color",
+      "default":"#111111"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_text_two",
+      "label": "Button Hover Text Color",
+      "default":"#ffffff"
+    },
+    {
+      "type":"color",
+      "id": "button_bg_color_two",
+      "label": "Button Background Color",
+      "default":"#ffffff"
+    },
+    {
+      "type":"color",
+      "id": "button_hover_bg_color_two",
+      "label": "Button Hover Background Color",
+      "default":"#111111"
+    },
+  ],
+  "presets": [
+    {
+      "name": "Banner Video"
+    }
+  ]
+}
+{% endschema %}

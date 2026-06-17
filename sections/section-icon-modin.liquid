@@ -1,0 +1,162 @@
+<style>
+   .section-card-icon-modin--{{ section.id }} {
+     padding-top:{{ section.settings.padding-top }}px;
+     padding-bottom:{{ section.settings.padding-bottom }}px;
+     background-image:url('{{ section.settings.bg-image | img_url:'1920x' }}')
+  }
+  .section-card-icon-modin {
+      position: relative;
+  }
+  
+  .section-card-icon-modin::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(16, 17, 16, 0.9) 0%, rgba(172, 173, 173, 0.9) 100%);
+  }
+  
+  .section-card-icon-modin .page-width {position: relative;z-index: 1;}
+    
+    
+    .section-card-icon-modin .page-width {position: relative;z-index: 1;}
+
+    .section-card-icon-modin .heading h2 {
+        font-size: 48px;
+        color: #fff;
+        font-weight: 800;
+        line-height: 72px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    
+    .section-card-icon-modin .heading .desc {
+        text-align: center;
+    }
+    
+    .section-card-icon-modin .heading .desc p {
+        color: #fff;
+        font-size: 18px;
+        line-height: 28.8px;
+        max-width: 950px;
+        margin: auto;
+        font-weight:500;
+    }
+    
+    .section-card-icon-modin .card-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 50px 0px 0px;
+        gap: 25px;
+    }
+    
+    .section-card-icon-modin .card-wrapper .card-icon {
+        width: 155px;
+        height: 155px;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        gap: 11px;
+    }
+    
+    .section-card-icon-modin .card-wrapper .card-icon img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+  }
+    
+    .section-card-icon-modin .card-wrapper .card-icon > p {
+        font-size: 14px;
+        line-height: 28.8px;
+        font-weight: 900;
+        margin: 0px;
+    }
+</style>
+<div class="section-card-icon-modin section-card-icon-modin--{{ section.id }}">
+  <div class="page-width">
+    <div class="heading">
+      <h2>{{ section.settings.heading }}</h2>
+      <div class="desc">
+        {{ section.settings.sub-text }}
+      </div>
+    </div>
+    <div class="card-wrapper" >
+      {% for block in section.blocks %}
+        <div class="card-icon" > 
+          <img src="{{ block.settings.icon | img_url:'100x' }}"  >
+          <p>{{ block.settings.title }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Section Icon Card Modin",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "bg-image",
+        "label": "Background Image"
+      },
+      {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+       },
+      {
+         "type": "richtext",
+          "id": "sub-text",
+          "label": "Sub Text"
+      },
+      {
+        "type": "range",
+        "id": "padding-top",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Top",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "padding-bottom",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Bottom",
+        "default": 2
+      }  
+    ],
+    "blocks": [
+      {
+        "type": "icon",
+        "name":"Icon",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Section Icon Card Modin"
+      }
+    ]
+  }
+{% endschema %}

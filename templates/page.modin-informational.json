@@ -1,0 +1,383 @@
+{
+  "sections": {
+    "713ae6b7-c9e1-489e-bcb5-30fff8c5b5ee": {
+      "type": "hero-image-content",
+      "settings": {
+        "bg_color": "#d5c7b9",
+        "text_color": "#111111",
+        "row_reverse": true,
+        "heading": "Do More with Modin Luxury Vinyl Plank Flooring",
+        "content": "",
+        "link_text": "Explore the Collection",
+        "link_url": "shopify://collections/modin-luxury-vinyl-plank",
+        "image": "shopify://shop_images/Rectangle_442.png"
+      }
+    },
+    "c9381663-7561-4847-884c-53fc0e1ab8e3": {
+      "type": "content-block",
+      "settings": {
+        "content": "<h5>Our Mission</h5><h3>We started with a simple mission: no compromise. Not in quality, durability, sustainability, or design.</h3>"
+      }
+    },
+    "b6cf5d1e-be9a-4f8a-9e37-faabf64e2188": {
+      "type": "global-ft-prod-col",
+      "blocks": {
+        "e81ec005-e085-4516-b6b6-aa6710987e99": {
+          "type": "product",
+          "settings": {
+            "product": "sutton"
+          }
+        },
+        "415e2632-7eec-4557-af39-a52e1d0bc199": {
+          "type": "product",
+          "settings": {
+            "product": "soho"
+          }
+        },
+        "e8587c75-b113-4a71-80fd-001f7df5679f": {
+          "type": "link",
+          "settings": {
+            "image": "shopify://shop_images/IMAGE_1.jpg",
+            "heading": "Bundle Samples",
+            "content": "<p>Good for inspecting the wear-layer, texture, and as a general color reference.</p>",
+            "cta": "Shop Bundles",
+            "cta_link": ""
+          }
+        },
+        "2ce53738-b64e-499b-9fa0-eaf0bc65e193": {
+          "type": "product",
+          "settings": {
+            "product": "raeburn"
+          }
+        },
+        "d7de2548-af86-434d-ba77-d5ec255d57f4": {
+          "type": "product",
+          "settings": {
+            "product": "tilden"
+          }
+        },
+        "73e987c4-da24-4c28-89c1-31fe473c7bd6": {
+          "type": "product",
+          "settings": {
+            "product": "palka"
+          }
+        },
+        "8ad743bc-5284-4c77-9838-cd52393f7acf": {
+          "type": "product",
+          "settings": {
+            "product": "queensbury"
+          }
+        }
+      },
+      "block_order": [
+        "e81ec005-e085-4516-b6b6-aa6710987e99",
+        "415e2632-7eec-4557-af39-a52e1d0bc199",
+        "e8587c75-b113-4a71-80fd-001f7df5679f",
+        "2ce53738-b64e-499b-9fa0-eaf0bc65e193",
+        "d7de2548-af86-434d-ba77-d5ec255d57f4",
+        "73e987c4-da24-4c28-89c1-31fe473c7bd6",
+        "8ad743bc-5284-4c77-9838-cd52393f7acf"
+      ],
+      "settings": {
+        "heading": "Featured Vinyl Products.",
+        "content": "<p>The best of the best. Get ready to meet some of our most talked-about flooring options.</p>",
+        "cta": "Shop All",
+        "cta_link": ""
+      }
+    },
+    "45a96364-3b6a-4d8d-a772-2b1a9b3cef7d": {
+      "type": "two-column",
+      "settings": {
+        "bg_color": "#343334",
+        "text_color": "#ffffff",
+        "row_reverse": false,
+        "align_center": false,
+        "helper_classes": "",
+        "image": "shopify://shop_images/Image_27.png",
+        "contain_image": false,
+        "sub_heading": "",
+        "heading": "Why Modin Vinyl Plank?",
+        "content": "<p>Delve deeper into the exceptional details of the Modin Collection of LVP flooring. Learn more about how Modin outpaces all other vinyl plank flooring options on the market, offering a larger plank size, a much thicker than standard wear layer, and enhanced or micro bevels that accentuate its luxurious appearance. Modin planks also have a rigid core, made primarily from limestone, which makes them significantly stronger and more stable than standard vinyl. That means you can install long runs and in large spaces without the need for a transition piece.</p>",
+        "link_text": "Check Out the Full Collection",
+        "link_url": "shopify://collections/modin-luxury-vinyl-plank"
+      }
+    },
+    "0bf64a68-1c4f-481b-864f-225b07c7ad52": {
+      "type": "product-compare-models",
+      "settings": {
+        "heading": "Compare our Planks",
+        "product": "nakan-draft"
+      }
+    },
+    "db4b842d-26ad-4070-835c-b8bb8f5c74ee": {
+      "type": "content-video",
+      "settings": {
+        "bg_color": "#d5c7b9",
+        "text_color": "#111111",
+        "block_id": "",
+        "row_reverse": false,
+        "contain_video": false,
+        "video": "<iframe width=\"1280\" height=\"720\" src=\"https://www.youtube.com/embed/CJU4GOIm_04\" title=\"Introducing the Modin Rigid Luxury Vinyl Plank Collection | Flooret Modin Rigid LVP\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>",
+        "video_heading": "Meet Modin",
+        "video_content": "<p>Our flagship collection is crafted with best-in-class features and specifications. Prepare to be floored.<br/><br/><br/><br/><br/><br/></p>",
+        "video_link_text": "",
+        "video_link_url": "",
+        "image": "shopify://shop_images/Untitled_design_1_32dfb283-ed5b-4e2a-b74f-4af6dc5c0fa4.png",
+        "image2": "shopify://shop_images/Modin_LVP_-_Collection_3566732e-5503-4c3a-8d74-8a94dd505f9b.jpg",
+        "contain_image": true,
+        "sub_heading": "",
+        "heading": "Undeniably Durable Vinyl Flooring. Exceptionally Priced.",
+        "content": "<p>When you discover the difference of a Modin vinyl plank floor, you’ll want to jump for joy. Well, jump away: Modin Rigid Luxury Vinyl Plank flooring is uniquely durable, specially crafted to support the high-flying enthusiasm it inspires, as well as just about anything else you can throw at it. The Modin Collection includes three thoughtfully designed models: our Signature model, Base model, and Craftsman model. Each of these 100% waterproof flooring options features a true embossed-in-register texture, a pre-attached underlayment, and a rigid core. </p><ul><li><strong>Waterproof Guarantee:</strong> Modin luxury vinyl flooring is constructed with 100% waterproof materials from top to bottom, ensuring durability for years to come.</li><li><strong>Designer-Curated Colors:</strong><em> </em>We know that when it comes to flooring, color is king. That’s why we offer carefully selected color and texture variations to capture your exact vision. </li><li><strong>Accessible Pricing:</strong> With affordable floor options that are easy to install, the luxury and elegance of the Modin Collection is within everyone’s reach. </li></ul>"
+      }
+    },
+    "db4613b1-1ba7-43a2-9fa1-487f933cdcb8": {
+      "type": "accordions",
+      "blocks": {
+        "caeb7750-cdb6-4afa-a2c4-61825f380c12": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Do I need to leave expansion space when installing my LVP?",
+            "accordion_content": "<p><strong>While our planks are more dimensionally stable than other LVP products due to their rigid SPC core, you will need to leave the industry-standard 1/4\" of expansion space between your floor and anything it is running up against.</strong></p><p>Our planks are made with a very robust stone polymer composite (SPC) core. Luxury vinyl planks that feature an SPC core expand and contract much less than LVP products made with less sophisticated core materials. Out of an abundance of caution, we still require that you leave the industry standard 1/4\" of expansion space when installing your floor. While your floor may not expand or contract much itself, keep in mind that the rest of your home does.</p><p>Problems typically only occur in situations where a number of factors combine to put excessive pressure on the planks. Sustained direct sun exposure and a very long run can lead to expansion-related problems if expansion space is not left. If you choose to forego expansion space in some areas, you may not run into any issues, but any problems that do arise would not be covered under our warranty.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": "/"
+          }
+        },
+        "581673f1-2003-49f0-b78e-f1b5983e7e2b": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "How do I care for my floor?",
+            "accordion_content": "<p><strong>Keep your floors clean, use felt protectors on furniture, avoid direct exposure to intense sunlight, and refrain from using products with wax or \"shine\" agents.</strong></p><p>After installing the floor, we recommend an initial cleaning to remove any loose dirt or debris that may have been introduced during the installation process. While most non-residue cleaners can be used on your vinyl plank floors, it is always recommended to conduct a small test patch in an inconspicuous area, and avoid using harsh cleaners or ammonia-based cleaning products. </p><p><strong>Keep Floors Clean </strong></p><p>Regularly sweep and vacuum your floors. Dust acts as an abrasive. Keeping your floors dust-free will prolong the life of your finish and wear-layer. Use a vacuum that is suitable for hard surface floors.Use walk-off mats at outside entrances to reduce the amount of dirt brought into your home.Do not wax your vinyl flooring, or use any “mop and shine” products. The surface of your floor is very dense and nonporous, which prevents wax from penetrating and thus builds up a bed for yellowing and dirt collection. The same non-porous feature also provides all the protection against wear and staining that you will need. Watch this helpful <a href=\"https://www.instagram.com/reel/Cj8c7ijjvLg/\">Instagram Reel </a>to learn more about how to keep your floors clean.</p><p><strong>Furniture</strong></p><p>When moving appliances or heavy furniture, we recommend laying a Masonite panel on your floor for the best protection.Use felt protectors on furniture to reduce indentation. As a general rule of thumb, the heavier the item, the wider the floor protector is needed. We recommend felt pads at least 1” in diameter.Be careful with rolling casters. They can damage the floor. If you choose to use them, look for the widest possible wheel you can find. Watch this helpful <a href=\"https://www.instagram.com/reel/ClzL-DIjKew/\">Instagram Reel </a>to learn more about how to protect your floors from furniture damage.</p><p><strong>Sunlight Exposure</strong></p><p>The Modin Rigid Collection has a UV protective coating on top of the wear layer which dramatically slows possible fading from sunlight.To keep your floors in pristine condition, avoid exposure to direct sunlight for prolonged periods of time. During peak sunlight hours, use drapes or blinds to minimize the direct sunlight on the vinyl flooring. Most types of flooring will be affected by continuous strong sunlight. In addition, excessive temperatures are not good for resilient floors.Some natural ventilation or intermittent air conditioning in vacant homes should be considered.Long-term continuous inside temperatures over 115°F combined with strong direct sunlight will damage the flooring and cause the installation to fail. Watch this helpful <a href=\"https://www.instagram.com/reel/CoNn84pDE17/\">Instagram Reel </a>to learn more about how to protect your floors from sunlight damage.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "991218ba-6a9c-4273-b1d0-47a555b9bbe0": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Can I install these planks outdoors?",
+            "accordion_content": "<p><strong>No. Our floors are designed for indoor use only.</strong></p><p>Modin LVP, like all vinyl plank flooring, is designed to be installed in temperature and moisture controlled indoor environments.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_BRN4JJ": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Do I need a moisture barrier?",
+            "accordion_content": "<p>In most cases, a moisture barrier is not necessary for the sake of the flooring itself, as the Modin Collection is 100% waterproof. A moisture barrier is required if you are installing the flooring on a concrete slab, though. Using a moisture barrier will reduce the humidity in your space, prevent mold and mildew growth, and helps prevent rare issues that can arise as a result of excess moisture building up underneath the planks. We recommend using a simple 6 mil thick polyethylene moisture barrier, which should be available at your local hardware store.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "a00b4656-d86e-4421-a2bb-d506119ad3d2": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Can my flooring be installed over radiant heat?",
+            "accordion_content": "<p><strong>Yes. Modin can be installed over in-floor radiant heating systems provided the subfloor surface does not exceed 85°F at any point.</strong></p><p>If installing on top of a new radiant heat system, make sure the new system has been active for at least 48 hours. Some radiant systems will have a temperature \"spike\" the first time they are used.The initial floor temperature should not exceed 70°F for 24 hours prior to and 48 hours after installation. Thereafter the temperature should be gradually increased to the desired setting, up to but not to exceed 85°F. Radiant heating systems that are installed on top of the subfloor surface and covered with self-leveling compound are not recommended. Modin may be installed over gypsum-based subfloors.Electric heating mats that are not embedded into the subfloor are not recommended for use underneath Modin planks. Although some of these may work, in rare cases these mats can overheat and cause the underlayment to melt.<a href=\"https://www.youtube.com/watch?v=npGSsygTc0o&t=1s\">Watch this video to learn more about installing your flooring over radiant heat!</a></p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "dfe7ef66-39c3-46fa-8797-e8645c775531": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "How do I transition between two floors that are the same height?",
+            "accordion_content": "<p><strong>The </strong><a href=\"https://www.flooret.com/t-molding/\"><strong>T-molding </strong></a><strong>is used to transition between two floors that are the same height. </strong><a href=\"https://www.youtube.com/watch?v=ud2fWoNyOFo\">Watch this video to learn more about the installation process</a>. Before installing the T-molding, you will first want to make sure that the space left for the T-molding allows for the recommended ¼ inch expansion space between the track and the floor on either side of the track. This means leaving approximately a 1 ¼ inch gap between the two adjacent floors where the T-molding will be installed.When you are ready to install the T-molding:</p><ul><li>First cut the T-molding and track to the desired size using a power saw. ​​</li><li>Separate the track from the T-molding.</li><li>Lightly sand the bottom of the track. This will help the adhesive bond more effectively. ​​</li><li>Apply a general construction adhesive to the track and glue it down.</li><li>Once the glue is set, insert the T-molding into the track, starting on one side and working your way to the other side. Use a mallet to tap it firmly in place.<br/>​​​​​​​</li></ul><p>If you are not sure which transition piece is most suitable for your installation, we recommend watching this <a href=\"https://www.youtube.com/watch?v=31sd9ea-zeU\">helpful video on our YouTube channel</a>, for more information.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "da54c5a4-2d0b-46bf-b820-cc7d6c8efa88": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Do you have a solution for stairs?",
+            "accordion_content": "<p>Yes. We offer Stair Nosing made from real planks for each of our products, as well as hollow PVC <a href=\"https://www.flooret.com/stair-tread/\">full treads</a>, and a 72\" budget-friendly <a href=\"https://www.flooret.com/overlapping-stair-nose/\">overlapping stair nose</a>. The Stair Nosings are available in the 48\" Signature Nosing <a href=\"https://www.flooret.com/48-signature-nosing-square/\">Square </a>and <a href=\"https://www.flooret.com/48-signature-nosing-round/\">Round </a>pieces and the 47\" Base Nosing <a href=\"https://www.flooret.com/47-base-nosing-square/\">Square </a>and <a href=\"https://www.flooret.com/48-signature-nosing-round/\">Round </a>pieces. The Base Stair Nosings are only compatible with the Base planks, but the Signature Stair Nosings are compatible with the Craftsman planks as well as the Signature planks. They can be used in combination with planks to complete a staircase. </p><p><a href=\"https://youtu.be/PJxfQIC5Wcs\">This video shows how to install the Stair Nosings. </a></p><p>If you're using planks as matching risers, start at the bottom of your staircase. If you're not using risers, you can start from anywhere (some customers opt to paint their risers white or some other unique concept).</p><p>To begin, install the first riser. You may need to trim the height of the riser to match the height of your step. Sand the back of the riser and lay strips of glue on the back of the riser approximately 6-inches apart. Press the riser into place and use painter's tape to hold the riser in place while you prepare for the next step.</p><p>Cut a stair nosing and Modin plank to fit your step. You may need to cut away any existing bullnose unless the stair nosing fits over it. Once your pieces are the right size, interlock the stair nosing and the plank to form a full tread, remove the painter's tape from the previous step, and apply adhesive to the nosing and plank despite the fact that they are interlocked with one another. Press the pieces onto the stair.</p><p>On the next step, the riser will now sit on top of the tread piece so you may need to cut it shorter than you did for the first step.</p><p>Repeat these steps until you reach a landing or the top of your staircase.</p><p><span style=\"text-decoration:underline\">Installing on landings and at the top of the staircase</span>Installing on landings will be the same as the other stairs except that you'll need more than one plank to cover the entire step.</p><p>For the top edge of the staircase you will likely need to cut off the click mechanism of the stair nosing so, when installed, it will sit flush with the neighboring plank(s).</p><p>Measure the distance needed to accommodate the nosing and draw a line on your subfloor, or on top of the planks if that level of the house has already had the floors installed to the edge of the staircase. If the planks were installed to the edge, you'll need to cut them back at the line you just placed. Now the stair nosing can be glued down to complete your stair installation. You'll need to use adhesive under both the nosing and the adjacent plank(s). This will prevent any gaps from forming between your planks and the stair nosing.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_Y6Nyqr": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Transitions and Trim pieces",
+            "accordion_content": "<p>We offer a full range of matching transition pieces, including <a href=\"https://www.flooret.com/t-molding/\"><strong>T-moldings</strong></a><strong>, </strong><a href=\"https://www.flooret.com/end-cap/\"><strong>End Caps</strong></a><strong>, </strong><a href=\"https://www.flooret.com/reducer/\"><strong>Reducers</strong></a><strong>, </strong><a href=\"https://www.flooret.com/quarter-round/\"><strong>Quarter Rounds </strong></a>and <a href=\"https://www.flooret.com/search-results-page?q=stair\"><strong>Stair Pieces</strong></a>.</p><p>To find the transition or trim piece you need, navigate to the product page of the color you are looking for. Scroll down to the section titled “Buy Transitions” and press the right arrow button to scroll through all the transition pieces available for that color. If you are looking for a specific piece, you can also use the search feature located on the top right corner of any page of our website.</p><p>The <a href=\"https://www.flooret.com/t-molding/\"><strong>T-molding </strong></a>is used to transition between two floors that are the same height.</p><p>The <a href=\"https://www.flooret.com/reducer/\"><strong>Reducer </strong></a>is designed to \"reduce\" down from our planks to the subfloor. Modin Reducers can be adapted to transition between any two floors that differ in height by about 1/4\".</p><p>We would recommend using the <a href=\"https://www.flooret.com/end-cap/\"><strong>End Cap </strong></a>if you plan to run the floor up against something like a fireplace hearth or sliding door where you won't be able to hide the expansion gap with a baseboard or quarter round.</p><p>The <a href=\"https://www.flooret.com/quarter-round/\"><strong>Quarter Round </strong></a>is a perimeter piece that is used to cover the expansion gap when a baseboard cannot be used. If you are not removing your baseboards before installing our planks, you will need to leave the recommended expansion gap between the planks and the baseboards, and cover this with shoe molding or quarter rounds. Keep in mind that our quarter rounds match the color of our floors. Many people prefer to use plain, white quarter rounds that are available at local hardware stores.</p><p>If you are not sure which transition piece is most suitable for your installation, we recommend watching this <a href=\"https://www.youtube.com/watch?v=31sd9ea-zeU\">helpful video on our YouTube channel</a>, for more information.​​​​​​​​​</p><p>And here is a demo on how to install each of those transition pieces:</p><ul><li><a href=\"https://www.youtube.com/watch?v=Tp7iy4A5YSY\">End Cap</a></li><li><a href=\"https://www.youtube.com/watch?v=xcmLkejtiGk\">Reducer</a></li><li><a href=\"https://www.youtube.com/watch?v=ud2fWoNyOFo\">T-Molding</a></li><li><a href=\"https://www.youtube.com/watch?v=PuOO7CUrU2o\">Quarter Round</a></li></ul>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_8KAk6y": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "What rugs and rug pads can I safely use with my floors?",
+            "accordion_content": "<p><strong>Look for rugs that are non-staining or labeled as \"colorfast\" or \"safe for use with hardwoods\". Avoid rubber and latex mats if possible.</strong></p><p>Regarding rugs, it is best to use non-staining vinyl-backed mats or any rug that is labeled as \"colorfast.\" Area rugs that say \"Safe for Use with Hardwoods\" should be just fine. You can look at rugs with natural backings, such as cotton, jute, and woven backings.</p><p>As is the case for all <a href=\"https://www.flooret.com/modin-rigid-vinyl-plank/\">vinyl floors</a>, in some cases, plasticizers in rubber and latex can react with our planks in ways that discolor the flooring. We haven't tested our floors with every type of plasticizer, so we would recommend checking with the manufacturer of the product to be sure that it is compatible with vinyl flooring. If it is safe to use with vinyl, it is safe to use with our floor.</p><p>Most non-slip pads that are recommended for hardwood floors are a safe choice for vinyl plank. The kind to avoid, which is rarely found these days, is the old plastic mesh type, which has a tendency to leave a residue in hot temperatures. Any kind of foam pad should be fine, however. We have included a link below to some worry-free pads so that when you find a rug you love, you don't have to think about the backing!</p><p><a href=\"https://www.rugpadusa.com/collections/for-vinyl-and-vinyl-plank-floors\">https://www.rugpadusa.com/collections/for-vinyl-and-vinyl-plank-floors</a></p><p><strong>What about Ruggable?</strong></p><p>We reached out to Ruggable to ask them about the construction of their rugs and backings. They told us that their latex-free TPR backing material has passed all flooring tests and does not stain or leave residue on hard surface floors (including concrete). Based on that information, Ruggable rugs are safe to use with Flooret floors.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_Fcawzw": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Will sun exposure damage my floor?",
+            "accordion_content": "<p>The Modin Rigid Collection has a UV protective coating on top of the wear layer which dramatically slows possible fading from sunlight.</p><p>To keep your floors in pristine condition, avoid exposure to direct sunlight for prolonged periods of time. During peak sunlight hours, use drapes or blinds to minimize the direct sunlight on the vinyl flooring. Most types of flooring will be affected by continuous strong sunlight. In addition, excessive temperatures are not good for resilient floors.</p><p>Some natural ventilation or intermittent air conditioning in vacant homes should be considered.</p><p>Long-term continuous inside temperatures over 140°F combined with strong direct sunlight will damage the flooring and cause the installation to fail.</p><p><a href=\"https://www.instagram.com/reel/CoNn84pDE17/\">Watch this helpful Instagram Reel to learn more about how to protect your floors from sunlight damage.</a></p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_iqjBRn": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "What is the best cleaner to use on my floors?",
+            "accordion_content": "<p>Any products that are safe to use on vinyl floors will be suitable. We recommend<a href=\"https://www.bona.com/en-us/products/professional/floor-care/cleaners/pro-lvt-clnr-32oz/\">Bona Luxury Vinyl Floor Cleaner</a>or any similar brand. Make sure to avoid products that contain wax, as that will build up over time.</p><p>You may wet mop your floors as much as needed; the planks are 100% waterproof. We do not recommend using steam cleaners, though. Steam cleaners can dull the floor with repeated use, so if you do want to use a steam cleaner, do so sparingly and at a lower temperature setting.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_Wq3PmY": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "How long does the floor need to acclimate before it is installed?",
+            "accordion_content": "<p>Unlike standard vinyl plank and WPC products, the Modin Collection does not require acclimation prior to installation due to its incredibly stable SPC core.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_NzCHjY": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "How flat or level do I need my subfloor to be?",
+            "accordion_content": "<p><strong>For our Modin Collection, the official recommendation for subfloor flatness is that any imperfections should not exceed 3/16\" over 10'.</strong></p><p>More than levelness, \"flatness\" is a much more important factor. In other words, if your entire room slopes in one direction, but is otherwise flat the entire way, your installation can be successful.</p><p>For our Modin Collection, the official recommendation for subfloor flatness is that any imperfections should not exceed 3/16\" over 10'. That being said, we have had many customers tell us they have installed on considerably less flat surfaces. There are three primary concerns with the subfloor not being flat.</p><p>The first is that the click mechanism may come loose. If the subfloor changes angle too dramatically in the middle of a plank, the pressure over time may lead to the click mechanism breaking or coming loose.</p><p>The second concern is telegraphing. Precisely because vinyl floors are malleable, you can have imperfections in the subfloor telegraph to the surface and be visible.</p><p>The final concern is hollowness. When a plank bridges a valley, the hollow spots can result in the floor sounding soft or \"loose\" wherever there are air pockets between the floor and the subfloor.</p><p>Checking for flatness prior to your installation is the most important step you can take for a successful install.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_hXrqqk": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Can I use a steam mop on my floor?",
+            "accordion_content": "<p>All of the designs in the Modin Collection are 100% waterproof and include a tough top coating. However, using a steam mop on our floors can, over time, dull the finish. If you do choose to use a steam mop, do so only occasionally to avoid dulling the finish. Additionally, you can steam at half-power and at a lower steam setting.</p><p>Other, lower quality, luxury vinyl flooring products react quite badly to steam mops, bending and warping along the edges in response to the high heat, but Modin planks won’t be damaged in this manner by a steam mop. </p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_NiUkqg": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "What do I do if my house experiences flooding?",
+            "accordion_content": "<p><strong>The Modin Collection is waterproof, but if water gets under the planks, you will need to uninstall the planks, dry them and the area thoroughly, and reinstall them.</strong></p><p>If your floor has been exposed to excessive amounts of water due to flooding, do not panic; our Modin Collection is 100% waterproof. If the water did not reach the perimeter of the installation, simply remove the water as quickly as possible.</p><p>Depending on the extent of the flooding, you may need to uninstall parts of the floor to allow the sub-floor to dry out. This is possible with the click products like Modin. Carefully uninstall the boards, taking care to not damage the click mechanisms so that you can re-install later. Before reinstalling the planks, dry them and the area thoroughly using a water pump, fans, and a dehumidifier.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_VX9izf": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "What installation tools will I need?",
+            "accordion_content": "<p>We recommend using the following tools to complete your installation of Modin LVP:</p><ul><li>Miter Saw</li><li>Table Saw (most precise for cutting planks lengthwise)</li><li>Tape Measure & T Square</li><li>Universal tapping block</li><li>Pull bar</li><li>Heavy mallet</li><li>Straight Edge & 1/4” Spacers</li></ul>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_iG7exk": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Can I install my flooring over an existing floor?",
+            "accordion_content": "<p><strong>Modin planks can be installed over a variety of finished floors including single-layer resilient sheet floor and tile, ceramic, marble, and terrazzo.</strong></p><p>The surface must be in good condition and show no signs of excessive moisture conditions. If the existing floor is warped or damaged, or shows signs of mold, this could indicate moisture is coming up from the sub-floor, and installing Modin on top can lead to this moisture getting trapped and warping the existing floor, or causing the existing floor to mold and rot further. Remove the existing floor and test the subfloor moisture levels.</p><p>Do not install flooring over heavily cushioned floors or over tile installed over concrete below grade level. The grout joints in ceramic tile and marble must be leveled so they are flush with the tile surface. Additionally, the tile may require several skim coats to achieve a flat surface.</p><p><strong>Thinking of installing over existing wood or laminate floors?</strong>Wood floors and laminate floors are very sensitive to moisture. By installing Modin Rigid on top of these floors, you risk moisture from the sub-floor getting trapped and accumulating. This can cause the wood and laminate floors to warp underneath your new flooring. This is less of a concern if your existing floor is on a second story or over a crawl space, but if the existing floor is installed directly over a slab it is always safer to remove the floor and go directly down on the slab. That being said, many of our customers have installed over existing wood floors without running into any issues.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "accordion_XNRKPD": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "How do I repair a scratch in my flooring?",
+            "accordion_content": "<p>Our collections come with top-notch scratch-resistant coatings and are built with an industry-leading, 100% virgin PVC wear layer, but accidents can happen and in the event you get a scratch on your flooring, there are a couple ways you can repair it.</p><p><a href=\"https://www.youtube.com/watch?v=8vo6AzlqjOU\">Watch this helpful video on how to repair a scratch on your LVP.</a></p><p><strong>How to Prevent Scratches</strong></p><ol><li>Keep your floors clean - Regularly sweep and vacuum your floors. Dust acts as an abrasive. Keeping your floors dust-free will prolong the life of your finish and prevent micro-scratches.</li><li>When moving appliances or heavy furniture, we recommend laying a Masonite panel on your floor for the best protection.</li><li>Use felt protectors on furniture to prevent scratches when moving. As a general rule of thumb, the heavier the item, the wider the floor protector needed. We recommend felt pads at least 1” in diameter.</li><li>Be careful with rolling casters. They can damage the floor. If you choose to use them, look for the widest possible wheel you can find.</li></ol><p><strong>How to Repair a Scratch</strong></p><ol><li>Buff it out - You can do this with a microfiber cloth or the back of a spoon. You can also try using a damp cloth to rub out scratches.</li><li>Repair it - For deeper scratches, we recommend a scratch repair product to our Modin Collection customers. There are numerous products on the market but here is an example of one: <a href=\"https://www.wearmax.com/products/wearmax\">Wearmax Scratch Concealer</a>.</li><li>Replace it - For very deep scratches, you may consider replacing the affected plank. Take a look at <a href=\"https://www.youtube.com/watch?v=PhNqgHCJFOs\">this video</a>, which shows how to do this.</li></ol>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "caeb7750-cdb6-4afa-a2c4-61825f380c12",
+        "581673f1-2003-49f0-b78e-f1b5983e7e2b",
+        "991218ba-6a9c-4273-b1d0-47a555b9bbe0",
+        "accordion_BRN4JJ",
+        "a00b4656-d86e-4421-a2bb-d506119ad3d2",
+        "dfe7ef66-39c3-46fa-8797-e8645c775531",
+        "da54c5a4-2d0b-46bf-b820-cc7d6c8efa88",
+        "accordion_Y6Nyqr",
+        "accordion_8KAk6y",
+        "accordion_Fcawzw",
+        "accordion_iqjBRn",
+        "accordion_Wq3PmY",
+        "accordion_NzCHjY",
+        "accordion_hXrqqk",
+        "accordion_NiUkqg",
+        "accordion_VX9izf",
+        "accordion_iG7exk",
+        "accordion_XNRKPD"
+      ],
+      "settings": {
+        "block_id": "",
+        "heading": "Frequently Asked Questions.",
+        "content": "<p>Ready to learn more? Check out these FAQs.</p>",
+        "link_text": "View More FAQs",
+        "link_url": "shopify://pages/faqs"
+      }
+    },
+    "c0e45634-9546-407a-9901-2afb2d371696": {
+      "type": "two-column",
+      "settings": {
+        "bg_color": "#343334",
+        "text_color": "#ffffff",
+        "row_reverse": false,
+        "align_center": false,
+        "helper_classes": "",
+        "image": "shopify://shop_images/Image_26.png",
+        "contain_image": false,
+        "sub_heading": "The right way",
+        "heading": "Details that count",
+        "content": "<p><strong>Modin offers true embossed in register (EIR) texture, creating a surface that is convincing to the eye and to the touch. A low sheen level ensures a natural look that wears well over time.</strong></p><p>Four-sided enhanced bevels more accurately emulate the look of real wood floors. Wider, longer planks with commercial-grade durability with easy click installation. 100% waterproof construction, from top to bottom. Independently FloorScore® certified by a US-based third party for low emissions. All together, these features create the unique look that is Modin Rigid Luxury Vinyl Plank Flooring. See it in your space.</p>",
+        "link_text": "",
+        "link_url": ""
+      }
+    },
+    "90e1a366-4c40-4caa-b504-7bde336749d4": {
+      "type": "recent-posts",
+      "settings": {
+        "heading": "Related Blogs.",
+        "content": "<p>Need some inspiration? Ready to learn more about flooring? Check out these blogs.</p>",
+        "link_text": "View More Blogs",
+        "link_url": "https://www.flooret.com/blogs/all/tagged/filter-modin-lvp"
+      }
+    },
+    "183a2e7f-f0b7-4eff-8d16-53de680cdc6f": {
+      "type": "two-column-cta",
+      "settings": {
+        "bg_color": "#445443",
+        "text_color": "#ffffff",
+        "helper_classes": "",
+        "image": "shopify://shop_images/trade_reward_cta.png",
+        "contain_image": true,
+        "sub_heading": "",
+        "heading": "Modin Luxury Vinyl Plank.",
+        "content": "<p>Modin LVP combines the highest-quality sustainable materials with an emphasis on durability and design.</p>",
+        "link_text_1": "Learn More",
+        "link_url_1": "shopify://collections/modin-luxury-vinyl-plank",
+        "link_text_2": "",
+        "link_url_2": ""
+      }
+    }
+  },
+  "order": [
+    "713ae6b7-c9e1-489e-bcb5-30fff8c5b5ee",
+    "c9381663-7561-4847-884c-53fc0e1ab8e3",
+    "b6cf5d1e-be9a-4f8a-9e37-faabf64e2188",
+    "45a96364-3b6a-4d8d-a772-2b1a9b3cef7d",
+    "0bf64a68-1c4f-481b-864f-225b07c7ad52",
+    "db4b842d-26ad-4070-835c-b8bb8f5c74ee",
+    "db4613b1-1ba7-43a2-9fa1-487f933cdcb8",
+    "c0e45634-9546-407a-9901-2afb2d371696",
+    "90e1a366-4c40-4caa-b504-7bde336749d4",
+    "183a2e7f-f0b7-4eff-8d16-53de680cdc6f"
+  ]
+}

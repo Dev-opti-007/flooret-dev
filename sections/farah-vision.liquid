@@ -1,0 +1,633 @@
+{% comment %}
+  Farah Vision Section
+  - Left: goal / challenge / solution text
+  - Middle: main hero image
+  - Right: stacked color swatches + sample image
+{% endcomment %}
+
+<section
+  id="FarahVision-{{ section.id }}"
+  class="fv"
+  style="
+    --fv-bg: {{ section.settings.section_bg_color }};
+    --fv-max: {{ section.settings.section_max_width }}px;
+
+    --fv-pt: {{ section.settings.section_padding_top_desktop }}px;
+    --fv-pr: {{ section.settings.section_padding_right_desktop }}px;
+    --fv-pb: {{ section.settings.section_padding_bottom_desktop }}px;
+    --fv-pl: {{ section.settings.section_padding_left_desktop }}px;
+
+    --fv-pt-m: {{ section.settings.section_padding_top_mobile }}px;
+    --fv-pr-m: {{ section.settings.section_padding_right_mobile }}px;
+    --fv-pb-m: {{ section.settings.section_padding_bottom_mobile }}px;
+    --fv-pl-m: {{ section.settings.section_padding_left_mobile }}px;
+
+    --fv-gap: {{ section.settings.grid_gap_desktop }}px;
+    --fv-gap-m: {{ section.settings.grid_gap_mobile }}px;
+
+    --fv-left-w: {{ section.settings.left_col_width_desktop }}px;
+    --fv-right-w: {{ section.settings.right_col_width_desktop }}px;
+
+    --fv-hero-radius: {{ section.settings.hero_radius }}px;
+
+    --fv-title-c: {{ section.settings.title_color }};
+    --fv-title-s: {{ section.settings.title_size_desktop }}px;
+    --fv-title-s-m: {{ section.settings.title_size_mobile }}px;
+    --fv-title-w: {{ section.settings.title_weight }};
+    --fv-title-lh: {{ section.settings.title_line_height }};
+    --fv-title-ls: {{ section.settings.title_letter_spacing }}px;
+
+    --fv-kicker-c: {{ section.settings.kicker_color }};
+    --fv-kicker-s: {{ section.settings.kicker_size_desktop }}px;
+    --fv-kicker-s-m: {{ section.settings.kicker_size_mobile }}px;
+    --fv-kicker-w: {{ section.settings.kicker_weight }};
+    --fv-kicker-lh: {{ section.settings.kicker_line_height }};
+    --fv-kicker-ls: {{ section.settings.kicker_letter_spacing }}px;
+
+    --fv-body-c: {{ section.settings.body_color }};
+    --fv-body-s: {{ section.settings.body_size_desktop }}px;
+    --fv-body-s-m: {{ section.settings.body_size_mobile }}px;
+    --fv-body-w: {{ section.settings.body_weight }};
+    --fv-body-lh: {{ section.settings.body_line_height }};
+    --fv-body-ls: {{ section.settings.body_letter_spacing }}px;
+  "
+>
+  <div class="fv__wrap {% unless section.settings.full_width %}fv__wrap--contained{% endunless %}">
+    <div class="fv__grid">
+      {%- comment -%} LEFT TEXT COLUMN {%- endcomment -%}
+      <div class="fv__left mob-hide">
+        {% if section.settings.left_kicker != blank %}
+          <div class="fv__kicker">{{ section.settings.left_kicker }}</div>
+        {% endif %}
+
+        {% if section.settings.left_title != blank %}
+          <h2 class="fv__title">{{ section.settings.left_title }}</h2>
+        {% endif %}
+
+        <div class="fv__meta">
+          {% if section.settings.goal_label != blank or section.settings.goal_text != blank %}
+            <div class="fv__meta-item">
+              {% if section.settings.goal_label != blank %}
+                <div class="fv__meta-label">{{ section.settings.goal_label }}</div>
+              {% endif %}
+              {% if section.settings.goal_text != blank %}
+                <div class="fv__meta-text">{{ section.settings.goal_text }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if section.settings.challenge_label != blank or section.settings.challenge_text != blank %}
+            <div class="fv__meta-item">
+              {% if section.settings.challenge_label != blank %}
+                <div class="fv__meta-label">{{ section.settings.challenge_label }}</div>
+              {% endif %}
+              {% if section.settings.challenge_text != blank %}
+                <div class="fv__meta-text">{{ section.settings.challenge_text }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if section.settings.solution_label != blank or section.settings.solution_text != blank %}
+            <div class="fv__meta-item">
+              {% if section.settings.solution_label != blank %}
+                <div class="fv__meta-label">{{ section.settings.solution_label }}</div>
+              {% endif %}
+              {% if section.settings.solution_text != blank %}
+                <div class="fv__meta-text">{{ section.settings.solution_text }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="inner__fv__right">
+        {%- comment -%} RIGHT STACK (COLOR + SAMPLE) {%- endcomment -%}
+        <div class="fv__right">
+            {% for block in section.blocks %}
+            <div
+                class="fv__right-item {% if block.type == 'color_swatch' %}fv__right-item--swatch{% endif %}"
+                {{ block.shopify_attributes }}
+            >
+                {% if block.type == 'color_swatch' %}
+                <div
+                    class="fv__swatch"
+                    style="
+                    background: {{ block.settings.swatch_color }};
+                    border-radius: {{ block.settings.radius }}px;
+                    "
+                ></div>
+                {% elsif block.type == 'right_image' %}
+                {% if block.settings.image != blank %}
+                    {{ block.settings.image
+                    | image_url: width: block.settings.render_width
+                    | image_tag:
+                        loading: 'lazy',
+                        class: 'fv__right-img',
+                        alt: block.settings.image.alt | escape
+                    }}
+                {% else %}
+                    <div class="fv__placeholder">Add image</div>
+                {% endif %}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+          <div class="fv__left desk-hide">
+            {% if section.settings.left_kicker != blank %}
+              <div class="fv__kicker">{{ section.settings.left_kicker }}</div>
+            {% endif %}
+
+            {% if section.settings.left_title != blank %}
+              <h2 class="fv__title">{{ section.settings.left_title }}</h2>
+            {% endif %}
+
+            <div class="fv__meta">
+              {% if section.settings.goal_label != blank or section.settings.goal_text != blank %}
+                <div class="fv__meta-item">
+                  {% if section.settings.goal_label != blank %}
+                    <div class="fv__meta-label">{{ section.settings.goal_label }}</div>
+                  {% endif %}
+                  {% if section.settings.goal_text != blank %}
+                    <div class="fv__meta-text">{{ section.settings.goal_text }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              {% if section.settings.challenge_label != blank or section.settings.challenge_text != blank %}
+                <div class="fv__meta-item">
+                  {% if section.settings.challenge_label != blank %}
+                    <div class="fv__meta-label">{{ section.settings.challenge_label }}</div>
+                  {% endif %}
+                  {% if section.settings.challenge_text != blank %}
+                    <div class="fv__meta-text">{{ section.settings.challenge_text }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              {% if section.settings.solution_label != blank or section.settings.solution_text != blank %}
+                <div class="fv__meta-item">
+                  {% if section.settings.solution_label != blank %}
+                    <div class="fv__meta-label">{{ section.settings.solution_label }}</div>
+                  {% endif %}
+                  {% if section.settings.solution_text != blank %}
+                    <div class="fv__meta-text">{{ section.settings.solution_text }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+        {%- comment -%} MIDDLE HERO IMAGE {%- endcomment -%}
+        <div class="fv__hero {% if section.settings.enable_custom_hero_height %}fv__hero--fixed{% endif %}">
+            <div
+            class="fv__hero-media"
+            style="
+                {% if section.settings.enable_custom_hero_height %}
+                --hero-h: {{ section.settings.hero_height_desktop }}px;
+                --hero-h-m: {{ section.settings.hero_height_mobile }}px;
+                {% endif %}
+            "
+            >
+            {% if section.settings.hero_image_desktop != blank %}
+                {% if section.settings.hero_image_mobile != blank %}
+                <picture>
+                    <source
+                    media="(max-width: 749px)"
+                    srcset="{{ section.settings.hero_image_mobile | image_url: width: section.settings.hero_mobile_render_width }}"
+                    >
+                    {{ section.settings.hero_image_desktop
+                    | image_url: width: section.settings.hero_desktop_render_width
+                    | image_tag:
+                        loading: 'lazy',
+                        class: 'fv__hero-img',
+                        alt: section.settings.hero_image_desktop.alt | escape
+                    }}
+                </picture>
+                {% else %}
+                {{ section.settings.hero_image_desktop
+                    | image_url: width: section.settings.hero_desktop_render_width
+                    | image_tag:
+                    loading: 'lazy',
+                    class: 'fv__hero-img',
+                    alt: section.settings.hero_image_desktop.alt | escape
+                }}
+                {% endif %}
+            {% else %}
+                <div class="fv__hero-fallback">Select a hero image</div>
+            {% endif %}
+            </div>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</section>
+
+<style>
+  .fv{
+    background: var(--fv-bg);
+    padding: var(--fv-pt) var(--fv-pr) var(--fv-pb) var(--fv-pl);
+  }
+  .fv__wrap--contained{ max-width: var(--fv-max); margin: 0 auto; }
+  .fv__left.mob-hide {
+    display:block;
+  }
+  .fv__left.desk-hide {
+    display:none;
+  }
+  .fv__grid{
+    display: grid;
+    grid-template-columns: var(--fv-left-w) 1fr;
+    gap: var(--fv-gap);
+    align-items: center;
+  }
+
+  .inner__fv__right {
+    display: grid;
+    margin-left:auto;
+    grid-template-columns: var(--fv-right-w) minmax(0, 845px);
+    gap: var(--fv-gap);
+  }
+  .fv__left{ align-self: baseline;max-width: 420px; }
+  .fv__kicker{
+    color: var(--fv-kicker-c);
+    font-size: var(--fv-kicker-s);
+    font-weight: var(--fv-kicker-w);
+    line-height: var(--fv-kicker-lh);
+    letter-spacing: var(--fv-kicker-ls);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-family: {{ section.settings.font_kicker | json }}, sans-serif;
+  }
+  .fv__title{
+    color: var(--fv-title-c);
+    font-size: var(--fv-title-s);
+    font-weight: var(--fv-title-w);
+    line-height: var(--fv-title-lh);
+    letter-spacing: var(--fv-title-ls);
+    margin: 0 0 39px;
+    font-family: {{ section.settings.font_title | json }}, sans-serif;
+  }
+  .fv__meta{ display: grid; gap: 22px; }
+  .fv__meta-label{
+    font-size: 12px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    opacity: .6;
+    margin-bottom: 4px;
+    font-family: {{ section.settings.font_text | json }}, sans-serif;
+  }
+  .fv__meta-text{
+    color: var(--fv-body-c);
+    font-size: var(--fv-body-s);
+    font-weight: var(--fv-body-w);
+    line-height: var(--fv-body-lh);
+    letter-spacing: var(--fv-body-ls);
+    font-family: {{ section.settings.font_text | json }}, sans-serif;
+  }
+
+  .fv__hero{ height: 100%; }
+  .fv__hero-media{
+    border-radius: var(--fv-hero-radius);
+    overflow: hidden;
+    height: 100%;
+  }
+  .fv__hero--fixed .fv__hero-media{ height: var(--hero-h); }
+  .fv__hero-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .fv__hero-fallback{
+    border-radius: var(--fv-hero-radius);
+    background: rgba(0,0,0,0.04);
+    padding: 18px;
+  }
+
+  .fv__right{
+    display: grid;
+    gap: 18px;
+    align-content: center;
+    justify-items: center;
+        align-self: end;
+  }
+  .fv__right-item{ width: 100%; }
+  {% comment %} .fv__right-item--swatch{ max-width: 170px; } {% endcomment %}
+  .fv__swatch{
+    width: 100%;
+    padding-bottom: 100%;
+  }
+  .fv__right-img{
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+  }
+  .fv__placeholder{
+    padding: 18px;
+    font-size: 14px;
+    opacity: .7;
+    background: rgba(0,0,0,0.04);
+    border-radius: 12px;
+  }
+
+  @media (max-width: 989px){
+    .fv__grid{
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--fv-gap-m);
+    }
+    .fv__left{ order: {{ section.settings.mobile_order_left }}; }
+    .fv__hero{ order: {{ section.settings.mobile_order_hero }}; }
+    .fv__right{ order: {{ section.settings.mobile_order_right }}; }
+  }
+
+  @media (min-width: 769px) and (max-width: 1250px) { 
+
+    .fv__hero--fixed .fv__hero-media{ height: var(--hero-h-m); }
+    .inner__fv__right {
+        gap: 12px;
+        order:2;
+        grid-template-columns: 1fr;
+        width:100%;
+    }
+    .fv__left {
+        order: 1;
+    }
+    .fv__right {
+        display: flex;
+    }
+    .fv__right > * {
+        aspect-ratio: 1;
+    }
+    .fv__right .fv__right-item .fv__swatch {height: 100%;}
+  }
+
+  @media (max-width: 749px){
+    .fv__left.mob-hide {
+      display:none;
+    }
+    .fv__left.desk-hide {
+      display:block;
+      order: 2;
+    }
+    .fv__hero {
+        order: 1;
+    }
+    .fv__right {
+        order: 3;
+    }
+    .fv{
+      padding: var(--fv-pt-m) var(--fv-pr-m) var(--fv-pb-m) var(--fv-pl-m);
+    }
+    .fv__title{ font-size: var(--fv-title-s-m); }
+    .fv__kicker{ font-size: var(--fv-kicker-s-m); }
+    .fv__meta-text{ font-size: var(--fv-body-s-m); }
+
+    .fv__hero--fixed .fv__hero-media{ height: var(--hero-h-m); }
+    .inner__fv__right {
+        gap: 12px;
+        order:2;
+        grid-template-columns: 1fr;
+    }
+    .fv__left {
+        order: 1;
+    }
+    .fv__right {
+        display: flex;
+    }
+    .fv__right > * {
+        aspect-ratio: 1;
+    }
+    .fv__right .fv__right-item .fv__swatch {height: 100%;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Farah vision feature",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width section",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section container"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "min": 900,
+      "max": 2000,
+      "step": 50,
+      "label": "Section max width (px)",
+      "default": 1400
+    },
+
+    {
+      "type": "header",
+      "content": "Section padding (desktop)"
+    },
+    { "type": "range", "id": "section_padding_top_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding top (px)", "default": 40 },
+    { "type": "range", "id": "section_padding_right_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding right (px)", "default": 20 },
+    { "type": "range", "id": "section_padding_bottom_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding bottom (px)", "default": 40 },
+    { "type": "range", "id": "section_padding_left_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding left (px)", "default": 20 },
+
+    {
+      "type": "header",
+      "content": "Section padding (mobile)"
+    },
+    { "type": "range", "id": "section_padding_top_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding top (px)", "default": 28 },
+    { "type": "range", "id": "section_padding_right_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding right (px)", "default": 16 },
+    { "type": "range", "id": "section_padding_bottom_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding bottom (px)", "default": 28 },
+    { "type": "range", "id": "section_padding_left_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding left (px)", "default": 16 },
+
+    {
+      "type": "header",
+      "content": "Grid layout"
+    },
+    { "type": "range", "id": "grid_gap_desktop", "min": 0, "max": 80, "step": 2, "label": "Grid gap desktop (px)", "default": 40 },
+    { "type": "range", "id": "grid_gap_mobile", "min": 0, "max": 60, "step": 2, "label": "Grid gap mobile (px)", "default": 24 },
+
+    { "type": "range", "id": "left_col_width_desktop", "min": 260, "max": 420, "step": 10, "label": "Left column width (desktop px)", "default": 360 },
+    { "type": "range", "id": "right_col_width_desktop", "min": 160, "max": 300, "step": 10, "label": "Right column width (desktop px)", "default": 180 },
+
+    {
+      "type": "header",
+      "content": "Mobile order (<= 989px)"
+    },
+    { "type": "range", "id": "mobile_order_left", "min": 1, "max": 3, "step": 1, "label": "Left order", "default": 1 },
+    { "type": "range", "id": "mobile_order_hero", "min": 1, "max": 3, "step": 1, "label": "Hero order", "default": 2 },
+    { "type": "range", "id": "mobile_order_right", "min": 1, "max": 3, "step": 1, "label": "Right order", "default": 3 },
+
+    {
+      "type": "header",
+      "content": "Hero image"
+    },
+    { "type": "image_picker", "id": "hero_image_desktop", "label": "Hero image (desktop)" },
+    { "type": "range", "id": "hero_desktop_render_width", "min": 900, "max": 3200, "step": 50, "label": "Hero render width desktop (px)", "default": 2000 },
+    { "type": "image_picker", "id": "hero_image_mobile", "label": "Hero image (mobile, optional)" },
+    { "type": "range", "id": "hero_mobile_render_width", "min": 500, "max": 1600, "step": 50, "label": "Hero render width mobile (px)", "default": 1000 },
+    { "type": "range", "id": "hero_radius", "min": 0, "max": 40, "step": 1, "label": "Hero corner radius (px)", "default": 16 },
+
+    { "type": "checkbox", "id": "enable_custom_hero_height", "label": "Enable fixed hero height", "default": true },
+    { "type": "range", "id": "hero_height_desktop", "min": 280, "max": 900, "step": 10, "label": "Hero height desktop (px)", "default": 520 },
+    { "type": "range", "id": "hero_height_mobile", "min": 220, "max": 700, "step": 10, "label": "Hero height mobile (px)", "default": 360 },
+
+    {
+      "type": "header",
+      "content": "Left content"
+    },
+    { "type": "text", "id": "left_kicker", "label": "Kicker", "default": "The vision behind" },
+    { "type": "text", "id": "left_title", "label": "Title", "default": "Farah’s space" },
+
+    { "type": "text", "id": "goal_label", "label": "Goal label", "default": "The goal" },
+    { "type": "textarea", "id": "goal_text", "label": "Goal text", "default": "Warm, timeless, elevated." },
+
+    { "type": "text", "id": "challenge_label", "label": "Challenge label", "default": "The challenge" },
+    { "type": "textarea", "id": "challenge_text", "label": "Challenge text", "default": "Finding a floor that felt refined but livable." },
+
+    { "type": "text", "id": "solution_label", "label": "Solution label", "default": "The solution" },
+    { "type": "textarea", "id": "solution_text", "label": "Solution text", "default": "Sable Signature." },
+
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    { "type": "color", "id": "kicker_color", "label": "Kicker color", "default": "#999999" },
+    { "type": "range", "id": "kicker_size_desktop", "min": 10, "max": 22, "step": 1, "label": "Kicker size desktop (px)", "default": 12 },
+    { "type": "range", "id": "kicker_size_mobile", "min": 10, "max": 20, "step": 1, "label": "Kicker size mobile (px)", "default": 11 },
+    {
+      "type": "select",
+      "id": "kicker_weight",
+      "label": "Kicker weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "kicker_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Kicker line height", "default": 1.2 },
+    { "type": "range", "id": "kicker_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Kicker letter spacing (px)", "default": 0.3 },
+
+    { "type": "color", "id": "title_color", "label": "Title color", "default": "#111111" },
+    { "type": "range", "id": "title_size_desktop", "min": 16, "max": 64, "step": 1, "label": "Title size desktop (px)", "default": 40 },
+    { "type": "range", "id": "title_size_mobile", "min": 16, "max": 52, "step": 1, "label": "Title size mobile (px)", "default": 28 },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "title_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Title line height", "default": 1.1 },
+    { "type": "range", "id": "title_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Title letter spacing (px)", "default": 0 },
+
+    { "type": "color", "id": "body_color", "label": "Body color", "default": "#111111" },
+    { "type": "range", "id": "body_size_desktop", "min": 12, "max": 22, "step": 1, "label": "Body size desktop (px)", "default": 14 },
+    { "type": "range", "id": "body_size_mobile", "min": 12, "max": 20, "step": 1, "label": "Body size mobile (px)", "default": 13 },
+    {
+      "type": "select",
+      "id": "body_weight",
+      "label": "Body weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "body_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Body line height", "default": 1.6 },
+    { "type": "range", "id": "body_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Body letter spacing (px)", "default": 0 },
+
+    {
+      "type": "header",
+      "content": "Font families"
+    },
+    {
+      "type": "select",
+      "id": "font_kicker",
+      "label": "Font family: Kicker",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font_title",
+      "label": "Font family: Title",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Playfair Display"
+    },
+    {
+      "type": "select",
+      "id": "font_text",
+      "label": "Font family: Text",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Montserrat"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "color_swatch",
+      "name": "Color swatch",
+      "settings": [
+        { "type": "color", "id": "swatch_color", "label": "Swatch color", "default": "#c79a5a" },
+        { "type": "range", "id": "radius", "min": 0, "max": 30, "step": 1, "label": "Corner radius (px)", "default": 12 }
+      ]
+    },
+    {
+      "type": "right_image",
+      "name": "Right image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "range", "id": "render_width", "min": 300, "max": 1200, "step": 50, "label": "Render width (px)", "default": 600 }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Farah vision feature",
+      "blocks": [
+        { "type": "color_swatch" },
+        { "type": "right_image" },
+        { "type": "color_swatch" }
+      ]
+    }
+  ]
+}
+{% endschema %}

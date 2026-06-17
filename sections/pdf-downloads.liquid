@@ -1,0 +1,288 @@
+{% assign _settings = section.settings %}
+{% assign _pdfs = section.blocks %}
+
+<section  {% if _settings.block_id != blank %} id="{{ _settings.block_id }}" {% endif %}>
+  <div class="container">
+    <span class="h3">{{ _settings.heading }}</span>
+    <div class="pdm-dl-row">
+      <div class="pdm-dl-row__col">
+        <div class="thumb">
+          <div class="positioner">
+            {% render 'lazy-image', image: _settings.image, width: '900' %}
+          </div>
+        </div>
+      </div>
+     <div class="pdm-dl-row__col">
+       {% if _pdfs != blank %}
+        <div class="pdf-items">
+            {% for block in _pdfs %}
+              {% case block.type %}
+                {% when 'PDF' %}
+                  <div class="pdf-items__link">
+                    <a class="h6" href="{{ block.settings.link }}">
+                      <span>{{ block.settings.pdf_title }}</span>  {% render 'svg-pdf' %}
+                    </a>                             
+                  </div>
+                {% when 'Model-Link' %}
+                  <div class="pdf-items__link">
+                    <span class="form-model-button h6" data-id="{{ block.settings.id }}">
+                      <span>{{ block.settings.title }}</span>  {% render 'svg-form' %}
+                    </span>                             
+                  </div>
+                {% else %}
+                  
+              {% endcase %}
+              
+            {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  [data-forms-id="forms-root-866500"] {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #ffefef;
+      width: fit-content;
+      z-index: 999999;
+      padding: 15px 35px;
+      overflow-y: auto;
+      max-height: 100vh;
+      right: 0;
+      margin: auto;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      border-radius: 4px;
+      display: none;
+      z-index:99999;
+  }
+  [data-forms-id="forms-root-866500"] > button[data-forms-close] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    border: none;
+    font-size: 25px;
+        display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media (max-width:768px){
+  [data-forms-id="forms-root-866500"] {
+    padding: 25px 15px 20px;
+    border-radius: 0px;
+    width:100%;
+  }
+}
+</style>
+<script>
+document.addEventListener('click', (e) => {
+  const trigger = e.target.closest('.form-model-button');
+  if (!trigger) return; // only run for your open button clicks
+  // closest() walks up from the click target to find the matching ancestor [web:31]
+
+  const embedEl = document.getElementById('app-embed');
+  if (!embedEl) return;
+
+  const parent = embedEl.parentElement;
+  if (!parent) return;
+
+  // show parent
+  parent.style.display = 'block';
+
+  // add close button inside parent (only once)
+  let closeBtn = parent.querySelector('[data-forms-close]');
+  if (!closeBtn) {
+    closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.textContent = '×';
+    closeBtn.setAttribute('data-forms-close', '');
+
+    closeBtn.addEventListener('click', () => {
+      parent.style.display = 'none';
+      closeBtn.remove(); // removes the element from its parent node [web:43]
+    });
+
+    parent.appendChild(closeBtn);
+  }
+});
+
+</script>
+<script>
+(() => {
+  const STYLE_ATTR = 'data-custom-forms-css';
+
+  function isIOSSafari() {
+    const ua = navigator.userAgent;
+    const isiOS = /iPad|iPhone|iPod/.test(ua);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+    return isiOS && isSafari;
+  }
+
+  // Last resort: viewport patch (enable only if you decide to)
+  function applyIOSViewportPatch() {
+    if (!isIOSSafari()) return;
+
+    const meta = document.querySelector('meta[name="viewport"]');
+    if (!meta) return;
+
+    const content = meta.getAttribute('content') || 'width=device-width, initial-scale=1';
+    if (!/maximum-scale\s*=/.test(content)) {
+      meta.setAttribute('content', content + ', maximum-scale=1');
+    }
+  }
+
+  function getHost() {
+    return document.getElementById('app-embed');
+  }
+
+  function injectFormsCss() {
+    const host = getHost();
+    console.log('[Forms CSS] host:', host);
+
+    if (!host) return false;
+
+    const root = host.shadowRoot;
+    console.log('[Forms CSS] shadowRoot:', root);
+
+    // If this logs null, shadow root is either not ready yet or it's closed (cannot style from theme JS)
+    if (!root) return false;
+
+    if (root.querySelector(`style[${STYLE_ATTR}]`)) {
+      console.log('[Forms CSS] already injected');
+      return true;
+    }
+
+    const style = document.createElement('style');
+    style.setAttribute(STYLE_ATTR, '');
+
+    style.textContent = `
+      /* iOS zoom fix: keep inputs at >=16px */
+      input._formInputField_nag3b_7,
+      textarea._textArea_17mgw_1 {
+        font-size: 16px !important;
+        line-height: 1.2 !important;
+      }
+
+      /* Your layout changes */
+      @media (max-width: 540px) {
+        label._formInputFieldLabel_1mxsl_38 {
+          top: 12px !important;
+        }
+
+        input._formInputField_nag3b_7,
+        textarea._textArea_17mgw_1 {
+          padding-top: 30px !important;
+        }
+      }
+    `;
+
+    root.appendChild(style);
+    console.log('[Forms CSS] injected');
+    return true;
+  }
+
+  function start() {
+    console.log('[Forms CSS] start');
+
+    // Toggle this ON only if 16px alone doesn't fix iOS zoom
+    // applyIOSViewportPatch();
+
+    // Try now
+    injectFormsCss();
+
+    // Keep trying until it becomes available, then stop
+    const mo = new MutationObserver(() => {
+      if (injectFormsCss()) mo.disconnect();
+    });
+
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
+</script>
+
+
+<style>
+  .pdf-items__link > span > span,
+  .pdf-items__link a.h6 > span {
+    display: flex;
+    width: calc(100% - 32px);
+}
+</style>
+{% schema %}
+{
+  "name": "PDM Downloads",
+  "class": "shopify-block pdf-downloads",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+     {
+    "type": "image_picker",
+    "id": "image",
+    "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "block_id",
+      "label": "Block ID"
+    }
+  ],
+  "blocks": [
+     {
+       "name": "PDF",
+       "type": "PDF",
+       "settings": [
+         {
+           "type": "text",
+           "id": "pdf_title",
+           "label": "Title"
+         },
+         {
+          "type": "text",
+          "id": "link",
+          "label": "PDF Link"
+        }
+       ]
+      },
+      {
+        "name":"Model Link",
+        "type":"Model-Link",
+        "settings": [
+          {
+           "type": "text",
+           "id": "title",
+           "label": "Title"
+         },
+         {
+          "type": "text",
+          "id": "id",
+          "label": "Tagert Id"
+        }
+        ]
+      }
+  ],  
+  "presets": [
+    {
+      "name": "PDF Downloads",
+      "category": "PDFs"
+    }
+  ]
+}
+{% endschema %}

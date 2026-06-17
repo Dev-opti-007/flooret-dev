@@ -1,0 +1,502 @@
+{% assign _settings = section.settings %}
+
+{% liquid
+  assign bg_image = _settings.bg_image | img_url: '1900x'
+  assign mob_image = _settings.mob_image | img_url: '500x'
+
+  if _settings.mob_image == blank
+    assign mob_image = bg_image
+  endif
+
+  if bg_image == blank
+    assign bg_image = mob_image
+  endif
+%}
+
+<style>
+  #section-{{ section.id }} {
+    padding: 0px;
+    min-width: 840px;
+  }
+
+  .hero-bg-container {
+    width: 100%;
+  }
+
+  .btn--white:hover {
+    background-color:rgb(245, 247, 248) !important;
+  }
+
+  @media (min-width: 1560px) {
+    .hero-img-container {
+      top: 50%;
+      left: 18.5%;
+      position: absolute !important;
+      transform: translate(0%, -50%);
+    }
+  }
+
+  .hero-img-container {
+    top: 50%;
+    left: 17%;
+    position: absolute !important;
+    transform: translate(0%, -50%);
+  }
+
+  .hero-img-heading {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    line-height: 136%;
+    letter-spacing: 0;
+    text-decoration: none;
+    margin-top: 24px !important;
+    font-family: "Playfair Display";
+  }
+
+  .hero-img-content {
+    width: 310px;
+    font-size: 16px;
+    margin-top: 8px;
+    font-weight: 500;
+    color: #000000;
+    line-height: 136%;
+    letter-spacing: 0;
+    text-decoration: none;
+    font-family: "Montserrat";
+  }
+
+  .hero-header-btn {
+    width: 262px;
+    height: 32px;
+    padding: 6px;
+    margin-top: 24px;
+    color: #ffffff;
+    background-color: #04495B;
+    border: solid 1px #ffffff;
+    box-shadow: 0px 4px 4px 0px #0000001C;
+  }
+
+  .hero-img-container img {
+    width: 342px;
+    height: 117px;
+  }
+
+  @media (min-width: 1750px) {
+    .hero-img-container {
+      top: 50%;
+      left: 17%;
+      position: absolute !important;
+      transform: translate(0%, -50%);
+    }
+  }
+
+  @media (min-width: 1900px) {
+    .hero-img-container {
+      top: 50%;
+      left: 18%;
+      position: absolute !important;
+      transform: translate(0%, -50%);
+    }
+
+    .hero-img-container img {
+      width: 420px;
+      height: auto;
+    }
+
+    .hero-header-btn {
+      height: 48px;
+      padding: 10px;
+      font-size: 24px;
+      margin-top: 32px;
+      width: 330px !important;
+    }
+
+    .hero-img-heading {
+      width: 420px;
+      font-size: 22px;
+      margin-top: 22px !important;
+    }
+
+    .hero-img-content {
+      width: 410px;
+      margin-top: 8px;
+      font-size: 22px;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .hero-img-container {
+      top: 50%;
+      left: 18%;
+      position: absolute !important;
+      transform: translate(15%, -50%);
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .hero-img-container img {
+      width: 200px;
+      height: auto;
+    }
+
+    .hero-img-container {
+      top: 50%;
+      left: 17%;
+      position: absolute !important;
+      transform: translate(15%, -50%);
+    }
+
+    .hero-header-btn {
+      padding: 9px;
+      font-size: 12px;
+      margin-top: 16px;
+      width: 160px !important;
+    }
+
+    .hero-img-heading {
+      width: 200px;
+      font-size: 14px;
+      margin-top: 12px !important;
+    }
+
+    .hero-img-content {
+      width: 180px;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .hero-cta-content-img .hero-img-container {
+      min-height: 200px !important;
+    }
+
+    .shopify-section.bg-section+.shopify-section:not(.bg-section) {
+      margin-top: 0px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .hero-img-container img {
+      width: 240px;
+      height: auto;
+    }
+  }
+
+
+  @media (max-width: 1360px) {
+    .hero-img-container img {
+      width: 240px;
+      height: auto;
+    }
+
+    .hero-img-container {
+      top: 50%;
+      left: 16%;
+      position: absolute !important;
+      transform: translate(15%, -50%);
+    }
+
+    .hero-header-btn {
+      padding: 9px;
+      font-size: 12px;
+      margin-top: 16px;
+      width: 190px !important;
+    }
+
+    .hero-img-heading {
+      width: 200px;
+      font-size: 14px;
+      margin-top: 12px !important;
+    }
+
+    .hero-img-content {
+      width: 204px;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .hero-cta-content-img .hero-img-container {
+      min-height: 200px !important;
+    }
+
+    .shopify-section.bg-section+.shopify-section:not(.bg-section) {
+      margin-top: 0px;
+    }
+  }
+
+  @media (max-width: 1050px) {
+    .hero-img-container img {
+      width: 160px;
+      height: auto;
+    }
+
+    .hero-img-container {
+      top: 50%;
+      left: 15.5%;
+      position: absolute !important;
+      transform: translate(15%, -50%);
+    }
+
+    .hero-header-btn {
+      padding: 9px;
+      font-size: 12px;
+      margin-top: 16px;
+      width: 140px !important;
+    }
+
+    .hero-img-heading {
+      width: 200px;
+      font-size: 14px;
+      margin-top: 12px !important;
+    }
+
+    .hero-img-content {
+      width: 180px;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .hero-cta-content-img .hero-img-container {
+      min-height: 200px !important;
+    }
+
+    .shopify-section.bg-section+.shopify-section:not(.bg-section) {
+      margin-top: 0px;
+    }
+
+    #section-{{ section.id }} {
+      background-image: url({{ mob_image }});
+      background-size: cover;
+    }
+  }
+  @media (min-width: 598px) {
+    #section-{{ section.id }}{
+      background-image: url({{ bg_image }});
+    }
+  }
+
+  .hero-mob {
+    display: none;
+  }
+  .hero-bg {
+    display: block;
+  }
+
+  @media (max-width: 598px) {
+    .hero-mobile-container {
+      left: 0px;
+      bottom: 0px;
+      width: 100vw;
+      height: 58%;
+      padding: 9vw 6vw;
+      position: absolute;
+      min-width: 100vw;
+      background-color:rgba(255, 255, 255, 0.88);
+    }
+
+    .hero-img-container {
+      top: unset !important;
+      left: unset !important;
+      position: relative !important;
+      transform: none !important;
+      height: 100% !important;
+    }
+
+    .hero-img-container img {
+      height: 17vh;
+      width: auto;
+    }
+
+    .hero-mob {
+      display: block;
+      width: 100vw;
+    }
+    .hero-bg{
+      display: none;
+    }
+
+    .hero-header-btn {
+      max-width: none;
+      width: 70% !important;
+      font-size: 4vw;
+      letter-spacing: 0px;
+      height: auto;
+      font-weight: 500;
+      padding: 3vw;
+      }
+      .hero-img-heading {
+        font-size: calc(20vw* 0.2);
+        width: 100%;
+      }
+      .hero-img-content {
+        width: 85%;
+        font-size: calc(20vw* 0.2);
+        margin-top: 2.5vw;
+      }
+    }
+  }
+
+  @media (max-width: 375px) {
+    .hero-img-container img {
+      height: 12vw;
+    }
+  }
+
+  @media (max-width: 460px) {
+    .hero-img-container img {
+      height: 24vw;
+    }
+  }
+
+  {% comment %} ORIGIN STYLE {% endcomment %}
+
+  .hero-cta-content-img {
+    position: relative;
+    padding: 0px;
+  }
+  .content_badge {
+    background-color: #2577a2;
+    color: white;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border-radius: 100%;
+    height: 80px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 200;
+    text-align: center;
+    border: 1px solid;
+    box-shadow: -1px 0px 9px 0px rgba(0, 0, 0, 0.75);
+  }
+  @media (min-width: 768px) {
+    .content_badge {
+      height: 120px;
+      width: 120px;
+      font-size: 24px;
+      border: 2px solid;
+      bottom: 20px;
+      right: 20px;
+      top: unset;
+    }
+  }
+</style>
+
+<section id="section-{{ section.id }}">
+  <div class="hero-bg-container">
+    <img class="hero-bg" src="{{ bg_image }}" alt="hero" width="100%" height="auto">
+    <img class="hero-mob" src="{{ mob_image }}" alt="hero" width="100%" height="auto">
+    <div class="hero-mobile-container">
+      <div class="hero-img-container">
+        {% if section.settings.hero_logo %}
+          {{
+            section.settings.hero_logo
+            | image_url: width: 200
+            | image_tag: loading: 'lazy', class: 'hero-logo', alt: section.settings.hero_logo.alt
+            | escape
+          }}
+        {% endif %}
+        <div class="hero-img-container__content">
+          {% if _settings.heading != blank %}
+            <h1 class="hero-img-heading">{{ _settings.heading }}</h1>
+          {% endif %}
+
+          {% if _settings.content != blank %}
+            <div class="hero-img-content">{{ _settings.content }}</div>
+          {% endif %}
+        </div>
+
+        {% if _settings.link_text != blank and _settings.link_url != blank %}
+          <a class="btn btn--white hero-header-btn" href="{{ _settings.link_url }}">{{ _settings.link_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if section.settings.badge != blank %}
+  <div style="background-color: {{ section.settings.badge_color }};" class="content_badge">
+    <span>{{ section.settings.badge }}</span>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Hero - Image+CTA+Content",
+  "class": "shopify-block hero hero-cta-content-img bg-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_image",
+      "label": "Mobile Background Image"
+    },
+    {
+      "type": "url",
+      "id": "hero_image_url",
+      "label": "Hero Image URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_logo",
+      "label": "Hero Logo"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Badge"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge Color",
+      "default": "#2577a2"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero - Image+CTA+Content",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}

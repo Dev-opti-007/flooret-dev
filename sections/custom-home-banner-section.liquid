@@ -1,0 +1,139 @@
+{{ 'custom-banner-section.css' | asset_url | stylesheet_tag }}
+
+<style>
+  #shopify-section-{{ section.id }} .custom-left-text-banner {
+    width:{% if section.settings.img_profile %} 56%{% endif %};
+  }
+  #shopify-section-{{ section.id }} .custom-banner-section {
+    padding-bottom:{% if section.settings.img_profile != blank %} 5rem{% endif %};
+  }
+  #shopify-section-{{ section.id }} .custom-banner-container .custom-text-banner {
+      background-color: {{ section.settings.backgroud_color }};
+      {% if section.settings.img_profile != blank %}padding-bottom: 20px;{% endif %}
+    }
+  @media (max-width: 950px) {
+    #shopify-section-{{ section.id }} .custom-left-text-banner {
+      width:{% if section.settings.img_profile %} 100%{% endif %};
+        align-items: center;
+    }
+    #shopify-section-{{ section.id }} .custom-banner-section {
+      padding-bottom:{% if section.settings.img_profile != blank %} 1rem{% endif %};
+    }
+  }
+</style>
+
+<section class="custom-banner-section">
+  <div class="custom-banner-container">
+    {% if section.settings.custom_image != blank %}
+      <div class="custom-image-banner">
+        {{ section.settings.custom_image | image_url: width: '1024' | image_tag }}
+        {% if section.settings.logo != blank %}
+          {{ section.settings.logo | image_url: width: '200' | image_tag: class: 'custom-banner-logo' }}
+        {% endif %}
+      </div>
+    {% endif %}
+    {% if section.settings.img_profile != blank %}
+      <div class="img_profile_banner">
+        {{ section.settings.img_profile | image_url: width: '1024' | image_tag }}
+      </div>
+    {% endif %}
+    <div class="custom-text-banner">
+      <div class="custom-left-text-banner">
+        {% if section.settings.custom_title != blank %}
+          <h1>{{ section.settings.custom_title }}</h1>
+        {% endif %}
+        {% if section.settings.custom_subtitle != blank %}
+          <h2 class="left-banner-subheading">{{ section.settings.custom_subtitle }}</h2>
+        {% endif %}
+        {% if section.settings.custom_description != blank %}
+          {{ section.settings.custom_description }}
+        {% endif %}
+        {% if section.settings.custom_first_title != blank and section.settings.custom_first_link %}
+          <div class="custom_banner_buttons">
+            <a href="{{ section.settings.custom_first_link }}" class="custom-button custom-primary-button">
+              {{- section.settings.custom_first_title -}}
+            </a>
+            {% if section.settings.custom_second_title != blank and section.settings.custom_second_link %}
+              <a href="{{ section.settings.custom_second_link }}" class="custom-button custom-secondary-button">
+                {{- section.settings.custom_second_title -}}
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "custom_image",
+      "label": "Select Image Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Select logo"
+    },
+    {
+      "type": "color",
+      "id": "backgroud_color",
+      "label": "Background color",
+      "default": "#f9f3e7"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_profile",
+      "label": "Select center picture"
+    },
+    {
+      "type": "text",
+      "id": "custom_title",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "custom_subtitle",
+      "label": "SubHeading",
+      "default": "Worry-Free Installation"
+    },
+    {
+      "type": "richtext",
+      "id": "custom_description",
+      "label": "Paragraph"
+    },
+    {
+      "type": "text",
+      "id": "custom_first_title",
+      "label": "Heading",
+      "default": "Quick links"
+    },
+    {
+      "type": "url",
+      "id": "custom_first_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "custom_second_title",
+      "label": "Heading",
+      "default": "Quick links"
+    },
+    {
+      "type": "url",
+      "id": "custom_second_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Home Banner"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,54 @@
+
+{% include 'faqs-item', blocks : section.blocks, section : section.settings  %}   
+
+{% schema %}
+{
+  "name": "FAQs Block Silvan Clean",
+  "class": "shopify-block faqs-block",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "block_id",
+      "label": "Block ID"
+    }
+
+  ],
+  "blocks": [
+     {
+       "name": "Accordion",
+       "type": "accordion",
+       "settings": [
+         {
+           "type": "text",
+           "id": "accordion_title",
+           "label": "Title"
+         },
+         {
+           "type": "richtext",
+           "id": "accordion_content",
+           "label": "Accordion Content"
+         }
+       ]
+     }
+  ],  
+  "presets": [
+    {
+      "name": "FAQs Block Silvan Clean",
+      "category": "Content / FAQs Block"
+    }
+  ]
+}
+{% endschema %}

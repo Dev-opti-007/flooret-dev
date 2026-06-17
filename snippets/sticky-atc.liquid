@@ -1,0 +1,58 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+
+  for product_model in shop.metaobjects.product_model.values
+    if current_variant.options contains product_model.name
+      assign current_product_model = product_model.name
+
+      assign cost_per_sqft = shop.metaobjects.product_model[current_product_model].cost_per_sqft
+    endif
+  endfor
+
+  comment
+    for product_type in shop.metaobjects.product_type.values
+      if current_variant.options contains product_type.name
+        assign current_product_type = product_type.name
+      endif
+    endfor
+  endcomment
+-%}
+
+<div class="sticky-atc">
+  <div class="sticky-atc__img">
+    {% if current_variant.featured_image != blank %}
+      {% assign image = current_variant.featured_image %}
+    {% else %}
+      {% assign image = product.featured_image %}
+    {% endif %}
+    {% render 'lazy-image', class: 'js-product__image', image: image, width: 80, alt: product.title %}
+  </div>
+  <div class="sticky-atc__content">
+    <div class="sticky-atc__details">
+      <h6 class="sticky-atc__name js-product__name">{{ product.title }}</h6>
+      <span class="sticky-atc__variant js-product__variant"></span>
+      <div class="sticky-atc__optionprice">
+        <span class="sticky-atc__price js-product__cost-per-sqft">{{ cost_per_sqft.value | money }} SF</span>
+      </div>
+    </div>
+    <div class="sticky-atc__cta {% if product.variants.size > 1 %} stick-atc__cta--variants{% endif; %}">
+      {% if product.variants.size > 1 %}
+        <button class="btn js-scroll-to" data-scroll-to="product-details" type="button">See Options</button>
+      {%- else -%}
+        <button
+          class="btn sticky-atc__atc js-product__cta"
+          type="submit"
+          {%- unless product.available -%}
+            disabled="disabled" aria-disabled="true"
+          {%- endunless -%}
+        >
+          {%- if product.available -%}
+            Add to Cart
+          {%- else -%}
+            Out of Stock
+          {%- endif -%}
+        </button>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

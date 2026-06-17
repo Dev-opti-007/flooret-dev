@@ -1,0 +1,164 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "id_me_community_verification_app_block_QdYg6x": {
+          "type": "shopify://apps/id-me-community-verification/blocks/app-block/d5b94743-37bb-4030-bcb4-b96ef384609c",
+          "disabled": true,
+          "settings": {
+            "offer_copy": "Military/Veteran Discount - 5% off $500 order or more",
+            "alignment": "right",
+            "fine_print": "",
+            "path_override": ""
+          }
+        }
+      },
+      "block_order": [
+        "id_me_community_verification_app_block_QdYg6x"
+      ],
+      "settings": {}
+    },
+    "testimonial_slider_pdp_kQpcnE": {
+      "type": "testimonial-slider-pdp",
+      "settings": {
+        "store_id": "your-store-id",
+        "sku": "your-product-sku"
+      }
+    },
+    "pdp_highlights_w8TAnh": {
+      "type": "pdp-highlights",
+      "settings": {
+        "title": "Highlights",
+        "highlight_1_title": "Elevated Luxury with Signature",
+        "highlight_1_content": "<p>With Modin, we've redefined luxury vinyl plank flooring. Our Signature line features extra-large planks, enhanced bevels, and an industry-leading wear layer, setting a new benchmark in resilient flooring.</p>",
+        "highlight_2_title": "Sleek durability with craftsman",
+        "highlight_2_content": "<p>Looking for something sleek and durable? Our Craftsman line offers the same exceptional durability as the Signature line but in a sleek, narrow plank style with subtle micro bevels.</p>",
+        "highlight_3_title": "Affordable Quality with Base",
+        "highlight_3_content": "<p>The Base line brings you the quality of Modin at an even more accessible price. Featuring smaller planks and less prominent bevels, it's a perfect choice for those seeking luxury on a budget.</p>",
+        "highlight_4_title": "Uncompromising Features Across All Lines",
+        "highlight_4_content": "<p>No matter which line you choose, you’ll enjoy true embossed-in-register texture, a low sheen level, a commercial-grade wear layer, a pre-attached underlayment, a rigid SPC core, and 100% waterproofing.</p>",
+        "highlight_5_title": "Tailor Your Space with Versatile Options",
+        "highlight_5_content": "<p>Select colors are available across Signature, Craftsman, and Base constructions, allowing you to find the perfect match for your space.</p>"
+      }
+    },
+    "pdp_highlights_silvan_9qzp8f": {
+      "type": "pdp-highlights-silvan",
+      "settings": {
+        "title": "Highlights",
+        "highlight_1_title": "Sustainable Luxury",
+        "highlight_1_content": "<p>Silvan Resilient Hardwood combines the finest sustainable materials with a focus on both durability and design. Crafted from 100% FSC-Certified European forests, each floor is not only stunning but also backed by a waterproof guarantee.</p>",
+        "highlight_2_title": "Effortless Elegance",
+        "highlight_2_content": "<p>Featuring extra-large planks, natural hardwood texture, and a subtle sheen, Silvan creates a luxurious look that will stand the test of time. Each plank is uniquely designed by nature, offering a floor that is truly yours.</p>",
+        "highlight_3_title": "Engineered for Strength",
+        "highlight_3_content": "<p>Silvan planks go beyond beauty. A UV-cured acrylic coating, high-density core, and cutting-edge locking mechanisms make them 3x harder than typical hardwood. Topically waterproof and impact-resistant, these planks are built for any situation.</p>",
+        "highlight_4_title": "Unmatched Resilience",
+        "highlight_4_content": "<p>Together, these advanced features create the signature look and feel that defines Silvan Resilient Hardwood. It’s the ideal blend of natural elegance and modern strength.</p>",
+        "highlight_5_title": "Tailor Your Space with Versatile Options",
+        "highlight_5_content": ""
+      }
+    },
+    "product_specs": {
+      "type": "product-specs",
+      "disabled": true,
+      "settings": {
+        "heading": "{{ product.metafields.flooret.product_specs_heading.value }}",
+        "content": "{{ product.metafields.flooret.product_specs_content | metafield_tag }}",
+        "shipping": "<p>We charge a flat rate $199 on all freight flooring orders. For orders of fewer than 4 boxes, shipping is $35 per box. All trim pieces ship for free. All sample orders ship for free.To see more information about how the delivery process works with Flooret,<a href=\"https://www.youtube.com/watch?v=BO52Cs0vuMI\" target=\"_blank\">watch this helpful video</a>.</p>"
+      }
+    },
+    "3a065218-cdaf-47c2-944f-4bf2a26ff23d": {
+      "type": "product-compare-models",
+      "settings": {
+        "heading": "Compare our Planks",
+        "product": "arbor-glue-down"
+      }
+    },
+    "200a5293-02cd-4980-8a86-7e69597ede64": {
+      "type": "product-feat-trims",
+      "disabled": true,
+      "settings": {
+        "heading": "Accessories",
+        "content": "<p>These perfectly color-matched pieces will help you put the finishing touches on your installation.</p>",
+        "cta_text": "Shop All",
+        "cta_url": "shopify://collections/trim-accessories"
+      }
+    },
+    "pdp_custom_trims_kpGPmy": {
+      "type": "pdp-custom-trims",
+      "settings": {
+        "heading": "Accessories",
+        "content": "<p>These perfectly color-matched pieces will help you put the finishing touches on your installation.</p>",
+        "cta_text": "Shop All",
+        "cta_url": "shopify://collections/trim-accessories"
+      }
+    },
+    "0b42df32-e063-4ecf-9352-3f3f05cee610": {
+      "type": "product-feat-products",
+      "settings": {
+        "heading": "{{ product.metafields.flooret.product_featured_products_heading.value }}"
+      }
+    },
+    "170431521524d47988": {
+      "type": "apps",
+      "blocks": {
+        "d0a39a86-f6ae-487f-9e8b-bd308e54dea5": {
+          "type": "shopify://apps/reviews-io/blocks/reviewsio-polaris/92a082e5-b297-4e88-b428-ac96cbc505f9",
+          "settings": {
+            "star": "#faaf4f",
+            "review_type": "product_review,questions",
+            "per_page": 8,
+            "primary_btn_bg_color": "#000000",
+            "primary_btn_border_color": "#000000",
+            "primary_btn_text_color": "#ffffff",
+            "secondary_btn_border_color": "#000000",
+            "secondary_btn_text_color": "#000000",
+            "border_color": "#e8e8e8",
+            "heading_text_color": "#000000",
+            "heading_font": "montserrat_n4",
+            "body_text_color": "#000000",
+            "badge_icon_color": "#faaf4f",
+            "badge_text_color": "#717171",
+            "enable_rich_snippets": true,
+            "show_location": true,
+            "show_tab_selector": false,
+            "show_dates": true,
+            "show_avatar": true,
+            "enable_sentiment_analysis": false,
+            "enable_replies": true,
+            "widget_spacing": 0,
+            "capitalise_headers_and_buttons": false,
+            "show_review_title": true,
+            "default_sort": "date_desc"
+          }
+        }
+      },
+      "block_order": [
+        "d0a39a86-f6ae-487f-9e8b-bd308e54dea5"
+      ],
+      "settings": {}
+    },
+    "0503629f-c5c9-4207-b63b-937fa06aa43b": {
+      "type": "recent-posts",
+      "settings": {
+        "heading": "Latest Posts",
+        "content": "<p>Need some inspiration? Ready to learn more about flooring? Check out these blogs.</p>",
+        "link_text": "View More Posts",
+        "link_url": "shopify://blogs/all"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "testimonial_slider_pdp_kQpcnE",
+    "pdp_highlights_w8TAnh",
+    "pdp_highlights_silvan_9qzp8f",
+    "product_specs",
+    "3a065218-cdaf-47c2-944f-4bf2a26ff23d",
+    "200a5293-02cd-4980-8a86-7e69597ede64",
+    "pdp_custom_trims_kpGPmy",
+    "0b42df32-e063-4ecf-9352-3f3f05cee610",
+    "170431521524d47988",
+    "0503629f-c5c9-4207-b63b-937fa06aa43b"
+  ]
+}

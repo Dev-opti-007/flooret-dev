@@ -1,0 +1,81 @@
+<div class="pdm-lightbox add-address-lightbox {% if form.errors %}active{% endif %}">
+	<div class="container pdm-lightbox__container">
+		<button type="button" class="pdm-lightbox__close" type="button"></button>
+		<div class="pdm-lightbox__content customer-form">
+
+            {% form 'customer_address', customer.new_address %}
+                <div id="addddress" class="form-vertical {% if form.errors %}errors{% endif %}">
+
+                    <h2 class="h3">Add New Address</h2>
+                    {{ form.errors | default_errors }}
+
+                    <div class="form-row">
+
+                        <div class="input-group">
+                            <label for="AddressFirstNameNew">Name</label>
+                            <input type="text" id="AddressFirstNameNew" class="input-full" name="address[first_name]" value="{{ form.first_name }}" autocapitalize="words">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="AddressLastNameNew">Last Name</label>
+                            <input type="text" id="AddressLastNameNew" class="input-full" name="address[last_name]" value="{{ form.last_name }}" autocapitalize="words">
+                        </div>
+
+                    </div>
+
+                    <div class="input-group">
+                        <label for="AddressCompanyNew">Company</label>
+                        <input type="text" id="AddressCompanyNew" class="input-full" name="address[company]" value="{{ form.company }}" autocapitalize="words">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="AddressAddress1New">Address 1</label>
+                        <input type="text" id="AddressAddress1New" class="input-full" name="address[address1]" value="{{ form.address1 }}" autocapitalize="words">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="AddressAddress2New">Address 2</label>
+                        <input type="text" id="AddressAddress2New" class="input-full" name="address[address2]" value="{{ form.address2 }}" autocapitalize="words">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="AddressCityNew">City</label>
+                            <input type="text" id="AddressCityNew" class="input-full" name="address[city]" value="{{ form.city }}" autocapitalize="words">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="AddressCountryNew">Country</label>
+                            <select id="AddressCountryNew" class="input-full" name="address[country]" data-default="{{ form.country }}">{{ country_option_tags }}</select>
+                        </div>
+                    </div>
+
+                    <div class="grid__item" id="AddressProvinceContainerNew" style="display:none">
+                        <label for="AddressProvinceNew">State</label>
+                        <select id="AddressProvinceNew" class="input-full" name="address[province]" data-default="{{ form.province }}"></select>
+                    </div>
+                    
+                   <div class="form-row">
+                        <div class="input-group">
+                            <label for="AddressZipNew">Zip</label>
+                            <input type="text" id="AddressZipNew" class="input-full" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters">
+                        </div>
+                        <div class="input-group">
+                            <label for="AddressPhoneNew">Phone</label>
+                            <input type="tel" data-mask="phone" id="AddressPhoneNew" class="input-full" name="address[phone]" value="{{ form.phone }}">
+                        </div>
+                    </div>
+
+                    <div class="input-group input-group--checkbox">
+                        {{ form.set_as_default_checkbox }}
+                        <label for="address_default_address_new" class="inline">Set as default address</label>
+                    </div>
+
+                    <input type="submit" class="btn reset" value="Save Address">
+
+                </div>
+            {% endform %}
+            
+        </div>
+    </div>
+</div>

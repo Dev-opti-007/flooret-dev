@@ -1,0 +1,79 @@
+<div class="site-search js-site-search">
+  <div class="site-search__bar" id="predictive-search">
+    <div class="container container--large">
+      <form class="js-site-search__form" action="/search" method="get" role="search">
+        <input type="text" class="js-site-search__input" id="search" name="q" placeholder="Search...">
+        <button type="button" class="menu-icon reset js-site-search__close">{% render 'svg-close' %}</button>
+        <button type="submit" class="hidden">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="site-search__results js-site-search__results" id="predictive-search-results">
+    <div class="container container--large">
+      {% if predictive_search.performed %}
+        {% if predictive_search.resources.queries.size > 1 %}
+          <div class="site-search__suggestions js-site-search__suggestions">
+            <span class="preheading">{{ 'global.search_suggestions' | t }}:</span>
+            <ul>
+              {%- for query in predictive_search.resources.queries -%}
+                <li class="site-search__suggestion" role="option" aria-selected="false">
+                  <button type="button" tabindex="-1">{{ query.text }}</button>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {% endif %}
+
+        <div class="site-search__products">
+          <div class="site-search__results__intro">
+            <span class="preheading" id="predictive-search-products">
+              {{- predictive_search.resources.products.size }} Product
+              {%- if predictive_search.resources.products.size != 1 %}s{% endif -%}
+            </span>
+            <a class="preheading" href="/search?q={{predictive_search.terms}}&type=product">View All</a>
+          </div>
+          <div class="site-search__results__loop">
+            {% if predictive_search.resources.products.size > 0 %}
+              {% for sproduct in predictive_search.resources.products %}
+                 {% assign handles = sproduct.collections | map: 'handle' %}
+
+                {% if handles contains 'provence-natural-hardwood' %}
+                  {% render 'product-card-provence', product: sproduct, lazy: false %}
+                {% elsif handles contains 'sample-kits' %}  
+                   {% render 'product-card-sample-kit', product: sproduct, lazy: false %}
+                {% else %}
+                  {% render 'product-card', product: sproduct, lazy: false %}
+                {% endif %}
+
+              {% endfor %}
+            {% else %}
+              <p class="no-results">No results could be found</p>
+            {% endif %}
+          </div>
+        </div>
+        <div class="site-search__content">
+          <div class="site-search__results__intro">
+            <span class="preheading" id="predictive-search-content">Pages &amp; Articles</span>
+          </div>
+          {% if predictive_search.resources.articles.size > 0 or predictive_search.resources.pages.size > 0 %}
+            <ul>
+              {% for sarticle in predictive_search.resources.articles %}
+                <li>
+                  <a href="{{ sarticle.url }}">{{ sarticle.title }}</a>
+                </li>
+              {% endfor %}
+              {% for spage in predictive_search.resources.pages %}
+                <li>
+                  <a href="{{ spage.url }}">{{ spage.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p clas="no-results">No results could be found</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

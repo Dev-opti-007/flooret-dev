@@ -1,0 +1,888 @@
+{%- liquid
+  assign module = section.settings
+  assign page_url = request.path
+
+  assign meta = collection.metafields.flooret
+  assign collection_hero_background_color = meta.collection_hero_background_color
+  assign collection_hero_text_color = meta.collection_hero_text_color
+-%}
+
+{%- capture section_styles -%}style="
+  {%- if collection_hero_background_color != blank and collection_hero_background_color != 'rgba(0,0,0,0)' -%}background-color: {{collection_hero_background_color}};{%- endif -%}
+  {%- if collection_hero_text_color != blank and collection_hero_text_color != 'rgba(0,0,0,0)' -%}color: {{collection_hero_text_color}};{%- endif -%}
+  {% comment %} background-image:url('{{ collection.image | image_url: width: 2000 }}'); {% endcomment %}
+  "
+{%- endcapture -%}
+
+
+{% if collection.handle == 'all-floors' or request.path == '/collections/all' %}
+
+{{ 'custom-collection-design.css' | asset_url | stylesheet_tag }}
+
+  <div class="opti-col-container" id="opti-collection-container">
+    
+    <div class="collection-header-info-wrapper">
+      <div class="col-img-wrapper">
+        
+        <img width="auto" height="auto" alt="All Floors" loading="eager" src="//www.flooret.com/cdn/shop/files/image_75_1920x.png?v=1764772497">
+      </div>
+      <div class="col-info-overlay">
+        <div class="col-info-wrapper">
+          <div class="col-text-info">
+            <div class="col-text-left-wrap">
+              
+                
+              
+              <h1 class="col-title" style="color: #ffffff;">All Floors</h1>
+            </div>
+            <div class="col-text-right-wrap">
+              <div class="col-desc-wrap" style="color: #ffffff;">
+                <p><span>Whether you're looking for ultra-durable Luxury Vinyl Planks or super sustainable Resilient Hardwood, there's something for everyone in our designer-curated collections.</span></p>
+              </div>
+              <div class="col-small-text" style="color: #ffffff;">
+                <span>Available in 27 colors</span><span>&nbsp;&nbsp;&nbsp;<span>•</span>&nbsp;&nbsp;&nbsp;</span>
+                <span>Waterproof</span><span>&nbsp;&nbsp;&nbsp;<span>•</span>&nbsp;&nbsp;&nbsp;</span>
+                <span>DIY-ready</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} RENDER ALL FLOORS PLP DESIGN {% endcomment %}
+  {% assign arista_products = collection.products | where: 'type', 'Laminate' %}
+  {% assign modin_products = collection.products | where: 'type', 'lvp' %}
+  {% assign silvan_products = collection.products | where: 'type', 'hardwood' %}
+  {%- comment -%} New groups {%- endcomment -%}
+  {% assign sample_kit_products = collection.products | where: 'type', 'sample kit' %}
+  {% assign trim_products       = collection.products | where: 'type', 'trim' %}
+  <style>
+    .silvan-hardwood-collection-grid__loop,
+    .arista-collection-grid__loop,
+    .modin-collection-grid__loop {
+        display:flex;   
+    }
+    .silvan-hardwood-collection-grid__loop .slick-list,
+    .arista-collection-grid__loop .slick-list,
+    .modin-collection-grid__loop .slick-list {
+        max-height: 619px;
+        overflow: hidden;
+    }
+    @media (max-width: 767px) {
+        .collection-header-info-wrapper {
+            height: 470px;
+        }
+    }
+  </style>
+
+  <div id="js-collection">
+    {%- render 'collection-filter' -%}
+    <section
+      class="collection-grid collection-all-floors"
+      id="collection-grid"
+    >
+      {% comment %} Modin LVP section  {% endcomment %}
+      <div class="container collection--modin-lvp">
+        <div class="col-lvp-header">
+          <div class="col-contents-wrapper">
+            <h3 class="col_lvp_title">Modin LVP</h3>
+          </div>
+          <div class="mob-only col_sm_text">
+            Pet-friendly, 100% waterproof luxury vinyl with true embossed texture and pre-attached underlayment
+          </div>
+          <div class="col_icon_txt_wrapper">
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'water-icon' %}
+              </span>
+              <span class="col_icon_txt"> Waterproof </span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'pet-proof-icon' %}
+              </span>
+              <span class="col_icon_txt">Pet Proof</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'diy-icon' %}
+              </span>
+              <span class="col_icon_txt">DIY Install</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'warrenty-icon' %}
+              </span>
+              <span class="col_icon_txt">Lifetime Warranty</span>
+            </div>
+          </div>
+        </div>
+        <div class="" style="position:relative;">
+        <button class="scroll-btn scroll-prev" data-target=".modin-collection-grid__loop">←</button>
+        <div class="modin-collection-grid__loop collection--modin-container">
+          {%- for product in modin_products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+        <button class="scroll-btn scroll-next" data-target=".modin-collection-grid__loop">→</button>
+        </div>
+        <div class="shop_all_btn_modin_lvp">
+          <a href="/collections/modin-luxury-vinyl-plank">
+          <button id="shop_all_btn_modin_lvp">
+            Shop All Modin LVP
+            {% comment %} <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
+                <path d="M6.65666 8.0711C7.04719 8.46162 7.68035 8.46162 8.07088 8.0711L14.4348 1.70714C14.8254 1.31661 14.8254 0.683448 14.4348 0.292924C14.0443 -0.0976005 13.4111 -0.0976005 13.0206 0.292924L7.36377 5.94978L1.70692 0.292924C1.31639 -0.0976005 0.683226 -0.0976005 0.292702 0.292924C-0.0978227 0.683448 -0.0978227 1.31661 0.292702 1.70714L6.65666 8.0711ZM7.36377 7.36389H6.36377V7.36399H7.36377H8.36377V7.36389H7.36377Z" fill="black"/>
+              </svg>
+            </span> {% endcomment %}
+          </button>
+        </a>
+        </div>
+      </div>
+
+      <div class="ss-section-divider"></div>
+
+      {% comment %} Arista Laminate Section  {% endcomment %}
+      <div class="container collection--arista-laminate">
+        <div class="col-lvp-header">
+          <div class="col-contents-wrapper">
+            <h3 class="col_lvp_title">Arista Laminate</h3>
+          </div>
+          <div class="mob-only col_sm_text">
+            Pet-friendly, 100% waterproof luxury vinyl with true embossed texture and pre-attached underlayment
+          </div>
+          <div class="col_icon_txt_wrapper">
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'water-icon' %}
+              </span>
+              <span class="col_icon_txt"> Waterproof </span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'pet-proof-icon' %}
+              </span>
+              <span class="col_icon_txt">Pet Proof</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'diy-icon' %}
+              </span>
+              <span class="col_icon_txt">DIY Install</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'warrenty-icon' %}
+              </span>
+              <span class="col_icon_txt">Lifetime Warranty</span>
+            </div>
+          </div>
+        </div>
+        <div class="" style="position:relative;">
+        <button class="scroll-btn scroll-prev" data-target=".arista-collection-grid__loop">←</button>
+        <div class="arista-collection-grid__loop collection--arista-container">
+          {%- for product in arista_products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+        <button class="scroll-btn scroll-next" data-target=".arista-collection-grid__loop">→</button>
+        </div>
+        <div class="shop_all_btn_arista_laminate">
+          <a href="/collections/arista-laminate">
+          <button id="shop_all_btn_arista_laminate">
+            Shop All Arista Laminate
+            {% comment %} <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
+                <path d="M6.65666 8.0711C7.04719 8.46162 7.68035 8.46162 8.07088 8.0711L14.4348 1.70714C14.8254 1.31661 14.8254 0.683448 14.4348 0.292924C14.0443 -0.0976005 13.4111 -0.0976005 13.0206 0.292924L7.36377 5.94978L1.70692 0.292924C1.31639 -0.0976005 0.683226 -0.0976005 0.292702 0.292924C-0.0978227 0.683448 -0.0978227 1.31661 0.292702 1.70714L6.65666 8.0711ZM7.36377 7.36389H6.36377V7.36399H7.36377H8.36377V7.36389H7.36377Z" fill="black"/>
+              </svg>
+            </span> {% endcomment %}
+          </button>
+          </a>
+        </div>
+      </div>
+
+      <div class="ss-section-divider"></div>
+
+      {% comment %} Silvan Hardwood Section  {% endcomment %}
+      <div class="container collection--silvan-hardwood">
+        <div class="col-lvp-header">
+          <div class="col-contents-wrapper">
+            <h3 class="col_lvp_title">Silvan Hardwood</h3>
+          </div>
+          <div class="mob-only col_sm_text">
+            Pet-friendly, 100% waterproof luxury vinyl with true embossed texture and pre-attached underlayment
+          </div>
+          <div class="col_icon_txt_wrapper">
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'water-icon' %}
+              </span>
+              <span class="col_icon_txt"> Waterproof </span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'pet-proof-icon' %}
+              </span>
+              <span class="col_icon_txt">Pet Proof</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'diy-icon' %}
+              </span>
+              <span class="col_icon_txt">DIY Install</span>
+            </div>
+            <div class="icon_txt_box">
+              <span class="col_icon_svg">
+                {% render 'warrenty-icon' %}
+              </span>
+              <span class="col_icon_txt">Lifetime Warranty</span>
+            </div>
+          </div>
+        </div>
+        <div class="" style="position:relative;">
+        <button class="scroll-btn scroll-prev" data-target=".silvan-hardwood-collection-grid__loop">←</button>
+        <div class="silvan-hardwood-collection-grid__loop collection--silvan-hardwood-container">
+          {%- for product in silvan_products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+        <button class="scroll-btn scroll-next" data-target=".silvan-hardwood-collection-grid__loop">→</button>
+        </div>
+        <div class="shop_all_btn_silvan_hardwood">
+          <a href="/collections/silvan-hardwood">
+          <button id="shop_all_btn_silvan_hardwood">
+            Shop All Silvan Hardwood
+            {% comment %} <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
+                <path d="M6.65666 8.0711C7.04719 8.46162 7.68035 8.46162 8.07088 8.0711L14.4348 1.70714C14.8254 1.31661 14.8254 0.683448 14.4348 0.292924C14.0443 -0.0976005 13.4111 -0.0976005 13.0206 0.292924L7.36377 5.94978L1.70692 0.292924C1.31639 -0.0976005 0.683226 -0.0976005 0.292702 0.292924C-0.0978227 0.683448 -0.0978227 1.31661 0.292702 1.70714L6.65666 8.0711ZM7.36377 7.36389H6.36377V7.36399H7.36377H8.36377V7.36389H7.36377Z" fill="black"/>
+              </svg>
+            </span> {% endcomment %}
+          </button>
+        </a>
+        </div>
+      </div>
+
+      <div class="ss-section-divider"></div>
+
+      {% comment %} Sample Kit Section {% endcomment %}
+      {% if sample_kit_products.size > 0 %}
+        <div class="container collection--sample-kit">
+          <div class="col-lvp-header mb-10">
+            <div class="col-contents-wrapper">
+              <h3 class="col_lvp_title">Sample Kits</h3>
+            </div>
+            <div class="mob-only col_sm_text">
+              Get hands-on with our curated sample kits to see colors and textures in your space before committing.
+            </div>
+          </div>
+          <div style="position:relative;">
+            <button class="scroll-btn scroll-prev" data-target=".sample-kit-collection-grid__loop">←</button>
+            <div class="sample-kit-collection-grid__loop collection--sample-kit-container">
+              {%- for product in sample_kit_products -%}
+                {% render 'product-card', product: product %}
+              {%- endfor -%}
+            </div>
+            <button class="scroll-btn scroll-next" data-target=".sample-kit-collection-grid__loop">→</button>
+          </div>
+
+          <div class="shop_all_btn_sample_kit">
+            <a href="/collections/sample-kits">
+              <button id="shop_all_btn_sample_kit">
+                Shop All Sample Kits
+              </button>
+            </a>
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="ss-section-divider"></div>
+
+      {% comment %} Trim Section {% endcomment %}
+      {% if trim_products.size > 0 %}
+        <div class="container collection--trim">
+          <div class="col-lvp-header  mb-10">
+            <div class="col-contents-wrapper">
+              <h3 class="col_lvp_title">Trim</h3>
+            </div>
+            <div class="mob-only col_sm_text">
+              Matching trim and transitions to complete your flooring project with a clean, professional finish.
+            </div>
+          </div>
+          <div style="position:relative;">
+            <button class="scroll-btn scroll-prev" data-target=".trim-collection-grid__loop">←</button>
+            <div class="trim-collection-grid__loop collection--trim-container">
+              {%- for product in trim_products -%}
+                {% render 'product-card', product: product %}
+              {%- endfor -%}
+            </div>
+            <button class="scroll-btn scroll-next" data-target=".trim-collection-grid__loop">→</button>
+          </div>
+
+          <div class="shop_all_btn_trim">
+            <a href="/collections/trim">
+              <button id="shop_all_btn_trim">
+                Shop All Trim
+              </button>
+            </a>
+          </div>
+        </div>
+      {% endif %}
+
+
+
+    </section>
+  </div>
+
+  <style>
+    .trim-collection-grid__loop,
+    .sample-kit-collection-grid__loop,
+    .silvan-hardwood-collection-grid__loop, 
+    .arista-collection-grid__loop, 
+    .modin-collection-grid__loop {
+        display: flex;
+        overflow-x: scroll;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: thin; /* Firefox */
+        scrollbar-color: #ccc transparent;
+    }
+
+    .trim-collection-grid__loop::-webkit-scrollbar,
+    .sample-kit-collection-grid__loop::-webkit-scrollbar,
+    .silvan-hardwood-collection-grid__loop::-webkit-scrollbar,
+    .arista-collection-grid__loop::-webkit-scrollbar,
+    .modin-collection-grid__loop::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .trim-collection-grid__loop::-webkit-scrollbar-track,
+    .sample-kit-collection-grid__loop::-webkit-scrollbar-track,
+    .silvan-hardwood-collection-grid__loop::-webkit-scrollbar-track,
+    .arista-collection-grid__loop::-webkit-scrollbar-track,
+    .modin-collection-grid__loop::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .trim-collection-grid__loop::-webkit-scrollbar-thumb,
+    .sample-kit-collection-grid__loop::-webkit-scrollbar-thumb,
+    .silvan-hardwood-collection-grid__loop::-webkit-scrollbar-thumb,
+    .arista-collection-grid__loop::-webkit-scrollbar-thumb,
+    .modin-collection-grid__loop::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+    }
+
+    .trim-collection-grid__loop::-webkit-scrollbar-thumb:hover,,
+    .sample-kit-collection-grid__loop::-webkit-scrollbar-thumb:hover,,
+    .silvan-hardwood-collection-grid__loop::-webkit-scrollbar-thumb:hover,
+    .arista-collection-grid__loop::-webkit-scrollbar-thumb:hover,
+    .modin-collection-grid__loop::-webkit-scrollbar-thumb:hover {
+        background: #999;
+    }
+
+    /* Button Styles */
+    .scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.9);
+        border: 2px solid #ddd;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .scroll-prev {
+        left: 10px;
+    }
+
+    .scroll-next {
+        right: 10px;
+    }
+
+    .scroll-btn:hover:not(:disabled) {
+        background: white;
+        border-color: #333;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .scroll-btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
+    .collection-grid__loop-container {
+        position: relative;
+        max-height: 600px; /* Adjust as needed */
+    }
+    .scroll-btn {
+        width: 30px;
+        height: 30px;
+        line-height: 1;
+        padding:0px;
+    }
+    .col-lvp-header.mb-10 {
+        margin-bottom: 25px;
+    }
+    .filter-option--sample-v2, .filter-option--show-sqft-price-in-product {
+        display: none !important;
+    }
+    @media (min-width:991px) {
+      .scroll-prev {
+          left: -20px;
+      }
+
+      .scroll-next {
+          right: -20px;
+      }
+    }
+    @media (max-width:768px){
+      .product-card {
+          width: 50%;
+      }
+      .col-lvp-header.mb-10 {
+          margin-bottom: 15px;
+      }
+    }
+  </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var scrollContainers = document.querySelectorAll('.silvan-hardwood-collection-grid__loop, .arista-collection-grid__loop, .modin-collection-grid__loop, .sample-kit-collection-grid__loop, .trim-collection-grid__loop');
+    
+    // Scroll button event handlers
+    document.querySelectorAll('.scroll-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const targetSelector = this.dataset.target;
+        const target = document.querySelector(targetSelector);
+        const scrollAmount = target.offsetWidth * 0.8; // 80% of container width
+        
+        if (this.classList.contains('scroll-prev')) {
+          target.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+          target.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+      });
+    });
+    
+    // Auto-hide buttons based on scroll position
+    scrollContainers.forEach(container => {
+      const observer = new IntersectionObserver((entries) => {
+        const prevBtn = document.querySelector(`[data-target="${container.className.split(' ')[0]}"] + .scroll-prev`);
+        const nextBtn = document.querySelector(`[data-target="${container.className.split(' ')[0]}"] + .scroll-next`);
+        
+        if (container.scrollLeft === 0) {
+          prevBtn.style.opacity = '0.3';
+          prevBtn.disabled = true;
+        } else {
+          prevBtn.style.opacity = '1';
+          prevBtn.disabled = false;
+        }
+        
+        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 1) {
+          nextBtn.style.opacity = '0.3';
+          nextBtn.disabled = true;
+        } else {
+          nextBtn.style.opacity = '1';
+          nextBtn.disabled = false;
+        }
+      });
+      
+      observer.observe(container);
+    });
+  });
+
+</script>
+
+<style>
+  button.common-plp-arrows.modin--slider.slick-next.slick-arrow {
+    right: 0px;
+  }
+  button.common-plp-arrows.modin--slider.slick-prev.slick-arrow {
+    left: 0;
+  }
+  #collection-grid .container {
+      padding-inline: 10px;
+      padding-top: 20px;
+  }
+  .ss-section-divider{
+    width: 100%;
+    height: 15px;
+    background: white;
+  }
+  .col-contents-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+  }
+
+  /* Desktop gap */
+  .collection-all-floors .slick-slide,
+  {
+    margin: 0 12px;
+  }
+  .collection-all-floors .slick-list {
+    margin: 0 -12px;
+  }
+
+  .collection-filter .filter--collection {
+    display: none;
+  }
+  button.modin--slider.slick-arrow {
+    border: none;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+    z-index: 99;
+    top: 45%;
+    position: absolute;
+  }
+  button.modin--slider.slick-prev.slick-arrow {
+      left: -30px;
+  }
+  button.modin--slider.slick-next.slick-arrow {
+      right: -30px;
+  }
+  .collection--modin-container.adding-grid,.collection--arista-container.adding-grid,.collection--silvan-hardwood-container.adding-grid {
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 20px;
+
+  }
+  .collection--modin-container,.collection--arista-container,.collection--silvan-hardwood-container{
+    padding-top: 20px;
+  }
+  .col-lvp-header {
+      padding-left: 20px;
+  }
+  .collection-all-floors .product-card{
+    padding-inline: 20px 17px;
+  }
+  .collection-all-floors {
+      padding-bottom: 0px;
+  }
+  .collection-all-floors .container {
+      padding-top: 70px !important;
+      padding-bottom: 70px !important;
+  }
+  #shop_all_btn_sample_kit, #shop_all_btn_trim, .collection-all-floors button#shop_all_btn_modin_lvp,button#shop_all_btn_arista_laminate,button#shop_all_btn_silvan_hardwood {
+    appearance: none;
+    border: none;
+    background: transparent;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 16px;
+    letter-spacing: 0;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: underline;
+    color:#000;
+  }
+  .shop_all_btn_modin_lvp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block: 40px;
+    margin-bottom:0px;
+  }
+  .shop_all_btn_trim, .shop_all_btn_sample_kit, .shop_all_btn_arista_laminate, .shop_all_btn_silvan_hardwood {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block: 40px;
+    margin-bottom:0px;
+  }
+  .trim-collection-grid__loop:empty,
+  .sample-kit-collection-grid__loop:empty,
+  .silvan-hardwood-collection-grid__loop:empty, 
+  .arista-collection-grid__loop:empty, 
+  .modin-collection-grid__loop:empty {
+      position:relative;
+  }
+ 
+  {% comment %} .trim-collection-grid__loop:empty::before,
+  .sample-kit-collection-grid__loop:empty::before,
+  .silvan-hardwood-collection-grid__loop:empty::before, 
+  .arista-collection-grid__loop:empty::before, 
+  .modin-collection-grid__loop:empty::before {
+      content: "No Products Available";
+      text-align: center;
+      width: 100%;
+  } {% endcomment %}
+  @media (max-width:1024px){
+    .collection-all-floors .product-card {
+      padding-inline: 0px;
+    }
+    {% comment %} .col_icon_txt_wrapper{
+      display: none;
+    } {% endcomment %}
+    .mob-only.col_sm_text {
+        display: none;
+    }
+    .col_icon_txt_wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 0px;
+    }
+
+    .col_icon_txt_wrapper .icon_txt_box {
+        justify-content: start;
+    }
+    .col-lvp-header {
+      padding-left: 10px;
+    }
+    .collection-all-floors .slick-slide {
+      margin: 0 6px;
+    }
+    .collection-all-floors .slick-list {
+      margin: 0 -6px;
+    }
+  }
+  @media (max-width:768px){
+      .collection-all-floors .container {
+          padding-top: 50px !important;
+          padding-bottom: 50px !important;
+      }
+      ul.slick-dots{
+        bottom: 10px;
+      }
+      button.common-plp-arrows.modin--slider.slick-next.slick-arrow, button.common-plp-arrows.modin--slider.slick-prev.slick-arrow{
+        display: none;
+      }
+      #collection-grid > .container {
+          padding-top: 35px !important;
+      }
+      #collection-grid > .container:first-of-type {
+          padding-top: 25px !important;
+      }
+  }
+</style>
+
+{% comment %} <script>
+  document.addEventListener('DOMContentLoaded', function () {
+  // Only apply on screens below 768px
+    
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        setTimeout(()=>{
+          document.querySelectorAll('.ruk-rating-snippet-count').forEach(function (el) {
+            // e.g. "(20 Reviews)" -> "(20)"
+            const text = el.textContent;
+            el.textContent = text.replace(/\s*Reviews?\s*\)?/i, ')').trim();
+            el.style.display = 'inline-block'
+          });
+        }, 2000)
+      }
+    
+  
+});
+
+</script> {% endcomment %}
+
+{% else %}
+
+<section class="collection-hero" {{ section_styles }}>
+  <div class="container">
+    <div class="collection-hero__content">
+      {%- render 'breadcrumbs' -%}
+      <div class="section__header">
+        <h1 class="ss-heading-size">{{ collection.title }}</h1>
+        {%- if collection.description -%}
+          <p class="ss-text-size">{{ collection.description }}</p>
+        {%- endif -%}
+
+        {%- if meta.hero_cta_url != blank -%}
+          <a href="{{meta.hero_cta_url  }}" class="btn btn--text">{{ meta.hero_cta_text }}</a>
+        {%- endif -%}
+      </div>
+      <div class="section__content">
+        <nav class="collection-hero__nav desk-only">
+          {%- for block in section.blocks -%}
+            {%- assign _b = block.settings.collection | collection_link: block.settings -%}
+            {% if block.settings.button_url == blank %}
+              <a class="btn btn--outline btn--squared {% if page_url == _b.url %}active{% endif %}" href="{{ _b.url }}">
+                {% if block.settings.text_replace != blank %}
+                  {{ block.settings.text_replace }}
+                {% else %}
+                  {{ _b.title }}
+                {% endif %}
+              </a>
+            {% endif %}
+            {% if block.settings.button_url != blank %}
+              <a class="btn btn--outline btn--squared" href="{{ block.settings.button_url }}">
+                {% if block.settings.text_replace != blank %}
+                  {{ block.settings.text_replace }}
+                {% endif %}
+              </a>
+            {% endif %}
+          {%- endfor -%}
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="select-menu mob-only mob-hero-nav">
+  <select name="" id="">
+    {%- for block in section.blocks -%}
+      {%- assign _b = block.settings.collection | collection_link: block.settings -%}
+      <option
+        {% if page_url == _b.url %}
+          selected
+        {% endif %}
+        value="{{ _b.url }}"
+      >
+        {{ _b.title }}
+      </option>
+    {%- endfor -%}
+  </select>
+</div>
+
+<div id="js-collection">
+  {%- render 'collection-filter' -%}
+
+  <section
+    class="collection-grid"
+    id="collection-grid"
+  >
+    <div class="container">
+      <div class="collection-grid__loop">
+        {%- paginate collection.products by 100 -%}
+          {%- for product in collection.products -%}
+            {% render 'product-card-legacy', product: product %}
+          {%- endfor -%}
+          {% comment %} {{ paginate | default_pagination: next: 'Older', previous: 'Newer' }} {% endcomment %}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  h1.ss-heading-size{
+    font-size: {{ section.settings.hd_m_font_size }}px;
+  }
+  .section__header p{
+    font-size: {{ section.settings.dsc_m_font_size }}px;
+  }
+  @media screen and (min-width: 960px){
+    h1.ss-heading-size{
+      font-size: {{ section.settings.hd_d_font_size }}px;
+    }
+    .section__header p{
+      font-size: {{ section.settings.dsc_d_font_size }}px;
+    }
+  }
+  @media (max-width:768px){
+    .ruk_rating_snippet.collection {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
+    .ruk_rating_snippet.collection i.ruk-icon-percentage-star--100 {
+        position: relative;
+        {% comment %} top: -2px; {% endcomment %}
+    }
+  }
+</style>
+
+{% endif %}
+
+<script>
+  var collectionVariantMetafields = {};
+  {%- for product in collection.products -%}
+    {%- for variant in product.variants -%}
+      collectionVariantMetafields["{{ variant.id }}"] = {
+        "sqft_price": {% if variant.metafields.custom.sqft_price.value != blank %}{{ variant.metafields.custom.sqft_price.value | json }}{% else %}null{% endif %},
+        "sqft_compare_at_price": {% if variant.metafields.custom.sqft_compare_at_price.value != blank %}{{ variant.metafields.custom.sqft_compare_at_price.value | json }}{% else %}null{% endif %}
+      };
+    {%- endfor -%}
+  {%- endfor -%}
+</script>
+
+{% schema %}
+{
+  "name": "Collections",
+  "settings": [
+    {
+      "type": "color",
+      "id": "hero_bg_color",
+      "label": "Hero Background Color",
+      "default": "#F4F3F1"
+    },
+    {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Hero Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Heading Font Sizes"
+    },
+    {
+      "type": "number",
+      "id": "hd_d_font_size",
+      "label": "Desktop Font Size",
+      "default": 40
+    },
+    {
+      "type": "number",
+      "id": "hd_m_font_size",
+      "label": "Mobile Font Size",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Text Font Sizes"
+    },
+    {
+      "type": "number",
+      "id": "dsc_d_font_size",
+      "label": "Desktop Font Size",
+      "default": 16
+    },
+    {
+      "type": "number",
+      "id": "dsc_m_font_size",
+      "label": "Mobile Font Size",
+      "default": 12
+    }
+  ],
+  "blocks": [
+    {
+      "type": "Block",
+      "name": "Block",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Don't want the collection? Add a link."
+        },
+        {
+          "type": "text",
+          "id": "text_replace",
+          "label": "Filter Label"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

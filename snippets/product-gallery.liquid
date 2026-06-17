@@ -1,0 +1,346 @@
+{% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"> {% endcomment %}
+
+<div class="product-gallery mproduct__gallery {% if isAddSamplePopup %}product-gallery--addsamplepopup{% endif %}" data-template-suffix="{{ template.suffix }}" data-product-handle="{{ product.handle }}">
+  
+
+
+{%- unless isAddSamplePopup -%}
+  <div class="breadcrumb-back">
+  {% if template == 'product.modin-pdp' or template == 'product.arista-pdp' or template == 'product.silvan-pdp' or template == 'product.sample-pdp' or template == 'product' or template == 'product.provence-pdp' or template == 'product.true-plank-pdp' %}
+      {% liquid
+
+      assign breadcrumb_title = page_title | default: 'Unknown Page'
+
+      if breadcrumb_title == 'Luxury Vinyl Planks and Sustainable Resilient Hardwood'
+        assign breadcrumb_title = 'All Products'
+      endif
+      
+    %}
+      {%- liquid
+        assign feat_collections = 'modin-luxury-vinyl-plank,silvan-hardwood,trim-accessories,sample-kits,arista-laminate,provence-natural-hardwood' | split: ','
+        for collection in product.collections
+          if feat_collections contains collection.handle
+            assign featured_collection = collection
+          endif
+        endfor
+        unless featured_collection
+          assign featured_collection = product.collections[1]
+        endunless
+      -%}
+      <svg xmlns="http://www.w3.org/2000/svg" width="6" height="10" viewBox="0 0 6 10" fill="none"> <path d="M0 4.98784L0.549754 4.45253L4.37449 0.559562L4.92432 0L6 1.09487L5.45024 1.6545L2.17526 4.98784L5.45024 8.3455L6 8.8808L4.92432 10L4.37449 9.44044L0.549754 5.54747L0 4.98784Z" fill="black"/> </svg>
+      <a href="{% if featured_collection.url == '/collections/trim-accessories' %}javascript:void(){% else %}{{ featured_collection.url }}{% endif %}" {% if featured_collection.url == '/collections/trim-accessories' %}onclick="history.back()"{% endif %} class="breadcrumb-history-back">
+        {% if featured_collection.title == 'Modin Luxury Vinyl Plank' %}Modin Collection{% endif %}
+        {% if featured_collection.title == 'Silvan Resilient Hardwood' %}Silvan Collection{% endif %}
+        {% if featured_collection.title == 'Arista Laminate' %}Arista Collection{% endif %}
+        {% if featured_collection.title == 'Sample Kits' %}Sample Kits{% endif %}
+        {% if featured_collection.title == 'Trim & Accessories' %}Trim & Accessories{% endif %}
+        {% if featured_collection.title == 'Provence Natural Hardwood' %}Provence Collection{% endif %}
+      </a>
+
+    {% endif %}
+    </div>
+  {%- endunless -%}
+<div class="sticky-wrap">
+  {%- unless isAddSamplePopup or template == 'product.simple' -%}
+    <div class="product-gallery__visual-ctas">
+      <a class="view-more-gallery btn btn--outline" target="_blank" href="/collections/inspiration#{{ product.handle }}"
+        >View Gallery</a
+      >
+    </div>
+  {%- endunless -%}
+
+
+  <div class="swiper customGallery">
+    <div class="swiper-wrapper">
+      {% render 'product-media' %}
+    </div>
+    <div class="swiper-controls">
+      <div class="button-prev">{% render 'icon-prev' %}</div>
+      <div class="button-next">{% render 'icon-next' %}</div>
+    </div>
+
+    <div class="tags-wrap-meta">
+      {%- liquid
+        assign tag_string = product.metafields.custom.tags_to_show_in_image.value
+        assign tags_array = tag_string | split: ','
+      -%}
+      {%- for tag in tags_array -%}
+        <span class="product-tag">{{ tag | strip }}</span>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class=" productThumbs">
+    <div class="swiper-wrapper">
+      {% for media in product.media limit:12 %}
+        <div class="swiper-slide">
+          {% render 'lazy-image-product', lazy: false, image: media, width: 160, alt: product.title %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  </div>
+
+  
+  
+</div>
+
+{% comment %} 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    let swiper;
+
+    function initSwiper() {
+      const customGallery = document.querySelector('.customGallery');
+      if (!customGallery) {
+        console.error('Custom gallery element not found');
+        return;
+      }
+
+      try {
+        swiper = new Swiper('.customGallery', {
+          navigation: {
+            nextEl: '.button-next',
+            prevEl: '.button-prev',
+          },
+          loop: false,
+          spaceBetween: 10,
+          slidesPerView: 1,
+          speed: 400,
+          observer: true,
+          observeParents: true,
+          touchRatio: 0, // Disable default touch handling
+          on: {
+            init: function (s) {
+              if ('ontouchstart' in window) {
+                setupMobileTouchHandling(s);
+              } else {
+                setupDesktopDrag(s);
+              }
+            },
+          },
+        });
+
+        console.log('Swiper initialized successfully');
+      } catch (error) {
+        console.error('Error initializing Swiper:', error);
+      }
+    }
+
+    function initThumbs() {
+      if (!window.Swiper || !swiper) return;
+
+    const thumbsSwiper = new Swiper('.productThumbs', {
+      slidesPerView: 5,     // default (>= 991px)
+      spaceBetween: 12,
+      freeMode: false,
+      watchSlidesProgress: true,
+      breakpoints: {
+        // when window width is < 768
+        0: {
+          slidesPerView: 6.5
+        },
+        // when window width is >= 768
+        768: {
+          slidesPerView: 6.5
+        }
+        // you can add 991+ if you ever need a different value
+        // 991: { slidesPerView: 6 }
+      }
+    });
+
+      // Ensure Thumbs module is active; then wire using the official API
+      if (swiper.thumbs && typeof swiper.thumbs.init === 'function') {
+        swiper.thumbs.swiper = thumbsSwiper;   // attach instance
+        swiper.thumbs.init();                  // activate thumbs controller
+        thumbsSwiper.update();
+        swiper.update();
+      } else if (swiper.controller && thumbsSwiper.controller) {
+        // Fallback: two-way controller
+        swiper.controller.control = thumbsSwiper;
+        thumbsSwiper.controller.control = swiper;
+      }
+    }
+
+
+    function setupMobileTouchHandling(swiper) {
+      let startX, startTranslate, currentTranslate;
+      const swiperWrapper = swiper.wrapperEl;
+
+      swiperWrapper.addEventListener('touchstart', function (e) {
+        startX = e.touches[0].clientX;
+        startTranslate = swiper.translate;
+        currentTranslate = startTranslate;
+      });
+
+      swiperWrapper.addEventListener('touchmove', function (e) {
+        if (typeof startX === 'undefined') return;
+
+        const currentX = e.touches[0].clientX;
+        const diff = currentX - startX;
+        currentTranslate = startTranslate + diff;
+
+        // Prevent overscrolling
+        const minTranslate = swiper.minTranslate();
+        const maxTranslate = swiper.maxTranslate();
+        if (currentTranslate > minTranslate) currentTranslate = minTranslate;
+        if (currentTranslate < maxTranslate) currentTranslate = maxTranslate;
+
+        swiper.setTranslate(currentTranslate);
+        e.preventDefault(); // Prevent default scrolling
+      });
+
+      swiperWrapper.addEventListener('touchend', function () {
+        if (typeof startX === 'undefined') return;
+
+        const diff = currentTranslate - startTranslate;
+        const slidesWidth = swiper.slidesSizesGrid[0];
+
+        if (Math.abs(diff) > slidesWidth / 4) {
+          if (diff > 0 && !swiper.isBeginning) {
+            swiper.slidePrev();
+          } else if (diff < 0 && !swiper.isEnd) {
+            swiper.slideNext();
+          } else {
+            swiper.slideTo(swiper.activeIndex);
+          }
+        } else {
+          swiper.slideTo(swiper.activeIndex);
+        }
+
+        startX = undefined;
+      });
+    }
+
+    function setupDesktopDrag(swiper) {
+      swiper.params.touchRatio = 1; // Enable touch/mouse events for desktop
+      swiper.params.resistance = true;
+      swiper.params.resistanceRatio = 0.85;
+
+      // Re-initialize Swiper to apply the new parameters
+      swiper.update();
+    }
+
+    // Initialize Swiper
+    initSwiper();
+    initThumbs(); 
+
+    const resetButtons = document.querySelectorAll('.pdp-atc__group__buttons li');
+    resetButtons.forEach((button) => {
+      button.addEventListener('click', function () {
+        if (swiper && swiper.initialized) {
+          swiper.slideTo(0, 0);
+        }
+      });
+    });
+  });
+</script> {% endcomment %}
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    let swiper;
+    let thumbsSwiper;
+
+    function initSwiper() {
+      const customGallery = document.querySelector('.customGallery');
+      if (!customGallery) {
+        console.error('Custom gallery element not found');
+        return;
+      }
+
+      if (!window.Swiper) {
+        console.error('Swiper is not loaded');
+        return;
+      }
+
+      try {
+        swiper = new Swiper('.customGallery', {
+          navigation: {
+            nextEl: '.button-next',
+            prevEl: '.button-prev',
+          },
+          loop: false,
+          spaceBetween: 10,
+          slidesPerView: 1,
+          speed: 400,
+          observer: true,
+          observeParents: true,
+          // Let Swiper handle touch on all devices
+          touchRatio: 1,
+          resistance: true,
+          resistanceRatio: 0.85,
+          on: {
+            init: function (s) {
+              // If you ever need device‑specific tweaks, do them here,
+              // but don't override translate manually.
+              console.log('Swiper initialized (main)');
+            }
+          }
+        });
+
+        console.log('Swiper initialized successfully');
+      } catch (error) {
+        console.error('Error initializing Swiper:', error);
+      }
+    }
+
+    function initThumbs() {
+      if (!window.Swiper || !swiper) return;
+
+      try {
+        thumbsSwiper = new Swiper('.productThumbs', {
+          slidesPerView: 5, // default (>= 991px)
+          spaceBetween: 12,
+          freeMode: false,
+          watchSlidesProgress: true,
+          breakpoints: {
+            0: {
+              slidesPerView: 6.5
+            },
+            768: {
+              slidesPerView: 6.5
+            }
+          }
+        });
+
+        console.log('Thumbs Swiper initialized');
+
+        // Preferred thumbs integration (if Thumbs module is enabled)
+        if (swiper.thumbs && typeof swiper.thumbs.init === 'function') {
+          swiper.thumbs.swiper = thumbsSwiper;
+          swiper.thumbs.init();
+          thumbsSwiper.update();
+          swiper.update();
+        } else if (swiper.controller && thumbsSwiper.controller) {
+          // Fallback: controller linkage
+          swiper.controller.control = thumbsSwiper;
+          thumbsSwiper.controller.control = swiper;
+          thumbsSwiper.update();
+          swiper.update();
+        }
+      } catch (error) {
+        console.error('Error initializing Thumbs Swiper:', error);
+      }
+    }
+
+    function bindResetButtons() {
+      const resetButtons = document.querySelectorAll('.pdp-atc__group__buttons li');
+      if (!resetButtons.length) return;
+
+      resetButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+          if (swiper && swiper.initialized) {
+            swiper.slideTo(0, 0);
+          }
+        });
+      });
+    }
+
+    // Init
+    initSwiper();
+    initThumbs();
+    bindResetButtons();
+  });
+</script>
+

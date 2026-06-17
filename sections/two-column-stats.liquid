@@ -1,0 +1,106 @@
+{% include 'section-two-column', _settings : section.settings, _blocks : section.blocks %}
+
+{% schema %}
+{
+  "name": "Two Column - Img+Stats",
+  "class": "shopify-block two-column two-column--stats bg-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#343334"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_reverse",
+      "label": "Row Reverse",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+           {
+      "type": "checkbox",
+      "id": "contain_image",
+      "label": "Contain Image",
+      "default": false
+    },    
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Sub-heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    }
+
+  ],
+  "blocks": [
+     {
+       "name": "Stat",
+       "type": "stat",
+       "settings": [
+         {
+           "type": "text",
+           "id": "statistic",
+           "label": "Statistic"
+         },
+        {
+          "type": "image_picker",
+          "id": "stat_icon",
+          "label": "Icon"
+        },
+         {
+           "type": "text",
+           "id": "statistic_content",
+           "label": "Statistic Content"
+         }
+       ]
+     }
+  ],
+  "presets": [
+    {
+      "name": "Two Column - Img+Stats",
+      "category": "Content / Image"
+    }
+  ]
+}
+{% endschema %}

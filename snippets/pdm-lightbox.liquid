@@ -1,0 +1,2075 @@
+<div class="pdm-lightbox pdm-lightbox--reset">
+  <div class="pdm-lightbox__container">
+    <button class="pdm-lightbox__close" type="button">Close Popup</button>
+    <div class="pdm-lightbox__content"></div>
+  </div>
+</div>
+
+
+<div class="pdm-lightbox product-addsamplepopup">
+  <div class="pdm-lightbox__container">
+    <button class="pdm-lightbox__close" type="button">Close Popup</button>
+    <div class="pdm-lightbox__content"></div>
+  </div>
+</div>
+
+
+<div class="pdm-lightbox gallerypopup">
+  <div class="pdm-lightbox__container">
+    <button class="pdm-lightbox__close" type="button">Close Popup</button>
+    <div class="pdm-lightbox__content"></div>
+  </div>
+</div>
+
+
+
+
+<div id="quick-view-modal" style="display:none;" class="quick-view-modal" data-product-handle="{{ product.handle }}">
+  <div class="quick-view-modal__content">
+     <div class="quick-view-loader"></div>
+    <button class="quick-view-modal__close">&times;</button>
+    <div class="quick-view-product">
+      <div class="quick-view-product__images">
+        </div>
+      <div class="quick-view-product__info">
+        <div class="wrap-quick-view">
+        <h2 class="quick-view-product__title">
+          </h2>
+        <div class="quick-view-product__price">
+            <span><span class=main-price price js-product__price></span></span>
+            <span>(for box)</span>
+          </div>
+        </div>
+        <form id="quick-view-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
+          
+          <div class="quick-view-product__variants">
+            </div>
+
+
+          <input type="hidden" name="id" class="quick-view-product__variant-id">
+          <button type="submit" class="quick-view-product__add-to-cart">Add to Cart</button>
+          <a href="#" class="quick-view-product__view-details">View Details</a>
+          
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<style>
+    .quick-view-modal {
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0 0 0 / 94%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    .quick-view-modal__content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 30px;
+      border: 1px solid #888;
+      width: 80%;
+        max-width: 1180px;
+        {% comment %} position: relative; {% endcomment %}
+        border-radius: 40px;
+          height: 700px;
+        overflow-y: auto;
+    }
+
+
+    .quick-view-modal__close {
+        color: #aaa;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        border: none;
+        background: none;
+        cursor: pointer;
+        background: #fff;
+        z-index: 1;
+        padding: 0px;
+        line-height: 1;
+        height: 17px;
+        width: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .quick-view-modal__close:hover,
+    .quick-view-modal__close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+
+    .quick-view-product {
+      display: flex;
+      gap: 20px;
+    }
+
+
+    .quick-view-product__images {
+      width: 50%;
+          overflow: hidden;
+      position:relative;
+    }
+
+
+    .quick-view-product__images  .slick-track {
+      display: flex;
+    }
+
+
+    .quick-view-product__images img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+
+    .quick-view-product__info {
+      width: 50%;
+      padding-top: 50px;
+    }
+
+
+    .quick-view-product__variants .quick-view-product__option {
+        margin-bottom: 15px;
+    }
+
+
+    .quick-view-product__price > span:nth-child(2) {
+        display: none;
+    }
+
+
+    .quick-view-product__price.is-box-variant > span:nth-child(2) {
+        display: block;
+    }  
+      
+    .quick-view-product__add-to-cart, .quick-view-product__view-details {
+        display: inline-flex;
+        margin-top: 0px;
+        padding: .75rem .5rem;
+        text-decoration: none;
+        color: #fff;
+        border: 1px solid #000;
+        cursor: pointer;
+        border-radius: 25px;
+        width: 42%;
+        align-items: center;
+        justify-content: center;
+        min-height: 47px;
+    }
+
+
+    .quick-view-product__add-to-cart {
+      background:#000;
+      color:#fff;
+    }
+    .quick-view-product__add-to-cart:hover {
+      background:#fff;
+      color:#000;
+    }
+    .quick-view-product__view-details {
+      background:#fff;
+      color:#000;
+    }  
+    .quick-view-product__view-details:hover {
+      background:#000;
+      color:#fff;
+    }    
+
+
+    .quick-view-product__view-details {
+        /* background-color: #555; */
+        margin-left: 10px;
+    }
+    h4.quick-view-option-title {
+        font-size: 14px;
+        margin: 0px;
+    }
+
+
+    h4.quick-view-option-title + .pdp-atc__group__buttons {
+        margin: 5px 0px 20px;
+    }
+
+
+    h4.quick-view-option-title:nth-child(1) {
+        margin-top: 25px;
+    }
+    h2.quick-view-product__title {
+        font-size: 1.75rem;
+        line-height: 1 !important;
+        padding-bottom: 8px !important;
+        text-align: start !important;
+        font-weight: 600;
+    }
+
+
+    .quick-view-product__price {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+
+    .wrap-quick-view {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+
+    .quick-view-product__price > span:nth-child(1) {
+        font-weight: 600;
+    }
+
+
+    .quick-view-product__price > span:nth-child(2) {
+        text-wrap: nowrap;
+        font-weight: 100;
+        font-size: 14px;
+    }
+    button.quick-view-btn {
+      display: inline-block;
+      text-decoration: none;
+      border-radius: 2rem;
+      transition: all .3s ease;
+      color: #000000;
+      background: #fff;
+      cursor: pointer;
+      border: 1px solid #000000;
+      min-width: 130px;
+      font-family: Montserrat;
+      font-weight: 500;
+      font-style: Medium;
+      font-size: 14px !important;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      padding: 0px 0px !important;
+      min-height: 48px;
+  }
+  button.quick-view-btn:hover {
+      background: #000;
+      color: #fff;
+  }
+    /* Spinner for loading state */
+    .quick-view-loader {
+      border: 4px solid #f3f3f3; /* Light grey */
+      border-top: 4px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      position: absolute;
+      top: calc(50% - 20px);
+      left: calc(50% - 20px);
+      display: none; /* Hidden by default */
+    }
+
+
+
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      align-items: start;
+      padding: .5rem 1rem;
+      border: 1px solid #acacac;
+      border-radius: 3px;
+      background-color: #fff;
+      margin: .25rem auto;
+      flex-direction: column;
+  }
+
+
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label ul.product-option__meta {
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      display: flex;
+      gap: 8px;
+  }
+
+
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label > span {
+      display: block;
+      width: 100%;
+      font-size: 1rem;
+      font-weight: 700;
+  }
+
+
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label > span ul.product-option__meta {
+      margin: 0px;
+      padding: 0px;
+  }
+
+
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label ul.product-option__meta li {
+      color: #717171;
+      font-size: 12.8px;
+  }
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label ul.product-option__meta li {
+      text-wrap-mode: nowrap;
+  }
+  .pdp-atc__group__buttons li input[type=radio]:checked + label {border-color: #faaf4f;-webkit-box-shadow: 0 0 0 1px #faaf4f;box-shadow: 0 0 0 1px #faaf4f;}
+
+
+  .quick-view-product__images .slick-button.slick-arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 999;
+  }
+
+
+  .quick-view-product__images .button-prev {
+      left: 0;
+  }
+
+
+  .quick-view-product__images .button-next {
+      right: 0;
+  }
+
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+
+  #quick-view-modal.quick-view--loading .quick-view-product {
+    visibility: hidden;
+    opacity: 0;
+  }
+  #quick-view-modal.quick-view--loading .quick-view-loader {
+    display: block;
+  }
+
+
+  #quick-view-modal.quick-view--loaded .quick-view-product {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }  
+
+
+  .quick-view-modal .js-product-form__group.pdp-atc__group--type {
+      display: none;
+  }
+
+
+  @media (max-width:768px){
+
+
+    .quick-view-product__info{
+      padding-top:0px;
+    }
+    .quick-view-modal__content {
+          padding: 40px 15px 15px;
+              width: 95%;
+            border-radius: 4px;
+    }
+    .quick-view-product__images .slick-arrow svg {
+        width: 25px;
+        height: 25px;
+    }
+    {% comment %} button.quick-view-btn {
+        font-size: 12px;
+    } {% endcomment %}
+    button.quick-view-btn {
+            font-family: Montserrat;
+            font-weight: 500;
+            font-size: 12px !important;
+            line-height: 20px;
+            letter-spacing: -0.15px;
+            min-height: 28px !important;
+            width: 100%;
+        }
+    .quick-view-product {
+        flex-direction: column;
+    }
+    .quick-view-product__images {
+        width: 100%;
+    }
+    
+    .quick-view-product__info {
+        width: 100%;
+    }
+  }
+  @media (max-height: 700px) {
+  .quick-view-modal__content {
+      padding-bottom: 20%;
+  }
+  }
+
+
+
+</style>
+
+
+
+<script>
+  document.querySelector('.quick-view-product__view-details').addEventListener('click', ()=>{
+    window.location = document.querySelector('.quick-view-product__view-details').getAttribute('href')
+})
+</script>
+
+
+<script>
+// Make core refs/functions globally reachable
+window.quickView = (function () {
+  let modal, isUpdating = false;
+  let currentProductData = null;
+  let currentMetaObjectPrices = null;
+
+
+  function init() {
+    modal = document.getElementById('quick-view-modal');
+    if (!modal) return;
+
+
+    const closeModalBtn = modal.querySelector('.quick-view-modal__close');
+    closeModalBtn?.addEventListener('click', closeAndResetModal);
+    window.addEventListener('click', (e) => { if (e.target === modal) closeAndResetModal(); });
+
+
+    // Delegated click survives DOM swaps from filter/sort
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.quick-view-btn');
+      if (!btn) return;
+      const handle = btn.dataset.productHandle;
+      if (handle) openQuickView(handle);
+    });
+  }
+
+
+  function openQuickView(handle) {
+    if (!modal) return;
+    modal.classList.add('quick-view--loading');
+    modal.classList.remove('quick-view--loaded');
+    modal.style.display = 'flex';
+    document.documentElement.classList.add('quick-view-is-open');
+
+
+    fetch(`/products/${handle}.js`)
+      .then(r => r.json())
+      .then(productJson => {
+        currentProductData = productJson;
+
+
+        const preloadedData = window.quickViewData?.[handle] || null;
+        currentMetaObjectPrices = preloadedData ? preloadedData.metaobject_prices : {};
+
+
+        populateQuickView(productJson, preloadedData ? preloadedData.html : null);
+        console.log('------------');
+        console.log(currentProductData);
+      })
+      .catch(err => {
+        console.error('Quick view fetch error', err);
+        closeAndResetModal();
+      });
+  }
+
+
+  function buildImages(product, prevArrowHTML, nextArrowHTML) {
+    const wrap = modal.querySelector('.quick-view-product__images');
+    if (!wrap) return;
+
+
+    // Clean re-init of Slick
+    if ($(wrap).hasClass('slick-initialized')) $(wrap).slick('unslick');
+    wrap.innerHTML = product.media
+      .filter(m => m.media_type === 'image')
+      .map(m => `<div class="pro-img" data-media-id="${m.id}"><img src="${m.src}" alt="${m.alt || product.title}"></div>`)
+      .join('');
+
+
+    const count = product.media.filter(m => m.media_type === 'image').length;
+    if (count > 1) {
+      $(wrap)
+        .one('init', () => {
+          modal.classList.remove('quick-view--loading');
+          modal.classList.add('quick-view--loaded');
+        })
+        .slick({
+          infinite: false,
+          arrows: false,
+          prevArrow: prevArrowHTML,
+          nextArrow: nextArrowHTML,
+          slidesToShow: 1,
+          slidesToScroll: 1
+        });
+    } else {
+      modal.classList.remove('quick-view--loading');
+      modal.classList.add('quick-view--loaded');
+    }
+  }
+
+
+  function populateQuickView(product, html) {
+    const prevArrowHTML = `
+      <div class="button-prev slick-button">…</div>
+    `;
+    const nextArrowHTML = `
+      <div class="button-next slick-button">…</div>
+    `;
+
+
+    buildImages(product, prevArrowHTML, nextArrowHTML);
+
+
+    modal.querySelector('.quick-view-product__title').textContent = product.title;
+
+
+    // (You still have this line; it shows product.price initially, then updateVariantState overwrites it)
+    modal.querySelector('.quick-view-product__price .main-price').textContent =
+      new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(product.price / 100);
+
+
+    modal.querySelector('.quick-view-product__view-details').href = product.url;
+
+
+    const variantsContainer = modal.querySelector('.quick-view-product__variants');
+    variantsContainer.innerHTML = html || '<p style="color:red;text-align:center;">Error: Variant options could not be loaded.</p>';
+
+
+    setupVariantSelection();
+  }
+
+
+  function setupVariantSelection() {
+    modal.querySelectorAll('.quick-view-product__variants .js-product-form__group').forEach(group => {
+      const firstRadio = group.querySelector('input[type="radio"]');
+      if (firstRadio) firstRadio.checked = true;
+    });
+    modal.querySelectorAll('.quick-view-product__variants input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', () => updateVariantState());
+    });
+    updateVariantState();
+  }
+
+
+  // Helper: find option index by option name (Model can be option1 or option2)
+  // Supports productData.options as ["Model","Type"] OR [{name:"Model"}, {name:"Type"}]
+  function getOptionIndexByName(productData, optionName) {
+    const opts = (productData && Array.isArray(productData.options)) ? productData.options : [];
+    const target = (optionName || '').toLowerCase();
+
+
+    for (let i = 0; i < opts.length; i++) {
+      const o = opts[i];
+
+
+      if (typeof o === 'string') {
+        if (o.toLowerCase() === target) return i;
+        continue;
+      }
+
+
+      if (o && typeof o === 'object') {
+        const name = (o.name != null) ? String(o.name).toLowerCase() : '';
+        if (name === target) return i;
+      }
+    }
+    return -1;
+  }
+
+
+  // FULL: metaobject fallback + logs
+  function updateVariantState() {
+    console.log('%c=== QV updateVariantState() START ===', 'color: blue; font-weight: bold;');
+
+
+    if (isUpdating) {
+      console.log('%cQV blocked (isUpdating=true)', 'color: orange; font-weight: bold;');
+      return;
+    }
+    isUpdating = true;
+
+
+    try {
+      if (!modal) {
+        console.warn('%cQV modal missing', 'color: red; font-weight: bold;');
+        return;
+      }
+      if (!currentProductData) {
+        console.warn('%cQV currentProductData missing', 'color: red; font-weight: bold;');
+        return;
+      }
+
+
+      const selectedOptions = Array
+        .from(modal.querySelectorAll('.quick-view-product__variants input[type="radio"]:checked'))
+        .map(r => r.value);
+
+
+      console.log('%cQV selectedOptions:', 'color: purple; font-weight: bold;', selectedOptions);
+      console.log('%cQV product handle:', 'color: purple; font-weight: bold;', currentProductData.handle);
+      console.log('%cQV product options (raw):', 'color: purple; font-weight: bold;', currentProductData.options);
+
+
+      const selectedVariant = (currentProductData.variants || []).find(v =>
+        selectedOptions.every((opt, i) => v.options[i] === opt)
+      );
+
+
+      console.log('%cQV selectedVariant:', 'color: teal; font-weight: bold;', selectedVariant);
+
+
+      const variantIdInput  = modal.querySelector('.quick-view-product__variant-id');
+      const addToCartButton = modal.querySelector('.quick-view-product__add-to-cart');
+      const priceContainer  = modal.querySelector('.quick-view-product__price');
+      const priceDisplay    = modal.querySelector('.quick-view-product__price .main-price');
+
+
+      console.log('%cQV DOM found:', 'color: gray; font-weight: bold;', {
+        variantIdInput: !!variantIdInput,
+        addToCartButton: !!addToCartButton,
+        priceContainer: !!priceContainer,
+        priceDisplay: !!priceDisplay
+      });
+
+
+      if (!priceDisplay) return;
+
+
+      if (selectedVariant) {
+        // Basic wiring
+        if (variantIdInput) variantIdInput.value = selectedVariant.id;
+
+
+        // 1) Variant metafields (dollars as strings)
+        const variantMeta = (window.variantMetafields || {})[selectedVariant.id] || {};
+        const rawSqftPrice   = variantMeta.sqft_price;
+        const rawSqftCompare = variantMeta.sqft_compare_at_price;
+
+
+        const variantSqftPriceCents =
+          rawSqftPrice && !isNaN(parseFloat(rawSqftPrice))
+            ? Math.round(parseFloat(rawSqftPrice) * 100)
+            : 0;
+
+
+        const variantSqftCompareCents =
+          rawSqftCompare && !isNaN(parseFloat(rawSqftCompare))
+            ? Math.round(parseFloat(rawSqftCompare) * 100)
+            : 0;
+
+
+        console.log('%cQV variantMeta:', 'color: brown; font-weight: bold;', variantMeta);
+        console.log('%cQV variantSqft cents:', 'color: brown; font-weight: bold;', {
+          rawSqftPrice,
+          rawSqftCompare,
+          variantSqftPriceCents,
+          variantSqftCompareCents
+        });
+
+
+        // 1.5) Metaobject fallback (CENTS) from window.quickViewData[handle].metaobject_prices[modelValue]
+        const modelIdx = getOptionIndexByName(currentProductData, 'Model');
+        const modelValue =
+          (modelIdx > -1 && selectedVariant.options && selectedVariant.options[modelIdx])
+            ? selectedVariant.options[modelIdx]
+            : '';
+
+
+        // Prefer preloaded quickViewData but also allow currentMetaObjectPrices
+        const qvHandle = currentProductData.handle;
+        const qv = (window.quickViewData && window.quickViewData[qvHandle]) ? window.quickViewData[qvHandle] : null;
+        const metaPricesMap = (qv && qv.metaobject_prices) ? qv.metaobject_prices : currentMetaObjectPrices;
+
+
+        const keyRaw = modelValue || '';
+        const moPrices = metaPricesMap ? (metaPricesMap[keyRaw] || null) : null;
+
+
+        console.log('%cQV metaobject lookup:', 'color: darkgreen; font-weight: bold;', {
+          modelIdx,
+          modelValue,
+          keyRaw,
+          hasQuickViewData: !!qv,
+          metaKeys: metaPricesMap ? Object.keys(metaPricesMap) : [],
+          moPrices
+        });
+
+
+        // Metaobject prices must be cents in JS: { price_cents, compare_cents }
+        const metaSqftPriceCents =
+          (moPrices && moPrices.price_cents != null && moPrices.price_cents !== '')
+            ? Number(moPrices.price_cents)
+            : 0;
+
+
+        const metaSqftCompareCents =
+          (moPrices && moPrices.compare_cents != null && moPrices.compare_cents !== '')
+            ? Number(moPrices.compare_cents)
+            : 0;
+
+
+        console.log('%cQV meta cents:', 'color: darkgreen; font-weight: bold;', {
+          metaSqftPriceCents,
+          metaSqftCompareCents
+        });
+
+
+        // 2) Final price/compare in cents:
+        // Variant metafields -> Metaobject -> 0 (NO fallback to variant.price)
+        let priceInCents =
+          variantSqftPriceCents > 0
+            ? variantSqftPriceCents
+            : (metaSqftPriceCents > 0 ? metaSqftPriceCents : 0);
+
+
+        let comparePriceInCents =
+          variantSqftCompareCents > 0
+            ? variantSqftCompareCents
+            : (metaSqftCompareCents > 0 ? metaSqftCompareCents : 0);
+
+
+        console.log('%cQV final cents:', 'color: teal; font-weight: bold;', {
+          priceInCents,
+          comparePriceInCents
+        });
+
+
+        // 3) Render HTML
+        const priceFormatted = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        }).format(priceInCents / 100);
+
+
+        let priceHtml = `<span class='p-r-ice'>${priceFormatted}`;
+
+
+        if (comparePriceInCents > priceInCents && comparePriceInCents > 0) {
+          const compareFormatted = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD'
+          }).format(comparePriceInCents / 100);
+
+
+          const pct = Math.round(((comparePriceInCents - priceInCents) / comparePriceInCents) * 100);
+          priceHtml += ` <del>${compareFormatted}</del> <span class="sqft-text">per sq ft</span> <span class="off-percent">${pct}% Off</span>`;
+        } else {
+          priceHtml += ' <span class="sqft-text">per sq ft</span>';
+        }
+
+
+        priceHtml += '</span>';
+        priceDisplay.innerHTML = priceHtml;
+
+
+        console.log('%cQV rendered priceHtml:', 'color: green; font-weight: bold;', priceHtml);
+
+
+        // 4) Box label + ATC button
+        const isBoxVariant = selectedOptions.some(o => (o || '').toLowerCase() === 'box');
+        if (priceContainer) priceContainer.classList.toggle('is-box-variant', isBoxVariant);
+
+
+        console.log('%cQV isBoxVariant:', 'color: gray; font-weight: bold;', isBoxVariant);
+
+
+        if (addToCartButton) {
+          addToCartButton.textContent = selectedVariant.available ? 'Add to Cart' : 'Sold Out';
+          addToCartButton.disabled = !selectedVariant.available;
+        }
+
+
+        // 5) Sync gallery image (unchanged)
+        if (selectedVariant.featured_media?.id) {
+          const target = modal.querySelector(`.pro-img[data-media-id="${selectedVariant.featured_media.id}"]`);
+          if (target) {
+            const slide = target.closest('.slick-slide');
+            const idx = $(slide).data('slick-index');
+            if (idx !== undefined) {
+              $('.quick-view-product__images').slick('slickGoTo', idx, true);
+            }
+          }
+        }
+      } else {
+        console.warn('%cQV No matching variant for selectedOptions', 'color: orange; font-weight: bold;', selectedOptions);
+
+
+        if (variantIdInput) variantIdInput.value = '';
+        if (addToCartButton) {
+          addToCartButton.textContent = 'Unavailable';
+          addToCartButton.disabled = true;
+        }
+        if (priceContainer) priceContainer.classList.remove('is-box-variant');
+      }
+
+
+      updateOptionAvailability();
+    } finally {
+      isUpdating = false;
+      console.log('%c=== QV updateVariantState() END ===', 'color: blue; font-weight: bold;');
+    }
+  }
+
+
+  function updateOptionAvailability() {
+    const optionGroups = modal.querySelectorAll('.quick-view-product__variants .js-product-form__group');
+    const selectedOptions = Array.from(modal.querySelectorAll('.quick-view-product__variants input[type="radio"]:checked')).map(r => r.value);
+
+
+    optionGroups.forEach((group, groupIndex) => {
+      const radios = group.querySelectorAll('input[type="radio"]');
+      radios.forEach(radio => {
+        const test = [...selectedOptions];
+        test[groupIndex] = radio.value;
+        const match = currentProductData?.variants?.find(v => test.every((opt, i) => v.options[i] === opt));
+        const optionEl = radio.closest('li') || radio.parentElement;
+        if (match && match.available) {
+          optionEl.style.display = '';
+          radio.disabled = false;
+        } else {
+          optionEl.style.display = 'none';
+          radio.disabled = true;
+          if (radio.checked) radio.checked = false;
+        }
+      });
+
+
+      const checked = group.querySelector('input[type="radio"]:checked');
+      if (!checked) {
+        const firstAvailable = group.querySelector('input[type="radio"]:not(:disabled)');
+        if (firstAvailable) {
+          firstAvailable.checked = true;
+          firstAvailable.dispatchEvent(new Event('change', { bubbles: true })); // triggers updateVariantState
+        }
+      }
+    });
+  }
+
+
+  function closeAndResetModal() {
+    const $wrap = $('.quick-view-product__images');
+    if ($wrap.hasClass('slick-initialized')) $wrap.slick('unslick');
+    modal.style.display = 'none';
+    document.documentElement.classList.remove('quick-view-is-open');
+    modal.classList.remove('quick-view--loading', 'quick-view--loaded');
+  }
+
+
+  // expose only what is needed
+  return { init, openQuickView };
+})();
+
+
+// Initialize once on page load
+document.addEventListener('DOMContentLoaded', () => {
+  window.quickView.init();
+});
+</script>
+
+
+
+
+{% comment %} <div class="pdm-lightbox pdm-lightbox--reset">
+  <div class="pdm-lightbox__container">
+    <button class="pdm-lightbox__close" type="button">Close Popup</button>
+    <div class="pdm-lightbox__content"></div>
+  </div>
+</div>
+
+<div class="pdm-lightbox product-addsamplepopup">
+  <div class="pdm-lightbox__container">
+    <button class="pdm-lightbox__close" type="button">Close Popup</button>
+    <div class="pdm-lightbox__content"></div>
+  </div>
+</div>
+
+<div class="pdm-lightbox gallerypopup">
+  <div class="pdm-lightbox__container">
+    <button class="pdm-lightbox__close" type="button">Close Popup</button>
+    <div class="pdm-lightbox__content"></div>
+  </div>
+</div>
+
+
+
+<div id="quick-view-modal" style="display:none;" class="quick-view-modal" data-product-handle="{{ product.handle }}">
+  <div class="quick-view-modal__content">
+     <div class="quick-view-loader"></div>
+    <button class="quick-view-modal__close">&times;</button>
+    <div class="quick-view-product">
+      <div class="quick-view-product__images">
+        </div>
+      <div class="quick-view-product__info">
+        <div class="wrap-quick-view">
+        <h2 class="quick-view-product__title">
+          </h2>
+        <div class="quick-view-product__price">
+            <span><span class=main-price price js-product__price></span></span>
+            <span>(for box)</span>
+          </div>
+        </div>
+        <form id="quick-view-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
+          
+          <div class="quick-view-product__variants">
+            </div>
+
+          <input type="hidden" name="id" class="quick-view-product__variant-id">
+          <button type="submit" class="quick-view-product__add-to-cart">Add to Cart</button>
+          <a href="#" class="quick-view-product__view-details">View Details</a>
+          
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+    .quick-view-modal {
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0 0 0 / 94%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .quick-view-modal__content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 30px;
+      border: 1px solid #888;
+      width: 80%;
+        max-width: 1180px;
+        {% comment %} position: relative; {% endcomment %}
+        border-radius: 40px;
+          height: 700px;
+        overflow-y: auto;
+    }
+
+    .quick-view-modal__close {
+        color: #aaa;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        border: none;
+        background: none;
+        cursor: pointer;
+        background: #fff;
+        z-index: 1;
+        padding: 0px;
+        line-height: 1;
+        height: 17px;
+        width: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .quick-view-modal__close:hover,
+    .quick-view-modal__close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .quick-view-product {
+      display: flex;
+      gap: 20px;
+    }
+
+    .quick-view-product__images {
+      width: 50%;
+          overflow: hidden;
+      position:relative;
+    }
+
+    .quick-view-product__images  .slick-track {
+      display: flex;
+    }
+
+    .quick-view-product__images img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .quick-view-product__info {
+      width: 50%;
+      padding-top: 50px;
+    }
+
+    .quick-view-product__variants .quick-view-product__option {
+        margin-bottom: 15px;
+    }
+
+    .quick-view-product__price > span:nth-child(2) {
+        display: none;
+    }
+
+    .quick-view-product__price.is-box-variant > span:nth-child(2) {
+        display: block;
+    }  
+      
+    .quick-view-product__add-to-cart, .quick-view-product__view-details {
+        display: inline-flex;
+        margin-top: 0px;
+        padding: .75rem .5rem;
+        text-decoration: none;
+        color: #fff;
+        border: 1px solid #000;
+        cursor: pointer;
+        border-radius: 25px;
+        width: 42%;
+        align-items: center;
+        justify-content: center;
+        min-height: 47px;
+    }
+
+    .quick-view-product__add-to-cart {
+      background:#000;
+      color:#fff;
+    }
+    .quick-view-product__add-to-cart:hover {
+      background:#fff;
+      color:#000;
+    }
+    .quick-view-product__view-details {
+      background:#fff;
+      color:#000;
+    }  
+    .quick-view-product__view-details:hover {
+      background:#000;
+      color:#fff;
+    }    
+
+    .quick-view-product__view-details {
+        /* background-color: #555; */
+        margin-left: 10px;
+    }
+    h4.quick-view-option-title {
+        font-size: 14px;
+        margin: 0px;
+    }
+
+    h4.quick-view-option-title + .pdp-atc__group__buttons {
+        margin: 5px 0px 20px;
+    }
+
+    h4.quick-view-option-title:nth-child(1) {
+        margin-top: 25px;
+    }
+    h2.quick-view-product__title {
+        font-size: 1.75rem;
+        line-height: 1 !important;
+        padding-bottom: 8px !important;
+        text-align: start !important;
+        font-weight: 600;
+    }
+
+    .quick-view-product__price {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .wrap-quick-view {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .quick-view-product__price > span:nth-child(1) {
+        font-weight: 600;
+    }
+
+    .quick-view-product__price > span:nth-child(2) {
+        text-wrap: nowrap;
+        font-weight: 100;
+        font-size: 14px;
+    }
+    button.quick-view-btn {
+      display: inline-block;
+      text-decoration: none;
+      border-radius: 2rem;
+      transition: all .3s ease;
+      color: #000000;
+      background: #fff;
+      cursor: pointer;
+      border: 1px solid #000000;
+      min-width: 130px;
+      font-family: Montserrat;
+      font-weight: 500;
+      font-style: Medium;
+      font-size: 14px !important;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      padding: 0px 0px !important;
+      min-height: 48px;
+  }
+  button.quick-view-btn:hover {
+      background: #000;
+      color: #fff;
+  }
+    /* Spinner for loading state */
+    .quick-view-loader {
+      border: 4px solid #f3f3f3; /* Light grey */
+      border-top: 4px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      position: absolute;
+      top: calc(50% - 20px);
+      left: calc(50% - 20px);
+      display: none; /* Hidden by default */
+    }
+
+
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      align-items: start;
+      padding: .5rem 1rem;
+      border: 1px solid #acacac;
+      border-radius: 3px;
+      background-color: #fff;
+      margin: .25rem auto;
+      flex-direction: column;
+  }
+
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label ul.product-option__meta {
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      display: flex;
+      gap: 8px;
+  }
+
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label > span {
+      display: block;
+      width: 100%;
+      font-size: 1rem;
+      font-weight: 700;
+  }
+
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label > span ul.product-option__meta {
+      margin: 0px;
+      padding: 0px;
+  }
+
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label ul.product-option__meta li {
+      color: #717171;
+      font-size: 12.8px;
+  }
+  .quick-view-product__variants .pdp-atc__groups .pdp-atc__group__buttons li input + label ul.product-option__meta li {
+      text-wrap-mode: nowrap;
+  }
+  .pdp-atc__group__buttons li input[type=radio]:checked + label {border-color: #faaf4f;-webkit-box-shadow: 0 0 0 1px #faaf4f;box-shadow: 0 0 0 1px #faaf4f;}
+
+  .quick-view-product__images .slick-button.slick-arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 999;
+  }
+
+  .quick-view-product__images .button-prev {
+      left: 0;
+  }
+
+  .quick-view-product__images .button-next {
+      right: 0;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  #quick-view-modal.quick-view--loading .quick-view-product {
+    visibility: hidden;
+    opacity: 0;
+  }
+  #quick-view-modal.quick-view--loading .quick-view-loader {
+    display: block;
+  }
+
+  #quick-view-modal.quick-view--loaded .quick-view-product {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }  
+
+  .quick-view-modal .js-product-form__group.pdp-atc__group--type {
+      display: none;
+  }
+
+  @media (max-width:768px){
+
+    .quick-view-product__info{
+      padding-top:0px;
+    }
+    .quick-view-modal__content {
+          padding: 40px 15px 15px;
+              width: 95%;
+            border-radius: 4px;
+    }
+    .quick-view-product__images .slick-arrow svg {
+        width: 25px;
+        height: 25px;
+    }
+    {% comment %} button.quick-view-btn {
+        font-size: 12px;
+    } {% endcomment %}
+    button.quick-view-btn {
+            font-family: Montserrat;
+            font-weight: 500;
+            font-size: 12px !important;
+            line-height: 20px;
+            letter-spacing: -0.15px;
+            min-height: 28px !important;
+            width: 100%;
+        }
+    .quick-view-product {
+        flex-direction: column;
+    }
+    .quick-view-product__images {
+        width: 100%;
+    }
+    
+    .quick-view-product__info {
+        width: 100%;
+    }
+  }
+  @media (max-height: 700px) {
+  .quick-view-modal__content {
+      padding-bottom: 20%;
+  }
+  }
+
+
+</style>
+
+
+<script>
+  document.querySelector('.quick-view-product__view-details').addEventListener('click', ()=>{
+    window.location = document.querySelector('.quick-view-product__view-details').getAttribute('href')
+})
+</script>
+
+<script>
+// Make core refs/functions globally reachable
+window.quickView = (function () {
+  let modal, isUpdating = false;
+  let currentProductData = null;
+  let currentMetaObjectPrices = null;
+
+  function init() {
+    modal = document.getElementById('quick-view-modal');
+    if (!modal) return;
+
+    const closeModalBtn = modal.querySelector('.quick-view-modal__close');
+    closeModalBtn?.addEventListener('click', closeAndResetModal);
+    window.addEventListener('click', (e) => { if (e.target === modal) closeAndResetModal(); });
+
+    // Delegated click survives DOM swaps from filter/sort
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.quick-view-btn');
+      if (!btn) return;
+      const handle = btn.dataset.productHandle;
+      if (handle) openQuickView(handle);
+    });
+  }
+
+  function openQuickView(handle) {
+    if (!modal) return;
+    modal.classList.add('quick-view--loading');
+    modal.classList.remove('quick-view--loaded');
+    modal.style.display = 'flex';
+    document.documentElement.classList.add('quick-view-is-open');
+
+    fetch(`/products/${handle}.js`)
+      .then(r => r.json())
+      .then(productJson => {
+        currentProductData = productJson;
+
+        const preloadedData = window.quickViewData?.[handle] || null;
+        currentMetaObjectPrices = preloadedData ? preloadedData.metaobject_prices : {};
+
+        populateQuickView(productJson, preloadedData ? preloadedData.html : null);
+        console.log('------------');
+        console.log(currentProductData);
+      })
+      .catch(err => {
+        console.error('Quick view fetch error', err);
+        closeAndResetModal();
+      });
+  }
+
+  function buildImages(product, prevArrowHTML, nextArrowHTML) {
+    const wrap = modal.querySelector('.quick-view-product__images');
+    if (!wrap) return;
+
+    // Clean re-init of Slick
+    if ($(wrap).hasClass('slick-initialized')) $(wrap).slick('unslick');
+    wrap.innerHTML = product.media
+      .filter(m => m.media_type === 'image')
+      .map(m => `<div class="pro-img" data-media-id="${m.id}"><img src="${m.src}" alt="${m.alt || product.title}"></div>`)
+      .join('');
+
+    const count = product.media.filter(m => m.media_type === 'image').length;
+    if (count > 1) {
+      $(wrap)
+        .one('init', () => {
+          modal.classList.remove('quick-view--loading');
+          modal.classList.add('quick-view--loaded');
+        })
+        .slick({
+          infinite: false,
+          arrows: false,
+          prevArrow: prevArrowHTML,
+          nextArrow: nextArrowHTML,
+          slidesToShow: 1,
+          slidesToScroll: 1
+        });
+    } else {
+      modal.classList.remove('quick-view--loading');
+      modal.classList.add('quick-view--loaded');
+    }
+  }
+
+  function populateQuickView(product, html) {
+    const prevArrowHTML = `
+      <div class="button-prev slick-button">…</div>
+    `;
+    const nextArrowHTML = `
+      <div class="button-next slick-button">…</div>
+    `;
+
+    buildImages(product, prevArrowHTML, nextArrowHTML);
+
+    modal.querySelector('.quick-view-product__title').textContent = product.title;
+
+    // (You still have this line; it shows product.price initially, then updateVariantState overwrites it)
+    modal.querySelector('.quick-view-product__price .main-price').textContent =
+      new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(product.price / 100);
+
+    modal.querySelector('.quick-view-product__view-details').href = product.url;
+
+    const variantsContainer = modal.querySelector('.quick-view-product__variants');
+    variantsContainer.innerHTML = html || '<p style="color:red;text-align:center;">Error: Variant options could not be loaded.</p>';
+
+    setupVariantSelection();
+
+    // Go to first slide safely after init
+    const $wrap = $('.quick-view-product__images');
+    if ($wrap.hasClass('slick-initialized')) $wrap.slick('slickGoTo', 0);
+  }
+
+  function setupVariantSelection() {
+    modal.querySelectorAll('.quick-view-product__variants .js-product-form__group').forEach(group => {
+      const firstRadio = group.querySelector('input[type="radio"]');
+      if (firstRadio) firstRadio.checked = true;
+    });
+    modal.querySelectorAll('.quick-view-product__variants input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', () => updateVariantState());
+    });
+    updateVariantState();
+  }
+
+  // Helper: find option index by option name (Model can be option1 or option2)
+  // Supports productData.options as ["Model","Type"] OR [{name:"Model"}, {name:"Type"}]
+  function getOptionIndexByName(productData, optionName) {
+    const opts = (productData && Array.isArray(productData.options)) ? productData.options : [];
+    const target = (optionName || '').toLowerCase();
+
+    for (let i = 0; i < opts.length; i++) {
+      const o = opts[i];
+
+      if (typeof o === 'string') {
+        if (o.toLowerCase() === target) return i;
+        continue;
+      }
+
+      if (o && typeof o === 'object') {
+        const name = (o.name != null) ? String(o.name).toLowerCase() : '';
+        if (name === target) return i;
+      }
+    }
+    return -1;
+  }
+
+  // FULL: metaobject fallback + logs
+  function updateVariantState() {
+    console.log('%c=== QV updateVariantState() START ===', 'color: blue; font-weight: bold;');
+
+    if (isUpdating) {
+      console.log('%cQV blocked (isUpdating=true)', 'color: orange; font-weight: bold;');
+      return;
+    }
+    isUpdating = true;
+
+    try {
+      if (!modal) {
+        console.warn('%cQV modal missing', 'color: red; font-weight: bold;');
+        return;
+      }
+      if (!currentProductData) {
+        console.warn('%cQV currentProductData missing', 'color: red; font-weight: bold;');
+        return;
+      }
+
+      const selectedOptions = Array
+        .from(modal.querySelectorAll('.quick-view-product__variants input[type="radio"]:checked'))
+        .map(r => r.value);
+
+      console.log('%cQV selectedOptions:', 'color: purple; font-weight: bold;', selectedOptions);
+      console.log('%cQV product handle:', 'color: purple; font-weight: bold;', currentProductData.handle);
+      console.log('%cQV product options (raw):', 'color: purple; font-weight: bold;', currentProductData.options);
+
+      const selectedVariant = (currentProductData.variants || []).find(v =>
+        selectedOptions.every((opt, i) => v.options[i] === opt)
+      );
+
+      console.log('%cQV selectedVariant:', 'color: teal; font-weight: bold;', selectedVariant);
+
+      const variantIdInput  = modal.querySelector('.quick-view-product__variant-id');
+      const addToCartButton = modal.querySelector('.quick-view-product__add-to-cart');
+      const priceContainer  = modal.querySelector('.quick-view-product__price');
+      const priceDisplay    = modal.querySelector('.quick-view-product__price .main-price');
+
+      console.log('%cQV DOM found:', 'color: gray; font-weight: bold;', {
+        variantIdInput: !!variantIdInput,
+        addToCartButton: !!addToCartButton,
+        priceContainer: !!priceContainer,
+        priceDisplay: !!priceDisplay
+      });
+
+      if (!priceDisplay) return;
+
+      if (selectedVariant) {
+        // Basic wiring
+        if (variantIdInput) variantIdInput.value = selectedVariant.id;
+
+        // 1) Variant metafields (dollars as strings)
+        const variantMeta = (window.variantMetafields || {})[selectedVariant.id] || {};
+        const rawSqftPrice   = variantMeta.sqft_price;
+        const rawSqftCompare = variantMeta.sqft_compare_at_price;
+
+        const variantSqftPriceCents =
+          rawSqftPrice && !isNaN(parseFloat(rawSqftPrice))
+            ? Math.round(parseFloat(rawSqftPrice) * 100)
+            : 0;
+
+        const variantSqftCompareCents =
+          rawSqftCompare && !isNaN(parseFloat(rawSqftCompare))
+            ? Math.round(parseFloat(rawSqftCompare) * 100)
+            : 0;
+
+        console.log('%cQV variantMeta:', 'color: brown; font-weight: bold;', variantMeta);
+        console.log('%cQV variantSqft cents:', 'color: brown; font-weight: bold;', {
+          rawSqftPrice,
+          rawSqftCompare,
+          variantSqftPriceCents,
+          variantSqftCompareCents
+        });
+
+        // 1.5) Metaobject fallback (CENTS) from window.quickViewData[handle].metaobject_prices[modelValue]
+        const modelIdx = getOptionIndexByName(currentProductData, 'Model');
+        const modelValue =
+          (modelIdx > -1 && selectedVariant.options && selectedVariant.options[modelIdx])
+            ? selectedVariant.options[modelIdx]
+            : '';
+
+        // Prefer preloaded quickViewData but also allow currentMetaObjectPrices
+        const qvHandle = currentProductData.handle;
+        const qv = (window.quickViewData && window.quickViewData[qvHandle]) ? window.quickViewData[qvHandle] : null;
+        const metaPricesMap = (qv && qv.metaobject_prices) ? qv.metaobject_prices : currentMetaObjectPrices;
+
+        const keyRaw = modelValue || '';
+        const moPrices = metaPricesMap ? (metaPricesMap[keyRaw] || null) : null;
+
+        console.log('%cQV metaobject lookup:', 'color: darkgreen; font-weight: bold;', {
+          modelIdx,
+          modelValue,
+          keyRaw,
+          hasQuickViewData: !!qv,
+          metaKeys: metaPricesMap ? Object.keys(metaPricesMap) : [],
+          moPrices
+        });
+
+        // Metaobject prices must be cents in JS: { price_cents, compare_cents }
+        const metaSqftPriceCents =
+          (moPrices && moPrices.price_cents != null && moPrices.price_cents !== '')
+            ? Number(moPrices.price_cents)
+            : 0;
+
+        const metaSqftCompareCents =
+          (moPrices && moPrices.compare_cents != null && moPrices.compare_cents !== '')
+            ? Number(moPrices.compare_cents)
+            : 0;
+
+        console.log('%cQV meta cents:', 'color: darkgreen; font-weight: bold;', {
+          metaSqftPriceCents,
+          metaSqftCompareCents
+        });
+
+        // 2) Final price/compare in cents:
+        // Variant metafields -> Metaobject -> 0 (NO fallback to variant.price)
+        let priceInCents =
+          variantSqftPriceCents > 0
+            ? variantSqftPriceCents
+            : (metaSqftPriceCents > 0 ? metaSqftPriceCents : 0);
+
+        let comparePriceInCents =
+          variantSqftCompareCents > 0
+            ? variantSqftCompareCents
+            : (metaSqftCompareCents > 0 ? metaSqftCompareCents : 0);
+
+        console.log('%cQV final cents:', 'color: teal; font-weight: bold;', {
+          priceInCents,
+          comparePriceInCents
+        });
+
+        // 3) Render HTML
+        const priceFormatted = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        }).format(priceInCents / 100);
+
+        let priceHtml = `<span class='p-r-ice'>${priceFormatted}`;
+
+        if (comparePriceInCents > priceInCents && comparePriceInCents > 0) {
+          const compareFormatted = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD'
+          }).format(comparePriceInCents / 100);
+
+          const pct = Math.round(((comparePriceInCents - priceInCents) / comparePriceInCents) * 100);
+          priceHtml += ` <del>${compareFormatted}</del> <span class="sqft-text">per sq ft</span> <span class="off-percent">${pct}% Off</span>`;
+        } else {
+          priceHtml += ' <span class="sqft-text">per sq ft</span>';
+        }
+
+        priceHtml += '</span>';
+        priceDisplay.innerHTML = priceHtml;
+
+        console.log('%cQV rendered priceHtml:', 'color: green; font-weight: bold;', priceHtml);
+
+        // 4) Box label + ATC button
+        const isBoxVariant = selectedOptions.some(o => (o || '').toLowerCase() === 'box');
+        if (priceContainer) priceContainer.classList.toggle('is-box-variant', isBoxVariant);
+
+        console.log('%cQV isBoxVariant:', 'color: gray; font-weight: bold;', isBoxVariant);
+
+        if (addToCartButton) {
+          addToCartButton.textContent = selectedVariant.available ? 'Add to Cart' : 'Sold Out';
+          addToCartButton.disabled = !selectedVariant.available;
+        }
+
+        // 5) Sync gallery image (unchanged)
+        if (selectedVariant.featured_media?.id) {
+          const target = modal.querySelector(`.pro-img[data-media-id="${selectedVariant.featured_media.id}"]`);
+          if (target) {
+            const slide = target.closest('.slick-slide');
+            const idx = $(slide).data('slick-index');
+            if (idx !== undefined) {
+              $('.quick-view-product__images').slick('slickGoTo', idx, true);
+            }
+          }
+        }
+      } else {
+        console.warn('%cQV No matching variant for selectedOptions', 'color: orange; font-weight: bold;', selectedOptions);
+
+        if (variantIdInput) variantIdInput.value = '';
+        if (addToCartButton) {
+          addToCartButton.textContent = 'Unavailable';
+          addToCartButton.disabled = true;
+        }
+        if (priceContainer) priceContainer.classList.remove('is-box-variant');
+      }
+
+      updateOptionAvailability();
+    } finally {
+      isUpdating = false;
+      console.log('%c=== QV updateVariantState() END ===', 'color: blue; font-weight: bold;');
+    }
+  }
+
+  function updateOptionAvailability() {
+    const optionGroups = modal.querySelectorAll('.quick-view-product__variants .js-product-form__group');
+    const selectedOptions = Array.from(modal.querySelectorAll('.quick-view-product__variants input[type="radio"]:checked')).map(r => r.value);
+
+    optionGroups.forEach((group, groupIndex) => {
+      const radios = group.querySelectorAll('input[type="radio"]');
+      radios.forEach(radio => {
+        const test = [...selectedOptions];
+        test[groupIndex] = radio.value;
+        const match = currentProductData?.variants?.find(v => test.every((opt, i) => v.options[i] === opt));
+        const optionEl = radio.closest('li') || radio.parentElement;
+        if (match && match.available) {
+          optionEl.style.display = '';
+          radio.disabled = false;
+        } else {
+          optionEl.style.display = 'none';
+          radio.disabled = true;
+          if (radio.checked) radio.checked = false;
+        }
+      });
+
+      const checked = group.querySelector('input[type="radio"]:checked');
+      if (!checked) {
+        const firstAvailable = group.querySelector('input[type="radio"]:not(:disabled)');
+        if (firstAvailable) {
+          firstAvailable.checked = true;
+          firstAvailable.dispatchEvent(new Event('change', { bubbles: true })); // triggers updateVariantState
+        }
+      }
+    });
+  }
+
+  function closeAndResetModal() {
+    const $wrap = $('.quick-view-product__images');
+    if ($wrap.hasClass('slick-initialized')) $wrap.slick('unslick');
+    modal.style.display = 'none';
+    document.documentElement.classList.remove('quick-view-is-open');
+    modal.classList.remove('quick-view--loading', 'quick-view--loaded');
+  }
+
+  // expose only what is needed
+  return { init, openQuickView };
+})();
+
+// Initialize once on page load
+document.addEventListener('DOMContentLoaded', () => {
+  window.quickView.init();
+});
+</script> {% endcomment %}
+
+
+
+{% comment %} 
+<script>
+// Make core refs/functions globally reachable
+window.quickView = (function () {
+  let modal, isUpdating = false;
+  let currentProductData = null;
+  let currentMetaObjectPrices = null;
+
+  function init() {
+    modal = document.getElementById('quick-view-modal');
+    if (!modal) return;
+
+    const closeModalBtn = modal.querySelector('.quick-view-modal__close');
+    closeModalBtn?.addEventListener('click', closeAndResetModal);
+    window.addEventListener('click', (e) => { if (e.target === modal) closeAndResetModal(); });
+
+    // Delegated click survives DOM swaps from filter/sort
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.quick-view-btn');
+      if (!btn) return;
+      const handle = btn.dataset.productHandle;
+      if (handle) openQuickView(handle);
+    });
+
+    // Optional: observe collection grid replacements if needed later
+    // const grid = document.querySelector('[data-product-grid]');
+    // if (grid) new MutationObserver(() => {}).observe(grid, { childList: true, subtree: true });
+  }
+
+  function openQuickView(handle) {
+    if (!modal) return;
+    modal.classList.add('quick-view--loading');
+    modal.classList.remove('quick-view--loaded');
+    modal.style.display = 'flex';
+    document.documentElement.classList.add('quick-view-is-open');
+
+    fetch(`/products/${handle}.js`)
+      .then(r => r.json())
+      .then(productJson => {
+        currentProductData = productJson;
+        const preloadedData = window.quickViewData?.[handle] || null;
+        currentMetaObjectPrices = preloadedData ? preloadedData.metaobject_prices : {};
+        populateQuickView(productJson, preloadedData ? preloadedData.html : null);
+        console.log('------------')
+        console.log(currentProductData)
+      })
+      .catch(err => {
+        console.error('Quick view fetch error', err);
+        closeAndResetModal();
+      });
+  }
+
+  function buildImages(product, prevArrowHTML, nextArrowHTML) {
+    const wrap = modal.querySelector('.quick-view-product__images');
+    if (!wrap) return;
+
+    // Clean re-init of Slick
+    if ($(wrap).hasClass('slick-initialized')) $(wrap).slick('unslick'); // prevents double init [web:38]
+    wrap.innerHTML = product.media
+      .filter(m => m.media_type === 'image')
+      .map(m => `<div class="pro-img" data-media-id="${m.id}"><img src="${m.src}" alt="${m.alt || product.title}"></div>`)
+      .join('');
+
+    const count = product.media.filter(m => m.media_type === 'image').length;
+    if (count > 1) {
+      $(wrap)
+        .one('init', () => {
+          modal.classList.remove('quick-view--loading');
+          modal.classList.add('quick-view--loaded');
+        })
+        .slick({
+          infinite: false,
+          arrows: false,
+          prevArrow: prevArrowHTML,
+          nextArrow: nextArrowHTML,
+          slidesToShow: 1,
+          slidesToScroll: 1
+        });
+    } else {
+      modal.classList.remove('quick-view--loading');
+      modal.classList.add('quick-view--loaded');
+    }
+  }
+
+  function populateQuickView(product, html) {
+    const prevArrowHTML = `
+      <div class="button-prev slick-button">…</div>
+    `;
+    const nextArrowHTML = `
+      <div class="button-next slick-button">…</div>
+    `;
+
+    buildImages(product, prevArrowHTML, nextArrowHTML); // ensures unslick+reinit order [web:38]
+
+    modal.querySelector('.quick-view-product__title').textContent = product.title;
+    modal.querySelector('.quick-view-product__price .main-price').textContent =
+      new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(product.price/100);
+    modal.querySelector('.quick-view-product__view-details').href = product.url;
+
+    const variantsContainer = modal.querySelector('.quick-view-product__variants');
+    variantsContainer.innerHTML = html || '<p style="color:red;text-align:center;">Error: Variant options could not be loaded.</p>';
+
+    setupVariantSelection();
+
+    // Go to first slide safely after init
+    const $wrap = $('.quick-view-product__images');
+    if ($wrap.hasClass('slick-initialized')) $wrap.slick('slickGoTo', 0);
+  }
+
+  function setupVariantSelection() {
+    modal.querySelectorAll('.quick-view-product__variants .js-product-form__group').forEach(group => {
+      const firstRadio = group.querySelector('input[type="radio"]');
+      if (firstRadio) firstRadio.checked = true;
+    });
+    modal.querySelectorAll('.quick-view-product__variants input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', () => updateVariantState());
+    });
+    updateVariantState();
+  }
+
+
+// Helper: find option index by option name (Model can be option1 or option2)
+// Supports productData.options as ["Model","Type"] OR [{name:"Model"}, {name:"Type"}]
+function getOptionIndexByName(productData, optionName) {
+  const opts = (productData && Array.isArray(productData.options)) ? productData.options : [];
+  const target = (optionName || '').toLowerCase();
+
+  for (let i = 0; i < opts.length; i++) {
+    const o = opts[i];
+
+    if (typeof o === 'string') {
+      if (o.toLowerCase() === target) return i;
+      continue;
+    }
+
+    if (o && typeof o === 'object') {
+      const name = (o.name != null) ? String(o.name).toLowerCase() : '';
+      if (name === target) return i;
+    }
+  }
+  return -1;
+}
+
+// FULL + FIXED: metaobject fallback (cents) + logs
+function updateVariantState() {
+  console.log('%c=== QV updateVariantState() START ===', 'color: blue; font-weight: bold;');
+
+  if (isUpdating) {
+    console.log('%cQV blocked (isUpdating=true)', 'color: orange; font-weight: bold;');
+    return;
+  }
+  isUpdating = true;
+
+  try {
+    if (!modal) {
+      console.warn('%cQV modal missing', 'color: red; font-weight: bold;');
+      return;
+    }
+    if (!currentProductData) {
+      console.warn('%cQV currentProductData missing', 'color: red; font-weight: bold;');
+      return;
+    }
+
+    const selectedOptions = Array
+      .from(modal.querySelectorAll('.quick-view-product__variants input[type="radio"]:checked'))
+      .map(r => r.value);
+
+    console.log('%cQV selectedOptions:', 'color: purple; font-weight: bold;', selectedOptions);
+    console.log('%cQV product handle:', 'color: purple; font-weight: bold;', currentProductData.handle);
+    console.log('%cQV product options (raw):', 'color: purple; font-weight: bold;', currentProductData.options);
+
+    const selectedVariant = (currentProductData.variants || []).find(v =>
+      selectedOptions.every((opt, i) => v.options[i] === opt)
+    );
+
+    console.log('%cQV selectedVariant:', 'color: teal; font-weight: bold;', selectedVariant);
+
+    const variantIdInput  = modal.querySelector('.quick-view-product__variant-id');
+    const addToCartButton = modal.querySelector('.quick-view-product__add-to-cart');
+    const priceContainer  = modal.querySelector('.quick-view-product__price');
+    const priceDisplay    = modal.querySelector('.quick-view-product__price .main-price');
+
+    console.log('%cQV DOM found:', 'color: gray; font-weight: bold;', {
+      variantIdInput: !!variantIdInput,
+      addToCartButton: !!addToCartButton,
+      priceContainer: !!priceContainer,
+      priceDisplay: !!priceDisplay
+    });
+
+    if (!priceDisplay) return;
+
+    if (selectedVariant) {
+      // Basic wiring
+      if (variantIdInput) variantIdInput.value = selectedVariant.id;
+
+      // 1) Variant metafields (dollars as strings)
+      const variantMeta = (window.variantMetafields || {})[selectedVariant.id] || {};
+      const rawSqftPrice   = variantMeta.sqft_price;
+      const rawSqftCompare = variantMeta.sqft_compare_at_price;
+
+      const variantSqftPriceCents =
+        rawSqftPrice && !isNaN(parseFloat(rawSqftPrice))
+          ? Math.round(parseFloat(rawSqftPrice) * 100)
+          : 0;
+
+      const variantSqftCompareCents =
+        rawSqftCompare && !isNaN(parseFloat(rawSqftCompare))
+          ? Math.round(parseFloat(rawSqftCompare) * 100)
+          : 0;
+
+      console.log('%cQV variantMeta:', 'color: brown; font-weight: bold;', variantMeta);
+      console.log('%cQV variantSqft cents:', 'color: brown; font-weight: bold;', {
+        rawSqftPrice,
+        rawSqftCompare,
+        variantSqftPriceCents,
+        variantSqftCompareCents
+      });
+
+      // 1.5) Metaobject fallback (CENTS) from window.quickViewData[handle].metaobject_prices[modelValue]
+      const modelIdx = getOptionIndexByName(currentProductData, 'Model');
+      const modelValue =
+        (modelIdx > -1 && selectedVariant.options && selectedVariant.options[modelIdx])
+          ? selectedVariant.options[modelIdx]
+          : '';
+
+      const qvHandle = currentProductData.handle;
+      const qv = (window.quickViewData && window.quickViewData[qvHandle]) ? window.quickViewData[qvHandle] : null;
+      const metaPricesMap = (qv && qv.metaobject_prices) ? qv.metaobject_prices : null;
+
+      const keyRaw = modelValue || '';
+      const moPrices = metaPricesMap ? (metaPricesMap[keyRaw] || null) : null;
+
+      console.log('%cQV metaobject lookup:', 'color: darkgreen; font-weight: bold;', {
+        modelIdx,
+        modelValue,
+        keyRaw,
+        hasQuickViewData: !!qv,
+        metaKeys: metaPricesMap ? Object.keys(metaPricesMap) : [],
+        moPrices
+      });
+
+      // Metaobject prices are CENTS (from your updated Liquid):
+      // { price_cents: 1045, compare_cents: 0 }
+      const metaSqftPriceCents =
+        (moPrices && moPrices.price_cents != null && moPrices.price_cents !== '')
+          ? Number(moPrices.price_cents)
+          : 0;
+
+      const metaSqftCompareCents =
+        (moPrices && moPrices.compare_cents != null && moPrices.compare_cents !== '')
+          ? Number(moPrices.compare_cents)
+          : 0;
+
+      console.log('%cQV meta cents:', 'color: darkgreen; font-weight: bold;', {
+        metaSqftPriceCents,
+        metaSqftCompareCents
+      });
+
+      // 2) Final price/compare in cents:
+      // Variant metafields -> Metaobject -> Variant price
+      let priceInCents =
+        variantSqftPriceCents > 0
+          ? variantSqftPriceCents
+          : (metaSqftPriceCents > 0 ? metaSqftPriceCents : selectedVariant.price);
+
+      let comparePriceInCents =
+        variantSqftCompareCents > 0
+          ? variantSqftCompareCents
+          : (metaSqftCompareCents > 0 ? metaSqftCompareCents : (selectedVariant.compare_at_price || 0));
+
+      console.log('%cQV final cents:', 'color: teal; font-weight: bold;', {
+        priceInCents,
+        comparePriceInCents,
+        selectedVariantPrice: selectedVariant.price,
+        selectedVariantCompareAt: selectedVariant.compare_at_price
+      });
+
+      // 3) Render HTML
+      const priceFormatted = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      }).format(priceInCents / 100);
+
+      let priceHtml = `<span class='p-r-ice'>${priceFormatted}`;
+
+      if (comparePriceInCents > priceInCents && comparePriceInCents > 0) {
+        const compareFormatted = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        }).format(comparePriceInCents / 100);
+
+        const pct = Math.round(((comparePriceInCents - priceInCents) / comparePriceInCents) * 100);
+        priceHtml += ` <del>${compareFormatted}</del> <span class="sqft-text">per sq ft</span> <span class="off-percent">${pct}% Off</span>`;
+      } else {
+        priceHtml += ' <span class="sqft-text">per sq ft</span>';
+      }
+
+      priceHtml += '</span>';
+      priceDisplay.innerHTML = priceHtml;
+
+      console.log('%cQV rendered priceHtml:', 'color: green; font-weight: bold;', priceHtml);
+
+      // 4) Box label + ATC button
+      const isBoxVariant = selectedOptions.some(o => (o || '').toLowerCase() === 'box');
+      if (priceContainer) priceContainer.classList.toggle('is-box-variant', isBoxVariant);
+
+      console.log('%cQV isBoxVariant:', 'color: gray; font-weight: bold;', isBoxVariant);
+
+      if (addToCartButton) {
+        addToCartButton.textContent = selectedVariant.available ? 'Add to Cart' : 'Sold Out';
+        addToCartButton.disabled = !selectedVariant.available;
+      }
+
+      // 5) Sync gallery image (unchanged)
+      if (selectedVariant.featured_media?.id) {
+        const target = modal.querySelector(`.pro-img[data-media-id="${selectedVariant.featured_media.id}"]`);
+        if (target) {
+          const slide = target.closest('.slick-slide');
+          const idx = $(slide).data('slick-index');
+          if (idx !== undefined) {
+            $('.quick-view-product__images').slick('slickGoTo', idx, true);
+          }
+        }
+      }
+    } else {
+      console.warn('%cQV No matching variant for selectedOptions', 'color: orange; font-weight: bold;', selectedOptions);
+
+      if (variantIdInput) variantIdInput.value = '';
+      if (addToCartButton) {
+        addToCartButton.textContent = 'Unavailable';
+        addToCartButton.disabled = true;
+      }
+      if (priceContainer) priceContainer.classList.remove('is-box-variant');
+    }
+
+    updateOptionAvailability();
+  } finally {
+    isUpdating = false;
+    console.log('%c=== QV updateVariantState() END ===', 'color: blue; font-weight: bold;');
+  }
+}
+
+
+
+
+  function updateOptionAvailability() {
+    const optionGroups = modal.querySelectorAll('.quick-view-product__variants .js-product-form__group');
+    const selectedOptions = Array.from(modal.querySelectorAll('.quick-view-product__variants input[type="radio"]:checked')).map(r => r.value);
+
+    optionGroups.forEach((group, groupIndex) => {
+      const radios = group.querySelectorAll('input[type="radio"]');
+      radios.forEach(radio => {
+        const test = [...selectedOptions];
+        test[groupIndex] = radio.value;
+        const match = currentProductData?.variants?.find(v => test.every((opt, i) => v.options[i] === opt));
+        const optionEl = radio.closest('li') || radio.parentElement;
+        if (match && match.available) {
+          optionEl.style.display = '';
+          radio.disabled = false;
+        } else {
+          optionEl.style.display = 'none';
+          radio.disabled = true;
+          if (radio.checked) radio.checked = false;
+        }
+      });
+
+      const checked = group.querySelector('input[type="radio"]:checked');
+      if (!checked) {
+        const firstAvailable = group.querySelector('input[type="radio"]:not(:disabled)');
+        if (firstAvailable) {
+          firstAvailable.checked = true;
+          firstAvailable.dispatchEvent(new Event('change', { bubbles: true })); // triggers updateVariantState
+        }
+      }
+    });
+  }
+
+  function closeAndResetModal() {
+    const $wrap = $('.quick-view-product__images');
+    if ($wrap.hasClass('slick-initialized')) $wrap.slick('unslick');
+    modal.style.display = 'none';
+    document.documentElement.classList.remove('quick-view-is-open');
+    modal.classList.remove('quick-view--loading', 'quick-view--loaded');
+  }
+
+  // expose only what is needed
+  return { init, openQuickView };
+})();
+
+// Initialize once on page load
+document.addEventListener('DOMContentLoaded', () => {
+  window.quickView.init();
+});
+</script> {% endcomment %}

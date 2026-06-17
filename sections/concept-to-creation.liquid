@@ -1,0 +1,909 @@
+<section class="concept-creation-section concept-creation-section--{{ section.id }}">
+  <div class="concept-creation-container">
+    <h2 class="concept-creation-title">{{ section.settings.section_title }}</h2>
+    <p class="concept-creation-subtitle">{{ section.settings.section_subtitle }}</p>
+    <blockquote class="concept-creation-quote">
+      {{ section.settings.quote }}
+    </blockquote>
+    <div class="concept-creation-media-row">
+      {% for block in section.blocks %}
+        <div class="concept-creation-media-col">
+          {% case block.type %}
+            {% when 'image' %}
+              <img class="concept-creation-media-img" src="{{ block.settings.media_image | image_url: width:500 }}" alt="{{ block.settings.alt_text | escape }}">
+
+            {% when 'video_picker' %}
+              <div class="concept-creation-video-wrapper">
+                {% if block.settings.cover_image != blank %}
+                  <div class="concept-creation-video-overlay">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+                    <rect width="52" height="52" rx="26" fill="white" fill-opacity="0.9"/>
+                    <path d="M32.4219 24.7188C33.3906 25.3125 33.3906 26.7188 32.4219 27.3125L21.4219 33.8125C20.4219 34.4062 19.1719 33.6875 19.1719 32.5V19.5C19.1719 18.2188 20.5156 17.6875 21.4219 18.2188L32.4219 24.7188Z" fill="#111111"/>
+                    </svg>
+                    <img class="concept-creation-cover-img" src="{{ block.settings.cover_image | img_url: '300x' }}" alt="{{ block.settings.cover_image.alt | escape }}">
+                  </div>
+                {% endif %}
+                <video class="concept-creation-video" controls playsinline>
+                  {% if block.settings.video != blank %}
+                    <source src="{{ block.settings.video.sources[1].url }}" type="video/mp4">
+                  {% endif %}
+                </video>
+              </div>
+          {% endcase %}
+          {% if block.settings.title != blank %}
+          <h4>{{ block.settings.title }}</h4>
+          {% endif %}
+          {% if block.settings.subtext != blank %}
+          <div>{{ block.settings.subtext }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.button_text != blank %}
+    <div class="concept-creation-cta">
+      <a href="{{ section.settings.button_url | default: '#' }}" class="concept-creation-btn">{{ section.settings.button_text }}</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+    .concept-creation-section {
+  background: #fff;
+  padding: 80px 0px 100px;
+}
+.concept-creation-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+.concept-creation-title {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-style: normal;
+  font-size: 42px;
+  line-height: 76.8px;
+  letter-spacing: 0%;
+  text-align: center;
+  color: #111111;
+}
+.concept-creation-subtitle {
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 30.72px;
+  letter-spacing: 0%;
+  text-align: center;
+  color: #343334;
+}
+.concept-creation-quote {
+  font-family: Playfair Display;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 28.8px;
+  letter-spacing: 5%;
+  text-align: center;
+  color: #343334;
+  margin: 35px 0;
+}
+.concept-creation-media-row {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  margin-bottom: 36px;
+  width:100%;
+  {% comment %} flex-wrap: wrap; {% endcomment %}
+}
+.concept-creation-media-col {
+  flex: 1 1 260px;
+  max-width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.concept-creation-media-img {
+  width: 100%;
+  {% comment %} height: 450px; {% endcomment %}
+  object-fit: cover;
+  {% comment %} border-radius: 8px; {% endcomment %}
+  background: #f6f6f6;
+}
+.concept-creation-video-wrapper {
+  position: relative;
+  width: 100%;
+  height:100%;
+  {% comment %} height: 450px; /* Match image height */ {% endcomment %}
+  overflow: hidden;
+  {% comment %} border-radius: 8px; {% endcomment %}
+  background: #eee;
+}
+.template-page-flooret-x-agar-family .concept-creation-video-overlay svg {
+  position:absolute;
+  z-index:1;
+}
+ .template-page-flooret-x-agar-family .concept-creation-cover-img {
+       max-height: 520px;
+    }
+    .template-page-flooret-x-agar-family .concept-creation-video-wrapper video {
+        max-height: 520px;
+    }
+.concept-creation-video-overlay {
+  {% comment %} position: absolute;
+  top: 0;
+  left: 0; {% endcomment %}
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3); /* Semi-transparent overlay */
+  cursor: pointer;
+  z-index: 2;
+}
+.concept-creation-cover-img {
+  {% comment %} position: absolute;
+  top: 0;
+  left: 0; {% endcomment %}
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  {% comment %} z-index: -1; {% endcomment %}
+}
+.concept-creation-play-icon {
+  width: 60px;
+  height: 60px;
+  fill: white;
+}
+.concept-creation-video {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.concept-creation-cta {
+  margin-top: 20px;
+}
+.concept-creation-btn {
+    background: #d6c08c;
+    color: #111111;
+    padding: 16px 36px;
+    border-radius: 4px;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 1.1rem;
+    display: inline-block;
+    transition: background 0.2s;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 13.3px;
+    line-height: 100%;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 16px;
+    leading-trim: NONE;
+    line-height: 25.6px;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    background: #236a99;
+    border-radius: 4px;
+    color: #fff;
+    margin-top: 40px;
+    max-width: 415px;
+    margin-left: auto;
+    margin-right: auto;
+    width:100%;
+}
+.concept-creation-btn:hover,
+.concept-creation-btn:focus {
+  background: #bda46d;
+}
+.concept-creation-media-col {
+    flex-direction: column;
+    align-items: center;
+    display: grid;
+}
+.concept-creation-media-col h4 {
+    margin: 5px auto;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 19.2px;
+    leading-trim: NONE;
+    line-height: 28.8px;
+    letter-spacing: 0%;
+    text-align: center;
+    vertical-align: middle;
+    color: #111111;
+}
+.concept-creation-media-col > div p {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 17.6px;
+    leading-trim: NONE;
+    line-height: 28.16px;
+    letter-spacing: 0%;
+    text-align: center;
+    vertical-align: middle;
+    color: #343334;
+}
+
+
+.concept-creation-section--{{ section.id }} .concept-creation-title {
+    font-family:{{ section.settings.font-heading }};
+    font-size:{{ section.settings.font_size_heading_desk }}px;
+    {% if section.settings.heading-color != blank %} color:{{ section.settings.heading-color }}; {% endif %}
+}
+
+.concept-creation-section--{{ section.id }} .concept-creation-subtitle {
+    font-family:{{ section.settings.font-subtext-one }};
+    font-size:{{ section.settings.font_size_subtext_one_desk }}px;
+    {% if section.settings.body-color != blank %} color:{{ section.settings.body-color }}; {% endif %}
+}
+
+.concept-creation-section--{{ section.id }} .concept-creation-quote {
+    font-family:{{ section.settings.font-subtext-two }};
+    font-size:{{ section.settings.font_size_subtext_two_desk }}px;
+    {% if section.settings.body-color != blank %} color:{{ section.settings.body-color }}; {% endif %}
+}
+
+.concept-creation-section--{{ section.id }} .concept-creation-media-col h4 {
+     font-family:{{ section.settings.font-card-title }};
+    font-size:{{ section.settings.font_size_card_title_desk }}px;
+    {% if section.settings.body-color != blank %} color:{{ section.settings.body-color }}; {% endif %}
+}
+
+
+.concept-creation-section--{{ section.id }} .concept-creation-media-col > div p {
+     font-family:{{ section.settings.font-card-subtitle }};
+    font-size:{{ section.settings.font_size_card_subtext_desk }}px;
+    {% if section.settings.heading-color != blank %} color:{{ section.settings.heading-color }}; {% endif %}
+}
+
+.concept-creation-section--{{ section.id }} .concept-creation-btn {
+   font-family:{{ section.settings.font-button }};
+    font-size:{{ section.settings.font_size_button_desk }}px;
+    {% if section.settings.button-font-color != blank %} color:{{ section.settings.button-font-color }}; {% endif %}
+    {% if section.settings.button-bg-color != blank %} background:{{ section.settings.button-bg-color }}; {%  endif %}
+}
+
+.concept-creation-media-row button.slick-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    z-index:8;
+    margin: 0px;
+    padding: 0px;
+}
+
+.concept-creation-media-row button.slick-arrow.prev {
+    left: -5px;
+}
+
+.concept-creation-media-row button.slick-arrow.next {
+    right: 7px;
+}
+
+.concept-creation-media-row button.slick-arrow svg circle {
+    fill: #000;
+}
+
+.concept-creation-media-row button.slick-arrow.slick-disabled {
+    opacity: 0.5;
+}
+
+
+
+@media (max-width: 900px) {
+  .concept-creation-media-row {
+    gap: 16px;
+  }
+  .concept-creation-media-img,
+  .concept-creation-video-wrapper {
+    height: 340px;
+  }
+}
+@media (min-width:550px){
+  .template-page-flooret-x-ally-kusznikow .collection-modal-section .model-collection .collection-modal-section__container > button {
+    min-width: 142px;
+  }
+}
+@media (max-width: 768px) {
+  .concept-creation-media-row .slick-slide > div .concept-creation-media-col {
+      max-width: unset;
+  }
+  {% comment %} .concept-creation-media-row {
+    flex-direction: column;
+    align-items: center;
+  } {% endcomment %}
+  .concept-creation-video-overlay svg {
+        position: absolute;
+    }
+  .concept-creation-cover-img {
+    position:relative;
+    }
+  .concept-creation-media-col {
+    max-width: 90vw;
+  }
+  .concept-creation-media-row .slick-list.draggable {
+        margin-left: -15px;
+    }
+    .concept-creation-media-row .slick-slide {
+         margin: 0px 7.5px;
+    }
+  .concept-creation-media-img,
+  .concept-creation-video-wrapper {
+    height: auto;
+  }
+  .concept-creation-section {
+        background: #fff;
+        padding: 40px 0px 50px 15px;
+    }
+    .concept-creation-title {
+        font-size: 32px;
+        line-height: 42px;
+    }
+    .concept-creation-subtitle {
+        font-size: 16px;
+        line-height: 26px;
+    }
+    .concept-creation-quote {
+        margin: 20px 0;
+    }
+    .concept-creation-video-overlay {
+        position:relative;
+    }
+
+    
+.concept-creation-section--{{ section.id }} .concept-creation-title {
+    font-size:{{ section.settings.font_size_heading_mob }}px;
+}
+
+.concept-creation-section--{{ section.id }} .concept-creation-subtitle {
+    font-size:{{ section.settings.font_size_subtext_one_mob }}px;
+}
+
+.concept-creation-section--{{ section.id }} .concept-creation-quote {
+    font-size:{{ section.settings.font_size_subtext_two_mob }}px;
+}
+
+.concept-creation-section--{{ section.id }} .concept-creation-media-col h4 {
+    font-size:{{ section.settings.font_size_card_title_mob }}px;
+}
+.concept-creation-section--{{ section.id }} .concept-creation-media-col > div p {
+    font-size:{{ section.settings.font_size_card_subtext_mob }}px;
+}
+
+.concept-creation-section--{{ section.id }} .concept-creation-btn {
+    font-size:{{ section.settings.font_size_button_mob }}px;
+}
+
+}
+
+    </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const overlays = document.querySelectorAll('.concept-creation-video-overlay');
+    overlays.forEach(overlay => {
+      overlay.addEventListener('click', function() {
+        const wrapper = this.closest('.concept-creation-video-wrapper');
+        const video = wrapper.querySelector('.concept-creation-video');
+        this.style.display = 'none';
+        video.style.display = 'block';
+        video.play();
+      });
+    });
+  });
+
+{% if template.suffix == 'flooret-x-agar-family' %}
+  document.addEventListener('DOMContentLoaded', ()=>{
+          setTimeout(()=>{
+              if(window.innerWidth < 768){
+                  $('.concept-creation-media-row').slick({
+                          arrows: false,
+                          dots: false,
+                          infinite: false,
+                          slidesToShow: 1,
+                          slidesToScroll: 1,
+                           responsive: [
+                            {
+                              breakpoint: 768,
+                              settings: {
+                                centerMode: false,
+                                centerPadding: '0px',
+                              }
+                            },
+                            {
+                              breakpoint: 500,
+                              settings: {
+                                centerMode: true,
+                                centerPadding: '15px',
+                              }
+                            }
+                          ]
+                  });
+              }
+          }, 1000)
+      })
+
+{% elsif template.suffix == 'flooret-x-ally-kusznikow' %}      
+    document.addEventListener('DOMContentLoaded', ()=>{
+          setTimeout(()=>{
+              if(window.innerWidth < 768){
+                  $('.concept-creation-media-row').slick({
+                          arrows: true,
+                          dots: false,
+                          infinite: false,
+                          slidesToShow: 1,
+                          slidesToScroll: 1,
+                          centerMode: true,
+                          centerPadding: '15px',
+                          prevArrow: "<button class='slick-arrow prev'><svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 25 25' fill='none'> <circle cx='12.5' cy='12.5' r='12.5' fill='#D9D9D9' fill-opacity='0.5'/> <path d='M13.5463 8.60463L9.9837 12.2594C9.92113 12.3236 9.88611 12.4097 9.88611 12.4993C9.88611 12.589 9.92113 12.6751 9.9837 12.7393L13.5463 16.3954C13.5755 16.4253 13.6103 16.4491 13.6488 16.4654C13.6873 16.4816 13.7287 16.49 13.7704 16.49C13.8122 16.49 13.8536 16.4816 13.8921 16.4654C13.9306 16.4491 13.9654 16.4253 13.9946 16.3954C14.0545 16.334 14.0881 16.2516 14.0881 16.1658C14.0881 16.0799 14.0545 15.9975 13.9946 15.9361L10.6444 12.4993L13.9946 9.06319C14.0543 9.00183 14.0878 8.91956 14.0878 8.83391C14.0878 8.74825 14.0543 8.66598 13.9946 8.60463C13.9654 8.57469 13.9306 8.5509 13.8921 8.53465C13.8536 8.5184 13.8122 8.51003 13.7704 8.51003C13.7287 8.51003 13.6873 8.5184 13.6488 8.53465C13.6103 8.5509 13.5755 8.57469 13.5463 8.60463Z' fill='white'/> </svg></button>", 
+                          nextArrow: "<button class='slick-arrow next'><svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 25 25' fill='none'> <circle cx='12.5' cy='12.5' r='12.5' fill='#D9D9D9' fill-opacity='0.5'/> <path d='M11.4537 8.60463L15.0163 12.2594C15.0789 12.3236 15.1139 12.4097 15.1139 12.4993C15.1139 12.589 15.0789 12.6751 15.0163 12.7393L11.4537 16.3954C11.4245 16.4253 11.3897 16.4491 11.3512 16.4654C11.3127 16.4816 11.2713 16.49 11.2296 16.49C11.1878 16.49 11.1464 16.4816 11.1079 16.4654C11.0694 16.4491 11.0346 16.4253 11.0054 16.3954C10.9455 16.334 10.9119 16.2516 10.9119 16.1658C10.9119 16.0799 10.9455 15.9975 11.0054 15.9361L14.3556 12.4993L11.0054 9.06319C10.9457 9.00183 10.9122 8.91956 10.9122 8.83391C10.9122 8.74825 10.9457 8.66598 11.0054 8.60463C11.0346 8.57469 11.0694 8.5509 11.1079 8.53465C11.1464 8.5184 11.1878 8.51003 11.2296 8.51003C11.2713 8.51003 11.3127 8.5184 11.3512 8.53465C11.3897 8.5509 11.4245 8.57469 11.4537 8.60463Z' fill='white'/> </svg></button>"
+                  });
+              }
+          }, 1000)
+      })
+{% else %}
+  document.addEventListener('DOMContentLoaded', ()=>{
+        setTimeout(()=>{
+            if(window.innerWidth < 768){
+                $('.concept-creation-media-row').slick({
+                        arrows: false,
+                        dots: false,
+                        infinite: false,
+                        initialSlide:1,
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        centerMode: true,
+                        centerPadding: '30px'
+                });
+            }
+        }, 1000)
+    })
+  {% endif %}
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Select all video elements on the page
+  const allVideos = document.querySelectorAll('video');
+
+  allVideos.forEach(video => {
+    // Remove controls if present (ensures no native controls)
+    video.removeAttribute('controls');
+
+    // Add click event to toggle play/pause
+    video.addEventListener('click', function() {
+      if (this.paused) {
+        // Pause all other videos before playing this one
+        allVideos.forEach(otherVideo => {
+          if (otherVideo !== this && !otherVideo.paused) {
+            otherVideo.pause();
+          }
+        });
+        // Play the clicked video
+        this.play();
+      } else {
+        // Pause the current video
+        this.pause();
+      }
+    });
+
+    // Optional: Add touchstart for better mobile support
+    video.addEventListener('touchstart', function(e) {
+      e.preventDefault(); // Prevent double-tap zoom on mobile
+      if (this.paused) {
+        // Pause all other videos before playing this one
+        allVideos.forEach(otherVideo => {
+          if (otherVideo !== this && !otherVideo.paused) {
+            otherVideo.pause();
+          }
+        });
+        // Play the touched video
+        this.play();
+      } else {
+        // Pause the current video
+        this.pause();
+      }
+    });
+
+    // Optional: Also handle when videos start playing programmatically
+    video.addEventListener('play', function() {
+      // Pause all other videos when this one starts playing
+      allVideos.forEach(otherVideo => {
+        if (otherVideo !== this && !otherVideo.paused) {
+          otherVideo.pause();
+        }
+      });
+    });
+  });
+});
+
+
+</script>
+
+{% schema %}
+{
+  "name": "From Concept to Creation",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "From Concept to Creation"
+    },
+    {
+      "type": "text",
+      "id": "section_subtitle",
+      "label": "Section Subtitle",
+      "default": "René curated a series of exclusive mood boards featuring her favorite Flooret colors."
+    },
+    {
+      "type": "text",
+      "id": "quote",
+      "label": "Quote",
+      "default": "\"For me, it's all about using a neutral palette for your base. These mood boards show how the right flooring choice becomes the foundation for everything else in the space.\""
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "SHOP $1 CUT SAMPLES"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button Link"
+    },
+    {
+        "type": "header",
+        "content": "Font family"
+      },
+      {
+        "type": "select",
+        "id": "font-heading",
+        "label": "Font Family Heading",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+      {
+        "type": "select",
+        "id": "font-subtext-one",
+        "label": "Font Family Subtext One",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+      {
+        "type": "select",
+        "id": "font-subtext-two",
+        "label": "Font Family Subtext Two",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+      {
+        "type": "select",
+        "id": "font-card-title",
+        "label": "Font Family Card Title",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+       {
+        "type": "select",
+        "id": "font-card-subtitle",
+        "label": "Font Family Card Subtitle",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+      {
+        "type": "select",
+        "id": "font-button",
+        "label": "Font Family Button",
+        "options": [
+          {
+            "value": "Montserrat",
+            "label": "Montserrat"
+          },
+          {
+            "value": "Roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          }
+        ],
+        "default": "Montserrat"
+      },
+      {
+        "type": "header",
+        "content": "Font Sizes Desktop"
+      },
+      {
+        "type": "range",
+        "id": "font_size_heading_desk",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Heading Desktop",
+        "default": 42
+      },
+      {
+        "type": "range",
+        "id": "font_size_subtext_one_desk",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Subtext One Desktop",
+        "default": 18
+      },
+      {
+        "type": "range",
+        "id": "font_size_subtext_two_desk",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Subtext Two Desktop",
+        "default": 18
+      },
+       {
+        "type": "range",
+        "id": "font_size_card_title_desk",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Card Title Desktop",
+        "default": 19
+      },
+      {
+        "type": "range",
+        "id": "font_size_card_subtext_desk",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Card Subtext Desktop",
+        "default": 17
+      },
+      {
+        "type": "range",
+        "id": "font_size_button_desk",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Button Desktop",
+        "default": 14
+      },
+      {
+        "type": "header",
+        "content": "Font Sizes Mobile"
+      },
+      {
+        "type": "range",
+        "id": "font_size_heading_mob",
+        "min": 1,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Heading Mobile",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "font_size_subtext_one_mob",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Subtext One Mobilr",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "font_size_subtext_two_mob",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Subtext Two Mobile",
+        "default": 16
+      },
+       {
+        "type": "range",
+        "id": "font_size_card_title_mob",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Card Title Mobile",
+        "default": 19
+      },
+      {
+        "type": "range",
+        "id": "font_size_card_subtext_mob",
+        "min": 5,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Card Subtext Mobile",
+        "default": 17
+      },
+      {
+        "type": "range",
+        "id": "font_size_button_mob",
+        "min": 1,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size Button Mobile",
+        "default": 14
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id":"heading-color",
+        "label": "Heading Color"
+      },
+      {
+        "type": "color",
+        "id":"body-color",
+        "label": "Body Color"
+      },
+      {
+        "type": "color",
+        "id": "button-bg-color",
+        "label": "Button Background Color"
+      },
+      {
+        "type": "color",
+        "id": "button-font-color",
+        "label": "Button Font Color"
+      }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Mood Board Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "media_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Image Alt Text"
+        },
+        {
+          "type":"text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id":"subtext",
+          "label": "Subtext"
+        }
+      ]
+    },
+    {
+      "type": "video_picker",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "cover_image",
+          "label": "Cover Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type":"text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id":"subtext",
+          "label": "Subtext"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "From Concept to Creation"
+    }
+  ]
+}
+{% endschema %}

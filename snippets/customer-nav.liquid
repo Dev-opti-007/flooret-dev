@@ -1,0 +1,22 @@
+<section class="acc-dash">
+	<div class="container">
+
+		<nav class="acc-dash__nav">
+			<ul>
+				<li><a href="/account" data-tab="dashboard" class="{% if template contains 'customers/account' %}active{% endif %}">Dashboard</a></li>
+				<li><a href="/account?tab=orders" data-tab="orders" class="reset">Orders</a></li>
+				<li><a href="/account?tab=my-collection" data-tab="my-collection" class="reset">My Collection</a></li>
+				<li><a href="/account/addresses" class="{% if template contains 'customers/addresses' %}active{% endif %}">Address</a></li>
+			</ul>
+		</nav>
+
+		<div class="acc-dash__intro">
+			<div class="content-wrap">
+				<span>Hi Norqainer,</span>
+				<span class="h5">{{ customer.first_name }} {{ customer.last_name }}</span>
+			</div>
+			<a href="/account/logout/" class="btn">Log Out</a>
+		</div>
+		
+	</div>
+</section>

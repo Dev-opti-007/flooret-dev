@@ -1,0 +1,141 @@
+
+<style>
+  .review-block {
+    background-color: #226b99;
+    padding: 36px 0px 16px 0px !important;
+  }
+
+  @media (max-width: 768px) {
+    .review-block {
+      padding: 22px 0 16px 0 !important;
+      margin-top: 0px !important;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .review-block {
+      padding: 26px 0 16px 0 !important;
+      margin-top: 0px !important;
+    }
+  }
+
+  .review-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .review-block__image {
+    background-color: #C8DAE5;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 4.5px 9px;
+  }
+
+  .review-block__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .review-block__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: Montserrat, sans-serif;
+    margin: 0px !important;
+  }
+
+  @media (max-width: 768px) {
+    .review-wrapper {
+      gap: 8px;
+    }
+
+    .review-block__content {
+      flex-direction: column !important;
+      align-items: start !important;
+      gap: 2px !important
+    }
+
+    .review-block__title {
+      font-size: 13px !important;
+      line-height: 15px !important;
+      align-items: start !important;
+      gap: 0px !important;
+    }
+  }
+
+  @media (max-width: 470px) {
+    .review-wrapper {
+      padding-top: 0px !important;
+    }
+  }
+
+  .review-block__image-desktop {
+    display: block;
+  }
+
+  .review-block__image-mobile {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .review-block__image-desktop {
+      display: none;
+    }
+
+    .review-block__image-mobile {
+      display: block;
+    }
+  }
+
+  .review-block__rating {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1px;
+    letter-spacing: 2px;
+  }
+</style>
+
+<section class="review-block">
+  <div class="container review-wrapper">
+    <div class="review-block__image">
+      <img class="review-block__image-desktop" src="{{ 'hero-review.svg' | asset_url }}" alt="Review Block" alt="" height="" width="">
+      <img class="review-block__image-mobile" src="{{ 'hero-review-mobile.svg' | asset_url }}" alt="Review Block" alt="" height="" width="">
+    </div> 
+    <div class="review-block__content">
+      <p class="review-block__title">Trusted by 20,000+ Happy Customers</p>
+      <p class="review-block__title"><span class="review-block__rating">★★★★★</span> 4.79 Rating</p>
+    </div>
+  </div>
+</section> 
+
+{% schema %}
+{
+  "name": "Review Block",
+  "class": "shopify-block",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    }
+
+  ],
+  "presets": [
+    {
+      "name": "Review Block",
+      "blocks": [
+      ]
+    }
+  ]
+}
+{% endschema %}

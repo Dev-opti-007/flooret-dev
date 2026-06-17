@@ -1,0 +1,666 @@
+<div class="container-rene installed-pick-{{ section.id }}" >
+
+    <div class="text-wrap" >
+        {% if section.settings.heading != blank %}
+        <h2>{{ section.settings.heading }}</h2>
+        {% endif %}
+        {% if section.settings.subtext-one != blank %}
+        <div class="subtext_one" >
+            {{ section.settings.subtext-one }}
+        </div>
+         {% endif %}
+        {% if section.settings.subtext-two != blank %}
+        <div class="subtext_two" >
+            {{ section.settings.subtext-two }}
+        </div>
+         {% endif %}
+        {% if section.settings.btn-text != blank %}
+            <a class="button btn" href="{{ section.settings.btn-link }}">{{ section.settings.btn-text }}</a>
+         {% endif %}
+    </div>
+
+        <div class="img-vid-wrap" >
+        {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'image_picker' %}
+                <img src="{{ block.settings.image | img_url:'1000x' }}" alt="{{ block.settings.image.alt }}" >
+              {% when 'video_picker' %}
+                <div class="vid_wrap">
+                    {% if block.settings.cover-image != blank %}
+                <div class="overlay">
+                   
+                  <img src="{{ block.settings.cover-image | img_url:'500x' }}" alt="{{ block.settings.cover-image.alt }}" >
+                </div>
+                {% endif %}
+                <svg class="play-btn-svg" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+                    <rect width="52" height="52" rx="26" fill="white" fill-opacity="0.9"/>
+                    <path d="M32.4219 24.7188C33.3906 25.3125 33.3906 26.7188 32.4219 27.3125L21.4219 33.8125C20.4219 34.4062 19.1719 33.6875 19.1719 32.5V19.5C19.1719 18.2188 20.5156 17.6875 21.4219 18.2188L32.4219 24.7188Z" fill="#111111"/>
+                </svg>
+                  <video
+                    controls
+                    playsinline
+                  >
+                    <source src="{{ block.settings.video.sources[1].url }}" type="video/mp4">
+                  </video>
+                </div>
+              {% else %}
+                
+            {% endcase %}
+        {% endfor %}
+    </div>
+
+</div>
+
+
+{% style %} 
+.container-rene {
+    display: flex;
+    max-width: 1200px;
+    margin: auto;
+    gap:80px;
+    padding:100px 0px;
+    align-items:center;
+}
+
+svg.play-btn-svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    cursor: pointer;
+}
+
+.insall-pick .overlay {
+    position: absolute;
+    height: 100%;
+}
+
+.img-vid-wrap {
+    display: flex;
+    column-count: 2;
+    max-width: 540px;
+    width: 100%;
+}
+
+.img-vid-wrap .vid_wrap {
+    position: relative;
+    max-width: 260px;
+}
+
+.img-vid-wrap .vid_wrap video {
+    width: 100%;
+    /* max-height:300px; */
+    object-fit:cover;
+    object-position:top;
+}
+
+.img-vid-wrap .overlay img {
+    /* max-height:300px; */
+    object-fit:cover;
+    object-position:top;
+        width: 100%;
+}
+
+.text-wrap {
+    width: 100%;
+}
+
+.img-vid-wrap > * {
+    margin-bottom: 20px;
+}
+
+.text-wrap h2 {
+    font-family: Montserrat;
+    font-weight: 800;
+    font-size: 42px;
+    line-height: 56px;
+    vertical-align: middle;
+    color: #111111;
+}
+
+.subtext_one p {
+    font-family: Playfair Display;
+    font-style: Italic;
+    font-size: 18px;
+    leading-trim: NONE;
+    line-height: 32px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    color: #343334;
+}
+
+.subtext_two p {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 17.6px;
+    leading-trim: NONE;
+    line-height: 28.16px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+     color: #343334;
+}
+.subtext_one {
+    margin: 40px 0px;
+        max-width: 450px;
+}
+
+.subtext_two {
+    margin-bottom: 0px;
+    
+}
+.insall-pick a.button.btn {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 16px;
+    leading-trim: NONE;
+    line-height: 25.6px;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    background: #D6C08C;
+    border-radius: 4px;
+    color: #111;
+}
+
+.insall-pick a.button.btn:hover {
+     background:#bda46d;
+     border-color:transparent;
+}
+  .img-vid-wrap {
+        display: flex;
+        position:relative;
+        /* grid-template-columns: 1fr 1fr; */
+        /* gap: 12px; */
+        /* grid-template-rows: auto auto; */
+    }
+
+    .img-vid-wrap > img {
+        grid-column: 1/2;
+        /* max-height: 175px; */
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .img-vid-wrap .vid_wrap {
+        grid-row: 1/3;
+        grid-column: 2/3;
+        height:max-content;
+    }
+
+    .img-vid-wrap > img:nth-child(1) {
+        grid-row: 1/2;
+    }
+
+    .img-vid-wrap > img:nth-child(3) {.img-vid-wrap >
+        img: nth-child(1);
+    .img-vid-wrap >
+        img: nth-child(1);
+        grid-row: 2/3;
+    }
+    .img-vid-wrap > img:nth-child(1) {
+        width: 100%;
+        max-width: unset;
+    }
+
+    .img-vid-wrap > img:nth-child(2) {
+        width: 100%;
+        position: absolute;
+        max-width: 200px;
+        bottom: -10%;
+        left: -12%;
+    }
+
+    .installed-pick-{{ section.id }} .text-wrap h2 {
+      font-family:{{ section.settings.font-heading }};
+      font-size:{{ section.settings.font_size_heading_desk }}px;
+      {% if section.settings.heading-color != blank %} color:{{ section.settings.heading-color }}; {% endif %}
+    }
+    .installed-pick-{{ section.id }} .subtext_one p {
+      font-family:{{ section.settings.font-body-one }};
+      font-size:{{ section.settings.font_size_body_desk_one }}px;
+      {% if section.settings.body-color-one != blank %} color:{{ section.settings.body-color-one }}; {% endif %}
+    }
+    .installed-pick-{{ section.id }} .subtext_two p {
+      font-family:{{ section.settings.font-body-two }};
+      font-size:{{ section.settings.font_size_body_desk_two }}px;
+      {% if section.settings.body-color-two != blank %} color:{{ section.settings.body-color-two }}; {% endif %}
+    }
+    .insall-pick .installed-pick-{{ section.id }} a.button.btn {
+      font-family:{{ section.settings.font-button }};
+      font-size:{{ section.settings.font_size_button_desk }}px;
+      {% if section.settings.button-bg-color != blank %} background:{{ section.settings.button-bg-color }}; {% endif %}
+      {% if section.settings.button-font-color != blank %} color:{{ section.settings.button-font-color }}; {% endif %}
+    }
+
+@media (max-width:786px){
+    .installed-pick-{{ section.id }} .text-wrap h2 {
+      font-size:{{ section.settings.font_size_heading_mob }}px;
+    }
+    .installed-pick-{{ section.id }} .subtext_one p {
+      font-size:{{ section.settings.font_size_body_mob_one }}px;
+    }
+    .installed-pick-{{ section.id }} .subtext_two p {
+      font-size:{{ section.settings.font_size_body_mob_two }}px;
+    }
+    .insall-pick .installed-pick-{{ section.id }} a.button.btn {
+      font-size:{{ section.settings.font_size_button_mob }}px;
+    }
+
+    .insall-pick .container-rene {
+        flex-direction: column;
+        padding: 50px 15px;
+    }
+
+    .img-vid-wrap .overlay img {
+        height:100%;
+    }
+    .img-vid-wrap {
+        display: flex;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        grid-template-rows: 1fr 1fr;
+    }
+
+    .img-vid-wrap > img {
+        grid-column: 1/2;
+        max-height: 175px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .img-vid-wrap .vid_wrap {
+        grid-row: 1/3;
+        grid-column: 2/3;
+        height:100%
+    }
+
+    .img-vid-wrap > img:nth-child(1) {
+        grid-row: 1/2;
+    }
+
+    .img-vid-wrap > img:nth-child(3) {
+        grid-row: 2/3;
+    }
+
+    .img-vid-wrap > * {
+        margin-bottom: 0px;
+    }
+    .img-vid-wrap .vid_wrap video {
+        width: 100%;
+        max-height: unset;
+        object-fit: cover;
+        object-position: top;
+        height: 100%;
+    }
+    .text-wrap h2 span br {
+        display: none;
+    }
+    .text-wrap h2 {
+        font-size: 26px;
+        line-height: 33px;
+    }
+    .text-wrap h2 span {
+        font-size:21px;
+        font-weight:600;
+    }
+    .subtext_one p {
+            font-size: 15px;
+            line-height: 26px;
+            font-weight:700;
+    }
+    .subtext_two p {
+        font-size: 13px;
+        line-height: 23px;
+    }
+    .subtext_one {
+        margin: 25px 0px;
+    }
+    .insall-pick a.button.btn {
+        width: 100%;
+        max-width: unset;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+{% endstyle %}
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const allVideoWrappers = document.querySelectorAll('.vid_wrap');
+
+  allVideoWrappers.forEach((wrapper) => {
+    const overlay = wrapper.querySelector('.overlay');
+    const playBtn = wrapper.querySelector('.play-btn-svg');
+    const video = wrapper.querySelector('video');
+
+    if (playBtn && video) {
+      playBtn.addEventListener('click', () => {
+        // Pause all other videos and reset their states
+        allVideoWrappers.forEach((otherWrapper) => {
+          const otherVideo = otherWrapper.querySelector('video');
+          const otherOverlay = otherWrapper.querySelector('.overlay');
+          const otherPlayBtn = otherWrapper.querySelector('.play-btn-svg');
+
+          if (otherVideo && otherVideo !== video) {
+            otherVideo.pause();
+            if (otherOverlay) {
+              otherOverlay.style.display = 'block';
+            }
+            if (otherPlayBtn) {
+              otherPlayBtn.style.display = 'block';
+            }
+          }
+        });
+
+        // Hide the clicked play button and overlay, play the video
+        playBtn.style.display = 'none';
+        if (overlay) {
+          overlay.style.display = 'none';
+        }
+        video.play();
+
+        // For mobile: Add click-to-toggle play/pause if < 768px
+        if (window.innerWidth < 768 && !video.dataset.mobileToggleAdded) {
+          video.addEventListener('click', () => {
+            if (video.paused) {
+              video.play();
+            } else {
+              video.pause();
+            }
+          });
+          video.dataset.mobileToggleAdded = 'true';
+        }
+      });
+    }
+
+    // Optional: Also handle overlay click for consistency (e.g., if playBtn is not present)
+    if (overlay && video) {
+      overlay.addEventListener('click', () => {
+        // Trigger the same logic as play button click
+        playBtn.click();
+      });
+    }
+  });
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "Installed Pick",
+  "class": "shopify-section insall-pick",
+  "max_blocks": 2,
+  "settings": [
+        {
+            "type": "html",
+            "id":"heading",
+            "label": "Heading"
+        },
+        {
+            "type": "richtext",
+            "id": "subtext-one",
+            "label": "Subtext One"
+        },
+        {
+            "type": "richtext",
+            "id": "subtext-two",
+            "label": "Subtext Two"
+        },
+        {
+            "type": "text",
+            "id": "btn-text",
+            "label": "Button Text"
+        },
+        {
+            "type": "url",
+            "id": "btn-link",
+            "label": "Button Link"
+        },
+        {
+          "type": "header",
+          "content": "Font family"
+        },
+        {
+          "type": "select",
+          "id": "font-heading",
+          "label": "Font Family Heading",
+          "options": [
+            {
+              "value": "Montserrat",
+              "label": "Montserrat"
+            },
+            {
+              "value": "Roboto",
+              "label": "Roboto"
+            },
+            {
+              "value": "Helvetica Neue",
+              "label": "Helvetica Neue"
+            }
+          ],
+          "default": "Montserrat"
+        },
+        {
+          "type": "select",
+          "id": "font-body-one",
+          "label": "Font Family Subtext One",
+          "options": [
+            {
+              "value": "Montserrat",
+              "label": "Montserrat"
+            },
+            {
+              "value": "Roboto",
+              "label": "Roboto"
+            },
+            {
+              "value": "Helvetica Neue",
+              "label": "Helvetica Neue"
+            },
+            {
+              "value": "Playfair Display",
+              "label": "Playfair Display"
+            }
+          ],
+          "default": "Playfair Display"
+        },
+        {
+          "type": "select",
+          "id": "font-body-two",
+          "label": "Font Family Subtext Two",
+          "options": [
+            {
+              "value": "Montserrat",
+              "label": "Montserrat"
+            },
+            {
+              "value": "Roboto",
+              "label": "Roboto"
+            },
+            {
+              "value": "Helvetica Neue",
+              "label": "Helvetica Neue"
+            }
+          ],
+          "default": "Montserrat"
+        },
+        {
+          "type": "select",
+          "id": "font-button",
+          "label": "Font Family Button",
+          "options": [
+            {
+              "value": "Montserrat",
+              "label": "Montserrat"
+            },
+            {
+              "value": "Roboto",
+              "label": "Roboto"
+            },
+            {
+              "value": "Helvetica Neue",
+              "label": "Helvetica Neue"
+            }
+          ],
+          "default": "Montserrat"
+        },
+        {
+          "type": "header",
+          "content": "Font Sizes Desktop"
+        },
+        {
+          "type": "range",
+          "id": "font_size_heading_desk",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size Heading Desktop",
+          "default": 42
+        },
+        {
+          "type": "range",
+          "id": "font_size_body_desk_one",
+          "min": 5,
+          "max": 80,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size Subtext One Desktop",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "font_size_body_desk_two",
+          "min": 5,
+          "max": 80,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size Subtext Two Desktop",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "font_size_button_desk",
+          "min": 5,
+          "max": 80,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size Button Desktop",
+          "default": 16
+        },
+        {
+          "type": "header",
+          "content": "Font Sizes Mobile"
+        },
+        {
+          "type": "range",
+          "id": "font_size_heading_mob",
+          "min": 1,
+          "max": 80,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size Heading Mobile",
+          "default": 26
+        },
+        {
+          "type": "range",
+          "id": "font_size_body_mob_one",
+          "min": 1,
+          "max": 80,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size Subtext One Mobile",
+          "default": 15
+        },
+        {
+          "type": "range",
+          "id": "font_size_body_mob_two",
+          "min": 1,
+          "max": 80,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size Subtext Two Mobile",
+          "default": 13
+        },
+        {
+          "type": "range",
+          "id": "font_size_button_mob",
+          "min": 1,
+          "max": 80,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size Button Mobile",
+          "default": 14
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color",
+          "id":"heading-color",
+          "label": "Heading Color"
+        },
+        {
+          "type": "color",
+          "id":"body-color-one",
+          "label": "Body Subtext One Color"
+        },
+        {
+          "type": "color",
+          "id":"body-color-two",
+          "label": "Body Subtext Two Color"
+        },
+        {
+          "type": "color",
+          "id": "button-bg-color",
+          "label": "Button Background Color"
+        },
+        {
+          "type": "color",
+          "id": "button-font-color",
+          "label": "Button Font Color"
+        }
+  ],
+  "blocks": [
+    {
+      "type": "image_picker",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "video_picker",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "cover-image",
+          "label": "Cover Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Installed Pick",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

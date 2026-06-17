@@ -1,0 +1,144 @@
+{% assign _settings = section.settings %}
+{% assign _authors = section.blocks %}
+<section>
+  <div class="container">
+    <div class="author-row">
+      {% for author in _authors %}
+        <div class="author-card lightbox-trigger" data-lightbox-target="author-popup-{{ forloop.index }}">
+          <div class="author-card__img">
+            <div class="thumb">
+              <div class="positioner">
+                {% render 'lazy-image', image: author.settings.image, width: '400' %}
+              </div>
+            </div>
+          </div>
+          <div class="author-card__content">
+            <span class="pill-btn pill-btn--dgray">{{ author.settings.author_title }}</span>
+            <div class="author-name">
+              <span class="h6">{{ author.settings.name }}</span>
+              {% include 'svg-plus' %}
+            </div>
+          </div>
+        </div>
+        <div class="author-lightbox" id="author-popup-{{ forloop.index }}">
+          <div class="author-popup-wrapper">
+              <div class="author-pop-row">
+                <div class="author-pop-row__col">
+                  <div class="author-pop-img ">
+                    <div class="thumb">
+                      <div class="positioner">
+                        {% render 'lazy-image', image: author.settings.image, width: '400' %}
+                      </div>
+                    </div>
+                    <div class="author-pop-content">
+                      <span class="pill-btn pill-btn--dgray">{{ author.settings.author_title }}</span>
+                      <span class="h6">{{ author.settings.name }}</span>
+                       {% if author.settings.blog_url != blank %}
+                         <a href="{{ author.settings.blog_url }}" class="btn btn--outline">Read {{ author.settings.name }}'s Blogs</a>
+                       {% endif %}
+                   </div>
+                  </div>
+                </div>
+                <div class="author-pop-row__col">
+                  <span class="h2">About {{ author.settings.name }}</span>
+                  {{ author.settings.bio }}
+                  {% if author.settings.facebook != blank or author.settings.instagram != blank or author.settings.twitter != blank or author.settings.linkedin != blank %}
+                    <div class="author-social-wrapper">
+                      <span class="h6">Follow {{ author.settings.name }}</span>
+                      <div class="author-socials">
+                        {% if author.settings.facebook != blank %}
+                          <a href="{{ author.settings.facebook  }}">{% include 'svg-facebook' %}</a>
+                        {% endif %}
+                        {% if author.settings.instagram != blank %}
+                          <a href="{{ author.settings.instagram  }}">{% include 'svg-instagram' %}</a>
+                        {% endif %}
+                        {% if author.settings.twitter != blank %}
+                          <a href="{{ author.settings.twitter  }}">{% include 'svg-x' %}</a>
+                        {% endif %}
+                        {% if author.settings.linkedin != blank %}
+                          <a href="{{ author.settings.linkedin  }}">{% include 'svg-linkedin' %}</a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Authors",
+  "class": "shopify-block authors-block",
+  "settings": [
+
+  ],
+  "blocks": [
+     {
+       "name": "Author",
+       "type": "author",
+       "settings": [
+         {
+           "type": "text",
+           "id": "author_title",
+           "label": "Author Title"
+         },
+         {
+           "type": "text",
+           "id": "name",
+           "label": "Name"
+         },
+        {
+           "type": "image_picker",
+           "id": "image",
+           "label": "Image"
+         },
+        {
+          "type": "header",
+          "content": "Popup Content"
+        },
+        {
+           "type": "richtext",
+           "id": "bio",
+           "label": "Bio"
+         },
+          {
+           "type": "url",
+           "id": "blog_url",
+           "label": "Author Blog Link"
+         },
+          {
+           "type": "text",
+           "id": "facebook",
+           "label": "Facebook"
+         },
+          {
+           "type": "text",
+           "id": "instagram",
+           "label": "Instagram"
+         },
+          {
+           "type": "text",
+           "id": "twitter",
+           "label": "Twitter"
+         },
+          {
+           "type": "text",
+           "id": "linkedin",
+           "label": "LinkedIn"
+         }
+       ]
+     }
+  ],  
+  "presets": [
+    {
+      "name": "Authors",
+      "category": "Authors"
+    }
+  ]
+}
+{% endschema %}

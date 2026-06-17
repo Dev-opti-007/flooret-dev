@@ -1,0 +1,193 @@
+{% render 'customer-nav' %}
+
+<div class="dashboard acc-dash__tab active" data-tab="dashboard">
+
+	{% assign events = shop.metaobjects.events %}
+	{% assign challenges = shop.metaobjects.norqainer_challenge %}
+
+	<section class="fifty-fifty fifty-fifty--slider">
+		<div class="container">
+			<h2 class="h3 fifty-fifty__title">Events & Parties</h2>
+			{% render 'account-meta-slider', posts: events %}
+		</div>
+	</section>
+
+	<section class="fifty-fifty fifty-fifty--slider">
+		<div class="container">
+			<h2 class="h3 fifty-fifty__title">Norqainer Challenge</h2>
+			{% render 'account-meta-slider', posts: challenges %}
+		</div>
+	</section>
+
+</div>
+
+<section class="orders acc-dash__tab" data-tab="orders">
+	<div class="container">
+		{% paginate customer.orders by 100 %}
+			{% if customer.orders.size > 0 %}
+				{% render 'customer-orders' %}
+			{% else %}
+				<div class="orders__no-orders">
+					<span class="h4">You haven't placed any orders yet</span>
+					<a href="/collections/all" class="btn">Shop Now</a>
+				</div>
+			{% endif %}
+		{% endpaginate %}
+	</div>
+</section>
+
+<section class="my-col no-pad acc-dash__tab" data-tab="my-collection" data-email="{{ customer.email }}">
+
+	<div class="my-col__intro section">
+		<div class="container">
+			<div class="content-wrap">
+				<h2>My norqain</h2>
+				<p>As a grateful gesture for your loyalty and trust, we will offer you the opportunity to extend the warranty of your watches by one year. Simply register your watch by entering the serial number and activation code within one month after the purchase of your watch and you will receive an additional year of warranty. This is valid for all purchases made as of July 15th 2020.</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="section my-col__register">
+		<div class="container">
+			<aside class="my-col__register__buttons">
+				<ul class="desk-only">
+					<li><button type="button" value="register-watch" class="reset active">Register my norqain watch</button></li>
+					<li><button type="button" value="register-warranty" class="reset">Register watch with warranty information</button></li>
+				</ul>
+				<div class="select-menu mob-only">
+					<select class="" name="" id="">
+						<option value="register-watch" selected>Register my norqain watch</option>
+						<option value="register-warranty">Register watch with warranty information</option>
+					</select>
+				</div>
+			</aside>
+			<div class="my-col__register__tabs">
+
+				<div class="my-col__register__tab active" data-tab="register-watch">
+					<h3 class="h4">Register my norqain watch</h3>
+					<form action="">
+						<div class="input-group">
+							<label for="serial">Serial</label>
+							<input type="number" id="serial" name="serial" min="0" max="999999" required>
+						</div>
+						<div class="input-group">
+							<label for="email">Email</label>
+							<input type="email" id="email" name="email" required>
+						</div>
+						<div class="input-group">
+							<label for="activationCode">Activation Code</label>
+							<input type="text" id="activationCode" name="activationCode">
+						</div>
+						<div class="input-group">
+							<label for="name">Name</label>
+							<input type="text" id="name" name="name">
+						</div>
+						<div class="input-group">
+							<label for="surname">Surname</label>
+							<input type="text" id="surname" name="surname">
+						</div>
+						<div class="input-group">
+							<label for="streetandnumber">Street and Number</label>
+							<input type="text" id="streetandnumber" name="streetandnumber">
+						</div>
+						<div class="input-group">
+							<label for="zip">ZIP</label>
+							<input type="number" id="zip" name="zip">
+						</div>
+						<div class="input-group">
+							<label for="city">City</label>
+							<input type="text" id="city" name="city">
+						</div>
+
+						<input type="submit" value="Register">
+					</form>
+				</div>
+
+
+				<div class="my-col__register__tab" data-tab="register-warranty">
+					<h3 class="h4">Register my norqain watch2</h3>
+					<form action="">
+						<div class="input-group">
+							<label for="serial">Serial</label>
+							<input type="number" id="serial" name="serial" min="0" max="999999" required>
+						</div>
+						<div class="input-group">
+							<label for="email">Email</label>
+							<input type="email" id="email" name="email" required>
+						</div>
+						<div class="input-group">
+							<label for="activationCode">Activation Code</label>
+							<input type="text" id="activationCode" name="activationCode">
+						</div>
+						<div class="input-group">
+							<label for="name">Name</label>
+							<input type="text" id="name" name="name">
+						</div>
+						<div class="input-group">
+							<label for="surname">Surname</label>
+							<input type="text" id="surname" name="surname">
+						</div>
+						<div class="input-group">
+							<label for="streetandnumber">Street and Number</label>
+							<input type="text" id="streetandnumber" name="streetandnumber">
+						</div>
+						<div class="input-group">
+							<label for="zip">ZIP</label>
+							<input type="number" id="zip" name="zip">
+						</div>
+						<div class="input-group">
+							<label for="city">City</label>
+							<input type="text" id="city" name="city">
+						</div>
+
+						<input type="submit" value="Register">
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="section my-col__products">
+		<div class="container">
+			<h2>My norqain Collection</h2>
+			<div class="my-col__products__loop loading">
+				
+			</div>
+		</div>
+	</div>
+
+</section>
+
+
+		{% comment %} <div class="account__intro">
+		<a class="preheading" href="{{ routes.account_logout_url }}">Logout</a>
+		<h1 class="h">My Account</h1>
+		<p>Welcome back, {{ customer.first_name }}!</p>
+		</div>
+
+		<div class="account__wrap">
+
+		<div class="account__orders">
+
+		<h2 class="preheading">MY ORDERS</h2>
+
+		{% paginate customer.orders by 100 %}
+		{% if customer.orders.size > 0 %}
+
+		{% render 'customer-orders' %}
+
+		{% else %}
+		<p>You haven't placed any orders yet</p>
+		<a href="/collections/all" class="btn">Shop Now</a>
+		{% endif %}
+		{% endpaginate %}
+		</div>
+
+		<div class="account__addresses">
+		<h2 class="preheading">PRIMARY ADDRESS</h2>
+		{{ customer.default_address | format_address }}
+		<a class="btn" href="{{ routes.account_addresses_url }}">Edit addresses</a>
+		</div>
+
+		</div> {% endcomment %}

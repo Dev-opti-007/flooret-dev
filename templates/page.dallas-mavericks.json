@@ -1,0 +1,153 @@
+{
+  "sections": {
+    "mavs_header_kVMEp9": {
+      "type": "mavs-header",
+      "settings": {
+        "background_image": "shopify://shop_images/mavs-landing-headerbg.png",
+        "flooret_logo": "shopify://shop_images/logo-flooret.png",
+        "mavs_logo": "shopify://shop_images/dallas-mavericks-logo-0.png",
+        "main_title": "Official Sponsor of the Dallas Mavericks",
+        "subtitle": "A SLAM-DUNK PARTNERSHIP",
+        "paragraph_1": "We are proud to partner with the Dallas Mavericks, a team that exemplifies both athletic excellence and a strong commitment to the community. Just as the Mavericks pursue greatness on and off the court, Flooret is committed to providing floors that not only look beautiful but also perform at the highest standard.",
+        "paragraph_2": "We believe the spaces where you live and work should reflect your values and inspire your best. At the Mavericks' headquarters, our floors stand as a testament to the team's hard work, passion, and dedication to excellence. This partnership isn't just about flooring—it's about creating an environment that embodies their mission and supports their success, every step of the way.",
+        "button_label": "Learn more",
+        "button_link": ""
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "richtext_U8HyVW": {
+      "type": "richtext",
+      "settings": {
+        "heading": "Behind the Scenes:",
+        "subheading": "TRANSFORMING THE MAVS OFFICE WITH FLOORET",
+        "rich_text": "",
+        "padding_top": 32,
+        "padding_bottom": 0,
+        "mobile_padding_top": 24,
+        "mobile_padding_bottom": 16
+      }
+    },
+    "video_section_PLBpJw": {
+      "type": "video-section",
+      "settings": {
+        "custom_html": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/jkz7B9-DF38\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+        "thumbnail": "shopify://shop_images/Captura_de_pantalla_2024-10-24_a_la_s_7.45.52_p._m..png",
+        "padding_top": 0,
+        "padding_bottom": 36,
+        "mobile_padding_top": 0,
+        "mobile_padding_bottom": 24
+      }
+    },
+    "images_slider_6zEfYX": {
+      "type": "images-slider",
+      "blocks": {
+        "image_picker_yj49LB": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/1_3c1a6cc7-f388-4c2e-8a2c-9e432cd613cd.jpg"
+          }
+        },
+        "image_picker_73RC3B": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/2_3ea56b5b-19a5-4d37-92fe-e1b198caa645.jpg"
+          }
+        },
+        "image_picker_K3XNte": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/3_79901a22-668b-4eb2-b730-6e62e01c4dfb.jpg"
+          }
+        },
+        "image_picker_CHgLD3": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/4_ca6ff2fc-7894-4365-9a7d-5dc902cee244.jpg"
+          }
+        },
+        "image_picker_4AkE4x": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/5_0c175f56-74d1-4ded-a2cf-8ffa495c0efe.jpg"
+          }
+        },
+        "image_picker_iCaJHr": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/6_4121794c-2a79-4973-9f55-1c5da32d4cd8.jpg"
+          }
+        },
+        "image_picker_f98zzk": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/7_eb3bb682-d705-4248-b025-3d11ad2f5a71.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_picker_yj49LB",
+        "image_picker_73RC3B",
+        "image_picker_K3XNte",
+        "image_picker_CHgLD3",
+        "image_picker_4AkE4x",
+        "image_picker_iCaJHr",
+        "image_picker_f98zzk"
+      ],
+      "custom_css": [],
+      "settings": {
+        "color": "#d6d6dc"
+      }
+    },
+    "two_column_cards_HGXc3N": {
+      "type": "two-column-cards",
+      "blocks": {
+        "card_hFbXtd": {
+          "type": "Card",
+          "settings": {
+            "title": "<p>Modin Rigid<br/>Luxury Vinyl Plank</p>",
+            "link_text_1": "Meet Modin",
+            "link_url_1": "shopify://collections/modin-luxury-vinyl-plank",
+            "link_text_2": "Explore the Collection",
+            "link_url_2": "shopify://collections/modin-luxury-vinyl-plank",
+            "image": "shopify://shop_images/JovaSignature-website-3.webp"
+          }
+        },
+        "card_QedjzK": {
+          "type": "Card",
+          "settings": {
+            "title": "<p>Silvan Resilient Hardwood</p>",
+            "link_text_1": "Meet Silvan",
+            "link_url_1": "shopify://collections/silvan-hardwood",
+            "link_text_2": "Explore the Collection",
+            "link_url_2": "shopify://collections/silvan-hardwood",
+            "image": "shopify://shop_images/silvan-anza.webp"
+          }
+        }
+      },
+      "block_order": [
+        "card_hFbXtd",
+        "card_QedjzK"
+      ],
+      "custom_css": [
+        "a.btn.btn--outline-white {align-content: space-around;}",
+        "h3 {padding-top: 5rem;}",
+        ".collection-card {padding-top: 16px;}"
+      ],
+      "settings": {
+        "heading": "FIND YOUR GAME-WINNING FLOOR:"
+      }
+    }
+  },
+  "order": [
+    "mavs_header_kVMEp9",
+    "main",
+    "richtext_U8HyVW",
+    "video_section_PLBpJw",
+    "images_slider_6zEfYX",
+    "two_column_cards_HGXc3N"
+  ]
+}

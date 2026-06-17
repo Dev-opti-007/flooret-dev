@@ -1,0 +1,33 @@
+{% assign _section = section.settings %}
+{% if _section.heading != blank %}
+ <section class="faqs-hero">
+   <div class="container">
+    <div class="faqs-hero__wrapper">
+       <h1>{{ _section.heading }}</h1>
+       <input type="text" class="faqs-hero__search" placeholder="Search FAQs">
+    </div>
+   </div>
+ </section>
+
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "FAQs Hero",
+  "class": "shopify-block faqs-hero",
+   "settings": [
+     {
+       "type": "text",
+       "id": "heading",
+       "label": "Heading"
+     }
+  ],
+  "presets": [
+    {
+      "name": "FAQs Sticky Nav",
+      "category": "Content / FAQs Nav"
+    }
+  ]
+}
+{% endschema %}

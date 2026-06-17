@@ -1,0 +1,1656 @@
+<style>
+  .feature-grid-two--{{ section.id }} {
+    padding-top: {{ section.settings.padding-top }}px;
+    padding-bottom: {{ section.settings.padding-bottom }}px;
+    padding-left: {{ section.settings.padding-left }}px;
+    padding-right: {{ section.settings.padding-right }}px;
+  }
+  .feature-grid-two--{{ section.id }} .heading h2 {
+    color:{{ section.settings.color_heading }};
+    font-family:{{ section.settings.font_heading }};
+    font-family: {{ section.settings.font_heading }}, sans-serif;
+    font-size:{{ section.settings.font_size_heading }}px;
+    font-weight: {{ section.settings.heading_weight | default: 700 }};
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  /* Section-level heading (prevents initial flash) */
+  .feature-grid-two--{{ section.id }} .heading h2 {
+    opacity: 0;
+    transform: translateY(60px);
+    will-change: transform, opacity;
+  }
+
+
+  /* Block text elements baseline (applies to all blocks) */
+  .feature-grid-two--{{ section.id }} .feature-grid-two__heading,
+  .feature-grid-two--{{ section.id }} .feature-grid-two__sub,
+  .feature-grid-two--{{ section.id }} .feature-grid-two__buttons {
+    opacity: 0;
+    transform: translateY(60px);
+    will-change: transform, opacity;
+  }
+
+
+  @media (max-width:768px){
+    .feature-grid-two--{{ section.id }} {
+      padding-top: {{ section.settings.padding-top-mob }}px;
+      padding-bottom: {{ section.settings.padding-bottom-mob }}px;
+      padding-left: {{ section.settings.padding-left-mob }}px;
+      padding-right: {{ section.settings.padding-right-mob }}px;
+    }
+  }
+</style>
+
+
+{% stylesheet %}
+  .feature-grid-two {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--fg-gap, 16px);
+  }
+
+
+  @media (min-width: 990px) {
+    .feature-grid-two {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+
+  .feature-grid-two__item {
+    position: relative;
+    overflow: hidden;
+  }
+
+
+  .feature-grid-two__item.full {
+    grid-column: 1 / -1;
+  }
+
+
+  .feature-grid-two__media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+  }
+
+
+  .feature-grid-two__media img,
+  .feature-grid-two__media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+
+  .feature-grid-two__overlay {
+    position: absolute;
+    inset: 0;
+  }
+
+
+  .feature-grid-two__textwrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    padding: var(--fg-pad, 24px);
+    justify-content: var(--fg-hpos, center);
+    align-content: var(--fg-vpos, center);
+    justify-items: var(--fg-hpos, center);
+    align-items: var(--fg-vpos, center);
+  }
+
+
+  .feature-grid-two__text {
+    width: var(--fg-text-w, 100%);
+    max-width: var(--fg-text-w, 560px);
+    margin: 0 auto;
+    text-align: var(--fg-text-align, center);
+    display: flex;
+    flex-direction: column;
+    align-items: var(--fg-hpos, center);
+  }
+
+
+  .bfcm_logo {
+    margin-top: 0;
+    margin-bottom: var(--fg-logo-margin-b-d, 24px);
+  }
+
+  .bfcm_logo img {
+    width: var(--fg-logo-width-d, 400px);
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  @media (max-width: 768px) {
+    .bfcm_logo {
+      margin-bottom: var(--fg-logo-margin-b-m, 16px);
+    }
+
+    .bfcm_logo img {
+      width: var(--fg-logo-width-m, 100%);
+    }
+  }
+
+
+  .feature-grid-two__heading {
+    margin: 0 0 var(--fg-heading-margin-b-d, 8px);
+    color: var(--fg-head-color);
+    font-weight: var(--fg-heading-weight, 400);
+  }
+
+  @media (max-width: 768px) {
+    .feature-grid-two__heading {
+      margin-bottom: var(--fg-heading-margin-b-m, 8px);
+    }
+  }
+
+
+  .feature-grid-two__sub {
+    margin: var(--fg-sub-margin-top-d, 32px) 0 var(--fg-sub-margin-b-d, 20px);
+    color: var(--fg-sub-color);
+    font-weight: var(--fg-subtext-weight, 400);
+  }
+
+  @media (max-width: 768px) {
+    .feature-grid-two__sub {
+      margin-top: var(--fg-sub-margin-top-m, 12px);
+      margin-bottom: var(--fg-sub-margin-b-m, 12px);
+    }
+  }
+
+
+  .feature-grid-two__buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: var(--fg-hpos, center);
+  }
+
+
+  /* Version 1 Button Style (default) */
+  .feature-grid-two__buttons .btn {
+    padding: 0px 16px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--fg-btn-font-family);
+    color: var(--fg-btn1-color, #ffffff);
+    background: var(--fg-btn1-bg, transparent);
+    margin-top: 14px;
+    font-weight: var(--fg-button-weight, 700);
+    white-space: nowrap;
+    border-radius: 32px;
+    transition: all 0.3s ease;
+    height: auto;
+    height: 50px;
+    max-width: 300px;
+    width: 100%;
+    line-height: 1.2;
+  }
+
+
+  .feature-grid-two__buttons .btn:hover {
+    color: var(--fg-btn1-color-h, #ffffff);
+    background: var(--fg-btn1-bg-h, transparent);
+    text-decoration: none;
+  }
+
+
+  .feature-grid-two__buttons .btn--2 {
+    color: var(--fg-btn2-color, #111111);
+    background: var(--fg-btn2-bg, transparent);
+    margin-left: 15px;
+  }
+
+
+  .feature-grid-two__buttons .btn--2:hover {
+    color: var(--fg-btn2-color-h, #ffffff);
+    background: var(--fg-btn2-bg-h, transparent);
+    text-decoration: none;
+  }
+
+
+  /* Version 2 Button Style (new modern style) */
+  .feature-grid-two__buttons .btn--v2,
+  .feature-grid-two__buttons .btn--v2-2 {
+    max-width: 300px;
+    width: 100%;
+    height: 60px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--fg-btn-font-family);
+    font-weight: var(--fg-button-weight, 700);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    padding: 0 20px;
+    box-sizing: border-box;
+    text-align: center;
+    border: 2px solid transparent;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
+  /* Version 2 Button 1 */
+  .feature-grid-two__buttons .btn--v2 {
+    color: var(--fg-btn1-v2-color, #ffffff);
+    background: var(--fg-btn1-v2-bg, #000000);
+    border-color: var(--fg-btn1-v2-border, #000000);
+  }
+
+
+  .feature-grid-two__buttons .btn--v2:hover {
+    color: var(--fg-btn1-v2-color-h, #ffffff);
+    background: var(--fg-btn1-v2-bg-h, #333333);
+    border-color: var(--fg-btn1-v2-border-h, #333333);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+
+  /* Version 2 Button 2 */
+  .feature-grid-two__buttons .btn--v2-2 {
+    color: var(--fg-btn2-v2-color, #000000);
+    background: var(--fg-btn2-v2-bg, #ffffff);
+    border-color: var(--fg-btn2-v2-border, #dddddd);
+  }
+
+
+  .feature-grid-two__buttons .btn--v2-2:hover {
+    color: var(--fg-btn2-v2-color-h, #ffffff);
+    background: var(--fg-btn2-v2-bg-h, #000000);
+    border-color: var(--fg-btn2-v2-border-h, #000000);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+
+  /* Mobile adjustments for Version 2 buttons */
+  @media (max-width: 768px) {
+    .feature-grid-two__buttons .btn--v2,
+    .feature-grid-two__buttons .btn--v2-2 {
+      max-width: 280px;
+      height: 50px;
+      font-size: 14px;
+      padding: 0 16px;
+    }
+
+
+    .feature-grid-two__buttons .btn--v2:hover,
+    .feature-grid-two__buttons .btn--v2-2:hover {
+      transform: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+
+  /* Mobile typography */
+  .feature-grid-two__heading {
+    font-family: var(--fg-head-font-family);
+    font-size: var(--fg-head-size-m);
+  }
+
+
+  .feature-grid-two__sub {
+    font-family: var(--fg-body-font-family);
+    font-size: var(--fg-sub-size-m);
+  }
+
+
+  .feature-grid-two__buttons .btn,
+  .feature-grid-two__buttons .btn--v2,
+  .feature-grid-two__buttons .btn--v2-2 {
+    font-size: var(--fg-btn-size-m);
+  }
+
+
+  .cusotm-quiz-button button {
+      font-family: Montserrat !important;
+      font-weight: 600 !important;
+      font-size: 18px !important;
+      line-height: 16px !important;
+      text-align: center !important;
+      color: #000 !important;
+      background: #fff !important;
+      min-width: 272px !important;
+      margin-top: 35px !important;
+      transition: all 300ms ease !important;
+  }
+
+
+  .cusotm-quiz-button button:hover {
+    color: #fff !important;
+      background: #000 !important;
+  }
+
+
+  @media (min-width: 750px) {
+    .feature-grid-two__heading {
+      font-size: var(--fg-head-size-d);
+    }
+
+
+    .feature-grid-two__sub {
+      font-size: var(--fg-sub-size-d);
+    }
+
+
+    .feature-grid-two__buttons .btn,
+    .feature-grid-two__buttons .btn--v2,
+    .feature-grid-two__buttons .btn--v2-2 {
+      font-size: var(--fg-btn-size-d);
+    }
+  }
+
+
+  /* Full bleed option */
+  .feature-grid-two--fullbleed {
+    width: 100%;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+
+
+  @media (max-width:768px){
+    .cusotm-quiz-button button {
+        font-family: Montserrat!important;
+        font-weight: 600!important;
+        font-size: 13px!important;
+        line-height: 10px!important;
+        text-align: center!important;
+        color: #000!important;
+        background: #fff!important;
+        min-width: 172px!important;
+        margin-top: 12px!important;
+        height: 36px !important;
+        padding: 0px !important;
+    }
+    .feature-grid-two__textwrap {
+      padding: var(--fg-pad-mob, 24px);
+    }
+
+
+    /* Ensure Version 2 buttons work on mobile */
+    .feature-grid-two__buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+
+    .feature-grid-two__buttons .btn--v2-2 {
+      margin-left: 0;
+      margin-top: 8px;
+    }
+  }
+
+
+  /* Mobile-specific text alignment and width */
+  @media (max-width: 768px) {
+    .feature-grid-two__text {
+      width: var(--fg-text-w-mobile, 100%);
+      max-width: var(--fg-text-w-mobile, 100%);
+      text-align: var(--fg-text-align-mobile, center);
+      align-items: var(--fg-hpos-mobile, center);
+    }
+    .feature-grid-two__heading {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 100%;
+      letter-spacing: 4%;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .feature-grid-two__sub p{
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1.4;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .feature-grid-two__buttons .btn{
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 16px;
+      letter-spacing: 0%;
+      text-align: center;
+      vertical-align: middle;
+      color: black;
+      width: 172px;
+      height: 36px;
+      background: white;
+      border-radius: 32px;
+      text-decoration: none;
+    }
+    .feature-grid-two__buttons .btn:hover{
+      color: black;
+      background: white;
+    }
+    .feature-grid-two__item.full{
+      min-height: 290px;
+    }
+    .bfcm_logo{
+      margin-top: 20px;
+    }
+    .feature-grid-two__buttons{
+      margin-bottom: 20px;
+    }
+  }
+
+
+  @media (min-width: 769px) {
+    .feature-grid-two__text {
+      text-align: var(--fg-text-align-desktop, center);
+      align-items: var(--fg-hpos-desktop, center);
+    }
+  }
+{% endstylesheet %}
+
+
+<div class="feature-grid-two--{{ section.id }}">
+  {% if section.settings.heading != blank %}
+    <div class="heading">
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+  {% endif %}
+
+
+  <div
+    class="feature-grid-two{% if section.settings.full_bleed %} feature-grid-two--fullbleed{% endif %}"
+    style="--fg-gap: {{ section.settings.gap | default: 16 }}px"
+  >
+    {% for block in section.blocks %}
+      {% assign b = block.settings %}
+      <div class="feature-grid-two__item feature-grid__item--{{ block.id }} {% if b.width == 'full' %}full{% endif %}" {{ block.shopify_attributes }}>
+        <div class="feature-grid-two__media">
+          {% if b.media_type == 'video' and b.video_url != blank %}
+            <video playsinline muted loop autoplay poster="{{ b.video_thumb | img_url: '1200x' }}">
+              <source src="{{ b.video_url }}" type="video/mp4">
+            </video>
+          {% else %}
+            {% if b.image != blank %}
+              {{
+                b.image
+                | image_url: width: 2000
+                | image_tag: alt: b.heading
+                | default: 'Feature image', loading: 'lazy', width: 1200, height: 800, class: 'feature-grid-two__image'
+              }}
+            {% endif %}
+          {% endif %}
+          {% if b.overlay_opacity > 0 %}
+            <span
+              class="feature-grid-two__overlay"
+              style="background-color: {{ b.overlay_color }}; opacity: {{ b.overlay_opacity }}"
+            ></span>
+          {% endif %}
+          <style>
+            @media (min-width: 769px) {
+              .feature-grid__item--{{ block.id }} {
+                {% if b.enable_manual_height_desk == true %}
+                  max-height: {{ b.height_desk }}px;
+                  height: {{ b.height_desk }}px;
+                {% endif %}
+              }
+            }
+            @media (max-width: 768px) {
+              .feature-grid__item--{{ block.id }} {
+                {% if b.enable_manual_height_mob == true %}
+                  max-height: {{ b.height_mob }}px;
+                  height: {{ b.height_mob }}px;
+                
+                {% endif %}
+              }
+            }
+          </style>
+        </div>
+
+
+        {% comment %} Fixed: Proper CSS variable structure for desktop and mobile {% endcomment %}
+        {% assign vpos_desktop = b.vpos_desktop | default: 'center' %}
+        {% assign hpos_desktop = b.hpos_desktop | default: 'center' %}
+        {% assign talign_desktop = b.text_align_desktop | default: 'center' %}
+        {% assign vpos_mobile = b.vpos_mobile | default: 'center' %}
+        {% assign hpos_mobile = b.hpos_mobile | default: 'center' %}
+        {% assign talign_mobile = b.text_align_mobile | default: 'center' %}
+
+
+        <div
+          class="feature-grid-two__textwrap"
+          style="
+            /* Padding */
+            --fg-pad: {{ b.pad | default: 24 }}px;
+            --fg-pad-mob: {{ b.pad-mob | default: 24 }}px;
+
+
+            /* Desktop positioning */
+            --fg-vpos: {{ vpos_desktop }};
+            --fg-hpos: {{ hpos_desktop }};
+            --fg-text-align-desktop: {{ talign_desktop }};
+            --fg-hpos-desktop: {{ hpos_desktop }};
+
+
+            /* Desktop text width */
+            --fg-text-w: {{ b.text_width_desktop | default: 60 }}%;
+
+
+            /* Mobile positioning overrides */
+            --fg-vpos-mobile: {{ vpos_mobile }};
+            --fg-hpos-mobile: {{ hpos_mobile }};
+            --fg-text-align-mobile: {{ talign_mobile }};
+            --fg-hpos-mobile: {{ hpos_mobile }};
+
+
+            /* Mobile text width */
+            --fg-text-w-mobile: {{ b.text_width_mobile | default: 100 }}%;
+
+
+            /* Colors */
+            --fg-head-color: {{ b.heading_color }};
+            --fg-sub-color: {{ b.subtext_color }};
+
+
+            /* Font families with proper fallbacks */
+            --fg-head-font-family: '{{ b.font_heading }}', {{ settings.type_header_font | font_face }}, system-ui, sans-serif;
+            --fg-body-font-family: '{{ b.font_body }}', {{ settings.type_body_font | font_face }}, system-ui, sans-serif;
+            --fg-btn-font-family: '{{ b.font_buttons }}', {{ settings.type_body_font | font_face }}, system-ui, sans-serif;
+
+
+            /* Mobile font sizes */
+            --fg-head-size-m: {{ b.heading_size_m | default: 24 }}px;
+            --fg-sub-size-m: {{ b.subtext_size_m | default: 16 }}px;
+            --fg-btn-size-m: {{ b.button_size_m | default: 14 }}px;
+
+
+            /* Desktop font sizes */
+            --fg-head-size-d: {{ b.heading_size_d | default: 40 }}px;
+            --fg-sub-size-d: {{ b.subtext_size_d | default: 18 }}px;
+            --fg-btn-size-d: {{ b.button_size_d | default: 15 }}px;
+
+
+            /* Font weights */
+            --fg-heading-weight: {{ b.heading_weight | default: 700 }};
+            --fg-subtext-weight: {{ b.subtext_weight | default: 400 }};
+            --fg-button-weight: {{ b.button_weight | default: 700 }};
+
+
+            /* Bottom margins - Desktop */
+            --fg-logo-margin-b-d: {{ b.logo_margin_bottom_d | default: 24 }}px;
+            --fg-heading-margin-b-d: {{ b.heading_margin_bottom_d | default: 8 }}px;
+            --fg-sub-margin-top-d: {{ b.subtext_margin_top_d | default: 32 }}px;
+            --fg-sub-margin-b-d: {{ b.subtext_margin_bottom_d | default: 20 }}px;
+
+
+            /* Bottom margins - Mobile */
+            --fg-logo-margin-b-m: {{ b.logo_margin_bottom_m | default: 16 }}px;
+            --fg-heading-margin-b-m: {{ b.heading_margin_bottom_m | default: 8 }}px;
+            --fg-sub-margin-top-m: {{ b.subtext_margin_top_m | default: 12 }}px;
+            --fg-sub-margin-b-m: {{ b.subtext_margin_bottom_m | default: 12 }}px;
+
+
+            /* Logo width - Desktop and Mobile */
+            --fg-logo-width-d: {{ b.logo_width_desktop | default: 400 }}px;
+            --fg-logo-width-m: {{ b.logo_width_mobile | default: 100 }}%;
+
+
+            /* Version 1 Button colors (legacy) */
+            --fg-btn1-color: {{ b.btn1_text_color }};
+            --fg-btn1-bg: {{ b.btn1_bg }};
+            --fg-btn1-color-h: {{ b.btn1_text_hover }};
+            --fg-btn1-bg-h: {{ b.btn1_bg_h }};
+            --fg-btn2-color: {{ b.btn2_text_color }};
+            --fg-btn2-bg: {{ b.btn2_bg }};
+            --fg-btn2-color-h: {{ b.btn2_text_hover }};
+            --fg-btn2-bg-h: {{ b.btn2_bg_h }};
+
+
+            {% comment %} Version 2 Button colors {% endcomment %}
+            --fg-btn1-v2-color: {{ b.btn1_v2_text_color | default: '#ffffff' }};
+            --fg-btn1-v2-bg: {{ b.btn1_v2_bg_color | default: '#000000' }};
+            --fg-btn1-v2-color-h: {{ b.btn1_v2_text_hover | default: '#ffffff' }};
+            --fg-btn1-v2-bg-h: {{ b.btn1_v2_bg_hover | default: '#333333' }};
+            --fg-btn1-v2-border: {{ b.btn1_v2_bg_color | default: '#000000' }};
+            --fg-btn1-v2-border-h: {{ b.btn1_v2_bg_hover | default: '#333333' }};
+
+
+            --fg-btn2-v2-color: {{ b.btn2_v2_text_color | default: '#000000' }};
+            --fg-btn2-v2-bg: {{ b.btn2_v2_bg_color | default: '#ffffff' }};
+            --fg-btn2-v2-color-h: {{ b.btn2_v2_text_hover | default: '#ffffff' }};
+            --fg-btn2-v2-bg-h: {{ b.btn2_v2_bg_hover | default: '#000000' }};
+            --fg-btn2-v2-border: {{ b.btn2_v2_bg_color | default: '#dddddd' }};
+            --fg-btn2-v2-border-h: {{ b.btn2_v2_bg_hover | default: '#000000' }};
+          "
+        >
+          <div class="feature-grid-two__text">
+            {% comment %}BFCM Page Section, add logo{% endcomment %}
+            {% if b.logo_image %}
+              <div class="bfcm_logo">
+                <img
+                  src="{{ b.logo_image | image_url }}"
+                  alt="{{ b.logo_image.alt }}"
+                  width="400"
+                  height="100"
+                >
+              </div>
+            {% endif %}
+            {% if b.heading != blank %}
+              <h2 class="feature-grid-two__heading">{{ b.heading }}</h2>
+            {% endif %}
+            {% if b.subtext != blank %}
+              <div class="feature-grid-two__sub">{{ b.subtext }}</div>
+            {% endif %}
+
+
+            {% if b.btn1_label != blank or b.btn2_label != blank %}
+              <div class="feature-grid-two__buttons">
+                {% if b.btn1_label != blank %}
+                  {% if b.btn1_style_v2 %}
+                    <a class="btn btn--v2 full" href="{{ b.btn1_url }}">{{ b.btn1_label }}</a>
+                  {% else %}
+                    <a class="btn full" href="{{ b.btn1_url }}">{{ b.btn1_label }}</a>
+                  {% endif %}
+                {% endif %}
+
+
+                {% if b.btn2_label != blank %}
+                  {% if b.btn2_style_v2 %}
+                    <a class="btn btn--v2-2 full" href="{{ b.btn2_url }}">{{ b.btn2_label }}</a>
+                  {% else %}
+                    <a class="btn btn--2 full" href="{{ b.btn2_url }}">{{ b.btn2_label }}</a>
+                  {% endif %}
+                {% endif %}
+              </div>
+            {% endif %}
+
+
+            {% if b['custom-html-btn'] != blank %}
+              <div class="cusotm-quiz-button">
+                {{ b['custom-html-btn'] }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+{% comment %} GSAP Animation Script (unchanged) {% endcomment %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('Feature Grid Two GSAP Script - DOMContentLoaded triggered for section {{ section.id }}');
+
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      console.error('Feature Grid Two GSAP Script - GSAP or ScrollTrigger not loaded');
+      return;
+    }
+
+
+    gsap.registerPlugin(ScrollTrigger);
+
+
+    const sectionRoot = document.querySelector('.feature-grid-two--{{ section.id }}');
+    if (!sectionRoot) {
+      console.error('Feature Grid Two GSAP Script - Section root not found');
+      return;
+    }
+
+
+    // Animate section heading
+    const sectionHeading = sectionRoot.querySelector('.heading h2');
+    if (sectionHeading) {
+      gsap.to(sectionHeading, {
+        scrollTrigger: {
+          trigger: sectionRoot,
+          start: 'clamp(top 90%)',
+          toggleActions: 'play none none none',
+          once: true,
+          id: `feature-grid-heading-{{ section.id }}`,
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        ease: 'power3.out',
+      });
+    }
+
+
+    // Animate each block independently
+    const gridItems = sectionRoot.querySelectorAll('.feature-grid-two__item');
+    gridItems.forEach((item, itemIndex) => {
+      const h = item.querySelector('.feature-grid-two__heading');
+      const s = item.querySelector('.feature-grid-two__sub');
+      const b = item.querySelector('.feature-grid-two__buttons');
+
+
+      if (!h && !s && !b) return;
+
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: item,
+          start: 'clamp(top 75%)',
+          toggleActions: 'play none none none',
+          once: true,
+          id: `feature-grid-item-${itemIndex + 1}-{{ section.id }}`,
+        },
+      });
+
+
+      if (h) tl.to(h, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0);
+      if (s) tl.to(s, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.15);
+      if (b) tl.to(b, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.3);
+    });
+
+
+    // Safe refresh sequence
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (typeof scrollTriggerManager !== 'undefined' && scrollTriggerManager.safeRefresh) {
+          scrollTriggerManager.safeRefresh();
+        } else if (ScrollTrigger) {
+          ScrollTrigger.refresh();
+        }
+      }, 100);
+    });
+
+
+    // Resize refresh
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (ScrollTrigger) {
+          ScrollTrigger.refresh();
+        }
+      }, 250);
+    });
+  });
+</script>
+
+
+{% schema %}
+{
+  "name": "Full Half Banner Grid Two",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_bleed",
+      "label": "Full-bleed width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Grid gap (px)",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "font_heading",
+      "label": "Font Family Title",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        },
+        {
+          "value": "Playfair Display",
+          "label": "Playfair Display"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "range",
+      "id": "font_size_heading",
+      "label": "Font Size Heading",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding-top",
+      "label": "Padding Top Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-bottom",
+      "label": "Padding Bottom Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-left",
+      "label": "Padding Left Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-right",
+      "label": "Padding Right Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding-top-mob",
+      "label": "Padding Top Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-bottom-mob",
+      "label": "Padding Bottom Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-left-mob",
+      "label": "Padding Left Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-right-mob",
+      "label": "Padding Right Mobile",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Feature item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Logo Image (Above Heading)"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Width",
+          "options": [
+            {
+              "value": "half",
+              "label": "Half width"
+            },
+            {
+              "value": "full",
+              "label": "Full width"
+            }
+          ],
+          "default": "half"
+        },
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media Type",
+          "options": [
+            {
+              "value": "image",
+              "label": "Image"
+            },
+            {
+              "value": "video",
+              "label": "Video"
+            }
+          ],
+          "default": "image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "video_thumb",
+          "label": "Video poster"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video URL"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay opacity",
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "default": 0
+        },
+        {
+          "type": "html",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "label": "Subheading"
+        },
+        {
+          "type": "color",
+          "id": "subtext_color",
+          "label": "Subheading color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Logo Width"
+        },
+        {
+          "type": "range",
+          "id": "logo_width_desktop",
+          "label": "Logo width (desktop px)",
+          "min": 50,
+          "max": 600,
+          "step": 10,
+          "default": 400
+        },
+        {
+          "type": "range",
+          "id": "logo_width_mobile",
+          "label": "Logo width (mobile %)",
+          "min": 20,
+          "max": 100,
+          "step": 5,
+          "default": 100,
+          "info": "Set as percentage for responsive sizing on mobile"
+        },
+        {
+          "type": "header",
+          "content": "Font Weights"
+        },
+        {
+          "type": "range",
+          "id": "heading_weight",
+          "label": "Heading font weight",
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "default": 700
+        },
+        {
+          "type": "range",
+          "id": "subtext_weight",
+          "label": "Subtext font weight",
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "default": 400
+        },
+        {
+          "type": "range",
+          "id": "button_weight",
+          "label": "Button font weight",
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "default": 700
+        },
+        {
+          "type": "header",
+          "content": "Spacing - Desktop"
+        },
+        {
+          "type": "range",
+          "id": "logo_margin_bottom_d",
+          "label": "Logo bottom margin (px)",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "heading_margin_bottom_d",
+          "label": "Heading bottom margin (px)",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "default": 8
+        },
+        {
+          "type": "range",
+          "id": "subtext_margin_top_d",
+          "label": "Subtext top margin (px)",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "default": 32
+        },
+        {
+          "type": "range",
+          "id": "subtext_margin_bottom_d",
+          "label": "Subtext bottom margin (px)",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "default": 20
+        },
+        {
+          "type": "header",
+          "content": "Spacing - Mobile"
+        },
+        {
+          "type": "range",
+          "id": "logo_margin_bottom_m",
+          "label": "Logo bottom margin (px)",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "heading_margin_bottom_m",
+          "label": "Heading bottom margin (px)",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "default": 8
+        },
+        {
+          "type": "range",
+          "id": "subtext_margin_top_m",
+          "label": "Subtext top margin (px)",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "default": 12
+        },
+        {
+          "type": "range",
+          "id": "subtext_margin_bottom_m",
+          "label": "Subtext bottom margin (px)",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "default": 12
+        },
+        {
+          "type": "header",
+          "content": "Button 1 (Version 1 - Legacy)"
+        },
+        {
+          "type": "checkbox",
+          "id": "btn1_style_v2",
+          "label": "Use Version 2 Style (Modern)",
+          "default": false,
+          "info": "Enable for modern button styling with fixed dimensions"
+        },
+        {
+          "type": "url",
+          "id": "btn1_url",
+          "label": "Button 1 link"
+        },
+        {
+          "type": "text",
+          "id": "btn1_label",
+          "label": "Button 1 label"
+        },
+        {
+          "type": "color",
+          "id": "btn1_text_color",
+          "label": "Btn 1 text color (Version 1)",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "btn1_bg",
+          "label": "Btn 1 background (Version 1)"
+        },
+        {
+          "type": "color",
+          "id": "btn1_text_hover",
+          "label": "Btn 1 hover text (Version 1)",
+          "default": "#111111"
+        },
+        {
+          "type": "color",
+          "id": "btn1_bg_h",
+          "label": "Btn 1 hover background (Version 1)"
+        },
+        {
+          "type": "header",
+          "content": "Button 1 (Version 2 - Modern)"
+        },
+        {
+          "type": "color",
+          "id": "btn1_v2_text_color",
+          "label": "Btn 1 text color (Version 2)",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "btn1_v2_bg_color",
+          "label": "Btn 1 background color (Version 2)*",
+          "default": "#000000",
+          "info": "Required for Version 2 style"
+        },
+        {
+          "type": "color",
+          "id": "btn1_v2_text_hover",
+          "label": "Btn 1 hover text (Version 2)",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "btn1_v2_bg_hover",
+          "label": "Btn 1 hover background (Version 2)",
+          "default": "#333333"
+        },
+        {
+          "type": "header",
+          "content": "Button 2 (Version 1 - Legacy)"
+        },
+        {
+          "type": "checkbox",
+          "id": "btn2_style_v2",
+          "label": "Use Version 2 Style (Modern)",
+          "default": false,
+          "info": "Enable for modern button styling with fixed dimensions"
+        },
+        {
+          "type": "url",
+          "id": "btn2_url",
+          "label": "Button 2 link"
+        },
+        {
+          "type": "text",
+          "id": "btn2_label",
+          "label": "Button 2 label"
+        },
+        {
+          "type": "color",
+          "id": "btn2_text_color",
+          "label": "Btn 2 text color (Version 1)",
+          "default": "#111111"
+        },
+        {
+          "type": "color",
+          "id": "btn2_bg",
+          "label": "Btn 2 background (Version 1)"
+        },
+        {
+          "type": "color",
+          "id": "btn2_text_hover",
+          "label": "Btn 2 hover text (Version 1)",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "btn2_bg_h",
+          "label": "Btn 2 hover background (Version 1)"
+        },
+        {
+          "type": "header",
+          "content": "Button 2 (Version 2 - Modern)"
+        },
+        {
+          "type": "color",
+          "id": "btn2_v2_text_color",
+          "label": "Btn 2 text color (Version 2)",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "btn2_v2_bg_color",
+          "label": "Btn 2 background color (Version 2)*",
+          "default": "#ffffff",
+          "info": "Required for Version 2 style"
+        },
+        {
+          "type": "color",
+          "id": "btn2_v2_text_hover",
+          "label": "Btn 2 hover text (Version 2)",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "btn2_v2_bg_hover",
+          "label": "Btn 2 hover background (Version 2)",
+          "default": "#000000"
+        },
+        {
+          "type": "html",
+          "id": "custom-html-btn",
+          "label": "Custom HTML for Quiz Button"
+        },
+        {
+          "type": "header",
+          "content": "Typography"
+        },
+        {
+          "type": "select",
+          "id": "font_heading",
+          "label": "Font Family Heading",
+          "options": [
+            {
+              "value": "Montserrat",
+              "label": "Montserrat"
+            },
+            {
+              "value": "Roboto",
+              "label": "Roboto"
+            },
+            {
+              "value": "Helvetica Neue",
+              "label": "Helvetica Neue"
+            },
+            {
+              "value": "Playfair Display",
+              "label": "Playfair Display"
+            }
+          ],
+          "default": "Montserrat"
+        },
+        {
+          "type": "select",
+          "id": "font_body",
+          "label": "Font Family Body",
+          "options": [
+            {
+              "value": "Montserrat",
+              "label": "Montserrat"
+            },
+            {
+              "value": "Roboto",
+              "label": "Roboto"
+            },
+            {
+              "value": "Helvetica Neue",
+              "label": "Helvetica Neue"
+            },
+            {
+              "value": "Playfair Display",
+              "label": "Playfair Display"
+            }
+          ],
+          "default": "Montserrat"
+        },
+        {
+          "type": "select",
+          "id": "font_buttons",
+          "label": "Font Family Buttons",
+          "options": [
+            {
+              "value": "Montserrat",
+              "label": "Montserrat"
+            },
+            {
+              "value": "Roboto",
+              "label": "Roboto"
+            },
+            {
+              "value": "Helvetica Neue",
+              "label": "Helvetica Neue"
+            },
+            {
+              "value": "Playfair Display",
+              "label": "Playfair Display"
+            }
+          ],
+          "default": "Montserrat"
+        },
+        {
+          "type": "range",
+          "id": "heading_size_m",
+          "label": "Heading size (mobile px)",
+          "min": 10,
+          "max": 60,
+          "step": 1,
+          "default": 26
+        },
+        {
+          "type": "range",
+          "id": "heading_size_d",
+          "label": "Heading size (desktop px)",
+          "min": 12,
+          "max": 100,
+          "step": 1,
+          "default": 42
+        },
+        {
+          "type": "range",
+          "id": "subtext_size_m",
+          "label": "Subheading size (mobile px)",
+          "min": 10,
+          "max": 40,
+          "step": 1,
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "subtext_size_d",
+          "label": "Subheading size (desktop px)",
+          "min": 10,
+          "max": 64,
+          "step": 1,
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "button_size_m",
+          "label": "Button text (mobile px)",
+          "min": 10,
+          "max": 32,
+          "step": 1,
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "button_size_d",
+          "label": "Button text (desktop px)",
+          "min": 10,
+          "max": 40,
+          "step": 1,
+          "default": 15
+        },
+        {
+          "type": "header",
+          "content": "Text Width & Alignment"
+        },
+        {
+          "type": "range",
+          "id": "text_width_desktop",
+          "label": "Text width desktop (%)",
+          "min": 20,
+          "max": 100,
+          "step": 5,
+          "default": 60,
+          "info": "Controls how wide the text block appears on desktop"
+        },
+        {
+          "type": "range",
+          "id": "text_width_mobile",
+          "label": "Text width mobile (%)",
+          "min": 40,
+          "max": 100,
+          "step": 5,
+          "default": 100,
+          "info": "Controls how wide the text block appears on mobile"
+        },
+        {
+          "type": "select",
+          "id": "text_align_desktop",
+          "label": "Text align desktop",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center",
+          "info": "Text alignment on desktop screens"
+        },
+        {
+          "type": "select",
+          "id": "text_align_mobile",
+          "label": "Text align mobile",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center",
+          "info": "Text alignment on mobile screens"
+        },
+        {
+          "type": "header",
+          "content": "Text block position"
+        },
+        {
+          "type": "range",
+          "id": "pad",
+          "label": "Inner padding (px)",
+          "min": 0,
+          "max": 120,
+          "step": 4,
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "pad-mob",
+          "label": "Inner padding Mobile (px)",
+          "min": 0,
+          "max": 120,
+          "step": 4,
+          "default": 24
+        },
+        {
+          "type": "select",
+          "id": "vpos_desktop",
+          "label": "Vertical desktop",
+          "options": [
+            {
+              "value": "start",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Bottom"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "hpos_desktop",
+          "label": "Horizontal desktop",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "vpos_mobile",
+          "label": "Vertical mobile",
+          "options": [
+            {
+              "value": "start",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Bottom"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "hpos_mobile",
+          "label": "Horizontal mobile",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "Manual Height Mobile"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_manual_height_mob",
+          "label": "Enable Manual Height",
+          "default": false
+        },
+        {
+          "type": "number",
+          "id": "height_mob",
+          "label": "Manual Height",
+          "info": "Write in number (px)"
+        },
+        {
+          "type": "header",
+          "content": "Manual Height Desktop"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_manual_height_desk",
+          "label": "Enable Desktop Height",
+          "default": false
+        },
+        {
+          "type": "number",
+          "id": "height_desk",
+          "label": "Manual Height",
+          "info": "Write in number (px)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Full Half Banner Grid Two",
+      "blocks": [
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

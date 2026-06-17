@@ -1,0 +1,89 @@
+{% assign _settings = section.settings %}
+<section>
+  <div class="container">
+    <div class="content-imgs-row">
+
+       <div class="content-imgs-row__col">
+          {% render 'lazy-image', image: _settings.image_1, width: '200' %}
+       </div>
+
+      <div class="content-imgs-row__col">
+        {% if _settings.heading != blank %}
+        <h2 class="h3">{{ _settings.heading }}</h2>
+        {% endif %}
+
+        {{ _settings.content }}
+        {{ _settings.html }}
+
+
+        {% if _settings.link_text != blank and _settings.link_url != blank %}
+          <a class="btn btn--text" href="{{ _settings.link_url }}">{{ _settings.link_text }}</a>
+        {% endif %}
+      </div>
+
+      <div class="content-imgs-row__col">
+          {% render 'lazy-image', image: _settings.image_2, width: '200x' %}
+       </div>
+
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Content + Images",
+  "class": "shopify-block content-imgs",
+  "settings": [    
+    {
+      "type": "header",
+      "content": "Content"
+    },        
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "textarea",
+      "id": "html",
+      "label": "Custom HTML"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+     {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    }
+
+
+  ],
+  "presets": [
+    {
+      "name": "Content + Images",
+      "category": "Content / Images"
+    }
+  ]
+}
+{% endschema %}

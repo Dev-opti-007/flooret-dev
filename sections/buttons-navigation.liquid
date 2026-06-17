@@ -1,0 +1,170 @@
+<div class="buttons--container">
+  <div class="nav-indicator">
+    <p>{{ section.settings.jump_to }}</p>
+  </div>
+  <div class="swiper buttonsNav">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <a href="{{ block.settings.url }}" class="swiper-slide">
+          {% if block.settings.icon != blank %}
+            {{ block.settings.icon | image_url: width: 12 | image_tag: alt: block.settings.icon.alt }}
+          {% endif %}
+          {{ block.settings.title }}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .section-buttons--nav {
+    position: sticky;
+    top: 56px;
+    z-index: 99;
+    background: #f4f3f1;
+  }
+  .buttons--container .nav-indicator {
+    position: absolute;
+    left: 15px;
+    top: 44px;
+  }
+  @media (min-width: 768px) {
+    .buttons--container .nav-indicator {
+      left: 91px;
+    }
+  }
+  .buttons--container a {
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid;
+    background: white;
+    text-decoration: none;
+    display: flex;
+    width: fit-content !important;
+    gap: 8px;
+    align-items: center;
+  }
+  @media (min-width: 1600px) {
+    .buttons--container a {
+      padding: 9px 24px;
+    }
+  }
+  .buttons--container {
+    padding: 32px 0px 32px 91px;
+    background: #f4f3f1;
+    position: relative;
+    max-width: fit-content;
+    margin: auto;
+  }
+  @media (min-width: 768px) {
+    .buttons--container {
+      padding: 32px 91px 32px 171px;
+    }
+  }
+  .buttons--container p {
+    color: #717171;
+    font-size: 14px;
+  }
+{% endstyle %}
+
+<script>
+  var swiper = new Swiper('.buttonsNav', {
+    slidesPerView: 1.8,
+    spaceBetween: 18,
+    freeMode: true,
+    grabCursor: true,
+    breakpoints: {
+      768: {
+        slidesPerView: 3,
+        spaceBetween: 18,
+      },
+      1000: {
+        slidesPerView: 4,
+        spaceBetween: 18,
+      },
+      1400: {
+        slidesPerView: 6,
+        spaceBetween: 18,
+      },
+    },
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    function updateNavPosition() {
+      const announcementBar = document.getElementById('announcement-bar');
+      const navElement = document.querySelector('.section-buttons--nav');
+
+      if (announcementBar && navElement) {
+        if (window.getComputedStyle(announcementBar).display === 'none') {
+          navElement.style.top = '49px';
+        } else {
+          navElement.style.top = '132px';
+        }
+      }
+    }
+
+    updateNavPosition();
+
+    const observer = new MutationObserver(updateNavPosition);
+    const announcementBar = document.getElementById('announcement-bar');
+    if (announcementBar) {
+      observer.observe(announcementBar, { attributes: true, attributeFilter: ['style'] });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Buttons Navigation",
+  "class": "section-buttons--nav",
+  "settings": [
+    {
+      "type": "text",
+      "id": "jump_to",
+      "label": "Jump to",
+      "default": "Jump to"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Link",
+      "settings": [
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Label",
+          "default": "Label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Buttons Navigation",
+      "category": "Navigation",
+      "blocks": [
+        {
+          "type": "link"
+        },
+        {
+          "type": "link"
+        },
+        {
+          "type": "link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

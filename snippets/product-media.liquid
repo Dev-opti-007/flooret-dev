@@ -1,0 +1,128 @@
+{% comment %} {% assign last_option = blank %}
+{% assign similar_variants = blank %}
+
+{% for media in product.media %}
+  {% liquid
+    assign image = media
+    assign variant_id = blank
+
+    for variant in product.variants
+      assign variant_img_url = variant.featured_image | img_url: 'master'
+      assign master = image | img_url: 'master'
+      if variant_img_url == master
+        assign variant_id = variant.id
+
+        if last_option != variant.option1
+          assign last_option = variant.option1
+          assign similar_variants = blank
+        endif
+
+        assign similar_variants = similar_variants | append: ',' | append: variant_id
+      endif
+    endfor
+  %}
+
+  <div
+    class="product-image swiper-slide {% if variant_id != blank %}variant-image{% endif %}"
+    data-variant="{{ variant_id }}"
+    {% if similar_variants != blank and variant_id == blank %}
+      data-similar-variants="{{ similar_variants | remove_first: ',' }}"
+    {% endif %}
+  >
+    <div class="spacer">
+      {% render 'lazy-image-product', lazy: false, image: image, width: 800, alt: product.title %}
+    </div>
+  </div>
+{% endfor %} {% endcomment %}
+
+{% assign last_option = blank %}
+{% assign similar_variants = blank %}
+
+{% for media in product.media %}
+  {% liquid
+    assign image = media
+    assign variant_id = blank
+    assign variant_model = blank
+
+    for variant in product.variants
+      assign variant_img_url = variant.featured_image | img_url: 'master'
+      assign master = image | img_url: 'master'
+      if variant_img_url == master
+        assign variant_id = variant.id
+        assign variant_model = variant.option1 | handle
+
+        if last_option != variant.option1
+          assign last_option = variant.option1
+          assign similar_variants = blank
+        endif
+
+        assign similar_variants = similar_variants | append: ',' | append: variant_id
+      endif
+    endfor
+  %}
+
+  <div
+    class="product-image swiper-slide {% if variant_id != blank %}variant-image{% endif %}"
+    data-variant="{{ variant_id }}"
+    data-model="{{ variant_model }}"
+    {% if similar_variants != blank and variant_id == blank %}
+      data-similar-variants="{{ similar_variants | remove_first: ',' }}"
+    {% endif %}
+  >
+    <div class="spacer">
+      {% render 'lazy-image-product', lazy: false, image: image, width: 800, alt: product.title %}
+    </div>
+  </div>
+{% endfor %}
+
+<script>
+  const mainEl = document.querySelector('.productGallery'); // change to your main swiper element
+const mainSwiper = mainEl && mainEl.swiper;
+
+function playActiveVideo() {
+  if (!mainSwiper) return;
+
+  // pause all videos first
+  mainEl.querySelectorAll('video').forEach(v => {
+    try { v.pause(); } catch(e) {}
+  });
+
+  const activeSlide = mainSwiper.slides[mainSwiper.activeIndex];
+  if (!activeSlide) return;
+
+  const v = activeSlide.querySelector('video');
+  if (!v) return;
+
+  // ensure autoplay requirements
+  v.muted = true;
+  v.setAttribute('muted', '');
+  v.setAttribute('playsinline', '');
+  v.playsInline = true;
+
+  const p = v.play();
+  if (p && typeof p.catch === 'function') p.catch(() => {});
+}
+
+if (mainSwiper) {
+  // play when slide becomes active
+  mainSwiper.on('slideChangeTransitionEnd', playActiveVideo);
+
+  // also try on init
+  playActiveVideo();
+}
+</script>
+
+<script>
+  document.addEventListener('click', function(e) {
+  const v = e.target && e.target.closest && e.target.closest('.swiper-slide video');
+  if (!v) return;
+  e.stopPropagation();
+}, true);
+
+document.addEventListener('touchstart', function(e) {
+  const v = e.target && e.target.closest && e.target.closest('.swiper-slide video');
+  if (!v) return;
+  e.stopPropagation();
+}, { capture: true, passive: true });
+
+</script>

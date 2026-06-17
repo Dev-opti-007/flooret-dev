@@ -1,0 +1,103 @@
+{% assign _settings = section.settings %}
+{% assign _links = section.blocks %}
+<section
+  class="hero-ic {% if _settings.row_reverse %}hero-ic--reverse{% endif %}"
+  style="color: {{ _settings.text_color }};"
+>
+  <div class="overlay" style="background-color: {{ _settings.bg_color }};"></div>
+  <div class="container">
+    <div class="hero-ic-row">
+      <div class="hero-ic-row__col">
+        <div class="hero-ic-content">
+          {% if _settings.heading != blank %}
+            <h1>{{ _settings.heading }}</h1>
+          {% endif %}
+          {% if _settings.content != blank %}
+            {{ _settings.content }}
+          {% endif %}
+          {% if _settings.link_text != blank and _settings.link_url != blank %}
+            <a
+              href="{{ _settings.link_url }}"
+              class="btn btn--primary {% if _settings.text_color == "#ffffff" %}btn--white{% endif %}"
+            >
+              {{- _settings.link_text -}}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="hero-ic-row__col">
+        <div class="thumb">
+          <div class="positioner">
+            {% render 'lazy-image', image: _settings.image, width: '1900' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero - Image + Content",
+  "class": "shopify-block hero hero-image-content",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#343334"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_reverse",
+      "label": "Row Reverse",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero - Image + Content",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}

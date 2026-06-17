@@ -1,0 +1,187 @@
+<div class="rating-slide">
+
+  <div class="page-width" > 
+     <div class="left-content">
+        {{ section.settings.rating-text }}
+      </div>
+    
+      <div class="right-content">
+          <div class="slide">
+              {{ section.settings.right-text-one }}
+          </div>
+          <div class="slide">
+              {{ section.settings.right-text-two }}
+          </div>
+          <div class="slide">
+              <img src="{{ section.settings.right-image-three | img_url:'400x' }}" alt="{{ section.settings.right-image-three.alt }}" >
+          </div>
+      </div>
+     
+  </div>
+  
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', ()=>{
+    if(window.innerWidth < 768) {
+    $('.right-content').slick({
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        dots: false,
+        arrows:false
+      });
+    }
+  })
+</script>
+
+<style>
+  .rating-slide {
+      background: rgb(89 104 107);
+  }
+  
+  .rating-slide .page-width {
+      display: flex;
+      align-items: center;
+      padding: 10px 0px;
+  }
+  
+  .rating-slide .page-width .left-content {
+      width: 20%;
+      text-align: center;
+      position: relative;
+  }
+
+  .rating-slide .page-width .left-content:after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: -20%;
+      height: 140%;
+      width: 1px;
+      background: #fff;
+  }
+  
+  .rating-slide .page-width .right-content {
+      width: 80%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+  }
+
+  .rating-slide .page-width .right-content .slide {
+    width: 33%;
+    position: relative;
+    text-align: center;
+}
+
+   .rating-slide .page-width .right-content .slick-slide {
+      display: flex;
+      align-items: center;
+     justify-content:center;
+  }
+  
+  .rating-slide .page-width .left-content p {
+      font-size: 16px;
+      color: #fff;
+  }
+  
+  .rating-slide .page-width .right-content .slide p {
+    color: #fff;
+    font-size: 16px;
+  }
+  .rating-slide .page-width .right-content .slide::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: -20%;
+      height: 140%;
+      width: 1px;
+      background: #fff;
+  }
+  .rating-slide .page-width .right-content .slide:nth-last-child(1)::after {
+      content: none;
+  }
+  .rating-slide .page-width .right-content .slide img {
+      width: 65%;
+  }
+  @media (max-width:768px){
+    .rating-slide .page-width .left-content {
+      width:40%;
+    }
+    .rating-slide .page-width .right-content {
+      width:60%;
+    }
+    .rating-slide .page-width .right-content .slide p,
+    .rating-slide .page-width .left-content p {
+        font-size: 12px;
+        color: #fff;
+        text-align:center;
+    }
+    .rating-slide .page-width .left-content p img {
+        max-width: 10px !important;
+    }
+    
+    .rating-slide .page-width .left-content p {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+    }
+    .rating-slide .page-width .right-content .slide img {
+        width: 120px;
+    }
+    .template-page-silvan-landing-page .rating-slide .page-width {
+      padding:12px 20px!important;
+    }
+    .rating-slide .page-width .right-content .slide::after {
+      content:none;
+    }
+    .rating-slide .page-width .right-content .slide {
+        width: unset;
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Rating Slider",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Left Content"
+      },
+      {
+        "type": "html",
+        "id": "rating-text",
+        "label": "Rating Text"
+      },
+      {
+        "type": "header",
+        "content": "Right Content"
+      },
+      {
+        "type": "richtext",
+        "id": "right-text-one",
+        "label": "Right Slide Text One"
+      },
+      {
+        "type": "richtext",
+        "id": "right-text-two",
+        "label": "Right Slide Text Two"
+      },
+      {
+        "type": "image_picker",
+        "id": "right-image-three",
+        "label": "Right Slide Image Three"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Rating Slider"
+      }
+    ]
+  }
+{% endschema %}

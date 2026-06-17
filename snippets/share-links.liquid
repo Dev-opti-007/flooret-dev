@@ -1,0 +1,17 @@
+<div class="share-links">
+  <h6 class="share-links__heading">{{ 'blog.share_this' | t }}</h6>
+
+  <ul class="share-links__links">
+    <li>
+      <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ url }}">{% render 'svg-facebook' %}</a>
+    </li>
+    <li>
+      <a target="_blank" href="https://twitter.com/intent/tweet?text={{ url }}">{% render 'svg-x' %}</a>
+    </li>
+    <li>
+      <a target="_blank" href="mailto:subject=Check%20Out%20This%20Article%20from%20Norqain&body={{ url }}">
+        {%- render 'svg-email' -%}
+      </a>
+    </li>
+  </ul>
+</div>

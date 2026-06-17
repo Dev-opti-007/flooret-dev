@@ -1,0 +1,42 @@
+{{ 'tips.css' | asset_url | stylesheet_tag }}
+
+<section class="tips-section">
+  <div class="tips-container">
+    <div class="install-guarantee">
+      <div class="guarantee-title">
+        <img src="{{ 'info.svg' | asset_url }}" width="20" height="20"><span>Installation Guarantee</span>
+      </div>
+      <p>All Installations include our satisfaction guarantee and are performed by licensed, insured professionals.</p>
+    </div>
+
+    <div class="install-help">
+      <div class="help-title">
+        <img src="{{ 'call.svg' | asset_url }}" width="20" height="20"><span>Need Help?</span>
+      </div>
+      <p>Call <a href="tel:+18007008122">1-800-700-8122</a> Monday-Friday from 8am-5pm CST</p>
+    </div>
+
+    <div class="install-next">
+      <div class="next-title">
+        <img src="{{ 'next.svg' | asset_url }}" width="20" height="20"><span>Next Steps</span>
+      </div>
+      <p>
+        After placing your order, you'll be contacted to schedule a pre-installation inspection and confirm your
+        installation date.
+      </p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Tips",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Tips",
+      "category": "Tips"
+    }
+  ]
+}
+{% endschema %}

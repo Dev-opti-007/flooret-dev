@@ -1,0 +1,290 @@
+{%- liquid
+  assign swatchHandle = 'model' | split: ','
+-%}
+
+{%- for product_option in product.options_with_values -%}
+  {% assign optionIndex = 'option' | append: forloop.index %}
+  {% assign optionName = product_option.name | handleize %}
+  {%- if swatchHandle contains optionName -%}
+    <ul class="product-card__swatches">
+      {%- for value in product_option.values -%}
+        {%- liquid
+          assign filter_handle = value | handleize
+          assign product_model = shop.metaobjects.product_model[filter_handle]
+
+          assign cost_per_sqft = product_model.cost_per_sqft
+          assign compare_cost_per_sqft = product_model.compare_cost_per_sqft
+          assign product_length = product_model.length
+          assign product_width = product_model.width
+          assign wear_layer_thickness = product_model.thickness
+          assign filter_img = product_model.image
+
+          assign show_low_stock = false
+          assign feat_img = null
+          assign price = null
+          assign prod_id = null
+
+          assign variant_sqft_price = null
+          assign variant_sqft_compare = null
+
+          for variant in product.variants
+            if variant[optionIndex] == value
+              if feat_img == null
+                assign feat_img = variant.featured_image
+                assign price = variant.price
+                assign prod_id = variant.id
+              endif
+
+              if variant.metafields.custom.low_stock_alert
+                assign show_low_stock = true
+              endif
+
+              if variant.metafields.custom.sqft_price and variant.metafields.custom.sqft_compare_at_price
+                assign variant_sqft_price = variant.metafields.custom.sqft_price
+                assign variant_sqft_compare = variant.metafields.custom.sqft_compare_at_price
+              endif
+            endif
+          endfor
+
+          # Use variant metafield if present, else metaobject value
+          if variant_sqft_price
+            assign final_cost_value = variant_sqft_price
+          elsif cost_per_sqft
+            assign final_cost_value = cost_per_sqft.value
+          else
+            assign final_cost_value = 0
+          endif
+
+          if variant_sqft_compare
+            assign final_compare_value = variant_sqft_compare
+          elsif compare_cost_per_sqft
+            assign final_compare_value = compare_cost_per_sqft.value
+          else
+            assign final_compare_value = 0
+          endif
+        -%}
+
+        {% assign feat_index = 0 %}
+        {% for img in product.images %}
+          {% if feat_img and img.id == feat_img.id %}
+            {% assign feat_index = forloop.index0 %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+
+        {% assign hover_img = null %}
+        {% assign target_index = feat_index | plus: 2 %}
+        {% for img in product.images %}
+          {% if forloop.index0 == target_index %}
+            {% assign hover_img = img %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+
+        {%- if feat_img != null -%}
+          <li>
+  <label for="{{ product.handle }}--{{ value | handleize }}">
+    <button
+      class="product-swatch product-swatch--{{ value | handleize }} lazy {% if product.selected_or_first_available_variant.id == prod_id %}active{% endif %}"
+      id="{{ product.handle }}--{{ value | handleize }}"
+      value="{{ value | handleize }}"
+      title="{{ value }}"
+      type="button"
+      data-price="{{ price }}"
+      data-variant-id="{{ prod_id }}"
+      data-cost-per-sqft='{{ final_cost_value }}'
+      data-compare-cost-per-sqft='{{ final_compare_value }}'
+      data-image="{{ feat_img | product_img_url: '500x' }}"
+      data-product-id="{{ product.id }}"
+      product_width_length='{{- product_width.value | append: " x " | append: product_length.value | replace: ' in', '"' }}'
+      wear_layer_thickness='{{- wear_layer_thickness.value | append: " Mil" }}'
+      {%- if hover_img != null -%}data-image-hover="{{ hover_img | product_img_url: '500x' }}"{%- endif -%}
+      data-low-stock="{{ show_low_stock }}"
+      aria-label="Toggle {{ value }} Color"
+    >
+      {%- if filter_img != blank -%}
+        <span class="col-facets__icon {{ filter.param_name | escape }}-{{ forloop.index }}">
+          <img src="{{ filter_img | image_url: width: 32, height: 32 }}">
+        </span>
+      {%- endif -%}
+    </button>
+  </label>
+</li>
+
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+{%- endfor -%}
+
+{% comment %} {%- liquid
+  assign swatchHandle = 'model' | split: ','
+-%}
+
+{%- for product_option in product.options_with_values -%}
+  {% assign optionIndex = 'option' | append: forloop.index %}
+  {% assign optionName = product_option.name | handleize %}
+  {%- if swatchHandle contains optionName -%}
+    <ul class="product-card__swatches">
+      {%- for value in product_option.values -%}
+        {%- liquid
+          assign filter_handle = value | handleize
+          assign product_model = shop.metaobjects.product_model[filter_handle]
+          assign cost_per_sqft = product_model.cost_per_sqft
+          assign compare_cost_per_sqft = product_model.compare_cost_per_sqft
+          assign product_length = product_model.length
+          assign product_width = product_model.width
+          assign wear_layer_thickness = product_model.thickness
+          assign filter_img = product_model.image
+          assign show_low_stock = false
+          assign feat_img = null
+
+          for variant in product.variants
+            if variant[optionIndex] == value
+              if feat_img == null
+                assign feat_img = variant.featured_image
+                assign price = variant.price
+                assign prod_id = variant.id
+              endif
+              if variant.metafields.custom.low_stock_alert
+                assign show_low_stock = true
+              endif
+            endif
+          endfor
+        -%}
+
+        {%- comment -%} FIXED: Get 3rd image after featured image {%- endcomment -%}
+        {% assign feat_index = 0 %}
+        {% for img in product.images %}
+          {% if img.id == feat_img.id %}
+            {% assign feat_index = forloop.index0 %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+        
+        {% assign hover_img = null %}
+        {% assign target_index = feat_index | plus: 2 %}
+        {% for img in product.images %}
+          {% if forloop.index0 == target_index %}
+            {% assign hover_img = img %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+
+        {%- if feat_img != null -%}
+          <li>
+            <label for="{{ product.handle }}--{{ value | handleize }}">
+              <button
+                class="product-swatch product-swatch--{{ value | handleize }} lazy {% if product.selected_or_first_available_variant.id == prod_id %}active{% endif %}"
+                id="{{ product.handle }}--{{ value | handleize }}"
+                value="{{ value | handleize }}"
+                title="{{ value }}"
+                type="button"
+                data-price="{{ price | money_without_trailing_zeros }}"
+                data-variant-id="{{ prod_id }}"
+                data-cost-per-sqft="{{ cost_per_sqft.value }}"
+                data-compare-cost-per-sqft="{{ compare_cost_per_sqft.value }}"
+                data-image="{{ feat_img | product_img_url: '500x' }}"
+                data-product-id="{{ product.id }}"
+                product_width_length='{{- product_width.value | append: ' x ' | append: product_length.value | replace: ' in', '"' }}'
+                wear_layer_thickness="{{- wear_layer_thickness.value | append: ' Mil' }}"
+                {%- if hover_img != null -%}data-image-hover="{{ hover_img | product_img_url: '500x' }}"{%- endif -%}
+                data-low-stock="{{ show_low_stock }}"
+                aria-label="Toggle {{ value }} Color"
+              >
+                {%- if filter_img != blank -%}
+                  <span class="col-facets__icon {{ filter.param_name | escape }}-{{ forloop.index }}">
+                    <img src="{{ filter_img | image_url: width: 32, height: 32 }}">
+                  </span>
+                {%- endif -%}
+              </button>
+            </label>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+{%- endfor -%} {% endcomment %}
+
+
+
+{% comment %} {%- liquid
+  assign swatchHandle = 'model' | split: ','
+-%}
+
+{%- for product_option in product.options_with_values -%}
+  {% assign optionIndex = 'option' | append: forloop.index %}
+  {% assign optionName = product_option.name | handleize %}
+  {%- if swatchHandle contains optionName -%}
+    <ul class="product-card__swatches">
+      {%- for value in product_option.values -%}
+        {%- liquid
+          assign filter_handle = value | handleize
+          assign product_model = shop.metaobjects.product_model[filter_handle]
+          assign cost_per_sqft = product_model.cost_per_sqft
+          assign compare_cost_per_sqft = product_model.compare_cost_per_sqft
+          assign product_length = product_model.length
+          assign product_width = product_model.width
+          assign wear_layer_thickness = product_model.thickness
+          assign filter_img = product_model.image
+          assign show_low_stock = false
+          assign feat_img = null
+          assign hover_img = null
+
+          for variant in product.variants
+            if variant[optionIndex] == value
+              if feat_img == null
+                assign feat_img = variant.featured_image
+                assign price = variant.price
+                assign prod_id = variant.id
+              endif
+              if variant.metafields.custom.low_stock_alert
+                assign show_low_stock = true
+              endif
+            endif
+          endfor
+
+          if feat_img != null
+            for media in product.media
+              if media != feat_img and forloop.index > 3
+                assign hover_img = media
+                break
+              endif
+            endfor
+          endif
+        -%}
+
+        {%- if feat_img != null -%}
+          <li>
+            <label for="{{ product.handle }}--{{ value | handleize }}">
+              <button
+                class="product-swatch product-swatch--{{ value | handleize }} lazy {% if product.selected_or_first_available_variant.id == prod_id %}active{% endif %}"
+                id="{{ product.handle }}--{{ value | handleize }}"
+                value="{{ value | handleize }}"
+                title="{{ value }}"
+                type="button"
+                data-price="{{ price | money_without_trailing_zeros }}"
+                data-variant-id="{{ prod_id }}"
+                data-cost-per-sqft="{{ cost_per_sqft.value }}"
+                data-compare-cost-per-sqft="{{ compare_cost_per_sqft.value }}"
+                data-image="{{ feat_img | product_img_url: '400x' }}"
+                data-product-id="{{ product.id }}"
+                product_width_length='{{- product_width.value | append: ' x ' | append: product_length.value | replace: ' in', '"' }}'
+                wear_layer_thickness="{{- wear_layer_thickness.value | append: ' Mil' }}"
+                {%- if hover_img != null -%}data-image-hover="{{ hover_img | product_img_url: '400x' }}"{%- endif -%}
+                data-low-stock="{{ show_low_stock }}"
+                aria-label="Toggle {{ value }} Color"
+              >
+                {%- if filter_img != blank -%}
+                  <span class="col-facets__icon {{ filter.param_name | escape }}-{{ forloop.index }}">
+                    <img src="{{ filter_img | image_url: width: 32, height: 32 }}">
+                  </span>
+                {%- endif -%}
+              </button>
+            </label>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+{%- endfor -%} {% endcomment %}

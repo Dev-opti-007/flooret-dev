@@ -1,0 +1,126 @@
+{%- liquid
+  assign found = false
+  for option in product.options_with_values
+    if option.name == 'Type'
+      for value in option.values
+        if value == 'Cut Sample'
+          assign found = true
+          break
+        endif
+      endfor
+    endif
+  endfor
+-%}
+
+{%- if found == true -%}
+  <button
+    style="display:none;"
+    class="product-card__cta btn btn--small btn--yellow js-addsample"
+    type="button"
+    data-url="products/{{ product.handle }}"
+  >
+    Order Sample 
+  </button>
+
+  <button class="quick-view-btn" data-product-handle="{{ product.handle }}">Order Sample</button>
+{%- endif -%}
+
+
+
+{%- capture variant_html -%}
+  <div class="pdp-atc__groups">
+    {% for product_option in product.options_with_values %}
+      {% if product_option.name == 'Title' %}{% continue %}{% endif %}
+      <div class="js-product-form__group pdp-atc__group--{{ product_option.name | handleize }}">
+        <h4 class="quick-view-option-title">{{ product_option.name }}</h4>
+        <ul class="pdp-atc__group__buttons {{ product_option.name }}">
+          {% for value in product_option.values %}
+            
+            {% comment %}
+              NEW: Re-added the liquid logic to get the metaobject for each value.
+            {% endcomment %}
+            {%- liquid
+              assign value_handle = value | handleize
+              assign optionHandle = product_option.name | handleize
+              assign product_meta_namespace = optionHandle | prepend: 'product_'
+              if optionHandle == 'width'
+                assign product_meta_namespace = 'product_model'
+              endif
+              assign product_meta = shop.metaobjects[product_meta_namespace][value_handle]
+            -%}
+            
+            <li>
+              <input 
+                type="radio" 
+                name="qv-{{ product.handle }}-{{ product_option.name | handle }}" 
+                value="{{ value | escape }}" 
+                id="qv-{{ product.handle }}__option{{ forloop.parentloop.index }}__{{ value | handleize }}"
+              >
+              <label for="qv-{{ product.handle }}__option{{ forloop.parentloop.index }}__{{ value | handleize }}">
+                <span>{{ value }}</span>
+
+                {% comment %}
+                  NEW: Re-added the list that displays the metaobject details.
+                {% endcomment %}
+                <ul class="product-option__meta">
+                  {%- if product_meta.width != blank -%}
+                    <li>{{- product_meta.width.value | append: ' x ' | append: product_meta.length_text_only.value | replace: ' in', '"' -}}</li>
+                  {%- endif -%}
+                  {%- if product_meta.thickness != blank -%}
+                    <li>{{ product_meta.thickness | append: ' Mil' }}</li>
+                  {%- endif -%}
+                  {%- if product_meta.bevel_style != blank -%}
+                    <li>{{ product_meta.bevel_style }}</li>
+                  {%- endif -%}
+                </ul>
+
+              </label>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </div>
+{%- endcapture -%}
+<script>
+  window.quickViewData = window.quickViewData || {};
+  window.variantMetafields = window.variantMetafields || {};
+
+  window.quickViewData[{{ product.handle | json }}] = {
+    html: {{ variant_html | json }},
+    metaobject_prices: {
+      {%- assign model_option = product.options_with_values | where: "name", "Model" | first -%}
+      {%- if model_option -%}
+        {%- for value in model_option.values -%}
+          {%- liquid
+            assign value_handle = value | handleize
+            assign meta_obj = shop.metaobjects.product_model[value_handle]
+            assign meta_price_cents = meta_obj.cost_per_sqft.value | default: 0
+            assign meta_compare_cents = meta_obj.compare_cost_per_sqft.value | default: 0
+          -%}
+          {{ value | json }}: {
+            price_cents: {{ meta_price_cents | json }},
+            compare_cents: {{ meta_compare_cents | json }}
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      {%- endif -%}
+    }
+  };
+
+  {%- for variant in product.variants -%}
+    {%- liquid
+      assign sqft_val = variant.metafields.custom.sqft_price.value | default: 0
+      assign sqft_compare_val = variant.metafields.custom.sqft_compare_at_price.value | default: 0
+      assign sqft_dollars = sqft_val | divided_by: 100.0
+      assign sqft_compare_dollars = sqft_compare_val | divided_by: 100.0
+    -%}
+    window.variantMetafields[{{ variant.id | json }}] = {
+      sqft_price: {{ sqft_dollars | json }},
+      sqft_compare_at_price: {{ sqft_compare_dollars | json }}
+    };
+  {%- endfor -%}
+</script>
+
+
+
+

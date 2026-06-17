@@ -1,0 +1,73 @@
+{% assign _settings = section.settings %}
+{% assign _links = section.blocks %}
+<section>
+  <div class="container">
+    <div class="hero-cta-row">
+      <div class="hero-cta-row__col">
+        {% if _settings.pre_heading != blank %}
+          <span class="h6">{{ _settings.heading }}</span>
+        {% endif %}
+        {% if _settings.heading != blank %}
+          <h1>{{ _settings.heading }}</h1>
+        {% endif %}
+      </div>
+      <div class="hero-cta-row__col">
+        {% if _settings.content != blank %}
+          {{ _settings.content }}
+        {% endif %}
+        {% if _settings.link_text != blank and _settings.link_url != blank %}
+          <a
+            href="{{ _settings.link_url }}"
+            class="btn btn--primary"
+          >
+            {{- _settings.link_text -}}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero - Content + CTA",
+  "class": "shopify-block hero hero-content-cta",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "pre_heading",
+      "label": "Pre-Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero - Content + CTA",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}

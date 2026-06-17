@@ -1,0 +1,52 @@
+{%- liquid
+  assign title = product.name
+  assign product_subtitle = item.product_subtitle
+
+  assign meta = product.metafields.flooret
+  assign character = meta.product_character
+  assign color = meta.product_color
+  assign space = meta.product_space
+
+  assign feat_img = product.featured_image
+  assign variant_images = ''
+  assign hover_img = product.selected_or_first_available_variant.featured_image
+
+  for variant in product.variants
+    assign variant_images = variant_images | append: ',' | append: variant.featured_image
+
+    if variant[optionIndex] == value and feat_img == blank
+      assign feat_img = variant.featured_image
+    endif
+  endfor
+
+  assign variant_images = variant_images | remove_first: ',' | split: ','
+  assign found = false
+
+  for media in product.media
+    if feat_img == media
+      assign found = true
+    endif
+
+    if found == true
+      unless variant_images contains media
+        assign feat_img = media
+        break
+      endunless
+    endif
+  endfor
+-%}
+<div class="gallery-card js-gallery-popup" data-url="/products/{{ product.handle }}" id="{{ product.handle }}">
+  {%- if product != blank -%}
+    <span class="gallery-card__badge">{{ product.title }}</span>
+  {%- endif -%}
+  <div class="positioner">
+    {%- render 'lazy-image', image: feat_img, width: 1200 -%}
+  </div>
+  {%- unless hover_img == blank -%}
+    <div class="gallery-card__hover-image">
+      <div class="positioner">
+        {%- render 'lazy-image', image: hover_img, width: 1200 -%}
+      </div>
+    </div>
+  {%- endunless -%}
+</div>

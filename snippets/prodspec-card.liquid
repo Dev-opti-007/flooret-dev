@@ -1,0 +1,24 @@
+{%- liquid
+  assign models = shop.metaobjects.product_model
+  assign meta = product.metafields.flooret
+
+  assign shop_model_handle = models[model].name | handleize
+  assign shop_model = shop.metaobjects.product_model[shop_model_handle]
+  assign model_image = meta.product_model_images.value[shop_model_handle]
+-%}
+<div
+  class="prodspec-card js-prodspec"
+  style="background-image: url({{ model_image | image_url: width: 300, height: 400 }})"
+>
+  <div class="prodspec-card__header">
+    <h5>{{ models[model].name }}</h5>
+    <button class="prodspec-card__trigger js-prodspec__trigger" type="button">&plus;</button>
+  </div>
+  <div class="prodspec-card__content js-prodspec__content">
+    <h6 class="prodspec-card__title">{{ models[model].name }}</h6>
+    <div class="prodspec-card__specs">
+      {{ shop_model.specifications | metafield_tag }}
+    </div>
+    <button class="prodspec-card__trigger js-prodspec__close" type="button">&times;</button>
+  </div>
+</div>

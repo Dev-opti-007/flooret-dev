@@ -1,0 +1,82 @@
+<section class="generic-page longform-content">
+  <div class="container">
+    {% comment %}
+    <div class="section__header">
+      <h1>{{ page.title }}</h1>
+    </div>
+    {% endcomment %}
+    <div class="section__content content-wrap">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+<style>
+    ul.checklist {
+        list-style: none;
+        padding-left: 0;
+        margin: 0px;
+    }
+    ul.checklist li {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      justify-content: start;
+      align-items: baseline;
+  }
+  ul.checklist li >  input[type="checkbox"] {
+    display: block;
+    margin: 0px;
+    position: relative;
+    top: 4px;
+    pointer-events: none;
+}
+  ul.checklist li > p {
+    margin: 0px;
+    padding: 0px;
+    width: calc(100% - 20px);
+}
+    ul.checklist li:nth-child(1) {
+        margin-top: 20px;
+    }
+    /* ul.checklist li::before {
+      content: "✔️ ";
+      color: green;
+      font-weight: bold;
+    } */
+    ol.terms {
+      margin-top: 30px;
+      margin: 0px;
+    }
+    h1 {
+      margin-top: 40px;
+    }
+      ol.terms li {display: flex;gap: 15px;margin-bottom: 20px;}
+    
+    ol.terms li:nth-child(1) {
+        margin-top: 20px;
+    }
+    ol.terms > li:before {
+      content: counter(ol-counter) ".";
+      display:flex;
+      width:22px;
+    }
+      ul.inner-ul-in-ul {
+        list-style: auto !important;
+        margin: 0px 0px 0px 38px !important;
+    }
+    
+    ul.inner-ul-in-ul li {list-style: auto !important;}
+      ul.inner-ul-in-ul li::before {
+        content: "•";
+        color: black;
+        font-weight: bold;
+    }
+  p.para-between {
+    padding: 0px 0px 0px 35px;
+}
+
+p.para-between.para-last {
+    margin-bottom: 15px;
+}
+  </style>

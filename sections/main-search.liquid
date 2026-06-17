@@ -1,0 +1,85 @@
+{%- liquid
+  assign module = section.settings
+  assign page_url = request.path
+
+  assign meta = collection.metafields.flooret
+  assign collection_hero_background_color = meta.collection_hero_background_color
+  assign collection_hero_text_color = meta.collection_hero_text_color
+-%}
+
+{%- capture section_styles -%}style="
+    {%- if collection_hero_background_color != blank and collection_hero_background_color != 'rgba(0,0,0,0)' -%}background-color: {{collection_hero_background_color}};{%- endif -%}
+    {%- if collection_hero_text_color != blank and collection_hero_text_color != 'rgba(0,0,0,0)' -%}color: {{collection_hero_text_color}};{%- endif -%}
+    {% comment %} background-image:url('{{ collection.image | image_url: width: 2000 }}'); {% endcomment %}
+    "
+  {%- endcapture -%}
+
+<section class="collection-hero" {{ section_styles }}>
+  <div class="container">
+    <div class="collection-hero__content">
+      {%- render 'breadcrumbs' -%}
+      <div class="section__header">
+        <form action="/search">
+          <input type="text" name="q" placeholder="Search..." value="{{ search.terms }}">
+          <input type="hidden" name="type" value="product">
+        </form>
+      </div>
+      <div class="section__content"></div>
+    </div>
+  </div>
+</section>
+
+<div id="js-collection">
+  <section
+    class="collection-grid"
+    id="collection-grid"
+  >
+    <div class="container">
+      <div class="collection-grid__loop">
+        {%- for item in search.results -%}
+          {% if item.object_type == 'product' %}
+            {% render 'product-card', product: item %}
+          {% endif %}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Collections",
+  "settings": [
+    {
+      "type": "color",
+      "id": "hero_bg_color",
+      "label": "Hero Background Color",
+      "default": "#F4F3F1"
+    },
+    {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Hero Text Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "Block",
+      "name": "Block",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "text_replace",
+          "label": "Filter Label"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,423 @@
+{% comment %}
+  See it in your space
+  - Background image (desktop/mobile)
+  - Left: heading
+  - Right: text + CTA (no middle card)
+{% endcomment %}
+
+<section
+  id="SeeInYourSpace-{{ section.id }}"
+  class="siy"
+  style="
+    --siy-bg: {{ section.settings.section_bg_color }};
+    --siy-max: {{ section.settings.section_max_width }}px;
+
+    --siy-pt: {{ section.settings.section_padding_top_desktop }}px;
+    --siy-pr: {{ section.settings.section_padding_right_desktop }}px;
+    --siy-pb: {{ section.settings.section_padding_bottom_desktop }}px;
+    --siy-pl: {{ section.settings.section_padding_left_desktop }}px;
+
+    --siy-pt-m: {{ section.settings.section_padding_top_mobile }}px;
+    --siy-pr-m: {{ section.settings.section_padding_right_mobile }}px;
+    --siy-pb-m: {{ section.settings.section_padding_bottom_mobile }}px;
+    --siy-pl-m: {{ section.settings.section_padding_left_mobile }}px;
+
+    --siy-min-h: {{ section.settings.min_height_desktop }}px;
+    --siy-min-h-m: {{ section.settings.min_height_mobile }}px;
+
+    --siy-overlay: {{ section.settings.overlay_color }};
+    --siy-overlay-op: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+
+    --siy-gap: {{ section.settings.grid_gap_desktop }}px;
+    --siy-gap-m: {{ section.settings.grid_gap_mobile }}px;
+
+    --siy-title-c: {{ section.settings.title_color }};
+    --siy-title-s: {{ section.settings.title_size_desktop }}px;
+    --siy-title-s-m: {{ section.settings.title_size_mobile }}px;
+    --siy-title-w: {{ section.settings.title_weight }};
+    --siy-title-lh: {{ section.settings.title_line_height }};
+    --siy-title-ls: {{ section.settings.title_letter_spacing }}px;
+
+    --siy-text-c: {{ section.settings.text_color }};
+    --siy-text-s: {{ section.settings.text_size_desktop }}px;
+    --siy-text-s-m: {{ section.settings.text_size_mobile }}px;
+    --siy-text-w: {{ section.settings.text_weight }};
+    --siy-text-lh: {{ section.settings.text_line_height }};
+    --siy-text-ls: {{ section.settings.text_letter_spacing }}px;
+
+    --siy-btn-c: {{ section.settings.button_color }};
+    --siy-btn-s: {{ section.settings.button_size }}px;
+    --siy-btn-w: {{ section.settings.button_weight }};
+    --siy-btn-ls: {{ section.settings.button_letter_spacing }}px;
+  "
+>
+  <div class="siy__media">
+    {% if section.settings.bg_image_desktop != blank %}
+      {% if section.settings.bg_image_mobile != blank %}
+        <picture>
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ section.settings.bg_image_mobile | image_url: width: section.settings.bg_mobile_render_width }}"
+          >
+          {{ section.settings.bg_image_desktop
+            | image_url: width: section.settings.bg_desktop_render_width
+            | image_tag:
+              loading: 'lazy',
+              class: 'siy__img',
+              alt: section.settings.bg_image_desktop.alt | escape
+          }}
+        </picture>
+      {% else %}
+        {{ section.settings.bg_image_desktop
+          | image_url: width: section.settings.bg_desktop_render_width
+          | image_tag:
+            loading: 'lazy',
+            class: 'siy__img',
+            alt: section.settings.bg_image_desktop.alt | escape
+        }}
+      {% endif %}
+    {% else %}
+      <div class="siy__fallback">Select a background image</div>
+    {% endif %}
+    <div class="siy__overlay" aria-hidden="true"></div>
+  </div>
+
+  <div class="siy__wrap {% unless section.settings.full_width %}siy__wrap--contained{% endunless %}">
+    <div class="siy__grid siy__grid--{{ section.settings.content_v_align }}">
+      <div class="siy__left" style="text-align: {{ section.settings.left_text_align }};">
+        {% if section.settings.title != blank %}
+          <h2 class="siy__title">{{ section.settings.title }}</h2>
+        {% endif %}
+      </div>
+
+      <div class="siy__right" style="text-align: {{ section.settings.right_text_align }};">
+        {% if section.settings.text != blank %}
+          <div class="siy__text">{{ section.settings.text }}</div>
+        {% endif %}
+
+        {% if section.settings.button_label != blank %}
+          <a
+            class="siy__btn"
+            {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% endif %}
+            {% if section.settings.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}
+          >
+            {{ section.settings.button_label }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .siy{
+    position: relative;
+    background: var(--siy-bg);
+    padding: var(--siy-pt) var(--siy-pr) var(--siy-pb) var(--siy-pl);
+    min-height: var(--siy-min-h);
+    overflow: hidden;
+  }
+
+  .siy__media{
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .siy__img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .siy__overlay{
+    position: absolute;
+    inset: 0;
+    background: var(--siy-overlay);
+    opacity: var(--siy-overlay-op);
+  }
+  .siy__fallback{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.04);
+    color: #111;
+    font-size: 14px;
+  }
+
+  .siy__wrap{
+    position: relative;
+    z-index: 1;
+  }
+  .siy__wrap--contained{
+    max-width: var(--siy-max);
+    margin: 0 auto;
+  }
+
+  .siy__grid{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--siy-gap);
+    min-height: var(--siy-min-h);
+  }
+  .siy__grid--top{ align-items: start; }
+  .siy__grid--center{ align-items: center; }
+  .siy__grid--bottom{ align-items: end; }
+
+  .siy__title{
+    margin: 0;
+    color: var(--siy-title-c);
+    font-size: var(--siy-title-s);
+    font-weight: var(--siy-title-w);
+    line-height: var(--siy-title-lh);
+    letter-spacing: var(--siy-title-ls);
+    font-family: {{ section.settings.font_title | json }}, sans-serif;
+  }
+
+  .siy__text{
+    color: var(--siy-text-c);
+    font-size: var(--siy-text-s);
+    font-weight: var(--siy-text-w);
+    line-height: var(--siy-text-lh);
+    letter-spacing: var(--siy-text-ls);
+    max-width: {{ section.settings.right_text_max_width }}px;
+    {% comment %} margin-left: auto;
+    margin-right: auto; {% endcomment %}
+    font-family: {{ section.settings.font_text | json }}, sans-serif;
+  }
+  .siy__text p{ margin: 0; }
+  .siy__text p + p{ margin-top: .65em; }
+
+  .siy__btn{
+    margin-top: {{ section.settings.button_margin_top }}px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--siy-btn-c);
+    font-size: var(--siy-btn-s);
+    font-weight: var(--siy-btn-w);
+    letter-spacing: var(--siy-btn-ls);
+    text-transform: uppercase;
+    font-family: {{ section.settings.font_buttons | json }}, sans-serif;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+  .siy__btn:hover{ opacity: .9; }
+
+  @media (max-width: 989px){
+    .siy__grid{
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--siy-gap-m);
+    }
+    .siy__text{
+      margin-left: 0;
+      margin-right: 0;
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 749px){
+    .siy{
+      padding: var(--siy-pt-m) var(--siy-pr-m) var(--siy-pb-m) var(--siy-pl-m);
+      min-height: var(--siy-min-h-m);
+    }
+    .siy__grid{ min-height: var(--siy-min-h-m); }
+    .siy__title{ font-size: var(--siy-title-s-m); }
+    .siy__text{ font-size: var(--siy-text-s-m); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "See it in your space",
+  "settings": [
+    { "type": "checkbox", "id": "full_width", "label": "Full width section", "default": true },
+
+    { "type": "header", "content": "Background" },
+    { "type": "color", "id": "section_bg_color", "label": "Section background (fallback)", "default": "#ffffff" },
+
+    { "type": "image_picker", "id": "bg_image_desktop", "label": "Background image (desktop)" },
+    { "type": "range", "id": "bg_desktop_render_width", "min": 1200, "max": 4000, "step": 100, "label": "Desktop render width (px)", "default": 2400 },
+
+    { "type": "image_picker", "id": "bg_image_mobile", "label": "Background image (mobile, optional)" },
+    { "type": "range", "id": "bg_mobile_render_width", "min": 700, "max": 2000, "step": 50, "label": "Mobile render width (px)", "default": 1200 },
+
+    { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 90, "step": 5, "label": "Overlay opacity (%)", "default": 45 },
+
+    { "type": "range", "id": "min_height_desktop", "min": 240, "max": 900, "step": 10, "label": "Min height desktop (px)", "default": 520 },
+    { "type": "range", "id": "min_height_mobile", "min": 220, "max": 700, "step": 10, "label": "Min height mobile (px)", "default": 420 },
+
+    { "type": "header", "content": "Container" },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "min": 900,
+      "max": 2000,
+      "step": 50,
+      "label": "Section max width (px)",
+      "default": 1400,
+      "info": "Ignored when Full width is enabled."
+    },
+
+    { "type": "header", "content": "Section padding (desktop)" },
+    { "type": "range", "id": "section_padding_top_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding top (px)", "default": 60 },
+    { "type": "range", "id": "section_padding_right_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding right (px)", "default": 30 },
+    { "type": "range", "id": "section_padding_bottom_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding bottom (px)", "default": 60 },
+    { "type": "range", "id": "section_padding_left_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding left (px)", "default": 30 },
+
+    { "type": "header", "content": "Section padding (mobile)" },
+    { "type": "range", "id": "section_padding_top_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding top (px)", "default": 40 },
+    { "type": "range", "id": "section_padding_right_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding right (px)", "default": 18 },
+    { "type": "range", "id": "section_padding_bottom_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding bottom (px)", "default": 40 },
+    { "type": "range", "id": "section_padding_left_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding left (px)", "default": 18 },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "content_v_align",
+      "label": "Vertical alignment",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    { "type": "range", "id": "grid_gap_desktop", "min": 0, "max": 120, "step": 4, "label": "Grid gap desktop (px)", "default": 80 },
+    { "type": "range", "id": "grid_gap_mobile", "min": 0, "max": 80, "step": 4, "label": "Grid gap mobile (px)", "default": 24 },
+
+    {
+      "type": "select",
+      "id": "left_text_align",
+      "label": "Left text align",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "right_text_align",
+      "label": "Right text align",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "range", "id": "right_text_max_width", "min": 240, "max": 900, "step": 10, "label": "Right text max width (px)", "default": 420 },
+
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "title", "label": "Left heading", "default": "See it in your space" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Right text",
+      "default": "<p>Design decisions begin at home. Experience the tone and texture of Modin LVP in your own lighting, against your finishes.</p>"
+    },
+
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Try Room Visualizer" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "checkbox", "id": "open_in_new_tab", "label": "Open link in new tab", "default": false },
+    { "type": "range", "id": "button_margin_top", "min": 0, "max": 60, "step": 2, "label": "Button top margin (px)", "default": 18 },
+
+    { "type": "header", "content": "Typography" },
+    { "type": "color", "id": "title_color", "label": "Title color", "default": "#ffffff" },
+    { "type": "range", "id": "title_size_desktop", "min": 18, "max": 80, "step": 1, "label": "Title size desktop (px)", "default": 40 },
+    { "type": "range", "id": "title_size_mobile", "min": 16, "max": 54, "step": 1, "label": "Title size mobile (px)", "default": 28 },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    { "type": "range", "id": "title_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Title line height", "default": 1.1 },
+    { "type": "range", "id": "title_letter_spacing", "min": -1, "max": 6, "step": 0.1, "label": "Title letter spacing (px)", "default": 0 },
+
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#ffffff" },
+    { "type": "range", "id": "text_size_desktop", "min": 12, "max": 22, "step": 1, "label": "Text size desktop (px)", "default": 14 },
+    { "type": "range", "id": "text_size_mobile", "min": 12, "max": 20, "step": 1, "label": "Text size mobile (px)", "default": 13 },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "text_line_height", "min": 1, "max": 2.2, "step": 0.1, "label": "Text line height", "default": 1.7 },
+    { "type": "range", "id": "text_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Text letter spacing (px)", "default": 0 },
+
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_color", "label": "Button color", "default": "#ffffff" },
+    { "type": "range", "id": "button_size", "min": 10, "max": 18, "step": 1, "label": "Button font size (px)", "default": 11 },
+    {
+      "type": "select",
+      "id": "button_weight",
+      "label": "Button font weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "button_letter_spacing", "min": 0, "max": 6, "step": 0.1, "label": "Button letter spacing (px)", "default": 0.8 },
+
+    { "type": "header", "content": "Font families" },
+    {
+      "type": "select",
+      "id": "font_title",
+      "label": "Font family: Title",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font_text",
+      "label": "Font family: Text",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font_buttons",
+      "label": "Font family: Button",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat"
+    }
+  ],
+  "presets": [
+    { "name": "See it in your space" }
+  ]
+}
+{% endschema %}

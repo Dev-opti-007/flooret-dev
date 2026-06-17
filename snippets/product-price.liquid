@@ -1,0 +1,50 @@
+<div class="product-price">
+  {%- comment -%}
+    Assign the selected or first available variant to a variable for easier access.
+  {%- endcomment -%}
+  {%- assign variant = product.selected_or_first_available_variant -%}
+
+  <div class="price-wrapper d-flex">
+    {%- comment -%}
+      Display the current selling price.
+    {%- endcomment -%}
+    <span class="product-price__main js-product__price">
+      {{- variant.price | money_without_trailing_zeros -}}
+    </span>
+
+    {%- comment -%}
+      Check if the product is on sale (compare_at_price is higher than the price).
+    {%- endcomment -%}
+    {%- if variant.compare_at_price > variant.price -%}
+      {%- comment -%}
+        Display the original price with a strikethrough.
+      {%- endcomment -%}
+      <s class="product-price__compare">
+        {{- variant.compare_at_price | money_without_trailing_zeros -}}
+      </s>
+
+      {%- comment -%}
+        Calculate the percentage saved.
+        Formula: ((compare_at_price - price) * 100) / compare_at_price
+      {%- endcomment -%}
+      {%- assign savings = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round -%}
+      
+      <span class="product-price__savings">
+        Save {{ savings }}%
+      </span>
+    {%- endif -%}
+  </div>
+  {% comment %} <span class="product-price__main js-product__price 123123123">
+    {{- product.selected_or_first_available_variant.price | money_without_trailing_zeros -}}
+  </span> {% endcomment %}
+
+  {% comment %}
+  {% if product.price < product.compare_at_price_max %}
+    <del class="product-price__compare">{{ product.compare_at_price_max | money_without_trailing_zeros }}</del>
+    {% if product.id == 8964836262163 or product.id == 10050042233107 %}
+        <!-- <span class="off_text">66% OFF</span> -->
+    {% endif %}
+  {% endif %}
+  {% endcomment %}
+  {% if customer.b2b? %} MSRP <s>{{ card_product.metafields.b2b.msrp | times: 10 | money_with_currency }}</s> {% endif %}
+</div>

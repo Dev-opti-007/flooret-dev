@@ -1,0 +1,10 @@
+<a href="{{ cta_link }}" class="link-card">
+    <div class="link-card__image">
+        {% render 'lazy-image', image: image %}
+    </div>
+    <div class="link-card__content">
+        <h3 class="h5">{{ heading }}</h3>
+        {{ content }}
+        <span class="btn btn--small btn--white">{{ cta }}</span>
+    </div>
+</a>

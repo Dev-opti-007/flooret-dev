@@ -1,0 +1,148 @@
+{{ 'testimonial-slider.css' | asset_url | stylesheet_tag }}
+{% assign settings = section.settings %}
+{% assign skus_array = product.variants | map: 'sku' %}
+{% assign skus = skus_array | join: ';' %}
+{%- liquid
+  assign gallery = false
+  assign gallery_images = ''
+
+  for obj in shop.metaobjects.gallery.values
+    if obj.product.value.handle == product.handle
+      assign gallery = obj.images.value
+      break
+    endif
+  endfor
+
+  if gallery
+    for img in gallery limit: 3
+      if gallery_images != ''
+        assign gallery_images = gallery_images | append: ',' | append: 'https://flooret-dev.myshopify.com/cdn/shop/' | append: img.src
+      else
+        assign gallery_images = 'https://flooret-dev.myshopify.com/cdn/shop/' | append: img.src
+      endif
+    endfor
+  endif
+-%}
+
+<section class="testimonial-slider-pdp">
+  <div
+    class="testimonial-slider swiper"
+    data-store-id="flooret"
+    data-skus="{{ skus }}"
+    data-featured-image="{{ gallery_images }}"
+  >
+    <div class="swiper-wrapper">
+      <!-- Reviews will be dynamically inserted here -->
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const slider = document.querySelector('.testimonial-slider');
+    const storeId = slider.getAttribute('data-store-id');
+    const skus = slider.getAttribute('data-skus').split(';');
+    const featuredImages = slider.getAttribute('data-featured-image').split(',');
+
+    function fetchReviewsForSku(sku) {
+      return fetch(`https://api.reviews.io/reviews?store=${storeId}&sku=${sku}`).then((response) => response.json());
+    }
+
+    // Fetch reviews for all SKUs
+    Promise.all(skus.map(fetchReviewsForSku))
+      .then((results) => {
+        const allReviews = results.flatMap((data) => data.reviews || []);
+        const wrapper = slider.querySelector('.swiper-wrapper');
+
+        // Filter and sort reviews
+        const validReviews = allReviews
+          .filter((review) => review.comments && review.comments.trim() !== '' && review.rating >= 4)
+          .sort((a, b) => b.rating - a.rating);
+
+        // Take the top 3 reviews or all if less than 3
+        const displayedReviews = validReviews.slice(0, 3);
+
+        if (displayedReviews.length > 0) {
+          displayedReviews.forEach((review, index) => {
+            const slide = document.createElement('div');
+            slide.className = 'testimonial-slide swiper-slide';
+
+            const fullReviewText = review.comments;
+            const truncatedReviewText =
+              fullReviewText.length > 200 ? fullReviewText.substring(0, 200) + '...' : fullReviewText;
+            const reviewerName = review.author && review.author.name ? review.author.name : '';
+            const reviewerLocation = review.author && review.author.location ? review.author.location : '';
+            const reviewImage =
+              review.photos && review.photos.length > 0 ? review.photos[0] : featuredImages[index] || '';
+
+            // Generate stars based on the rating
+            const ratingStars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+
+            slide.innerHTML = `
+              <div class="testimonial-content">
+                <img src="https://cdn.shopify.com/s/files/1/0698/3761/9475/files/1f49151004c207fcd82c8bfdbdffddf1.svg?v=1724965777" alt="Quote" class="quote-mark">
+                <blockquote>${truncatedReviewText}</blockquote>
+                <span class="name">${reviewerName}</span>
+                <span class="location">${reviewerLocation}</span>
+                <a href="/pages/reviews" class="read-more">Read more</a>
+              </div>
+              <div class="testimonial-image">
+                ${reviewImage ? `<img src="${reviewImage}" alt="Review image" loading="lazy">` : ''}
+              </div>
+            `;
+
+            wrapper.appendChild(slide);
+          });
+
+          new Swiper('.testimonial-slider', {
+            slidesPerView: 'auto',
+            centeredSlides: false,
+            spaceBetween: 20,
+            grabCursor: true,
+            breakpoints: {
+              320: {
+                slidesPerView: 0.65,
+              },
+              769: {
+                slidesPerView: 1.1,
+                spaceBetween: 30,
+              },
+            },
+          });
+        } else {
+          console.log('No valid reviews available');
+          wrapper.innerHTML = '<p>No reviews available at this time.</p>';
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching reviews:', error);
+        slider.querySelector('.swiper-wrapper').innerHTML = '<p>Error loading reviews. Please try again later.</p>';
+      });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Testimonial Slider",
+  "class": "container",
+  "settings": [
+    {
+      "type": "text",
+      "id": "store_id",
+      "label": "Store ID",
+      "default": "your-store-id"
+    },
+    {
+      "type": "text",
+      "id": "sku",
+      "label": "Product SKU",
+      "default": "your-product-sku"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial Slider"
+    }
+  ]
+}
+{% endschema %}

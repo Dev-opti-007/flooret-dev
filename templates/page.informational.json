@@ -1,0 +1,315 @@
+{
+  "sections": {
+    "713ae6b7-c9e1-489e-bcb5-30fff8c5b5ee": {
+      "type": "hero-image-content",
+      "settings": {
+        "bg_color": "#d5c7b9",
+        "text_color": "#111111",
+        "row_reverse": true,
+        "heading": "Do More with Modin Luxury Vinyl Plank Flooring",
+        "content": "",
+        "link_text": "Explore the Collection",
+        "link_url": "shopify://collections/modin-luxury-vinyl-plank",
+        "image": "shopify://shop_images/Rectangle_442.png"
+      }
+    },
+    "c9381663-7561-4847-884c-53fc0e1ab8e3": {
+      "type": "content-block",
+      "settings": {
+        "content": "<h5>Our Mission</h5><h3>We started with a simple mission: no compromise. Not in quality, durability, sustainability, or design.</h3>"
+      }
+    },
+    "b6cf5d1e-be9a-4f8a-9e37-faabf64e2188": {
+      "type": "global-ft-prod-col",
+      "blocks": {
+        "e81ec005-e085-4516-b6b6-aa6710987e99": {
+          "type": "product",
+          "settings": {
+            "product": "sutton"
+          }
+        },
+        "415e2632-7eec-4557-af39-a52e1d0bc199": {
+          "type": "product",
+          "settings": {
+            "product": "soho"
+          }
+        },
+        "e8587c75-b113-4a71-80fd-001f7df5679f": {
+          "type": "link",
+          "settings": {
+            "image": "shopify://shop_images/IMAGE_1.jpg",
+            "heading": "Bundle Samples",
+            "content": "<p>Enim fringilla blandit lobortis enim non id hendrerit tellus. Integer diam mattis enim ac et.</p>",
+            "cta": "Shop Bundles",
+            "cta_link": ""
+          }
+        },
+        "2ce53738-b64e-499b-9fa0-eaf0bc65e193": {
+          "type": "product",
+          "settings": {
+            "product": "raeburn"
+          }
+        },
+        "d7de2548-af86-434d-ba77-d5ec255d57f4": {
+          "type": "product",
+          "settings": {
+            "product": "tilden"
+          }
+        },
+        "73e987c4-da24-4c28-89c1-31fe473c7bd6": {
+          "type": "product",
+          "settings": {
+            "product": "palka"
+          }
+        },
+        "8ad743bc-5284-4c77-9838-cd52393f7acf": {
+          "type": "product",
+          "settings": {
+            "product": "queensbury"
+          }
+        }
+      },
+      "block_order": [
+        "e81ec005-e085-4516-b6b6-aa6710987e99",
+        "415e2632-7eec-4557-af39-a52e1d0bc199",
+        "e8587c75-b113-4a71-80fd-001f7df5679f",
+        "2ce53738-b64e-499b-9fa0-eaf0bc65e193",
+        "d7de2548-af86-434d-ba77-d5ec255d57f4",
+        "73e987c4-da24-4c28-89c1-31fe473c7bd6",
+        "8ad743bc-5284-4c77-9838-cd52393f7acf"
+      ],
+      "settings": {
+        "heading": "Featured Products.",
+        "content": "<p>The best of the best. Get ready to meet some of our most talked-about flooring options.</p>",
+        "cta": "Shop All",
+        "cta_link": ""
+      }
+    },
+    "45a96364-3b6a-4d8d-a772-2b1a9b3cef7d": {
+      "type": "two-column",
+      "settings": {
+        "bg_color": "#343334",
+        "text_color": "#ffffff",
+        "row_reverse": false,
+        "align_center": false,
+        "helper_classes": "",
+        "image": "shopify://shop_images/Image_27.png",
+        "contain_image": false,
+        "sub_heading": "",
+        "heading": "Why Modin Vinyl Plank?",
+        "content": "<p>Delve deeper into the exceptional details of the Modin Collection of LVP flooring. Learn more about how Modin outpaces all other vinyl plank flooring options on the market, offering a larger plank size, a much thicker than standard wear layer, and enhanced or micro bevels that accentuate its luxurious appearance. Modin planks also have a rigid core, made primarily from limestone, which makes them significantly stronger and more stable than standard vinyl. That means you can install long runs and in large spaces without the need for a transition piece.</p>",
+        "link_text": "Check Out the Full Collection",
+        "link_url": "shopify://collections/modin-luxury-vinyl-plank"
+      }
+    },
+    "b0c36b4a-0e06-4926-bcfa-f5286a005d46": {
+      "type": "compare",
+      "blocks": {
+        "3cad5923-c9a0-4af7-bd80-6e13f8657040": {
+          "type": "compare",
+          "settings": {
+            "compare_title": "Length",
+            "compare_content": "Ipsum posuere mauris mollis et ornare.",
+            "compare_image": "shopify://shop_images/Modin_Length.jpg"
+          }
+        },
+        "42abc70e-d3ae-41a7-aaf5-060bdb66f73b": {
+          "type": "compare",
+          "settings": {
+            "compare_title": "Width",
+            "compare_content": "Enim tincidunt amet cras turpis.",
+            "compare_image": "shopify://shop_images/Modin_Length.jpg"
+          }
+        },
+        "00951f2e-9ea7-4ff7-94d0-4a6f5895de63": {
+          "type": "compare",
+          "settings": {
+            "compare_title": "Bevels",
+            "compare_content": "A faucibus facilisi id ultrices tempus ornare.",
+            "compare_image": "shopify://shop_images/Modin_Bevels.jpg"
+          }
+        },
+        "92be3714-abd3-4855-a3e4-e43dbc20b165": {
+          "type": "compare",
+          "settings": {
+            "compare_title": "Wear Layer",
+            "compare_content": "Turpis mauris id nulla tellus eu quisque.",
+            "compare_image": "shopify://shop_images/Modin_Wear_Layer.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "3cad5923-c9a0-4af7-bd80-6e13f8657040",
+        "42abc70e-d3ae-41a7-aaf5-060bdb66f73b",
+        "00951f2e-9ea7-4ff7-94d0-4a6f5895de63",
+        "92be3714-abd3-4855-a3e4-e43dbc20b165"
+      ],
+      "settings": {
+        "heading": "Compare Modin LVP Models",
+        "collection_title_1": "Signature",
+        "collection_image_1": "shopify://shop_images/Ellipse_64.png",
+        "collection_title_2": "Base",
+        "collection_image_2": "shopify://shop_images/Ellipse_63.png",
+        "collection_title_3": "Craftsman",
+        "collection_image_3": "shopify://shop_images/Ellipse_63_1.png"
+      }
+    },
+    "0bf64a68-1c4f-481b-864f-225b07c7ad52": {
+      "type": "product-compare-models",
+      "settings": {
+        "heading": "Compare our Planks",
+        "product": "tilden"
+      }
+    },
+    "db4b842d-26ad-4070-835c-b8bb8f5c74ee": {
+      "type": "content-video",
+      "settings": {
+        "bg_color": "#d5c7b9",
+        "text_color": "#111111",
+        "block_id": "",
+        "row_reverse": false,
+        "contain_video": false,
+        "video": "<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/_lL-1BLkPPc?si=cgfrgkIOXZbKcIdb\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>",
+        "video_heading": "Meet Modin",
+        "video_content": "<p>Our flagship collection is crafted with best-in-class features and specifications. Prepare to be floored.</p>",
+        "video_link_text": "",
+        "video_link_url": "",
+        "image": "shopify://shop_images/Frame_1321316602.png",
+        "contain_image": true,
+        "sub_heading": "",
+        "heading": "Undeniably Durable Vinyl Flooring. Exceptionally Priced.",
+        "content": "<p>When you discover the difference of a Modin vinyl plank floor, you’ll want to jump for joy. Well, jump away: Modin Rigid Luxury Vinyl Plank flooring is uniquely durable, specially crafted to support the high-flying enthusiasm it inspires, as well as just about anything else you can throw at it. The Modin Collection includes three thoughtfully designed models: our Signature model, Base model, and Craftsman model. Each of these 100% waterproof flooring options features a true embossed-in-register texture, a commercial-grade wear layer, a pre-attached underlayment, and a rigid core. </p><ul><li><strong>Waterproof Guarantee:</strong> Modin luxury vinyl flooring is constructed with 100% waterproof materials from top to bottom, ensuring durability for years to come.</li><li><strong>Designer-Curated Colors:</strong><em> </em>We know that when it comes to flooring, color is king. That’s why we offer carefully selected color and texture variations to capture your exact vision. </li><li><strong>Accessible Pricing:</strong> With affordable floor options that are easy to install, the luxury and elegance of the Modin Collection is within everyone’s reach. </li></ul>"
+      }
+    },
+    "db4613b1-1ba7-43a2-9fa1-487f933cdcb8": {
+      "type": "accordions",
+      "blocks": {
+        "caeb7750-cdb6-4afa-a2c4-61825f380c12": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "What are key features of Modin LVP?",
+            "accordion_content": "<p>The Modin Collection features a rigid SPC core, an industry-leading wear layer, an aluminum oxide scratch resistant coating, a pre-attached IXPE underlayment, and so much more. Get all the details on our specifications sheet.</p>",
+            "accordion_link_text": "See Technical Documents",
+            "accordion_link_url": "/"
+          }
+        },
+        "581673f1-2003-49f0-b78e-f1b5983e7e2b": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Can I add an additional underlayment?",
+            "accordion_content": "<p>The Modin Collection features a rigid SPC core, an industry-leading wear layer, an aluminum oxide scratch resistant coating, a pre-attached IXPE underlayment, and so much more. Get all the details on our specifications sheet.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "991218ba-6a9c-4273-b1d0-47a555b9bbe0": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Do I need a moisture barrier?",
+            "accordion_content": "<p>The Modin Collection features a rigid SPC core, an industry-leading wear layer, an aluminum oxide scratch resistant coating, a pre-attached IXPE underlayment, and so much more. Get all the details on our specifications sheet.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "a00b4656-d86e-4421-a2bb-d506119ad3d2": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "What installation tools will I need?",
+            "accordion_content": "<p>The Modin Collection features a rigid SPC core, an industry-leading wear layer, an aluminum oxide scratch resistant coating, a pre-attached IXPE underlayment, and so much more. Get all the details on our specifications sheet.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "dfe7ef66-39c3-46fa-8797-e8645c775531": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "What is the best cleaner to use on my floors?",
+            "accordion_content": "<p>The Modin Collection features a rigid SPC core, an industry-leading wear layer, an aluminum oxide scratch resistant coating, a pre-attached IXPE underlayment, and so much more. Get all the details on our specifications sheet.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        },
+        "da54c5a4-2d0b-46bf-b820-cc7d6c8efa88": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "How do I care for my floor?",
+            "accordion_content": "<p>The Modin Collection features a rigid SPC core, an industry-leading wear layer, an aluminum oxide scratch resistant coating, a pre-attached IXPE underlayment, and so much more. Get all the details on our specifications sheet.</p>",
+            "accordion_link_text": "",
+            "accordion_link_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "caeb7750-cdb6-4afa-a2c4-61825f380c12",
+        "581673f1-2003-49f0-b78e-f1b5983e7e2b",
+        "991218ba-6a9c-4273-b1d0-47a555b9bbe0",
+        "a00b4656-d86e-4421-a2bb-d506119ad3d2",
+        "dfe7ef66-39c3-46fa-8797-e8645c775531",
+        "da54c5a4-2d0b-46bf-b820-cc7d6c8efa88"
+      ],
+      "settings": {
+        "block_id": "",
+        "heading": "Frequently Asked Questions.",
+        "content": "<p>Ready to learn more? Check out these FAQs.</p>",
+        "link_text": "View More FAQs",
+        "link_url": "/"
+      }
+    },
+    "c0e45634-9546-407a-9901-2afb2d371696": {
+      "type": "two-column",
+      "settings": {
+        "bg_color": "#343334",
+        "text_color": "#ffffff",
+        "row_reverse": false,
+        "align_center": false,
+        "helper_classes": "",
+        "image": "shopify://shop_images/Image_26.png",
+        "contain_image": false,
+        "sub_heading": "The right way",
+        "heading": "Details that count",
+        "content": "<p><strong>Modin offers true embossed in register (EIR) texture, creating a surface that is convincing to the eye and to the touch. A low sheen level ensures a natural look that wears well over time.</strong></p><p>Four-sided enhanced bevels more accurately emulate the look of real wood floors. Wider, longer planks with commercial-grade durability with easy click installation. 100% waterproof construction, from top to bottom. Independently FloorScore® certified by a US-based third party for low emissions. All together, these features create the unique look that is Modin Rigid Luxury Vinyl Plank Flooring. See it in your space.</p>",
+        "link_text": "",
+        "link_url": ""
+      }
+    },
+    "90e1a366-4c40-4caa-b504-7bde336749d4": {
+      "type": "recent-posts",
+      "settings": {
+        "heading": "Related Blogs.",
+        "content": "<p>Need some inspiration? Ready to learn more about flooring? Check out these blogs.</p>",
+        "link_text": "View More Blogs",
+        "link_url": "#"
+      }
+    },
+    "183a2e7f-f0b7-4eff-8d16-53de680cdc6f": {
+      "type": "two-column-cta",
+      "settings": {
+        "bg_color": "#445443",
+        "text_color": "#ffffff",
+        "helper_classes": "",
+        "image": "shopify://shop_images/trade_reward_cta.png",
+        "contain_image": true,
+        "sub_heading": "",
+        "heading": "Silvan Hardwood Collection.",
+        "content": "<p>Silvan Resilient Hardwood combines the highest-quality sustainable materials with an emphasis on durability and design.</p>",
+        "link_text_1": "Learn More",
+        "link_url_1": "/",
+        "link_text_2": "",
+        "link_url_2": ""
+      }
+    }
+  },
+  "order": [
+    "713ae6b7-c9e1-489e-bcb5-30fff8c5b5ee",
+    "c9381663-7561-4847-884c-53fc0e1ab8e3",
+    "b6cf5d1e-be9a-4f8a-9e37-faabf64e2188",
+    "45a96364-3b6a-4d8d-a772-2b1a9b3cef7d",
+    "b0c36b4a-0e06-4926-bcfa-f5286a005d46",
+    "0bf64a68-1c4f-481b-864f-225b07c7ad52",
+    "db4b842d-26ad-4070-835c-b8bb8f5c74ee",
+    "db4613b1-1ba7-43a2-9fa1-487f933cdcb8",
+    "c0e45634-9546-407a-9901-2afb2d371696",
+    "90e1a366-4c40-4caa-b504-7bde336749d4",
+    "183a2e7f-f0b7-4eff-8d16-53de680cdc6f"
+  ]
+}

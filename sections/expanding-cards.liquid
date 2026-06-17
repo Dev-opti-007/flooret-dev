@@ -1,0 +1,74 @@
+{%- liquid
+  assign module = section.settings
+  assign blocks = section.blocks
+-%}
+<section class="expanding-cards">
+  <div class="container">
+    <div class="section__header">
+      <div class="container container--small">
+        <h2>{{ module.heading }}</h2>
+        {{ module.content | richtext }}
+      </div>
+    </div>
+    <div class="section__content">
+      <div class="expanding-cards__cards">
+        {%- for block in blocks -%}
+          {%- render 'expcard', module: block.settings -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Expanding Cards",
+  "class": "expanding-cards-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "preheading",
+          "label": "Preheading"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Expanding Cards",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,252 @@
+{%- style -%}
+    .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.mobile_padding_top }}px;
+        padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+        .section-{{ section.id }}-padding {
+            padding-top: {{ section.settings.padding_top }}px;
+            padding-bottom: {{ section.settings.padding_bottom }}px;
+        }
+    }
+  body {
+    background-color: unset;
+  }
+  .map-section .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999999999;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+  }
+  .map-section .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 800px;
+  }
+  .map-section .close {
+    color: #aaaaaa;
+    width: 100%;
+    display: block;
+    text-align: end;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .map-section .close:hover,
+  .map-section .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .map-section .map-description {
+      margin-bottom: 32px;
+    }
+  @media (min-width: 960px) {
+    .map-section .map-wrapper {
+      display: flex;
+      gap: 36px;
+    }
+    .map-section .map-description {
+      max-width: 366px;
+    }
+  }
+  .map-section h2.h1 {
+    max-width: 417px;
+    margin-bottom: 32px;
+  }
+  .map-section p em {
+    color: #717171;
+    font-size: 12px;
+  }
+  #storemapper {
+    margin-top: 0;
+    padding: 0;
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="map-wrapper">
+    <div class="map-description">
+      {% if section.settings.title != blank %}
+        <h2 class="h1">{{ section.settings.title }}</h2>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        {{ section.settings.text }}
+      {% endif %}
+      {% if section.settings.show_btn %}
+        {% if section.settings.button_link != blank %}
+          <a href="{{ section.settings.button_link }}">
+            <div class="btn btn--purple" style="background: {{ section.settings.btn_bg_clr }}; color: {{ section.settings.btn_txt_clr }}">
+              {{ section.settings.button_label }}
+            </div>
+          </a>
+        {% else %}
+          <div class="btn btn--purple" id="installerModal" style="background: {{ section.settings.btn_bg_clr }}; color: {{ section.settings.btn_txt_clr }}">
+            {{ section.settings.button_label }}
+          </div>
+        {% endif %}
+      {% endif %}
+      {% if section.settings.bottom_content != blank %}
+        {{ section.settings.bottom_content }}
+      {% endif %}
+    </div>
+    {% if section.settings.custom_html != blank %}
+      {{ section.settings.custom_html }}
+    {% endif %}
+  </div>
+  {% if section.settings.form_html != blank %}
+    <div id="installerForm" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>{{ section.settings.form_html }}</p>
+      </div>
+    </div>
+  {% endif %}
+</div>
+<script>
+  var modal = document.getElementById('installerForm');
+  var btn = document.getElementById('installerModal');
+  var span = document.getElementsByClassName('close')[0];
+  if (modal && btn && span) {
+    btn.onclick = function () {
+      modal.style.display = 'block';
+    };
+    span.onclick = function () {
+      modal.style.display = 'none';
+    };
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    };
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Map",
+  "class": "container container--large map-section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_btn",
+      "label": "Show Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "visible_if": "{{section.settings.show_btn == true}}"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "visible_if": "{{section.settings.show_btn == true}}"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_clr",
+      "label": "Button Background Color",
+      "default": "#000000",
+      "visible_if": "{{section.settings.show_btn == true}}"
+    },
+    {
+      "type": "color",
+      "id": "btn_txt_clr",
+      "label": "Button Text Color",
+      "default": "#ffffff",
+      "visible_if": "{{section.settings.show_btn == true}}"
+    },
+    {
+      "type": "html",
+      "id": "form_html",
+      "label": "Form HTML"
+    },
+    {
+      "type": "richtext",
+      "id": "bottom_content",
+      "label": "Bottom content"
+    },
+    {
+      "type": "html",
+      "id": "custom_html",
+      "label": "Custom HTML"
+    },
+    {
+      "type": "header",
+      "content": "Padding desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Padding mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Map"
+    }
+  ]
+}
+{% endschema %}

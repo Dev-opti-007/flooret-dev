@@ -1,0 +1,32 @@
+{% comment %} {%- if paginate.pages > 1 -%}
+    <nav class="pagination" role="navigation">
+        <ul>
+            {%- if paginate.previous-%}
+                <li><a class="pag pag--prev" href="{{ paginate.previous.url }}">{% render 'svg-arrow' %}</a></li>
+            {%- endif -%}
+
+            {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                    <li><a href="{{ part.url }}">{{ part.title }}</a></li>
+                {%- else -%}
+                    <li aria-current="page"><span class="active">{{ part.title }}</span></li>
+                {%- endif -%}
+            {%- endfor -%}
+
+            {%- if paginate.next -%}
+                <li><a class="pag pag--next" href="{{ paginate.next.url }}">{% render 'svg-arrow' %}</a></li>
+            {%- endif -%}
+        </ul>
+    </nav>
+{%- endif -%}
+
+<style>
+    .pagination .pag:hover path{
+        stroke:white;
+    }
+</style> {% endcomment %}
+{%- if paginate.next -%}
+    <div class="pagination" id="pagination">
+        <a class="btn btn--black load-more" href="{{ paginate.next.url }}">Load More</a>
+    </div>
+{%- endif -%}

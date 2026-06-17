@@ -1,0 +1,261 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "PowerTheme",
+    "theme_version": "1.0.0",
+    "theme_author": "Power Digital",
+    "theme_documentation_url": "https://powerdigitalmarketing.com",
+    "theme_support_url": "https://powerdigitalmarketing.com"
+  },
+  {
+    "name": "Global",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Blog"
+      },
+      {
+        "type": "image_picker",
+        "id": "article_default_image",
+        "label": "Article Default Imge",
+        "info": "Default image to show on articles without a featured image."
+      }
+    ]
+  },
+  {
+    "name": "Calculator",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Calculator Settings"
+      },
+      {
+        "type": "product",
+        "id": "service",
+        "label": "Service Product"
+      },
+      {
+        "type": "text",
+        "id": "package_title",
+        "label": "Custom Package Title",
+        "default": "Select Your Installation Package",
+        "info": "Custom text to display a title in the packages section."
+      },
+      {
+        "type": "text",
+        "id": "package_desc",
+        "label": "Custom Package Description",
+        "default": "Choose the level of service that best fits your project needs.",
+        "info": "Custom text to display a description in the packages section."
+      },
+      {
+        "type": "text",
+        "id": "address_title",
+        "label": "Custom Address Title",
+        "default": "Installation Address",
+        "info": "Custom text to display a title in the Address section."
+      },
+      {
+        "type": "text",
+        "id": "address_desc",
+        "label": "Custom Address Description",
+        "default": "Is your installation address different from your delivery address?",
+        "info": "Custom text to display a description in the Address section."
+      },
+      {
+        "type": "text",
+        "id": "demolition_title",
+        "label": "Custom Demolition Title",
+        "default": "Demolition Needs",
+        "info": "Custom text to display a title in the Demolition section."
+      },
+      {
+        "type": "text",
+        "id": "demolition_desc",
+        "label": "Custom Demolition Description",
+        "default": "Enter the square footage of existing flooring that needs to be removed.",
+        "info": "Custom text to display a description in the Demolition section."
+      },
+      {
+        "type": "text",
+        "id": "service_title",
+        "label": "Custom Service Title",
+        "default": "Additional Services",
+        "info": "Custom text to display a title in the Service section."
+      },
+      {
+        "type": "text",
+        "id": "service_desc",
+        "label": "Custom Service Description",
+        "default": "Customize your installation with these add-on services.",
+        "info": "Custom text to display a description in the Service section."
+      },
+      {
+        "type": "header",
+        "content": "Top Content"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default":"Get Started With Worry-Free Installation"
+      },
+      {
+        "type": "text",
+        "id": "subtext",
+        "label": "Subtext",
+        "default":"We’ll help you get a perfect quote—and a perfectly installed floor."
+      },
+      {
+        "type": "number",
+        "id": "install-number",
+        "label": "Install Number",
+        "default":1000
+      },
+      {
+        "type": "text",
+        "id": "insall-number-text",
+        "label": "Install count text",
+        "default":"installs completed through our network."
+      },
+      {
+        "type": "text",
+        "id": "review-counnt-text",
+        "label": "Review Count Text",
+        "default":"(21 Reviews)"
+      },
+      {
+        "type": "header",
+        "content": "Below CTA content"
+      },
+      {
+        "type": "text",
+        "id": "cta-text",
+        "label": "Add to cart Button Text",
+        "default":"Reserve Installation – $250 Deposit"
+      },
+      {
+        "type": "richtext",
+        "id": "below-cta-one-text",
+        "label": "Below CTA Text One",
+        "default":"<p>This deposit is non-refundable and 100% will be applied to your total installation cost. It covers both your virtual consultation and the in-home visit for measurement. A final quote will be provided after the assessment.</p>"
+      },
+      {
+        "type": "richtext",
+        "id": "below-cta-two-text",
+        "label": "Below CTA Text Two",
+        "default":"<p>Worry-Free Installation is only available for Flooret products, as we can only warranty the flooring we manufacture.</p>"
+      },
+      {
+        "type": "header",
+        "content": "Side Block Content"
+      },
+      {
+        "type": "text",
+        "id": "first-heading",
+        "label": "First Heading",
+        "default":"Installation Guarantee"
+      },
+      {
+        "type": "html",
+        "id": "first-contnet",
+        "label": "First Contnet",
+        "default":"All Installations include our satisfaction guarantee and are performed by licensed, insured professionals."
+      },
+      {
+        "type": "text",
+        "id": "second-heading",
+        "label": "Second Heading",
+        "default":"Need Help?"
+      },
+      {
+        "type": "html",
+        "id": "second-contnet",
+        "label": "Second Contnet",
+        "default":"Call <a href='tel:+18007008122'>1-800-700-8122</a> Monday-Friday from 8am-5pm CST"
+      },
+      {
+        "type": "text",
+        "id": "third-heading",
+        "label": "Third Heading",
+        "default":"Next Steps"
+      },
+      {
+        "type": "html",
+        "id": "third-contnet",
+        "label": "Third Contnet",
+        "default":"After placing your order, a member of our team will be in touch within 1 business day to confirm your project scope and schedule."
+      }
+    ]
+  },
+  {
+    "name": "Product card",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Product badge"
+      },
+      {
+        "type": "text",
+        "id": "custom_badge",
+        "label": "Custom badge",
+        "default": "New Color",
+        "info": "Custom badge to show on product cards for products tagged 'new color'"
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social media links"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook link"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram link"
+      },
+      {
+        "type": "text",
+        "id": "social_x_link",
+        "label": "X link"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok link"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "Youtube link"
+      },
+      {
+        "type": "text",
+        "id": "social_yelp_link",
+        "label": "Yelp link"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest link"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_link",
+        "label": "LinkedIn link"
+      },
+      {
+        "type": "text",
+        "id": "social_houzz_link",
+        "label": "Houzz link"
+      }
+    ]
+  }
+]

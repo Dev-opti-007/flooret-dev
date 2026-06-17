@@ -1,0 +1,28 @@
+{%- liquid
+
+-%}
+
+<div
+  class="expcard js-expcard"
+  style="background-image: url({{ module.image | image_url: width: 300, height: 400 }})"
+>
+  <div class="expcard__header">
+    <div class="expcard__intro">
+      {%- if module.preheading != blank -%}
+        <h6 class="expcard__preheading">{{ module.preheading }}</h6>
+      {%- endif -%}
+      <h5>{{ module.title }}</h5>
+    </div>
+    <button class="expcard__trigger js-expcard__trigger" type="button">&plus;</button>
+  </div>
+  <div class="expcard__expanded js-expcard__content">
+    {%- if module.preheading != blank -%}
+      <span class="expcard__preheading">{{ module.preheading }}</span>
+    {%- endif -%}
+    <h6 class="expcard__title">{{ module.title }}</h6>
+    <div class="expcard__content">
+      {{ module.content | richtext }}
+    </div>
+    <button class="expcard__trigger js-expcard__close" type="button">&times;</button>
+  </div>
+</div>

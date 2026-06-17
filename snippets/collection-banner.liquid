@@ -1,0 +1,114 @@
+<div class="opti-col-container" id="opti-collection-container">
+  {% comment %}
+    collection banner, title, description, breadcrumb, small text
+  {% endcomment %}
+  <div class="collection-header-info-wrapper">
+    <div class="col-img-wrapper">
+      {% comment %} <img width="auto" height="auto" alt="{{ collection.title }}" loading="eager" src="{{ collection.featured_image | image_url }}"> {% endcomment %}
+      <img
+        width="auto"
+        height="auto"
+        alt="{{ collection.title }}"
+        loading="eager"
+        src="{{ settings.banner-image | img_url:'1920x' }}"
+        alt="{{ settings.banner-image.alt }}"
+      >
+    </div>
+    <div class="col-info-overlay">
+      <div class="col-info-wrapper">
+        <div class="col-text-info">
+          <div class="col-text-left-wrap">
+            {% if settings.show_brd_btn %}
+              {% unless collection.handle == 'all-floors' or request.path == '/collections/all' %}
+                <a href="{{ settings.brd_btn_link | default: '#' }}" style="text-decoration: none;">
+                  <div
+                    class="col-breadcrumb-wrap"
+                    style="background: {{ settings.brd_bg_clr }};color: {{ settings.brd_txt_clr }};"
+                  >
+                    <span class="col-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="7" height="13" viewBox="0 0 7 13" fill="none">
+                        <path d="M0 6.34815L0.599782 5.66686L4.77258 0.71217L5.37244 0L6.546 1.39347L5.94622 2.10573L2.37321 6.34815L5.94622 10.6215L6.546 11.3028L5.37244 12.7273L4.77258 12.0151L0.599782 7.06042L0 6.34815Z" fill="black"/>
+                      </svg>
+                    </span>
+                    <span class="col-brd-txt" style="color: {{ settings.brd_txt_clr }};">
+                      {{- settings.brd_btn_lable -}}
+                    </span>
+                  </div>
+                </a>
+              {% endunless %}
+            {% endif %}
+            <h1 class="col-title" style="color: {{ settings.heading_text_color }};">{{ collection.title }}</h1>
+          </div>
+          <div class="col-text-right-wrap">
+            <div class="col-desc-wrap" style="color: {{ settings.body_text_color }};">
+              {{ collection.description }}
+            </div>
+            
+            <div class="col-small-text" style="color: {{ settings.body_text_color }};">
+              {% if settings.col_small_txt != blank %}
+              <span>{{ settings.col_small_txt }}</span
+              ><span>&nbsp;&nbsp;&nbsp;<span>&#8226;</span>&nbsp;&nbsp;&nbsp;</span>
+              {% endif %}
+              {% if settings.col_small_txt_two != blank %}
+              <span>{{ settings.col_small_txt_two }}</span
+              ><span>&nbsp;&nbsp;&nbsp;<span>&#8226;</span>&nbsp;&nbsp;&nbsp;</span>
+              {% endif %}
+              {% if settings.col_small_txt_three != blank %}
+              <span>{{ settings.col_small_txt_three }}</span>
+              {% endif %}
+            </div>
+            {% if collection.handle == 'all-floors' %}
+            <a href="https://www.flooret.com/collections/sample-kits" style="color: #fff; margin-top: 15px;" >Shop Sample Kits</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .collection-header-info-wrapper{
+    height: {{  settings.desktop_banner_height }}px;
+  }
+  h1.col-title{
+    font-family: {{ settings.font_heading }};
+    font-weight: 600;
+    font-size: {{  settings.heading_size_desktop }}px;
+    line-height: 54px;
+    letter-spacing: 0%;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    max-width: 450px;
+
+  }
+  .col-desc-wrap, .col-small-text{
+    font-family: {{ settings.font_body }};
+  }
+  .col-desc-wrap{
+    font-weight: 400;
+    font-size: {{  settings.body_size_desktop }}px;
+    line-height: 23px;
+    letter-spacing: -0.15px;
+  }
+
+
+  /* mobile design */
+  @media (max-width: 767px){
+      .collection-header-info-wrapper{
+        height: {{  settings.mobile_banner_height }}px;
+      }
+      h1.col-title{
+        font-size: {{  settings.heading_size_mobile }}px;
+        margin-bottom: 2.5rem;
+            max-width: unset;
+      }
+      .col-desc-wrap{
+        font-weight: 400;
+        font-size: {{  settings.body_size_mobile }}px;
+        line-height: 23px;
+        letter-spacing: -0.15px;
+      }
+
+  }
+</style>

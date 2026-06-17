@@ -1,0 +1,33 @@
+{{ 'text-with-image.css' | asset_url | stylesheet_tag }}
+
+<section class="sample-order-estimate-section">
+  <div class="wrapper">
+    <div class="text-col">
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.description }}</p>
+    </div>
+    <div class="image-col">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: '1024' | image_tag }}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sample Order Estimate",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Sample Order Estimate" },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Lorem ipsum is placeholder text commonly used in graphic design and web development."
+    },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_alt_text", "label": "Image Alt Text", "default": "Sample image" }
+  ],
+  "presets": [{ "name": "Sample Order Estimate", "category": "Custom" }]
+}
+{% endschema %}

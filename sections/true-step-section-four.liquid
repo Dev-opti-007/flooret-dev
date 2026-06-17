@@ -1,0 +1,1344 @@
+{% comment %}
+  Video Install Section — Step 3
+  Layout:
+  — Header row: step number + step label + title (left) | description (right)
+  — Tab switcher: Tab 1 | Tab 2 (no tagline)
+  — Full-width video player: thumbnail image + centered play button overlay
+    → clicking opens YouTube/Vimeo in a lightbox modal
+  — Caption text below video
+  — 4-step process row: numbered badge + step title + step description
+{% endcomment %}
+
+<section class="vis vis--{{ section.id }}{% if section.settings.full_width %} vis--full-width{% endif %}">
+
+  {%- comment -%} ══ HEADER ROW ══ {%- endcomment -%}
+  <div class="vis__header">
+    <div class="vis__header-left">
+      {%- if section.settings.step_number != blank -%}
+        <span class="vis__step-number" aria-hidden="true">{{ section.settings.step_number }}</span>
+      {%- endif -%}
+      <div class="vis__header-meta">
+        {%- if section.settings.step_label != blank -%}
+          <p class="vis__step-label">{{ section.settings.step_label }}</p>
+        {%- endif -%}
+        {%- if section.settings.section_title != blank -%}
+          <h2 class="vis__title">{{ section.settings.section_title }}</h2>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- if section.settings.header_description != blank -%}
+      <div class="vis__header-right">
+        <p class="vis__header-desc">{{ section.settings.header_description }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ══ TAB SWITCHER ══ {%- endcomment -%}
+  <div class="vis__tabs" role="tablist">
+    <button
+      class="vis__tab vis__tab--1 is-active"
+      role="tab"
+      aria-selected="true"
+      data-tab="1"
+      type="button">
+      {{ section.settings.tab1_label | default: 'TrueStep' }}
+    </button>
+    <button
+      class="vis__tab vis__tab--2"
+      role="tab"
+      aria-selected="false"
+      data-tab="2"
+      type="button">
+      {{ section.settings.tab2_label | default: 'TruePlank' }}
+    </button>
+  </div>
+
+  {%- comment -%} ══ VIDEO PANELS ══ {%- endcomment -%}
+
+  {%- comment -%} TAB 1 VIDEO {%- endcomment -%}
+  <div class="vis__panel vis__panel--1 is-active" data-panel="1">
+
+    <div class="vis__video-wrap">
+      {%- comment -%} Thumbnail {%- endcomment -%}
+      {%- if section.settings.tab1_thumbnail != blank -%}
+        <img
+          class="vis__thumbnail"
+          src="{{ section.settings.tab1_thumbnail | image_url: width: section.settings.thumbnail_render_width | default: 1400 }}"
+          alt="{{ section.settings.tab1_thumbnail.alt | default: section.settings.tab1_video_title | escape }}"
+          loading="lazy"
+          width="1400" height="787">
+      {%- else -%}
+        <div class="vis__thumbnail-placeholder"></div>
+      {%- endif -%}
+
+      {%- comment -%} Play button overlay {%- endcomment -%}
+       {% if section.settings.tab1_show_only_image != true %}
+        <button
+          class="vis__play-btn"
+          type="button"
+          aria-label="Play {{ section.settings.tab1_video_title | default: 'installation video' | escape }}"
+          data-video-url="{{ section.settings.tab1_video_url }}"
+          data-video-type="{{ section.settings.tab1_video_type | default: 'youtube' }}">
+          <svg class="vis__play-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <polygon points="9,6 20,12 9,18" fill="currentColor"/>
+          </svg>
+        </button>
+      {% endif %}
+    </div>
+
+    {%- if section.settings.tab1_caption != blank -%}
+      <p class="vis__caption">{{ section.settings.tab1_caption }}</p>
+    {%- endif -%}
+
+    {%- comment -%} Step process row {%- endcomment -%}
+    <div class="vis__steps">
+      {%- for i in (1..4) -%}
+        {%- liquid
+          assign step_title_key = 'tab1_step' | append: i | append: '_title'
+          assign step_desc_key  = 'tab1_step' | append: i | append: '_desc'
+          assign step_title = section.settings[step_title_key]
+          assign step_desc  = section.settings[step_desc_key]
+        -%}
+        {%- if step_title != blank -%}
+          <div class="vis__step">
+            <span class="vis__step-badge" aria-hidden="true">{{ i }}</span>
+            <div class="vis__step-text">
+              <p class="vis__step-title">{{ step_title }}</p>
+              {%- if step_desc != blank -%}
+                <p class="vis__step-desc">{{ step_desc }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+
+  {%- comment -%} TAB 2 VIDEO {%- endcomment -%}
+  <div class="vis__panel vis__panel--2" data-panel="2" style="display:none">
+
+    <div class="vis__video-wrap">
+      {%- if section.settings.tab2_thumbnail != blank -%}
+        <img
+          class="vis__thumbnail"
+          src="{{ section.settings.tab2_thumbnail | image_url: width: section.settings.thumbnail_render_width | default: 1400 }}"
+          alt="{{ section.settings.tab2_thumbnail.alt | default: section.settings.tab2_video_title | escape }}"
+          loading="lazy"
+          width="1400" height="787">
+      {%- else -%}
+        <div class="vis__thumbnail-placeholder"></div>
+      {%- endif -%}
+       {% if section.settings.tab2_show_only_image != true %}
+      <button
+        class="vis__play-btn"
+        type="button"
+        aria-label="Play {{ section.settings.tab2_video_title | default: 'installation video' | escape }}"
+        data-video-url="{{ section.settings.tab2_video_url }}"
+        data-video-type="{{ section.settings.tab2_video_type | default: 'youtube' }}">
+        <svg class="vis__play-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <polygon points="9,6 20,12 9,18" fill="currentColor"/>
+        </svg>
+      </button>
+      {% endif %}
+    </div>
+
+    {%- if section.settings.tab2_caption != blank -%}
+      <p class="vis__caption">{{ section.settings.tab2_caption }}</p>
+    {%- endif -%}
+
+    <div class="vis__steps">
+      {%- for i in (1..4) -%}
+        {%- liquid
+          assign step_title_key = 'tab2_step' | append: i | append: '_title'
+          assign step_desc_key  = 'tab2_step' | append: i | append: '_desc'
+          assign step_title = section.settings[step_title_key]
+          assign step_desc  = section.settings[step_desc_key]
+        -%}
+        {%- if step_title != blank -%}
+          <div class="vis__step">
+            <span class="vis__step-badge" aria-hidden="true">{{ i }}</span>
+            <div class="vis__step-text">
+              <p class="vis__step-title">{{ step_title }}</p>
+              {%- if step_desc != blank -%}
+                <p class="vis__step-desc">{{ step_desc }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+
+</section>
+
+{%- comment -%} ══ LIGHTBOX MODAL ══ {%- endcomment -%}
+<div class="vis-modal" id="vis-modal-{{ section.id }}" role="dialog" aria-modal="true" aria-label="Video player" hidden>
+  <div class="vis-modal__backdrop"></div>
+  <div class="vis-modal__inner">
+    <button class="vis-modal__close" type="button" aria-label="Close video">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="vis-modal__frame-wrap">
+      <iframe
+        class="vis-modal__iframe"
+        id="vis-iframe-{{ section.id }}"
+        src=""
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen
+        frameborder="0"
+        title="Video player">
+      </iframe>
+    </div>
+  </div>
+</div>
+
+<style>
+
+/* ══ CUSTOM PROPERTIES ══ */
+.vis--{{ section.id }} {
+  --vis-accent:            {{ section.settings.accent_color | default: '#f5a623' }};
+  --vis-accent-hover:      {{ section.settings.accent_hover_color | default: '#d48f0f' }};
+  --vis-bg:                {{ section.settings.section_bg | default: '#ffffff' }};
+  --vis-text:              {{ section.settings.text_color | default: '#1a1a1a' }};
+  --vis-text-muted:        {{ section.settings.text_muted | default: '#6b6b6b' }};
+  --vis-step-number-color: {{ section.settings.step_number_color | default: '#e4e0d8' }};
+  --vis-tab-active-bg:     {{ section.settings.tab_active_bg | default: '#1a1a1a' }};
+  --vis-tab-active-text:   {{ section.settings.tab_active_text | default: '#ffffff' }};
+  --vis-tab-inactive-bg:   {{ section.settings.tab_inactive_bg | default: '#ffffff' }};
+  --vis-tab-inactive-text: {{ section.settings.tab_inactive_text | default: '#1a1a1a' }};
+  --vis-tabs-track-bg:     {{ section.settings.tabs_track_bg | default: '#eeebe5' }};
+  --vis-play-btn-bg:       {{ section.settings.play_btn_bg | default: '#f5a623' }};
+  --vis-play-btn-color:    {{ section.settings.play_btn_icon_color | default: '#111111' }};
+  --vis-play-btn-hover:    {{ section.settings.play_btn_hover_bg | default: '#d48f0f' }};
+  --vis-video-radius:      {{ section.settings.video_radius | default: 16 }}px;
+  --vis-thumbnail-bg:      {{ section.settings.thumbnail_placeholder_bg | default: '#e8e4dc' }};
+  --vis-font-heading:      '{{ section.settings.font_heading | default: 'system-ui' }}', sans-serif;
+  --vis-font-body:         '{{ section.settings.font_body | default: 'system-ui' }}', sans-serif;
+}
+
+/* ══ WRAPPER ══ */
+.vis--{{ section.id }} {
+  width: 100%;
+  background: var(--vis-bg);
+  font-family: var(--vis-font-body);
+  color: var(--vis-text);
+  {% unless section.settings.full_width %}
+    max-width: {{ section.settings.section_max_width | default: 1200 }}px;
+    margin-inline: auto;
+  {% endunless %}
+  padding: {{ section.settings.padding_top | default: 60 }}px
+           {{ section.settings.padding_h | default: 24 }}px
+           {{ section.settings.padding_bottom | default: 60 }}px;
+  box-sizing: border-box;
+}
+
+/* ══ HEADER ══ */
+.vis--{{ section.id }} .vis__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: {{ section.settings.header_gap | default: 40 }}px;
+  margin-bottom: {{ section.settings.header_mb | default: 40 }}px;
+}
+
+.vis--{{ section.id }} .vis__header-left {
+  display: flex;
+  align-items: flex-start;
+  gap: {{ section.settings.step_gap | default: 16 }}px;
+  flex: 1;
+}
+
+.vis--{{ section.id }} .vis__step-number {
+  font-family: var(--vis-font-heading);
+  font-size: {{ section.settings.step_number_size | default: 110 }}px;
+  font-weight: {{ section.settings.step_number_weight | default: 700 }};
+  line-height: 0.85;
+  color: var(--vis-step-number-color);
+  letter-spacing: -2px;
+  user-select: none;
+  flex-shrink: 0;
+  font-family: Playfair;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 200px;
+  leading-trim: NONE;
+  line-height: 50.4px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color:#E9E4E4;
+}
+
+.vis--{{ section.id }} .vis__header-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 4px;
+}
+
+.vis--{{ section.id }} .vis__step-label {
+  margin: 0 0 6px;
+  font-size: {{ section.settings.step_label_size | default: 12 }}px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vis-text-muted);
+  font-family: Montserrat;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 12px;
+  leading-trim: NONE;
+  line-height: 18px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color:#4A5565;
+}
+
+.vis--{{ section.id }} .vis__title {
+  margin: 0;
+  font-family: var(--vis-font-heading);
+  font-size: {{ section.settings.title_size | default: 36 }}px;
+  font-weight: {{ section.settings.title_weight | default: 700 }};
+  line-height: 1.15;
+  color: var(--vis-text);
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 30px;
+  leading-trim: NONE;
+  line-height: 36px;
+  letter-spacing: 0.4px;
+  color:#000000;
+}
+
+.vis--{{ section.id }} .vis__header-right {
+  max-width: {{ section.settings.header_desc_max_width | default: 300 }}px;
+  flex-shrink: 0;
+  padding-top: 6px;
+}
+
+.vis--{{ section.id }} .vis__header-desc {
+  margin: 0;
+  font-size: {{ section.settings.header_desc_size | default: 15 }}px;
+  line-height: 1.65;
+  color: var(--vis-text-muted);
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 24px;
+  letter-spacing: -0.31px;
+  color:#000;
+}
+
+/* ══ TABS ══ */
+.vis--{{ section.id }} .vis__tabs {
+  display: inline-flex;
+  background: var(--vis-tabs-track-bg);
+  border-radius: {{ section.settings.tab_radius | default: 50 }}px;
+  padding: {{ section.settings.tabs_track_padding | default: 4 }}px;
+  gap: 0;
+  margin-bottom: {{ section.settings.tabs_mb | default: 24 }}px;
+}
+
+.vis--{{ section.id }} .vis__tab {
+  padding: {{ section.settings.tab_padding_v | default: 10 }}px {{ section.settings.tab_padding_h | default: 22 }}px;
+  border-radius: {{ section.settings.tab_radius | default: 50 }}px;
+  font-family: var(--vis-font-body);
+  font-size: {{ section.settings.tab_font_size | default: 15 }}px;
+  font-weight: {{ section.settings.tab_font_weight | default: 500 }};
+  background: var(--vis-tab-inactive-bg);
+  color: var(--vis-tab-inactive-text);
+  border: none;
+  cursor: pointer;
+  transition: background 0.22s ease, color 0.22s ease;
+  outline: none;
+  min-height: 44px;
+  font-family: Montserrat;
+font-weight: 500;
+font-style: Medium;
+font-size: 13px;
+leading-trim: NONE;
+line-height: 19.5px;
+letter-spacing: 0px;
+text-align: center;
+
+}
+
+.vis--{{ section.id }} .vis__tab.is-active,
+.vis--{{ section.id }} .vis__tab[aria-selected="true"] {
+  background: var(--vis-tab-active-bg);
+  color: var(--vis-tab-active-text);
+}
+
+/* ══ VIDEO WRAP ══ */
+.vis--{{ section.id }} .vis__video-wrap {
+  position: relative;
+  width: 100%;
+  border-radius: var(--vis-video-radius);
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--vis-thumbnail-bg);
+  margin-bottom: {{ section.settings.video_mb | default: 16 }}px;
+  aspect-ratio: {{ section.settings.video_aspect_ratio | default: '16/9' }};
+}
+
+.vis--{{ section.id }} .vis__thumbnail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.vis--{{ section.id }} .vis__video-wrap:hover .vis__thumbnail {
+  transform: scale(1.02);
+}
+
+.vis--{{ section.id }} .vis__thumbnail-placeholder {
+  position: absolute;
+  inset: 0;
+  background: var(--vis-thumbnail-bg);
+}
+
+/* Play button */
+.vis--{{ section.id }} .vis__play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  {% comment %} width: {{ section.settings.play_btn_size | default: 170 }}px;
+  height: {{ section.settings.play_btn_size | default: 170 }}px; {% endcomment %}
+  border-radius: 50%;
+  background: var(--vis-play-btn-bg);
+  color: var(--vis-play-btn-color);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+  box-shadow: 0 4px 24px oklch(0 0 0 / 0.22);
+  width: 170px;
+  height: 170px;
+}
+
+.vis--{{ section.id }} .vis__play-btn:hover {
+  background: var(--vis-play-btn-hover);
+  transform: translate(-50%, -50%) scale(1.08);
+  box-shadow: 0 8px 32px oklch(0 0 0 / 0.28);
+}
+
+.vis--{{ section.id }} .vis__play-icon {
+  {% comment %} width: {{ section.settings.play_icon_size | default: 22 }}px;
+  height: {{ section.settings.play_icon_size | default: 22 }}px; {% endcomment %}
+  width: 100px;
+  height: 100px;
+  margin-left: 3px;
+}
+
+/* ══ CAPTION ══ */
+.vis--{{ section.id }} .vis__caption {
+  margin: 0 0 {{ section.settings.caption_mb | default: 28 }}px;
+  font-size: {{ section.settings.caption_size | default: 14 }}px;
+  line-height: 1.5;
+  color: var(--vis-text-muted);
+      font-family: Montserrat;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 14px;
+    leading-trim: NONE;
+    line-height: 20px;
+    letter-spacing: -0.15px;
+    color:#6B6B6B;
+}
+
+/* ══ STEPS ROW ══ */
+.vis--{{ section.id }} .vis__steps {
+  display: grid;
+  grid-template-columns: repeat({{ section.settings.steps_columns | default: 4 }}, 1fr);
+  gap: {{ section.settings.steps_gap | default: 24 }}px;
+}
+
+.vis--{{ section.id }} .vis__step {
+  display: flex;
+  align-items: flex-start;
+  gap: {{ section.settings.step_inner_gap | default: 10 }}px;
+}
+
+.vis--{{ section.id }} .vis__step-badge {
+  width: {{ section.settings.step_badge_size | default: 28 }}px;
+  height: {{ section.settings.step_badge_size | default: 28 }}px;
+  border-radius: 50%;
+  background: var(--vis-accent);
+  {% comment %} color: {{ section.settings.step_badge_text_color | default: '#ffffff' }}; {% endcomment %}
+  font-size: {{ section.settings.step_badge_font_size | default: 13 }}px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-family: Montserrat;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 12px;
+  leading-trim: NONE;
+  line-height: 16px;
+  letter-spacing: 0px;
+  color:#000000;
+  background:#FAAF4F;
+}
+
+.vis--{{ section.id }} .vis__step-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.vis--{{ section.id }} .vis__step-title {
+  margin: 0;
+  font-size: {{ section.settings.step_title_size | default: 14 }}px;
+  font-weight: {{ section.settings.step_title_weight | default: 700 }};
+  line-height: 1.3;
+  color: var(--vis-text);
+  font-family: Montserrat;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 14px;
+  leading-trim: NONE;
+  line-height: 20px;
+  letter-spacing: -0.15px;
+  color:#000000;
+}
+
+.vis--{{ section.id }} .vis__step-desc {
+  margin: 0;
+  font-size: {{ section.settings.step_desc_size | default: 12 }}px;
+  line-height: 1.45;
+  color: var(--vis-text-muted);
+  font-family: Montserrat;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 12px;
+  leading-trim: NONE;
+  line-height: 16px;
+  letter-spacing: 0px;
+  color:#4A5565;
+}
+
+/* ══ LIGHTBOX MODAL ══ */
+.vis-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vis-modal[hidden] { display: none; }
+
+.vis-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: oklch(0 0 0 / 0.82);
+  cursor: pointer;
+}
+
+.vis-modal__inner {
+  position: relative;
+  width: min(900px, 92vw);
+  z-index: 1;
+}
+
+.vis-modal__close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: oklch(1 0 0 / 0.15);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.vis-modal__close:hover { background: oklch(1 0 0 / 0.28); }
+
+.vis-modal__frame-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+
+.vis-modal__iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ══ MOBILE ══ */
+@media (max-width: 768px) {
+  .vis--{{ section.id }} {
+    padding: {{ section.settings.padding_top_mob | default: 32 }}px
+             {{ section.settings.padding_h_mob | default: 16 }}px
+             {{ section.settings.padding_bottom_mob | default: 32 }}px;
+  }
+
+  .vis--{{ section.id }} .vis__header {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .vis--{{ section.id }} .vis__header-right { max-width: 100%; }
+
+  .vis--{{ section.id }} .vis__step-number {
+    font-size: {{ section.settings.step_number_size_mob | default: 72 }}px;
+  }
+
+  .vis--{{ section.id }} .vis__title {
+    font-size: {{ section.settings.title_size_mob | default: 26 }}px !important;
+  }
+
+  .vis--{{ section.id }} .vis__play-btn {
+    width: {{ section.settings.play_btn_size_mob | default: 56 }}px;
+    height: {{ section.settings.play_btn_size_mob | default: 56 }}px;
+  }
+
+  .vis--{{ section.id }} .vis__steps {
+    grid-template-columns: repeat({{ section.settings.steps_columns_mob | default: 2 }}, 1fr);
+    gap: {{ section.settings.steps_gap_mob | default: 16 }}px;
+  }
+}
+
+</style>
+
+<script>
+(function () {
+  var sec    = document.querySelector('.vis--{{ section.id }}');
+  var modal  = document.getElementById('vis-modal-{{ section.id }}');
+  var iframe = document.getElementById('vis-iframe-{{ section.id }}');
+  if (!sec || !modal || !iframe) return;
+
+  var tabs   = sec.querySelectorAll('.vis__tab');
+  var panels = sec.querySelectorAll('.vis__panel');
+
+  /* ── Tab switching ── */
+  function switchTab(n) {
+    tabs.forEach(function(t) {
+      var active = parseInt(t.dataset.tab) === n;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    panels.forEach(function(p) {
+      var active = parseInt(p.dataset.panel) === n;
+      p.style.display = active ? '' : 'none';
+      p.classList.toggle('is-active', active);
+    });
+  }
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      switchTab(parseInt(tab.dataset.tab));
+    });
+  });
+
+  /* ── Lightbox ── */
+  function buildEmbedUrl(url, type) {
+    if (!url) return '';
+    if (type === 'youtube') {
+      // Extract video ID from various YouTube URL formats
+      var match = url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
+      if (match) return 'https://www.youtube.com/embed/' + match[1] + '?autoplay=1&rel=0';
+    }
+    if (type === 'vimeo') {
+      var match = url.match(/vimeo\.com\/(\d+)/);
+      if (match) return 'https://player.vimeo.com/video/' + match[1] + '?autoplay=1';
+    }
+    // Fallback — treat as direct embed URL
+    return url;
+  }
+
+  function openModal(url, type) {
+    iframe.src = buildEmbedUrl(url, type);
+    modal.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.vis-modal__close').focus();
+  }
+
+  function closeModal() {
+    modal.setAttribute('hidden', '');
+    iframe.src = '';
+    document.body.style.overflow = '';
+  }
+
+  // Play button clicks
+  sec.querySelectorAll('.vis__play-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      openModal(btn.dataset.videoUrl, btn.dataset.videoType);
+    });
+  });
+
+  // Also clicking the thumbnail opens modal
+  sec.querySelectorAll('.vis__video-wrap').forEach(function(wrap) {
+    wrap.addEventListener('click', function(e) {
+      if (!e.target.closest('.vis__play-btn')) {
+        var btn = wrap.querySelector('.vis__play-btn');
+        if (btn) openModal(btn.dataset.videoUrl, btn.dataset.videoType);
+      }
+    });
+  });
+
+  // Close on backdrop or close button
+  modal.querySelector('.vis-modal__backdrop').addEventListener('click', closeModal);
+  modal.querySelector('.vis-modal__close').addEventListener('click', closeModal);
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
+  });
+
+  // Init
+  switchTab(1);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "True Step Section Four",
+  "settings": [
+
+    { "type": "header", "content": "Section Layout" },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "min": 800, "max": 1600, "step": 20,
+      "label": "Max Width (px)",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0, "max": 120, "step": 4,
+      "label": "Padding Top — Desktop (px)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0, "max": 120, "step": 4,
+      "label": "Padding Bottom — Desktop (px)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_h",
+      "min": 0, "max": 80, "step": 4,
+      "label": "Padding Horizontal — Desktop (px)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "min": 0, "max": 80, "step": 4,
+      "label": "Padding Top — Mobile (px)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "min": 0, "max": 80, "step": 4,
+      "label": "Padding Bottom — Mobile (px)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_h_mob",
+      "min": 0, "max": 40, "step": 4,
+      "label": "Padding Horizontal — Mobile (px)",
+      "default": 16
+    },
+
+    { "type": "header", "content": "Colors" },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#f5a623"
+    },
+    {
+      "type": "color",
+      "id": "accent_hover_color",
+      "label": "Accent Hover Color",
+      "default": "#d48f0f"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Primary Text Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_muted",
+      "label": "Muted Text Color",
+      "default": "#6b6b6b"
+    },
+    {
+      "type": "color",
+      "id": "step_number_color",
+      "label": "Step Number Color",
+      "default": "#e4e0d8"
+    },
+
+    { "type": "header", "content": "Header" },
+    {
+      "type": "text",
+      "id": "step_number",
+      "label": "Step Number",
+      "default": "03"
+    },
+    {
+      "type": "range",
+      "id": "step_number_size",
+      "min": 60, "max": 160, "step": 5,
+      "label": "Step Number Size — Desktop (px)",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "step_number_size_mob",
+      "min": 40, "max": 100, "step": 4,
+      "label": "Step Number Size — Mobile (px)",
+      "default": 72
+    },
+    {
+      "type": "select",
+      "id": "step_number_weight",
+      "label": "Step Number Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "text",
+      "id": "step_label",
+      "label": "Step Label",
+      "default": "STEP 3 - VIDEOS"
+    },
+    {
+      "type": "range",
+      "id": "step_label_size",
+      "min": 9, "max": 16, "step": 1,
+      "label": "Step Label Size (px)",
+      "default": 12
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "How to install"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20, "max": 56, "step": 2,
+      "label": "Title Size — Desktop (px)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "title_size_mob",
+      "min": 16, "max": 36, "step": 2,
+      "label": "Title Size — Mobile (px)",
+      "default": 26
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "textarea",
+      "id": "header_description",
+      "label": "Header Description (right side)",
+      "default": "Professional-quality installation in under an hour with basic tools."
+    },
+    {
+      "type": "range",
+      "id": "header_desc_size",
+      "min": 12, "max": 20, "step": 1,
+      "label": "Description Size (px)",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "header_desc_max_width",
+      "min": 200, "max": 500, "step": 10,
+      "label": "Description Max Width (px)",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "header_gap",
+      "min": 16, "max": 100, "step": 4,
+      "label": "Header Columns Gap (px)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "header_mb",
+      "min": 16, "max": 110, "step": 1,
+      "label": "Header Margin Bottom (px)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "step_gap",
+      "min": 8, "max": 40, "step": 2,
+      "label": "Step Number → Meta Gap (px)",
+      "default": 16
+    },
+
+    { "type": "header", "content": "Tab Switcher" },
+    {
+      "type": "text",
+      "id": "tab1_label",
+      "label": "Tab 1 Label",
+      "default": "TrueStep"
+    },
+    {
+      "type": "text",
+      "id": "tab2_label",
+      "label": "Tab 2 Label",
+      "default": "TruePlank"
+    },
+    {
+      "type": "color",
+      "id": "tabs_track_bg",
+      "label": "Tabs Track Background",
+      "default": "#eeebe5"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_bg",
+      "label": "Active Tab Background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text",
+      "label": "Active Tab Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tab_inactive_bg",
+      "label": "Inactive Tab Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tab_inactive_text",
+      "label": "Inactive Tab Text Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "tab_font_size",
+      "min": 12, "max": 20, "step": 1,
+      "label": "Tab Font Size (px)",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "tab_font_weight",
+      "label": "Tab Font Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "tab_padding_v",
+      "min": 6, "max": 20, "step": 1,
+      "label": "Tab Vertical Padding (px)",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "tab_padding_h",
+      "min": 10, "max": 40, "step": 2,
+      "label": "Tab Horizontal Padding (px)",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "tab_radius",
+      "min": 0, "max": 50, "step": 2,
+      "label": "Tab Border Radius (px)",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "tabs_track_padding",
+      "min": 2, "max": 10, "step": 1,
+      "label": "Tabs Track Padding (px)",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "tabs_mb",
+      "min": 8, "max": 40, "step": 4,
+      "label": "Tabs Margin Bottom (px)",
+      "default": 24
+    },
+
+    { "type": "header", "content": "Video Player" },
+    {
+      "type": "select",
+      "id": "video_aspect_ratio",
+      "label": "Video Aspect Ratio",
+      "options": [
+        { "value": "16/9",  "label": "16:9 (Widescreen)" },
+        { "value": "4/3",   "label": "4:3 (Standard)" },
+        { "value": "21/9",  "label": "21:9 (Ultrawide)" },
+        { "value": "9/16",  "label": "9:16 (Portrait / Vertical)" }
+      ],
+      "default": "16/9"
+    },
+    {
+      "type": "range",
+      "id": "video_radius",
+      "min": 0, "max": 32, "step": 2,
+      "label": "Video Border Radius (px)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "video_mb",
+      "min": 8, "max": 48, "step": 4,
+      "label": "Video Margin Bottom (px)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "thumbnail_render_width",
+      "min": 600, "max": 2000, "step": 100,
+      "label": "Thumbnail Render Width (px)",
+      "default": 1400
+    },
+    {
+      "type": "color",
+      "id": "thumbnail_placeholder_bg",
+      "label": "Thumbnail Placeholder Background",
+      "default": "#e8e4dc"
+    },
+
+    { "type": "header", "content": "Play Button" },
+
+    {
+      "type": "color",
+      "id": "play_btn_bg",
+      "label": "Play Button Background",
+      "default": "#f5a623"
+    },
+    {
+      "type": "color",
+      "id": "play_btn_hover_bg",
+      "label": "Play Button Hover Background",
+      "default": "#d48f0f"
+    },
+    {
+      "type": "color",
+      "id": "play_btn_icon_color",
+      "label": "Play Icon Color",
+      "default": "#111111"
+    },
+
+    { "type": "header", "content": "Caption" },
+    {
+      "type": "range",
+      "id": "caption_size",
+      "min": 11, "max": 18, "step": 1,
+      "label": "Caption Font Size (px)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "caption_mb",
+      "min": 8, "max": 48, "step": 4,
+      "label": "Caption Margin Bottom (px)",
+      "default": 28
+    },
+
+    { "type": "header", "content": "Installation Steps Row" },
+    {
+      "type": "select",
+      "id": "steps_columns",
+      "label": "Steps Columns — Desktop",
+      "options": [
+        { "value": "2", "label": "2 columns" },
+        { "value": "3", "label": "3 columns" },
+        { "value": "4", "label": "4 columns" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "steps_columns_mob",
+      "label": "Steps Columns — Mobile",
+      "options": [
+        { "value": "1", "label": "1 column" },
+        { "value": "2", "label": "2 columns" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "steps_gap",
+      "min": 15, "max": 115, "step": 1,
+      "label": "Steps Gap — Desktop (px)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "steps_gap_mob",
+      "min": 0, "max": 100, "step": 1,
+      "label": "Steps Gap — Mobile (px)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "step_inner_gap",
+      "min": 4, "max": 20, "step": 2,
+      "label": "Badge → Text Gap (px)",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "step_badge_size",
+      "min": 20, "max": 44, "step": 2,
+      "label": "Step Badge Size (px)",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "step_badge_font_size",
+      "min": 10, "max": 18, "step": 1,
+      "label": "Step Badge Font Size (px)",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "step_badge_text_color",
+      "label": "Step Badge Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "step_title_size",
+      "min": 11, "max": 18, "step": 1,
+      "label": "Step Title Size (px)",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "step_title_weight",
+      "label": "Step Title Weight",
+      "options": [
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "step_desc_size",
+      "min": 10, "max": 15, "step": 1,
+      "label": "Step Description Size (px)",
+      "default": 12
+    },
+
+    { "type": "header", "content": "Font Families" },
+    {
+      "type": "select",
+      "id": "font_heading",
+      "label": "Heading Font",
+      "options": [
+        { "value": "system-ui",        "label": "Default (Theme Font)" },
+        { "value": "Montserrat",       "label": "Montserrat" },
+        { "value": "Roboto",           "label": "Roboto" },
+        { "value": "Helvetica Neue",   "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Georgia",          "label": "Georgia" }
+      ],
+      "default": "system-ui"
+    },
+    {
+      "type": "select",
+      "id": "font_body",
+      "label": "Body Font",
+      "options": [
+        { "value": "system-ui",        "label": "Default (Theme Font)" },
+        { "value": "Montserrat",       "label": "Montserrat" },
+        { "value": "Roboto",           "label": "Roboto" },
+        { "value": "Helvetica Neue",   "label": "Helvetica Neue" },
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Georgia",          "label": "Georgia" }
+      ],
+      "default": "system-ui"
+    },
+
+    { "type": "header", "content": "Tab 1 — Video (TrueStep)" },
+    {
+      "type": "checkbox",
+      "id": "tab1_show_only_image",
+      "label": "Tab 1 — Show only Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab1_thumbnail",
+      "label": "Tab 1 — Video Thumbnail Image"
+    },
+    {
+      "type": "text",
+      "id": "tab1_video_title",
+      "label": "Tab 1 — Video Title (for accessibility)",
+      "default": "TrueStep installation video"
+    },
+    {
+      "type": "url",
+      "id": "tab1_video_url",
+      "label": "Tab 1 — YouTube or Vimeo URL",
+      "info": "Paste a full YouTube or Vimeo URL. e.g. https://www.youtube.com/watch?v=XXXXXXX"
+    },
+    {
+      "type": "select",
+      "id": "tab1_video_type",
+      "label": "Tab 1 — Video Platform",
+      "options": [
+        { "value": "youtube", "label": "YouTube" },
+        { "value": "vimeo",   "label": "Vimeo" }
+      ],
+      "default": "youtube"
+    },
+    {
+      "type": "text",
+      "id": "tab1_caption",
+      "label": "Tab 1 — Caption Below Video",
+      "default": "Follow along with our step-by-step video. Most installations complete in 45-60 minutes."
+    },
+    { "type": "header", "content": "Tab 1 — Installation Steps" },
+    { "type": "text", "id": "tab1_step1_title", "label": "Step 1 — Title", "default": "Measure and cut" },
+    { "type": "text", "id": "tab1_step1_desc",  "label": "Step 1 — Description", "default": "Measure stair width, mark cut lines" },
+    { "type": "text", "id": "tab1_step2_title", "label": "Step 2 — Title", "default": "Apply adhesive" },
+    { "type": "text", "id": "tab1_step2_desc",  "label": "Step 2 — Description", "default": "Spread evenly across stair surface" },
+    { "type": "text", "id": "tab1_step3_title", "label": "Step 3 — Title", "default": "Position and press" },
+    { "type": "text", "id": "tab1_step3_desc",  "label": "Step 3 — Description", "default": "Align nosing, press firmly" },
+    { "type": "text", "id": "tab1_step4_title", "label": "Step 4 — Title", "default": "Secure and finish" },
+    { "type": "text", "id": "tab1_step4_desc",  "label": "Step 4 — Description", "default": "Tap with mallet, wipe excess" },
+
+    { "type": "header", "content": "Tab 2 — Video (TruePlank)" },
+    {
+      "type": "checkbox",
+      "id": "tab2_show_only_image",
+      "label": "Tab 2 — Show only Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab2_thumbnail",
+      "label": "Tab 2 — Video Thumbnail Image"
+    },
+    {
+      "type": "text",
+      "id": "tab2_video_title",
+      "label": "Tab 2 — Video Title (for accessibility)",
+      "default": "TruePlank installation video"
+    },
+    {
+      "type": "url",
+      "id": "tab2_video_url",
+      "label": "Tab 2 — YouTube or Vimeo URL"
+    },
+    {
+      "type": "select",
+      "id": "tab2_video_type",
+      "label": "Tab 2 — Video Platform",
+      "options": [
+        { "value": "youtube", "label": "YouTube" },
+        { "value": "vimeo",   "label": "Vimeo" }
+      ],
+      "default": "youtube"
+    },
+    {
+      "type": "text",
+      "id": "tab2_caption",
+      "label": "Tab 2 — Caption Below Video",
+      "default": "Follow along with our step-by-step video. Most installations complete in 45-60 minutes."
+    },
+    { "type": "header", "content": "Tab 2 — Installation Steps" },
+    { "type": "text", "id": "tab2_step1_title", "label": "Step 1 — Title", "default": "Measure and cut" },
+    { "type": "text", "id": "tab2_step1_desc",  "label": "Step 1 — Description", "default": "Measure stair width, mark cut lines" },
+    { "type": "text", "id": "tab2_step2_title", "label": "Step 2 — Title", "default": "Apply adhesive" },
+    { "type": "text", "id": "tab2_step2_desc",  "label": "Step 2 — Description", "default": "Spread evenly across stair surface" },
+    { "type": "text", "id": "tab2_step3_title", "label": "Step 3 — Title", "default": "Position and press" },
+    { "type": "text", "id": "tab2_step3_desc",  "label": "Step 3 — Description", "default": "Align nosing, press firmly" },
+    { "type": "text", "id": "tab2_step4_title", "label": "Step 4 — Title", "default": "Secure and finish" },
+    { "type": "text", "id": "tab2_step4_desc",  "label": "Step 4 — Description", "default": "Tap with mallet, wipe excess" }
+
+  ],
+
+  "presets": [
+    { "name": "True Step Section Four" }
+  ]
+}
+{% endschema %}

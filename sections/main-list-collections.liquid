@@ -1,0 +1,19 @@
+<section class="collections-list">
+	<div class="container">
+	
+		{%- paginate collections by 50 -%}
+
+			{%- for collection in collections -%}
+			
+				{% render 'collection-card', collection: collection %}
+				
+			{%- endfor -%}
+				
+			{{ paginate | default_pagination: next: 'Older', previous: 'Newer' }}
+			
+		{%- endpaginate -%}
+		
+	</div>
+</section>
+
+

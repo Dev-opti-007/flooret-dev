@@ -1,0 +1,363 @@
+<style>
+  .signature-section-{{ section.id }} {
+     padding-top:{{ section.settings.padding-top }}px;
+     padding-bottom:{{ section.settings.padding-bottom }}px;
+  }
+    .signature-section .heading-wrap h2 {
+        vertical-align: middle;
+        color: #fff;
+        font-family: Montserrat;
+        font-weight: 800;
+        font-style: ExtraBold;
+        font-size: 54px;
+        line-height: 75px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+.signature-section .in-wrap {
+  display: flex;
+  width: 100%;
+  gap: 60px;
+  align-items: center;
+  justify-content: space-between;
+      margin-top: 50px;
+}
+
+.signature-section .left-wrap {
+  width:50%;
+  {% comment %} max-width: 440px; {% endcomment %}
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    {% comment %} width: 100%; {% endcomment %}
+}
+
+.signature-section .left-wrap h3 {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 51.2px;
+  vertical-align: middle;
+  white-space: pre-wrap;
+  margin-bottom: 5px;
+}
+
+.signature-section .left-wrap .box {
+    border: 2px solid #edece8;
+    border-radius: 8px;
+    background: #fff;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    padding: 20px 20px;
+    flex-direction: column;
+    box-shadow: 0px 0px 24px 0px #93939340;
+}
+
+.signature-section .desc p {
+    letter-spacing: 0%;
+    color:#fff;
+    vertical-align: middle;
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 18px;
+    leading-trim: NONE;
+    line-height: 29px;
+    letter-spacing: 0%;
+    text-align: center;
+    max-width: 990px;
+    margin: auto;
+}
+
+.signature-section .right-wrap {
+  width: 50%;
+  {% comment %} width: calc(100% - 525px); {% endcomment %}
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 672px;
+  min-height: 400px;
+}
+
+.signature-section .right-wrap img {
+  border-radius: 24px;
+  {% comment %} box-shadow: 0px 20px 60px 0px #2D4A3A26; {% endcomment %}
+}
+.signature-section .left-wrap .box p {
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 15px;
+    leading-trim: NONE;
+    line-height: 28.8px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    margin: 0px;
+}
+.signature-section .left-wrap .box p strong {
+    font-family: Montserrat;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 28.8px;
+    text-align: center;
+    vertical-align: middle;
+}
+{% comment %} .signature-section .desc p {
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 32px;
+  letter-spacing: 0%;
+  text-align: START;
+  vertical-align: middle;
+} {% endcomment %}
+.signature-section .left-wrap .btns-wrap {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.signature-section .left-wrap .btns-wrap .btn {
+    border-radius: 8px;
+    background: #272872;
+    border: 2px solid #272872;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 14px;
+    leading-trim: NONE;
+    line-height: 22.4px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    display: flex;
+    width: fit-content;
+    margin: auto;
+    gap: 8px;
+    height: 58.39px;
+}
+
+.signature-section .left-wrap .btns-wrap .btn:hover {
+    color: #fff;
+}
+
+.signature-section .left-wrap img {
+    border-radius: 8px;
+}
+
+@media (max-width:768px){
+    .signature-section .heading-wrap h2 br {
+        display: none;
+    }
+    .signature-section .heading-wrap h2 {
+        margin-bottom: 15px;
+    }
+    .signature-section .desc p {
+        text-align: center;
+        font-family: Montserrat;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 14px;
+        leading-trim: NONE;
+        line-height: 25px;
+        letter-spacing: 0%;
+        text-align: center;
+    }
+    .signature-section .heading-wrap h2 br {
+        display: none;
+    }
+
+    .signature-section .desc p {
+        text-align: center;
+        font-family: Montserrat;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 14px;
+        leading-trim: NONE;
+        line-height: 25px;
+        letter-spacing: 0%;
+        text-align: center;
+    }
+
+    .signature-section .in-wrap {
+        margin-top: 30px;
+        flex-direction: column-reverse;
+        gap: 20px;
+    }
+
+    .signature-section .in-wrap > div {
+        width: 100%;
+        min-height: unset;
+    }
+    .signature-section .left-wrap .box p {
+        font-size: 13px;
+    }
+    .signature-section .left-wrap .btns-wrap .btn {
+        height: 58.39px;
+        display: flex;
+        gap: 6px;
+        font-family: Montserrat;
+        font-weight: 700;
+        font-style: Bold;
+        font-size: 14px;
+        leading-trim: NONE;
+        line-height: 22.4px;
+        letter-spacing: 0%;
+        vertical-align: middle;
+        margin:auto;
+    }
+
+}
+
+</style>
+
+<div class="signature-section signature-section-{{ section.id }}" style="background-color:{{ section.settings.bg-color }};" >
+  <div class="page-width" >
+    <div class="heading-wrap">
+      <h2>{{ section.settings.heading }}</h2>
+      <div class="desc">
+            {{ section.settings.desc }}
+          </div>
+    </div>
+    <div class="in-wrap" >
+        <div class="left-wrap" >
+          {% if section.settings.left-title != blank %}
+          <h3>{{ section.settings.left-title }}</h3>
+          {% endif %}
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'plank' %}
+                <div class="box" >
+                  {{ block.settings.title }}
+                </div>
+              {% when 'image' %}
+                <img src="{{ block.settings.image | img_url:'500x' }}" alt="{{ block.settings.image.alt }}" width="100%" height="100%">                
+            {% endcase %}
+          {% endfor %}
+          {% if section.settings.btn-one-text != blank %}
+            <div class="btns-wrap">
+                {% if section.settings.btn-one-text != blank %}
+                <a class="btn" href="{{ section.settings.btn-one-link }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"> <path d="M6.53516 0.130859C6.83594 0.0214844 7.16406 0.0214844 7.4375 0.130859L13.125 2.26367C13.6445 2.45508 13.9727 2.94727 13.9727 3.49414V9.64648C13.9727 10.1387 13.6992 10.6035 13.2617 10.8223L7.57422 13.666C7.19141 13.8574 6.78125 13.8574 6.39844 13.666L0.710938 10.8223C0.273438 10.6035 0 10.1387 0 9.64648V3.49414C0 2.94727 0.328125 2.45508 0.847656 2.26367L6.53516 0.130859ZM7 1.82617L1.75 3.79492V3.82227L7 5.95508L12.25 3.82227V3.79492L7 1.82617ZM7.875 11.5605L12.25 9.37305V5.70898L7.875 7.48633V11.5605Z" fill="white"/> </svg>
+                    {{ section.settings.btn-one-text }}</a>
+                    {% endif %}
+            </div>
+            {% endif %} 
+        </div>
+        <div class="right-wrap" >
+           
+            <a href="{{ section.settings.link }}" >
+
+              <img src="{{ section.settings.image | img_url:'672x' }}" alt="{{ section.settings.image.alt }}" >
+            </a>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Signature LP Section",
+    "settings": [
+      {
+        "type": "color",
+        "id": "bg-color",
+        "label": "Background Color"
+      },
+       {
+          "type": "html",
+          "id": "heading",
+          "label": "Heading"
+       },
+       {
+        "type": "richtext",
+        "id": "desc",
+        "label": "Desc"
+      },
+        {
+          "type":"header",
+          "content": "Left Content"
+        },
+      {
+        "type": "html",
+        "id": "left-title",
+        "label": "Title"
+      },
+      
+       {
+          "type":"header",
+          "content": "Right Content"
+        },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      },
+       {
+        "type": "text",
+        "id": "btn-one-text",
+        "label": "Button One Text"
+      },
+      {
+        "type": "url",
+        "id": "btn-one-link",
+        "label": "Button One Link"
+      },
+       {
+        "type": "range",
+        "id": "padding-top",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Top",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "padding-bottom",
+        "min": 2,
+        "max": 200,
+        "step": 2,
+        "label": "Padding Bottom",
+        "default": 2
+      }
+    ],
+    "blocks":[
+        {
+          "type": "plank",
+          "name":"Plank",
+          "settings": [
+            {
+              "type": "richtext",
+              "id":"title",
+              "label": "Plank Title"
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "name":"image",
+          "settings": [
+            {
+              "type": "image_picker",
+              "id":"image",
+              "label": "Image"
+            }
+          ]
+        }
+    ],
+    "presets": [
+      {
+        "name": "Signature LP Section"
+      }
+    ]
+  }
+{% endschema %}

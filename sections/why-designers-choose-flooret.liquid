@@ -1,0 +1,458 @@
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+
+<section class="why-designers-two-section">
+  <div class="why-designers-two-container">
+    <h2 class="why-designers-two-title">{{ section.settings.section_title }}</h2>
+    <div class="why-designers-two-subtitle">{{ section.settings.section_subtitle }}</div>
+    <div class="why-designers-two-subtitle-two">{{ section.settings.section_subtitle_two }}</div>
+    <div class="why-designers-two-grid">
+      {% for block in section.blocks %}
+            <div class="designer-card" >
+                <img src="{{ block.settings.image | img_url:'50x' }}" alt="{{ block.settings.image.alt }}">
+                <div class="title" >{{ block.settings.title }}</div>
+                <div class="subtitle" >{{ block.settings.subtitle }}</div>
+            </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.button_text != blank %}
+    <div class="why-designers-two-button-wrapper">
+      <a href="{{ section.settings.button_url }}" class="why-designers-two-button">{{ section.settings.button_text }}</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+    .why-designers-two-section {
+    background: #E8E8E8;
+    padding: 68px 0;
+    }
+    .why-designers-two-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    }
+    .why-designers-two-title {
+        font-family: Montserrat;
+        font-weight: 800;
+        font-style: ExtraBold;
+        font-size: 42px;
+        leading-trim: NONE;
+        line-height: 38.4px;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+        color:#111111;
+    }
+    .why-designers-two-subtitle {
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 18px;
+    leading-trim: NONE;
+    line-height: 25.6px;
+    letter-spacing: 0%;
+    text-align: center;
+    vertical-align: middle;
+    text-align: center;
+    vertical-align: middle;
+    color:#111111;
+    margin-top:15px;
+    }
+     .why-designers-two-subtitle-two{ 
+        font-family: Playfair Display;
+        font-weight: 700;
+        font-style: Italic;
+        font-size: 18px;
+        leading-trim: NONE;
+        line-height: 31.2px;
+        letter-spacing: 5%;
+        text-align: center;
+        vertical-align: middle;
+        color: #343334;
+        max-width: 1100px;
+        margin: auto;
+            margin-top: 43.38px;
+    }
+    .why-designers-two-subtitle p:empty,
+    .why-designers-two-subtitle-two p:empty {
+        display:none;
+    }
+    .why-designers-two-grid {
+    display: flex;
+    {% comment %} flex-wrap: wrap; {% endcomment %}
+    gap: 25px;
+    justify-content: center;
+    margin-top:69.4px;
+    width:100%;
+    }
+    .why-designers-two-grid .designer-card {
+        {% comment %} max-width: 210px; {% endcomment %}
+        display: flex;
+        flex-direction: column;
+        background: #F4F3F1;
+        box-shadow: 0px 0px 4px 0px #C3C3C340;
+        padding: 15px;
+        width:100%;
+    }
+    .designer-card img {
+        margin:0px auto;
+        min-height:50px;
+        object-fit: contain;
+        object-position: center;
+    }
+    .designer-card:nth-child(1) img {
+        width:50px;
+    }
+    .designer-card:nth-child(2) img {
+        width:39px;
+    }
+    .designer-card:nth-child(3) img {
+        width:32px;        
+    }
+    .designer-card:nth-child(4) img {
+         width:33px;       
+    }
+    .designer-card:nth-child(5) img {
+         width:43px;       
+    }
+
+    .designer-card:nth-child(1) .title {
+        margin-bottom:10px;
+    }
+    .designer-card:nth-child(2) .title {
+       margin-bottom:10px;
+    }
+    .designer-card:nth-child(3) .title {
+       margin-bottom:10px;      
+    }
+
+    .designer-card .title {
+        font-family: Montserrat;
+        font-weight: 800;
+        font-style: ExtraBold;
+        font-size: 14px;
+        leading-trim: NONE;
+        line-height: 28.16px;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+        text-transform: uppercase;
+        margin-top:10px;
+    }
+
+    .designer-card .subtitle p {
+        font-family: Montserrat;
+        font-weight: 500;
+        font-style: Regular;
+        font-size: 12px;
+        leading-trim: NONE;
+        line-height: 22px;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+        color:#000;
+    }
+
+    .renes-top-picks-card {
+        max-width: 360px;
+        background: #fff;
+        {% comment %} border-radius: 8px; {% endcomment %}
+        {% comment %} overflow: hidden; {% endcomment %}
+        text-align: center;
+        box-sizing: border-box;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        position:relative;
+    }
+    .renes-top-picks-card .overlay-link {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+    }
+    .renes-top-picks-card-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    }
+    .renes-top-picks-card-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 20px 0;
+    background: #fff;
+    }
+    .why-designers-two-button-wrapper {
+    margin-top: 60px;
+    }
+    .why-designers-two-button {
+        background: #D6C08C;
+        color: #fff;
+        padding: 6px 36px;
+        height:50px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius: 4px;
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 1rem;
+        max-width: 360px;
+        margin-left: auto;
+        margin-right: auto;
+        width:100%;
+        transition: background 0.2s;
+        font-family: Montserrat;
+        font-weight: 600;
+        font-style: SemiBold;
+        font-size: 13.3px;
+        leading-trim: NONE;
+        line-height: 100%;
+        letter-spacing: 1px;
+        text-align: center;
+        vertical-align: middle;
+        text-transform: uppercase;
+        color: #111111;
+        font-family: Montserrat;
+        font-weight: 600;
+        font-style: SemiBold;
+        font-size: 16px;
+        leading-trim: NONE;
+        line-height: 25.6px;
+        letter-spacing: 1px;
+        vertical-align: middle;
+        text-transform: uppercase;
+        background: #236a99;
+        border-radius: 4px;
+        color: #fff;
+        margin-top: 40px;
+    }
+    .why-designers-two-button:hover,
+    .why-designers-two-button:focus {
+    background: #bda46d;
+    }
+
+    @media (max-width:1150px){
+        .why-designers-two-grid .slick-slide {
+            margin: 0px 15px;
+        }
+        .why-designers-two-grid  {
+            opacity:0;
+            transition:all 200ms ease;
+        }
+        .why-designers-two-grid.slick-initialized  { 
+            opacity:1;
+        }
+    }
+    
+    @media (max-width: 1000px) {
+    .why-designers-two-grid {
+        gap: 18px;
+    }
+    .renes-top-picks-card {
+        width: 48%;
+        min-width: 260px;
+    }
+    
+    }
+    @media (max-width:768px){
+
+        .why-designers-two-grid .slick-slide {
+                max-width:280px;
+                display: flex;
+            }
+
+            .why-designers-two-grid .slick-slide > div {
+                display: flex;
+                width:100%;
+            }
+
+        .why-designers-two-title {
+            font-family: Montserrat;
+            font-weight: 800;
+            font-style: ExtraBold;
+            font-size: 28px;
+            leading-trim: NONE;
+            line-height: 38.4px;
+            letter-spacing: 0%;
+            text-align: center;
+            vertical-align: middle;
+            padding-right:15px;
+        }
+
+        .why-designers-two-subtitle {
+            padding-right:15px;
+            font-family: Montserrat;
+            font-weight: 500;
+            font-style: Medium;
+            font-size: 15px;
+            leading-trim: NONE;
+            line-height: 25px;
+            letter-spacing: 0%;
+            text-align: center;
+            vertical-align: middle;
+            max-width: 370px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .why-designers-two-subtitle-two {
+            padding-right:15px;
+            font-family: Playfair Display;
+            font-weight: 800;
+            font-style: Italic;
+            font-size: 14px;
+            leading-trim: NONE;
+            line-height: 26px;
+            letter-spacing: 5%;
+            text-align: center;
+            vertical-align: middle;
+            margin-top: 15px;
+        }
+        
+        .why-designers-two-section {
+            padding: 50px 0px 50px 15px !important;
+        }
+        .renes-top-picks-card {
+            max-width: unset !important;
+        }
+        .why-designers-two-grid {
+            margin-top:35px;
+            flex-direction:row;
+            width:100%;
+        }
+        .why-designers-two-button-wrapper {
+            margin-top: 35px;
+        }
+        {% comment %} .why-designers-two-grid .slick-track {
+            display:block;
+        } {% endcomment %}
+        .why-designers-two-grid .slick-slide {
+            margin:0px 7.5px;
+        }
+        .why-designers-two-grid .slick-list.draggable {
+            margin-left: -50px;
+        }
+    }
+    @media (max-width: 600px) {
+
+    .renes-top-picks-card {
+        width: 100%;
+        min-width: unset;
+    }
+    }
+
+
+</style>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+        setTimeout(()=>{
+             if(window.innerWidth >= 991 && window.innerWidth < 1150 ){
+                $('.why-designers-two-grid').slick({
+                        arrows: false,
+                        dots: false,
+                        infinite: false,
+                        initialSlide:1,
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        centerMode: true,
+                        centerPadding: '30px'
+                });
+            }
+             if(window.innerWidth >= 768 && window.innerWidth < 991 ){
+                $('.why-designers-two-grid').slick({
+                        arrows: false,
+                        dots: false,
+                        infinite: false,
+                        initialSlide:1,
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        centerMode: true,
+                        centerPadding: '30px'
+                });
+            }
+            if(window.innerWidth < 768){
+                $('.why-designers-two-grid').slick({
+                        arrows: false,
+                        dots: false,
+                        infinite: false,
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        centerMode: true,
+                        centerPadding: '80px'
+                });
+            }
+        }, 1000)
+    })
+    
+		
+
+</script>
+
+{% schema %}
+{
+  "name": "Why designers Two",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title"
+    },
+    {
+      "type": "richtext",
+      "id": "section_subtitle",
+      "label": "Section Subtitle"
+    },
+    {
+      "type": "richtext",
+      "id": "section_subtitle_two",
+      "label": "Section Subtitle Two"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+        "type": "url",
+        "id": "button_url",
+        "label": "Button URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card_block",
+      "name": "Card Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "subtitle",
+            "label": "Subtitle"
+        }
+      ] 
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why designers Two"
+    }
+  ]
+}
+{% endschema %}

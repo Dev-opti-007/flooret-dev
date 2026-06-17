@@ -1,0 +1,1434 @@
+<style>
+  .model-collection {
+    background:#DDE9D8;
+  }
+</style>
+
+{%- assign collection = collections[section.settings.featured_collection] -%}
+<div class="model-collection model-collection-{{ section.id }}">
+<div class="page-width">
+  <div class="collection-modal-section__container">
+    <div class="heading-wrap"> 
+      <h2>{{ section.settings.heading }}</h2>
+      <div class="pointers">
+        {{ section.settings.pointers }}
+      </div>
+    </div>
+    
+    {% if collection != blank %}
+        {% if template.suffix == '10-year-anniversary' %}
+    
+        <a  href="/collections/all-floors" class="j-a-btn button button--primary">
+               {{ section.settings.button_text | escape }}
+        </a>
+        {% else %} 
+        <button id="open-collection-modal-{{ section.id }}" type="button" class="button button--primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"> <path d="M6.53516 0.131409C6.83594 0.0220337 7.16406 0.0220337 7.4375 0.131409L13.125 2.26422C13.6445 2.45563 13.9727 2.94781 13.9727 3.49469V9.64703C13.9727 10.1392 13.6992 10.6041 13.2617 10.8228L7.57422 13.6666C7.19141 13.858 6.78125 13.858 6.39844 13.6666L0.710938 10.8228C0.273438 10.6041 0 10.1392 0 9.64703V3.49469C0 2.94781 0.328125 2.45563 0.847656 2.26422L6.53516 0.131409ZM7 1.82672L1.75 3.79547V3.82281L7 5.95563L12.25 3.82281V3.79547L7 1.82672ZM7.875 11.5611L12.25 9.3736V5.70953L7.875 7.48688V11.5611Z" fill="white"/> </svg> 
+          {{ section.settings.button_text | escape }}
+        </button>
+        {% endif %}
+    {% endif %}
+    {% if template.suffix == 'flooret-x-agar-family' %}
+      {% comment %} <a class="btn" href="https://www.flooret.com/pages/get-started" >
+          Worry-Free Installation
+       </a> {% endcomment %}
+    {% endif %}
+    
+  </div>
+</div>
+</div>
+<div id="collection-products-modal-{{ section.id }}" class="collection-products-modal" style="display: none;">
+  <div class="collection-products-modal__content">
+    <div class="collection-products-modal__header">
+      <div>
+        <h2>{{ section.settings.model-title }}</h2>
+        <div>{{ section.settings.model-subtext }}</div>
+        {% if section.settings.additional-text != blank or section.settings.additional-btn-text != blank  %}
+        <div class="additional-text-wrap">
+          {% if section.settings.additional-text != blank %}
+          <div class="additional-text">
+            {{ section.settings.additional-text }}
+          </div>
+          {% endif %}
+          {% if section.settings.additional-btn-text != blank %}
+          <a class='button buttom-sm' target="_blank" href="{{ section.settings.additional-btn-link }}">{{ section.settings.additional-btn-text }}</a>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+      <button class="collection-products-modal__close">&times;</button>
+    </div>
+    <div class="collection-products-grid">
+      {%- for product in collection.products -%}
+        {%# We render the card-product snippet for each product in the collection. %}
+        {%# The outer div helps our JavaScript find and manage each card individually. %}
+        <div class="modal-product-wrapper" data-handle="{{ product.handle }}">
+          {% if template.suffix == 'silvan-landing-page' or template.suffix == 'flooret-x-rene-ceretto' or template.suffix == 'provence-landing-page' %}
+          {% render 'product-card-silvan', product: product %}
+          {% endif %}
+
+
+          {% if template.suffix == 'modin-landing-page' or template.suffix == 'flooret-x-agar-family' or  template.suffix == 'flooret-x-ally-kusznikow' %}
+            {% render 'product-card-modin', product: product %}
+          {% else %}
+               {% render 'product-card-modin', product: product %}
+          {% endif %}
+
+          {% if template.suffix == 'farah-merhi' or template.suffix == '10-year-anniversary' %}
+            {% if product.tags contains 'Cat--Modin LVP' %}
+              {% render 'product-card-modin', product: product %}
+            {% else %}
+              {% render 'product-card-silvan', product: product %}
+            {% endif %}
+          {% endif %}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  {% if section.settings.section-bg != blank %}
+  .model-collection-{{ section.id }} {
+    background:{{ section.settings.section-bg }};
+  }
+  {% endif %}
+  .model-collection-{{ section.id }} .collection-modal-section__container .heading-wrap h2 {
+    font-family:{{ section.settings.font-heading }};
+    font-size:{{ section.settings.font_size_heading_desk }}px;
+    {% if section.settings.heading-color != blank %} color:{{ section.settings.heading-color }}; {% endif %}
+  }
+  .model-collection-{{ section.id }} .collection-modal-section__container .heading-wrap .pointers p {
+    font-family:{{ section.settings.font-body }};
+    font-size:{{ section.settings.font_size_body_desk }}px;
+    {% if section.settings.body-color != blank %} color:{{ section.settings.body-color }}; {% endif %}
+  }
+  .model-collection-{{ section.id }} .collection-modal-section__container > button {
+    font-family:{{ section.settings.font-button }};
+    font-size:{{ section.settings.font_size_button_desk }}px;
+    {% if section.settings.button-bg-color != blank %} background:{{ section.settings.button-bg-color }}; {% endif %}
+    {% if section.settings.button-font-color != blank %} color:{{ section.settings.button-font-color }}; {% endif %}
+  }
+
+  @media (max-width:768px){
+    .model-collection-{{ section.id }} .collection-modal-section__container .heading-wrap h2 {
+      font-size:{{ section.settings.font_size_heading_mob }}px;
+    }
+    .model-collection-{{ section.id }} .collection-modal-section__container .heading-wrap .pointers p {
+      font-size:{{ section.settings.font_size_body_mob }}px;
+    }
+    .model-collection-{{ section.id }} .collection-modal-section__container > button {
+      font-size:{{ section.settings.font_size_button_mob }}px;
+    }
+  }
+
+
+
+</style>
+
+{% schema %}
+{
+  "name": "Collection Modal",
+  "class": "collection-modal-section",
+  "settings": [
+    {
+      "type": "html",
+      "id":"heading",
+      "label": "Heading"
+    },
+    {
+      "type":"richtext",
+      "id": "pointers",
+      "label": "Pointer",
+      "info": "Use list style"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop The Collection"
+    },
+    {
+      "type": "header",
+      "content": "Model Details"
+    },
+    {
+      "type": "text",
+      "id": "model-title",
+      "label": "Model Title"
+    },
+    {
+      "type":"richtext",
+      "id": "model-subtext",
+      "label": "Model Subtext"
+    },
+    {
+      "type": "richtext",
+      "id": "additional-text",
+      "label":"Additional Text"
+    },
+    {
+      "type": "text",
+      "id": "additional-btn-text",
+      "label": "Additional Button Text"
+    },
+    {
+      "type": "url",
+      "id": "additional-btn-link",
+      "label": "Additional Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Font family"
+    },
+    {
+      "type": "select",
+      "id": "font-heading",
+      "label": "Font Family Heading",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font-body",
+      "label": "Font Family Subtext",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "select",
+      "id": "font-button",
+      "label": "Font Family Button",
+      "options": [
+        {
+          "value": "Montserrat",
+          "label": "Montserrat"
+        },
+        {
+          "value": "Roboto",
+          "label": "Roboto"
+        },
+        {
+          "value": "Helvetica Neue",
+          "label": "Helvetica Neue"
+        }
+      ],
+      "default": "Montserrat"
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes Desktop"
+    },
+    {
+      "type": "range",
+      "id": "font_size_heading_desk",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Heading Desktop",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "font_size_body_desk",
+      "min": 5,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Body Desktop",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "font_size_button_desk",
+      "min": 5,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Button Desktop",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes Mobile"
+    },
+    {
+      "type": "range",
+      "id": "font_size_heading_mob",
+      "min": 1,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Heading Mobile",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "font_size_body_mob",
+      "min": 1,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Body Mobile",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "font_size_button_mob",
+      "min": 1,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size Button Mobile",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section-bg",
+      "label": "Section Color"
+    },
+    {
+      "type": "color",
+      "id":"heading-color",
+      "label": "Heading Color"
+    },
+    {
+      "type": "color",
+      "id":"body-color",
+      "label": "Body Color"
+    },
+    {
+      "type": "color",
+      "id": "button-bg-color",
+      "label": "Button Background Color"
+    },
+    {
+      "type": "color",
+      "id": "button-font-color",
+      "label": "Button Font Color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Modal"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .collection-modal-section__container {
+    display: flex;
+    flex-direction: row;
+    padding: 20px 15px;
+  }
+  
+.collection-modal-section__container .heading-wrap h2 {
+    font-family: Montserrat;
+    font-weight: 500;
+    /* font-style: Bold; */
+    font-size: 18px;
+    leading-trim: NONE;
+    line-height: 28.8px;
+    letter-spacing: -0.36px;
+    vertical-align: middle;
+    color: #2D4A3A;
+    margin-bottom: 5px;
+}
+
+.collection-modal-section__container .heading-wrap h2 span {
+  font-weight: 700;
+}
+
+.collection-modal-section__container .heading-wrap {
+    width: 74%;
+}
+
+.collection-modal-section__container .heading-wrap .pointers {
+    display: flex;
+    gap: 20px;
+}
+
+.sustain-slider {
+    overflow: hidden;
+}
+
+.collection-modal-section__container .heading-wrap .pointers p {
+    margin: 0px;
+    position: relative;
+    display: flex;
+    gap: 4px;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 22.4px;
+    vertical-align: middle;
+      color: #2D4A3A;
+  }
+  
+  .collection-modal-section__container .heading-wrap .pointers p:before {
+      content: "✓";
+      color: #2D4A3A;
+  }
+  
+  .collection-modal-section__container > button {
+      font-family: Montserrat;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 22.4px;
+      vertical-align: middle;
+      background: #25393D;
+      color: #fff;
+      border: none;
+      width: 205px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-left: auto;
+  }
+  .collection-modal-section__container > button:hover {
+    background:#2D4A3A;
+  }
+  .collection-products-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 1001;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .collection-products-modal__content {
+    background-color: #fff;
+    width: fit-content;
+    max-width: 1400px;
+    height: 90vh;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .collection-products-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    border-bottom: 1px solid #e5e5e5;
+    flex-shrink: 0;
+  }
+  .collection-products-modal__header h2 {
+      margin: 0;
+      font-family: Montserrat;
+      font-weight: 700;
+      font-style: Bold;
+      font-size: 26px;
+      leading-trim: NONE;
+      line-height: 100%;
+      letter-spacing: 0%;
+      vertical-align: middle;
+      color: #333333;
+      margin-bottom: 12px;
+  }
+  .collection-products-modal__header h2 + div p {
+      font-family: Montserrat;
+      font-weight: 400;
+      font-style: Regular;
+      font-size: 18px;
+      leading-trim: NONE;
+      line-height: 100%;
+      letter-spacing: 0%;
+      vertical-align: middle;
+      color: #666666;
+  }
+  .collection-products-modal__close {
+    font-size: 2.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .collection-products-grid {
+    padding: 30px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(280px, 280px));
+    gap: 30px;
+    position: relative;
+    flex-grow: 1;
+}
+
+  .slick-track {
+      display: flex;
+  }
+.modal-product-card__images {
+    overflow: hidden;
+    max-height: 300px;
+    margin-bottom: 20px;
+}
+  
+  /* --- Styles for each product card inside the modal --- */
+  .modal-product-card {
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-product-card__images .slick-slide img {
+    width: 100%;
+    border-radius: 4px;
+  }
+  .modal-product-card__info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-product-card__title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 10px 0;
+  }
+  .modal-product-card__price {
+    margin-bottom: 15px;
+  }
+  /* .modal-product-card__form {
+    margin-top: auto;
+  } */
+  
+  .modal-product-card__variants ul.pdp-atc__group__buttons.Model .product-option {
+      display: flex;
+      align-items: center;
+  }
+  
+  .modal-product-card__variants ul.pdp-atc__group__buttons.Model .product-option .product-option__icon img {
+      width: 40px;
+      height: 30px;
+      object-fit: contain;
+  }
+  
+  .modal-product-card__variants ul.pdp-atc__group__buttons.Model .product-option  .product-option__details {
+      display: flex;
+      gap: 10px;
+  }
+  
+  .modal-product-card__variants ul.pdp-atc__group__buttons.Model .product-option .product-option__details .product-option__meta {
+      margin: 0px;
+  }
+  .modal-product-card .pdp-atc__group__buttons label {
+    display: block;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  .modal-product-card__variants li.type.box {
+      display: none;
+  }
+  .modal-product-card .pdp-atc__group__buttons input[type="radio"] {
+    display: none;
+  }
+  .modal-product-card .pdp-atc__group__buttons input[type="radio"]:checked + label {
+    border-color: #000;
+    background-color: #000;
+    color: #fff;
+  }
+  .modal-product-card__add-to-cart {
+    width: 100%;
+    margin-top: 15px;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  .modal-product-card__add-to-cart.is-added {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+    color: #fff;
+    cursor: default;
+  }
+  .modal-product-card__add-to-cart.is-adding {
+    cursor: wait;
+  }
+
+  /* --- Loader --- */
+  .collection-products-loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 40%;
+    left: calc(50% - 25px);
+  }
+  .collection-modal-section {
+      position: sticky;
+          top: 114.82px;
+      z-index: 11;
+  }
+  html.collection-modal-is-open .collection-modal-section {
+      z-index: 99999;
+  }
+
+  .collection-products-modal__content .product-card {
+  background: #FFF;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.collection-products-modal__content .product-card__form .product-card__header {
+  display: none;
+}
+
+.collection-products-modal__content .collection-reviews-wrapper .ruk_rating_snippet i {
+  font-size: 12px !important;
+}
+
+.collection-products-modal__content .collection-reviews-wrapper .ruk-rating-snippet-count {
+  display: none;
+}
+
+.collection-products-modal__content .product-card-option-group.Title {
+  display: none;
+}
+
+.collection-products-modal__content .product-card-option-group.Type {
+  display: none;
+}
+/* .modal-product-wrapper .product-card-option-group.Bevel {
+    display: none;
+} */
+.price.price-wrap-pro-page span.actual-price {
+    font-size: 16px;
+}
+.collection-products-modal__content h3.product-card__title.h5 {
+  display: flex;
+  align-items: self-start;
+  justify-content: space-between;
+}
+
+.collection-products-modal__content .product-card__model-info > span.off-text-pop {
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 11px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #F02B2B;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.collection-products-modal__content .product-card__model-info.pack-silvan > span:nth-child(2) {
+  font-family: Montserrat;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 10px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  text-decoration: line-through;
+  color: #878787;
+  display: inline-flex;
+  width: 100%;
+  justify-content: end;
+}
+
+.collection-products-modal__content .product-card__model-info {
+  text-align: end;
+}
+
+.collection-products-modal__content span.product-card__price {
+  font-family: Montserrat;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 12px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #333333;
+}
+
+.collection-products-modal__content .product-card__content {
+  padding: 0px 12px;
+}
+
+.collection-products-modal__content .product-card__title.h5 a {
+  font-family: Montserrat;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 12.91px;
+  leading-trim: NONE;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+
+.collection-products-modal__content .contnet > p {
+  font-family: Montserrat;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 10.88px;
+  leading-trim: NONE;
+  line-height: 15.6px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #666666;
+}
+
+.collection-products-modal__content .contnet {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.collection-products-modal__content .product-card-option__values {
+    flex-wrap: wrap;
+}
+
+.collection-products-modal__content .product-card-option__swatch input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.collection-products-modal__content .product-card-option__swatch {
+  position: relative;
+ width: calc(50% - 4px );
+}
+
+.collection-products-modal__content .product-card-option__values {
+  display: flex;
+  gap: 8px;
+}
+
+.collection-products-modal__content .product-card-option__swatch label {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  text-align: center;
+  border: 1px solid #E5E5E5;
+  background: #F5F5F5;
+  font-family: Montserrat;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 10.48px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  /* height: 26px; */ 
+      padding: 7px 4px;
+    line-height: 1.05;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.collection-products-modal__content .product-card-option__swatch input:checked + label {
+  background: #fff;
+  border: 1.2px solid #2D4A3A;
+  color: #2D4A3A;
+  font-weight: 600;
+}
+
+.collection-products-modal__content .product-card-swatches {
+  margin: 15px 0px 0px;
+}
+
+.collection-products-modal__content .add-to-cart-btn {
+  margin: 20px 0px 15px !important;
+  height: 30px;
+  background: #25393D;
+  width: 100%;
+  font-family: Arial;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 12px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+}
+  
+  html.collection-modal-is-open div#shopify-section-pop-cart section.pop-cart.active {
+    z-index: 99999999;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+{% endstyle %}
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sectionId = '{{ section.id }}';
+    const openBtn = document.getElementById(`open-collection-modal-${sectionId}`);
+    const modal = document.getElementById(`collection-products-modal-${sectionId}`);
+    if (!openBtn || !modal) return;
+    
+    const closeModalBtn = modal.querySelector('.collection-products-modal__close');
+    let isInitialized = false;
+
+    // --- Pre-load all necessary data for interactivity ---
+    const allProductsData = {
+      {% for product in collection.products %}
+        "{{ product.handle }}": {
+          "id": {{ product.id }}, // Add product ID here
+          "variants": {{ product.variants | json }},
+          "media": {{ product.media | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    };
+    const allMetaObjectPrices = {
+      {% for product in collection.products %}
+        "{{ product.handle }}": {
+          {%- assign model_option = product.options_with_values | where: "name", "Model" | first -%}
+          {% if model_option %}
+            {% for value in model_option.values %}
+              {%- liquid
+                assign value_handle = value | handleize
+                assign meta_price = shop.metaobjects.product_model[value_handle].cost_per_sqft.value | default: null
+              -%}
+              "{{ value | escape }}": {{ meta_price | json }}{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          {% endif %}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    };
+
+    openBtn.addEventListener('click', function() {
+      modal.style.display = 'flex';
+      document.documentElement.classList.add('collection-modal-is-open');
+      if (!isInitialized) {
+        initializeAllCards();
+        isInitialized = true;
+      }
+    });
+
+    function initializeAllCards() {
+      // Initialize sliders for each card
+      $(modal).find('.product-card__images').each(function() {
+        if ($(this).find('img').length > 1) {
+            $(this).slick({ infinite: false, arrows: true, dots: true, slidesToShow: 1, slidesToScroll: 1 });
+        }
+      });
+      
+      // Setup variant selection and forms for each card
+      modal.querySelectorAll('.modal-product-wrapper').forEach(cardWrapper => {
+        const handle = cardWrapper.dataset.handle;
+        if (handle && allProductsData[handle]) {
+          setupVariantSelectionForCard(cardWrapper, allProductsData[handle], allMetaObjectPrices[handle] || {});
+          setupAddToCartForm(cardWrapper);
+        }
+      });
+    }
+    
+    function setupVariantSelectionForCard(card, productData, metaObjectPrices) {
+      card.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', () => updateCardState(card, productData, metaObjectPrices));
+      });
+      const firstRadio = card.querySelector('input[type="radio"]');
+      if (firstRadio) {
+        firstRadio.checked = true;
+        firstRadio.dispatchEvent(new Event('change'));
+      }
+    }
+
+    function updateCardState(card, productData, metaObjectPrices) {
+      const selectedOptions = Array.from(card.querySelectorAll('input[type="radio"]:checked')).map(radio => radio.value);
+      const selectedVariant = productData.variants.find(variant => variant.options.every((option, index) => option === selectedOptions[index]));
+
+      const priceEl = card.querySelector('.product-card__price');
+      const variantIdInput = card.querySelector('input[name="id"]');
+      const addToCartBtn = card.querySelector('.add-to-cart-btn');
+
+      if (selectedVariant) {
+        variantIdInput.value = selectedVariant.id;
+        
+        let priceInCents;
+        const isBoxVariant = selectedOptions.some(option => option.toLowerCase() === 'box');
+        const modelOptionValue = selectedVariant.option1;
+        const specialModels = ["7\"", "Craftsman", "Signature", "Herringbone", "Arista", "Base", "Base Glue Down", "Signature Glue Down"];
+
+        if (isBoxVariant && specialModels.includes(modelOptionValue)) {
+          priceInCents = (metaObjectPrices && metaObjectPrices[modelOptionValue] !== null) ? metaObjectPrices[modelOptionValue] : selectedVariant.price;
+        } else {
+          priceInCents = selectedVariant.price;
+        }
+
+        if(priceEl) {
+          priceEl.innerHTML = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(priceInCents / 100);
+        }
+
+        // ===================================================================
+        // NEW: Updated button text logic
+        // ===================================================================
+        if(addToCartBtn){
+          addToCartBtn.disabled = !selectedVariant.available;
+          if (selectedVariant.available) {
+            // Check if the product ID is the special one
+            if (productData.id === 8964836262163) {
+              addToCartBtn.textContent = 'Add Sample Kit';
+            } else {
+              addToCartBtn.textContent = 'Add Sample';
+            }
+          } else {
+            addToCartBtn.textContent = 'Sold Out';
+          }
+        }
+
+        if (selectedVariant.featured_media && selectedVariant.featured_media.id) {
+          const targetMediaId = selectedVariant.featured_media.id;
+          const imageContainer = card.querySelector('.product-card__images');
+          const targetSlide = imageContainer ? imageContainer.querySelector(`[data-media-id="${targetMediaId}"]`)?.parentElement : null;
+          if (targetSlide && $(imageContainer).hasClass('slick-initialized')) {
+            const slideIndex = $(targetSlide).data('slick-index');
+            if (slideIndex !== undefined) {
+              $(imageContainer).slick('slickGoTo', slideIndex);
+            }
+          }
+        }
+      } else {
+        if(addToCartBtn) {
+          addToCartBtn.disabled = true;
+          addToCartBtn.textContent = 'Unavailable';
+        }
+      }
+    }
+    
+    {% comment %} function setupAddToCartForm(card) {
+      const form = card.querySelector('form[action$="/cart/add"]');
+      if (!form) return;
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const addToCartBtn = form.querySelector('.add-to-cart-btn');
+        let originalText = addToCartBtn.textContent;
+        
+        addToCartBtn.disabled = true;
+        addToCartBtn.classList.add('is-adding');
+        addToCartBtn.textContent = 'Adding...';
+
+        fetch('/cart/add.js', { method: 'POST', body: new FormData(form) })
+        .then(response => response.json())
+        .then(data => {
+          addToCartBtn.classList.remove('is-adding');
+          if (data.status) {
+             addToCartBtn.textContent = data.description || 'Error';
+             // Revert back to original text on error after a delay
+             setTimeout(() => {
+                addToCartBtn.disabled = false;
+                addToCartBtn.textContent = originalText;
+             }, 2000);
+          } else {
+            addToCartBtn.classList.add('is-added');
+            addToCartBtn.textContent = 'Added ✓';
+            document.dispatchEvent(new CustomEvent('cart:updated', { bubbles: true }));
+            // Revert back to original text after success
+            setTimeout(() => {
+              addToCartBtn.classList.remove('is-added');
+              addToCartBtn.disabled = false;
+              // Check what the text should be now, in case the variant became unavailable
+              const productHandle = card.dataset.handle;
+              const productData = allProductsData[productHandle];
+              const selectedVariant = productData.variants.find(v => v.id == form.querySelector('input[name="id"]').value);
+              if (selectedVariant && selectedVariant.available) {
+                  originalText = productData.id === 8964836262163 ? 'Add Sample Kit' : 'Add Sample';
+              } else {
+                  originalText = 'Sold Out';
+              }
+              addToCartBtn.textContent = originalText;
+            }, 2000);
+          }
+        });
+      });
+    } {% endcomment %}
+
+    function closeAndResetModal() {
+      $(modal).find('.slick-initialized').slick('unslick');
+      modal.style.display = 'none';
+      document.documentElement.classList.remove('collection-modal-is-open');
+    }
+
+    closeModalBtn.addEventListener('click', closeAndResetModal);
+    
+    window.addEventListener('click', (event) => {
+        if (event.target == modal) {
+            closeAndResetModal();
+        }
+    });
+  });
+</script>
+
+   <script>
+      {% comment %} document.addEventListener('DOMContentLoaded', function() {
+        // Find all product cards on the page
+        const productCards = document.querySelectorAll('.product-card');
+
+        productCards.forEach(card => {
+          // Get the data we stored in the card
+          const variantData = JSON.parse(card.querySelector('[data-variant-json]').textContent);
+          const priceContainer = card.querySelector('.price-wrap-pro-page');
+          const variantIdInput = card.querySelector('input[name="id"]');
+          const addToCartButton = card.querySelector('.add-to-cart-btn');
+          const allRadioButtons = card.querySelectorAll('input[type="radio"]');
+
+          // Function to update everything on the card
+          const updateCard = () => {
+            // Find which options are selected
+            const selectedOptions = Array.from(card.querySelectorAll('input[type="radio"]:checked')).map(radio => radio.value);
+            
+            // Find the variant that matches the selected options
+            const selectedVariant = variantData.find(variant => {
+              return selectedOptions.every((optionValue, index) => variant.options[index] === optionValue);
+            });
+
+            if (!selectedVariant) return;
+
+            // --- 1. Update the hidden input for the cart form ---
+            if (variantIdInput) {
+              variantIdInput.value = selectedVariant.id;
+            }
+            
+            // --- 2. Update the Price Display ---
+            if (priceContainer) {
+              const price = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(selectedVariant.price / 100);
+              let priceHtml = `<span class="actual-price">${price}</span>`;
+              
+              if (selectedVariant.compare_at_price > selectedVariant.price) {
+                const compareAtPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(selectedVariant.compare_at_price / 100);
+                const savings = Math.round((selectedVariant.compare_at_price - selectedVariant.price) * 100 / selectedVariant.compare_at_price);
+                priceHtml += `<del class="compare-at-price">${compareAtPrice}</del>`;
+                priceHtml += `<span class="off_text">${savings}% OFF</span>`;
+              }
+              
+              priceContainer.innerHTML = priceHtml;
+            }
+
+            // --- 3. Update the Add to Cart button ---
+            if (addToCartButton) {
+              if (selectedVariant.available) {
+                  addToCartButton.disabled = false;
+                  // This re-applies your custom text logic
+                  if (card.dataset.handle === 'your-special-product-handle') { // Replace with actual handle if needed
+                      addToCartButton.textContent = 'Add Sample Kit';
+                  } else {
+                      addToCartButton.textContent = 'Add Sample';
+                  }
+              } else {
+                  addToCartButton.disabled = true;
+                  addToCartButton.textContent = 'Sold Out';
+              }
+            }
+          };
+
+          // Listen for changes on any radio button in this card
+          allRadioButtons.forEach(radio => {
+            radio.addEventListener('change', updateCard);
+          });
+        });
+      }); {% endcomment %}
+      {% comment %} document.addEventListener('DOMContentLoaded', function() {
+        const productCards = document.querySelectorAll('.product-card');
+
+        productCards.forEach(card => {
+          const variantData = JSON.parse(card.querySelector('[data-variant-json]').textContent);
+          const priceContainer = card.querySelector('.price-wrap-pro-page');
+          const variantIdInput = card.querySelector('input[name="id"]');
+          const addToCartButton = card.querySelector('.add-to-cart-btn');
+          const allRadioButtons = card.querySelectorAll('input[type="radio"]');
+
+          const updateCard = () => {
+            // Get current selections
+            const selectedOptions = Array.from(card.querySelectorAll('input[type="radio"]:checked')).map(radio => radio.value);
+            
+            // Find matching variant
+            const selectedVariant = variantData.find(variant => {
+              return selectedOptions.every((optionValue, index) => variant.options[index] === optionValue);
+            });
+
+            if (!selectedVariant) return;
+
+            // Update form/price/button (your existing code)
+            if (variantIdInput) variantIdInput.value = selectedVariant.id;
+            
+            if (priceContainer) {
+              const price = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(selectedVariant.price / 100);
+              let priceHtml = `<span class="actual-price">${price}</span>`;
+              
+              if (selectedVariant.compare_at_price > selectedVariant.price) {
+                const compareAtPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(selectedVariant.compare_at_price / 100);
+                const savings = Math.round((selectedVariant.compare_at_price - selectedVariant.price) * 100 / selectedVariant.compare_at_price);
+                priceHtml += `<del class="compare-at-price">${compareAtPrice}</del>`;
+                priceHtml += `<span class="off_text">${savings}% OFF</span>`;
+              }
+              
+              priceContainer.innerHTML = priceHtml;
+            }
+
+            if (addToCartButton) {
+              if (selectedVariant.available) {
+                addToCartButton.disabled = false;
+                addToCartButton.textContent = card.dataset.handle === 'your-special-product-handle' ? 'Add Sample Kit' : 'Add Sample';
+              } else {
+                addToCartButton.disabled = true;
+                addToCartButton.textContent = 'Sold Out';
+              }
+            }
+
+            // 🔥 NEW: Update option availability highlighting
+            updateOptionAvailability(card, selectedOptions);
+          };
+
+          // 🔥 NEW: Function to highlight available options + auto-select
+          const updateOptionAvailability = (card, currentSelections) => {
+            // Reset all options to normal
+            card.querySelectorAll('.product-card-option__swatch').forEach(swatch => {
+              swatch.classList.remove('available', 'unavailable', 'auto-selected');
+            });
+
+            // Group radios by option group (Model, Bevel, Type)
+            const optionGroups = {};
+            card.querySelectorAll('input[type="radio"]').forEach(radio => {
+              const groupName = radio.name.split('-')[1]; // "Model", "Bevel", "Type"
+              if (!optionGroups[groupName]) optionGroups[groupName] = [];
+              optionGroups[groupName].push(radio);
+            });
+
+            // For each option group, check compatibility
+            Object.values(optionGroups).forEach(groupRadios => {
+              groupRadios.forEach(radio => {
+                const testValue = radio.value;
+                const testSelections = [...currentSelections];
+
+                // Replace current selection for this group
+                const groupIndex = parseInt(radio.name.split('-')[1] === 'Model' ? 0 : 
+                                          radio.name.split('-')[1] === 'Bevel' ? 1 : 2);
+                if (testSelections[groupIndex]) testSelections[groupIndex] = testValue;
+
+                // Check if this option creates a valid variant
+                const testVariant = variantData.find(variant => {
+                  return testSelections.every((optionValue, index) => variant.options[index] === optionValue);
+                });
+
+                const swatch = radio.closest('.product-card-option__swatch');
+                if (testVariant) {
+                  swatch.classList.add('available');
+                  if (!radio.checked) swatch.classList.add('auto-selectable');
+                } else {
+                  swatch.classList.add('unavailable');
+                }
+              });
+            });
+
+            // 🔥 Auto-select first available option in incomplete groups
+            const incompleteGroups = Object.keys(optionGroups).filter(groupName => {
+              const groupRadios = optionGroups[groupName];
+              return !groupRadios.some(radio => radio.checked);
+            });
+
+            incompleteGroups.forEach(groupName => {
+              const availableRadios = optionGroups[groupName].filter(radio => {
+                radio.closest('.product-card-option__swatch').classList.contains('available');
+              });
+              if (availableRadios.length > 0) {
+                const firstAvailable = availableRadios[0];
+                firstAvailable.checked = true;
+                firstAvailable.closest('.product-card-option__swatch').classList.add('auto-selected');
+                firstAvailable.dispatchEvent(new Event('change'));
+              }
+            });
+          };
+
+          // Listen for changes
+          allRadioButtons.forEach(radio => {
+            radio.addEventListener('change', updateCard);
+          });
+
+          // 🔥 Initial availability check
+          updateOptionAvailability(card, []);
+        });
+      }); {% endcomment %}
+      {% comment %} document.addEventListener('DOMContentLoaded', function() {
+        const productCards = document.querySelectorAll('.product-card');
+
+        productCards.forEach(card => {
+          const variantData = JSON.parse(card.querySelector('[data-variant-json]').textContent);
+          const priceContainer = card.querySelector('.price-wrap-pro-page');
+          const variantIdInput = card.querySelector('input[name="id"]');
+          const addToCartButton = card.querySelector('.add-to-cart-btn');
+          const allRadioButtons = card.querySelectorAll('input[type="radio"]');
+
+          const updateCard = () => {
+            const selectedOptions = Array.from(card.querySelectorAll('input[type="radio"]:checked')).map(radio => radio.value);
+            const selectedVariant = variantData.find(variant => {
+              return selectedOptions.every((optionValue, index) => variant.options[index] === optionValue);
+            });
+
+            if (!selectedVariant) return;
+
+            // Your existing price/form/button updates...
+            if (variantIdInput) variantIdInput.value = selectedVariant.id;
+            
+            if (priceContainer) {
+              const price = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(selectedVariant.price / 100);
+              let priceHtml = `<span class="actual-price">${price}</span>`;
+              
+              if (selectedVariant.compare_at_price > selectedVariant.price) {
+                const compareAtPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(selectedVariant.compare_at_price / 100);
+                const savings = Math.round((selectedVariant.compare_at_price - selectedVariant.price) * 100 / selectedVariant.compare_at_price);
+                priceHtml += `<del class="compare-at-price">${compareAtPrice}</del>`;
+                priceHtml += `<span class="off_text">${savings}% OFF</span>`;
+              }
+              
+              priceContainer.innerHTML = priceHtml;
+            }
+
+            if (addToCartButton) {
+              if (selectedVariant.available) {
+                addToCartButton.disabled = false;
+                addToCartButton.textContent = card.dataset.handle === 'your-special-product-handle' ? 'Add Sample Kit' : 'Add Sample';
+              } else {
+                addToCartButton.disabled = true;
+                addToCartButton.textContent = 'Sold Out';
+              }
+            }
+
+            // 🔥 Update highlighting AFTER price update
+            updateOptionAvailability(card, selectedOptions);
+          };
+
+          const updateOptionAvailability = (card, currentSelections) => {
+            // Reset all
+            card.querySelectorAll('.product-card-option__swatch').forEach(swatch => {
+              swatch.classList.remove('available', 'unavailable', 'auto-selected');
+            });
+
+            const optionGroups = {};
+            card.querySelectorAll('input[type="radio"]').forEach(radio => {
+              const groupName = radio.name.split('-')[1];
+              if (!optionGroups[groupName]) optionGroups[groupName] = [];
+              optionGroups[groupName].push(radio);
+            });
+
+            Object.values(optionGroups).forEach(groupRadios => {
+              groupRadios.forEach(radio => {
+                const testValue = radio.value;
+                const testSelections = [...currentSelections];
+                const groupIndex = parseInt(radio.name.split('-')[1] === 'Model' ? 0 : 
+                                          radio.name.split('-')[1] === 'Bevel' ? 1 : 2);
+                if (testSelections[groupIndex]) testSelections[groupIndex] = testValue;
+
+                const testVariant = variantData.find(variant => {
+                  return testSelections.every((optionValue, index) => variant.options[index] === optionValue);
+                });
+
+                const swatch = radio.closest('.product-card-option__swatch');
+                if (testVariant) {
+                  swatch.classList.add('available');
+                } else {
+                  swatch.classList.add('unavailable');
+                }
+              });
+            });
+          };
+
+          // 🔥 1. INITIAL HIGHLIGHTING on page load
+          updateOptionAvailability(card, []);
+
+          // 🔥 2. Listen for changes
+          allRadioButtons.forEach(radio => {
+            radio.addEventListener('change', updateCard);
+          });
+
+          // 🔥 3. Initial price/button update (triggers highlighting)
+          updateCard();
+        });
+      }); {% endcomment %}
+
+      document.addEventListener('DOMContentLoaded', function() {
+  const productCards = document.querySelectorAll('.product-card');
+
+  productCards.forEach(card => {
+    const variantData = JSON.parse(card.querySelector('[data-variant-json]').textContent);
+    const priceContainer = card.querySelector('.price-wrap-pro-page');
+    const variantIdInput = card.querySelector('input[name="id"]');
+    const addToCartButton = card.querySelector('.add-to-cart-btn');
+    const allRadioButtons = card.querySelectorAll('input[type="radio"]');
+
+    const updateCard = () => {
+      const selectedOptions = Array.from(card.querySelectorAll('input[type="radio"]:checked')).map(radio => radio.value);
+      const selectedVariant = variantData.find(variant => {
+        return selectedOptions.every((optionValue, index) => variant.options[index] === optionValue);
+      });
+
+      if (!selectedVariant) return;
+
+      // Your existing updates...
+      if (variantIdInput) variantIdInput.value = selectedVariant.id;
+      
+      if (priceContainer) {
+        const price = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(selectedVariant.price / 100);
+        let priceHtml = `<span class="actual-price">${price}</span>`;
+        
+        if (selectedVariant.compare_at_price > selectedVariant.price) {
+          const compareAtPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(selectedVariant.compare_at_price / 100);
+          const savings = Math.round((selectedVariant.compare_at_price - selectedVariant.price) * 100 / selectedVariant.compare_at_price);
+          priceHtml += `<del class="compare-at-price">${compareAtPrice}</del>`;
+          priceHtml += `<span class="off_text">${savings}% OFF</span>`;
+        }
+        
+        priceContainer.innerHTML = priceHtml;
+      }
+
+      if (addToCartButton) {
+        if (selectedVariant.available) {
+          addToCartButton.disabled = false;
+          addToCartButton.textContent = card.dataset.handle === 'your-special-product-handle' ? 'Add Sample Kit' : 'Add Sample';
+        } else {
+          addToCartButton.disabled = true;
+          addToCartButton.textContent = 'Sold Out';
+        }
+      }
+    };
+
+    // 🔥 UPDATED: Model-driven availability
+    const updateModelDrivenAvailability = () => {
+      // Reset highlighting
+      card.querySelectorAll('.product-card-option__swatch').forEach(swatch => {
+        swatch.classList.remove('available', 'unavailable', 'auto-selected');
+      });
+
+      // Get current Model selection
+      const modelRadios = card.querySelectorAll('input[name$="-Model"]');
+      const selectedModelRadio = Array.from(modelRadios).find(radio => radio.checked);
+      const selectedModel = selectedModelRadio ? selectedModelRadio.value : null;
+
+      if (!selectedModel) {
+        // No model selected → all disabled
+        card.querySelectorAll('.product-card-option__swatch:not([name*="-Model"])').forEach(swatch => {
+          swatch.classList.add('unavailable');
+        });
+        return;
+      }
+
+      // 🔥 SPECIAL LOGIC: Base/Craftsman/Herringbone → Force Micro
+      const limitedModels = ['Base', 'Craftsman', 'Herringbone'];
+      const bevelRadios = card.querySelectorAll('input[name$="-Bevel"]');
+      const microRadio = Array.from(bevelRadios).find(radio => radio.value === 'Micro');
+
+      if (limitedModels.includes(selectedModel) && microRadio) {
+        // Auto-select Micro for limited models
+        microRadio.checked = true;
+        microRadio.closest('.product-card-option__swatch').classList.add('auto-selected');
+        microRadio.dispatchEvent(new Event('change'));
+      }
+
+      // Highlight ALL Model options as available (Model never restricted)
+      modelRadios.forEach(radio => {
+        radio.closest('.product-card-option__swatch').classList.add('available');
+      });
+
+      // Highlight Bevel/Type based on selected Model
+      const otherGroups = ['Bevel', 'Type'];
+      otherGroups.forEach(groupName => {
+        const groupRadios = card.querySelectorAll(`input[name$="-${groupName}"]`);
+        groupRadios.forEach(radio => {
+          // Test if this option works with current Model
+          const testSelections = [selectedModel]; // Model fixed
+          const groupIndex = groupName === 'Bevel' ? 1 : 2;
+          
+          // Fill other selections
+          const otherRadios = card.querySelectorAll(`input[name$="-${groupName === 'Bevel' ? 'Type' : 'Bevel'}"]:checked`);
+          otherRadios.forEach(otherRadio => {
+            testSelections[groupIndex === 1 ? 2 : 1] = otherRadio.value;
+          });
+          testSelections[groupIndex] = radio.value;
+
+          const testVariant = variantData.find(variant => {
+            return testSelections.every((optionValue, index) => variant.options[index] === optionValue);
+          });
+
+          const swatch = radio.closest('.product-card-option__swatch');
+          if (testVariant) {
+            swatch.classList.add('available');
+          } else {
+            swatch.classList.add('unavailable');
+          }
+        });
+      });
+    };
+
+    // 🔥 Only Model changes trigger availability update
+    const modelRadios = card.querySelectorAll('input[name$="-Model"]');
+    modelRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        updateModelDrivenAvailability();
+        updateCard(); // Also update price
+      });
+    });
+
+    // Other groups only update price (no availability change)
+    const otherRadios = card.querySelectorAll('input[type="radio"]:not([name$="-Model"])');
+    otherRadios.forEach(radio => {
+      radio.addEventListener('change', updateCard);
+    });
+
+    // 🔥 Initial setup
+    updateModelDrivenAvailability();
+    updateCard();
+  });
+});
+
+
+    </script>
+   

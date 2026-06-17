@@ -1,0 +1,31 @@
+{% assign _settings = section.settings %}
+
+<section>
+  <div class="container">
+     {% if _settings.video != blank %}
+      {{ _settings.video }}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video",
+  "class": "shopify-block video-block",
+  "settings": [
+
+    {
+      "type": "textarea",
+      "id": "video",
+      "label": "Video"
+    }
+
+  ],
+  "presets": [
+    {
+      "name": "Video",
+      "category": "Video"
+    }
+  ]
+}
+{% endschema %}

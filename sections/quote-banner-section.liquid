@@ -1,0 +1,354 @@
+{% comment %}
+  Quote Banner Section
+  Layout: single quote + author, full-width background
+{% endcomment %}
+
+<section
+  id="QuoteBanner-{{ section.id }}"
+  class="qb"
+  style="
+    --qb-bg: {{ section.settings.section_bg_color }};
+    --qb-max: {{ section.settings.section_max_width }}px;
+
+    --qb-pt: {{ section.settings.section_padding_top_desktop }}px;
+    --qb-pr: {{ section.settings.section_padding_right_desktop }}px;
+    --qb-pb: {{ section.settings.section_padding_bottom_desktop }}px;
+    --qb-pl: {{ section.settings.section_padding_left_desktop }}px;
+
+    --qb-pt-m: {{ section.settings.section_padding_top_mobile }}px;
+    --qb-pr-m: {{ section.settings.section_padding_right_mobile }}px;
+    --qb-pb-m: {{ section.settings.section_padding_bottom_mobile }}px;
+    --qb-pl-m: {{ section.settings.section_padding_left_mobile }}px;
+
+    --qb-border-color: {{ section.settings.border_color }};
+    --qb-border-width: {{ section.settings.border_width }}px;
+
+    --qb-quote-c: {{ section.settings.quote_color }};
+    --qb-quote-s: {{ section.settings.quote_size_desktop }}px;
+    --qb-quote-s-m: {{ section.settings.quote_size_mobile }}px;
+    --qb-quote-w: {{ section.settings.quote_weight }};
+    --qb-quote-lh: {{ section.settings.quote_line_height }};
+    --qb-quote-ls: {{ section.settings.quote_letter_spacing }}px;
+
+    --qb-author-c: {{ section.settings.author_color }};
+    --qb-author-s: {{ section.settings.author_size_desktop }}px;
+    --qb-author-s-m: {{ section.settings.author_size_mobile }}px;
+    --qb-author-w: {{ section.settings.author_weight }};
+    --qb-author-lh: {{ section.settings.author_line_height }};
+    --qb-author-ls: {{ section.settings.author_letter_spacing }}px;
+
+    --qb-gap: {{ section.settings.content_gap }}px;
+    --qb-align: {{ section.settings.text_align }};
+  "
+>
+  <div class="qb__wrap {% unless section.settings.full_width %}qb__wrap--contained{% endunless %}">
+    <div class="qb__inner">
+      <div class="qb__accent"></div>
+
+      <div class="qb__content">
+        {% if section.settings.quote != blank %}
+          <div class="qb__quote">
+            {% if section.settings.enable_quote_marks %}<span class="qb__qmark">“</span>{% endif %}
+            {{ section.settings.quote }}
+            {% if section.settings.enable_quote_marks %}<span class="qb__qmark">”</span>{% endif %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.author != blank %}
+          <div class="qb__author">
+            {{ section.settings.author }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .qb {
+    background: var(--qb-bg);
+    padding: var(--qb-pt) var(--qb-pr) var(--qb-pb) var(--qb-pl);
+  }
+
+  .qb__wrap  {
+    max-width: var(--qb-max);
+    margin: auto;
+  }
+
+  .qb__wrap--contained {
+    max-width: var(--qb-max);
+    margin: 0 auto;
+  }
+
+  .qb__inner {
+    display: flex;
+    align-items: center;
+    border-bottom: var(--qb-border-width) solid var(--qb-border-color);
+    {% comment %} padding-bottom: var(--qb-pt); {% endcomment %}
+    position:relative;
+  }
+
+  .qb__accent {
+    width: 6px;
+    border-radius: 999px;
+    background: var(--qb-border-color);
+    margin-right: 24px;
+    flex-shrink: 0;
+    position:absolute;
+    height: 94%;
+    top: 0;
+
+  }
+
+  .qb__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--qb-gap);
+    text-align: var(--qb-align);
+    padding-left: 55.5px;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .qb__quote {
+    color: var(--qb-quote-c);
+    font-size: var(--qb-quote-s);
+    font-weight: var(--qb-quote-w);
+    line-height: var(--qb-quote-lh);
+    letter-spacing: var(--qb-quote-ls);
+    font-family: {{ section.settings.font_quote | json }}, serif;
+  }
+
+  .qb__qmark {
+    opacity: 0.9;
+  }
+
+  .qb__author {
+    color: var(--qb-author-c);
+    font-size: var(--qb-author-s);
+    font-weight: var(--qb-author-w);
+    line-height: var(--qb-author-lh);
+    letter-spacing: var(--qb-author-ls);
+    font-family: {{ section.settings.font_author | json }}, sans-serif;
+  }
+
+  @media (max-width: 749px) {
+    .qb__content {
+            padding-left: 0px;
+    }
+    .qb__accent {
+        height: 6px;
+        width: 100%;
+        bottom: 0;
+        top: unset;
+        max-width: 273px;
+    }
+    .qb {
+      padding: var(--qb-pt-m) var(--qb-pr-m) var(--qb-pb-m) var(--qb-pl-m);
+    }
+
+    .qb__inner {
+      padding-bottom: var(--qb-pt-m);
+    }
+
+    .qb__quote {
+      font-size: var(--qb-quote-s-m);
+    }
+
+    .qb__author {
+      font-size: var(--qb-author-s-m);
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Quote banner",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width section",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section container"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background",
+      "default": "#f7f3eb"
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "min": 800,
+      "max": 2000,
+      "step": 20,
+      "label": "Section max width (px)",
+      "default": 1400,
+      "info": "Ignored when Full width is enabled."
+    },
+
+    {
+      "type": "header",
+      "content": "Section padding (desktop)"
+    },
+    { "type": "range", "id": "section_padding_top_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding top (px)", "default": 60 },
+    { "type": "range", "id": "section_padding_right_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding right (px)", "default": 40 },
+    { "type": "range", "id": "section_padding_bottom_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding bottom (px)", "default": 60 },
+    { "type": "range", "id": "section_padding_left_desktop", "min": 0, "max": 200, "step": 2, "label": "Padding left (px)", "default": 40 },
+
+    {
+      "type": "header",
+      "content": "Section padding (mobile)"
+    },
+    { "type": "range", "id": "section_padding_top_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding top (px)", "default": 40 },
+    { "type": "range", "id": "section_padding_right_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding right (px)", "default": 20 },
+    { "type": "range", "id": "section_padding_bottom_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding bottom (px)", "default": 40 },
+    { "type": "range", "id": "section_padding_left_mobile", "min": 0, "max": 150, "step": 2, "label": "Padding left (px)", "default": 20 },
+
+    {
+      "type": "header",
+      "content": "Border / accent"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Accent / border color",
+      "default": "#f5a623"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "label": "Bottom border thickness (px)",
+      "default": 0
+    },
+
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote text",
+      "default": "We set out to build floors we would install in our own homes — and that standard has never changed."
+    },
+    {
+      "type": "text",
+      "id": "author",
+      "label": "Author",
+      "default": "Tai, Co‑Founder"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quote_marks",
+      "label": "Show quote marks",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "Gap between quote and author (px)",
+      "default": 1
+    },
+
+    {
+      "type": "header",
+      "content": "Typography - quote"
+    },
+    { "type": "color", "id": "quote_color", "label": "Quote color", "default": "#111111" },
+    { "type": "range", "id": "quote_size_desktop", "min": 16, "max":100, "step": 1, "label": "Quote size desktop (px)", "default": 32 },
+    { "type": "range", "id": "quote_size_mobile", "min": 14, "max": 100, "step": 1, "label": "Quote size mobile (px)", "default": 22 },
+    {
+      "type": "select",
+      "id": "quote_weight",
+      "label": "Quote weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    { "type": "range", "id": "quote_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Quote line height", "default": 1.2 },
+    { "type": "range", "id": "quote_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Quote letter spacing (px)", "default": 0 },
+
+    {
+      "type": "header",
+      "content": "Typography - author"
+    },
+    { "type": "color", "id": "author_color", "label": "Author color", "default": "#111111" },
+    { "type": "range", "id": "author_size_desktop", "min": 10, "max": 32, "step": 1, "label": "Author size desktop (px)", "default": 14 },
+    { "type": "range", "id": "author_size_mobile", "min": 10, "max": 28, "step": 1, "label": "Author size mobile (px)", "default": 13 },
+    {
+      "type": "select",
+      "id": "author_weight",
+      "label": "Author weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "author_line_height", "min": 1, "max": 2, "step": 0.1, "label": "Author line height", "default": 1.4 },
+    { "type": "range", "id": "author_letter_spacing", "min": -1, "max": 4, "step": 0.1, "label": "Author letter spacing (px)", "default": 0 },
+
+    {
+      "type": "header",
+      "content": "Font families"
+    },
+    {
+      "type": "select",
+      "id": "font_quote",
+      "label": "Font family: Quote",
+      "options": [
+        { "value": "Playfair Display", "label": "Playfair Display" },
+        { "value": "Georgia", "label": "Georgia" },
+        { "value": "Times New Roman", "label": "Times New Roman" }
+      ],
+      "default": "Playfair Display"
+    },
+    {
+      "type": "select",
+      "id": "font_author",
+      "label": "Font family: Author",
+      "options": [
+        { "value": "Montserrat", "label": "Montserrat" },
+        { "value": "Roboto", "label": "Roboto" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quote banner"
+    }
+  ]
+}
+{% endschema %}

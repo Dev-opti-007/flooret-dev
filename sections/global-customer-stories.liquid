@@ -1,0 +1,528 @@
+{% assign module = section.settings %}
+
+<style>
+  .cstories {
+    padding-top: 0px;
+  }
+
+  .customer-stories-title {
+    font-family: "Playfair Display";
+    font-size: 64px;
+    font-weight: 700;
+    Line-height: 150%;
+    Letter-spacing: 0%;
+  }
+
+  .cstories .overlay {
+    top: 210px;
+    width: 100%;
+    height: 650px;
+    position: absolute;
+    background-color: #F4F3F1;
+  }
+
+  .block-container {
+    gap: 56px;
+    display: grid;
+    width: 1120px;
+    height: 800px;
+    object-fit: cover;
+    justify-self: center;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  }
+
+  .cstory__image {
+    height: 240px;
+    min-width: 336px;
+    border-radius: 8px;
+  }
+
+  .cstory__content {
+    gap: 16px;
+    opacity: 0;
+    padding: 24px;
+    min-width: 336px;
+    border-radius: 8px;
+    background-color: #00000090;
+    flex-direction: column !important;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .cstory:has(.cstory__content:hover) .cstory__image {
+    filter: blur(1.5px);
+  }
+
+  .cstory__content:hover {
+    opacity: 1;
+  }
+
+  {% comment %} Card-content {% endcomment %}
+
+  .cstory_card_header {
+    gap: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .cstory_card_container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .cstory__avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .cstory__customer {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 140%;
+    letter-spacing: 0%;
+  }
+
+  .cstory_card_title {
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 120%;
+    letter-spacing: 0%;
+  }
+
+  .cstory_card_description {
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: 0%;
+  }
+
+  .cstory_card_action {
+    font-weight: 500;
+  }
+
+  {% comment %} End card {% endcomment %}
+
+  .cta-description {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0%;
+    font-family: "Montserrat";
+  }
+
+  .cta-btn {
+    margin-top: 24px;
+  }
+
+  .cstory_action_card {
+    z-index: 2;
+  }
+  
+  .cst-swiper-btn, .cstory_mobile_action {
+    display: none ;
+  }    
+
+  @media (max-width: 598px) {
+    .cst-swiper-btn {
+      width: 8vw !important;
+      height: 8vw !important;
+      min-width: 40px;
+      min-height: 40px;
+      display: block !important;
+    }
+
+    #cstory_wrap {
+      height: 100%;
+    }
+
+    .cstory_card_header {
+      display: flex;
+      align-items: center;
+    }
+
+    .cstory_card_container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .customer-stories-title {
+      font-family: "Playfair Display";
+      font-size: 10.2vw;
+    }
+
+    .cstory__avatar {
+      width: 32px;
+      height: 32px;
+    }
+
+    .cstory__customer {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 140%;
+      letter-spacing: 0%;
+    }
+
+    .cstory_card_title {
+      margin: 0px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 120%;
+      letter-spacing: 0%;
+    }
+
+    .cstory_card_description {
+      margin: 0px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 120%;
+      letter-spacing: 0%;
+    }
+
+    .cstory_card_action {
+      font-weight: 500;
+    }
+
+    .cstory__content {
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      padding:32px;
+      color: #ffffff;
+      text-align: left;
+      height: 100% !important;
+    }
+
+    .cstory {
+      aspect-ratio: 2/3 !important;
+    }
+
+    #cstory_wrap {
+      height: 100%;
+    }
+
+    .cstory__content .cstory__image {
+      height: 100%;
+    }
+
+    .cstory__image {
+      height: 100%;
+    }
+
+    .cstory__image img {
+      height: 100%;
+    }
+
+    .cstory__wrap {
+      transform-origin: 50% 100%;
+    }
+
+    .cstory__image {
+      border-radius: 16px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .cstory__image img, .cstory_action_card {
+      display: none;
+    }
+
+    .cstory__content {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 16px;
+    }
+
+    .cstory_card_action {
+      font-size: 16px;
+    }
+
+    .cstory_card_description {
+      font-size: 14px;
+    }
+
+    .cstory_card_title {
+      font-size: 14px;
+    }
+
+    .cstory__avatar {
+      width: 32px;
+      height: 32px;
+    }
+
+    .cstory__customer {
+      font-size: 18px;
+    }
+
+    .cstory_mobile_action {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .cstory_mobile_action .cta_description{
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .cstory_mobile_action .cta-btn {
+      padding: 10px 24px;
+      margin-top: 4vw;
+      width: unset !important;
+    }
+
+    .cstories .swiper-button-prev, .swiper-button-next {
+      top: var(--swiper-navigation-top-offset, 40%);
+    }
+
+    .cstory_action_card {
+      display: none;
+    }
+
+    .cstory__content {
+      background-color: #00000000;
+    }
+
+    .cstory__image, .cstory__content {
+      min-width: unset !important;
+    }
+
+    .cstories .container {
+      margin-top: 32px;
+    }
+  }
+  
+  @media (max-width: 430px) {
+    .cstory_card_title, .cstory_card_description {
+      font-size: 12px;
+    }
+
+    .cstory_card_action {
+      font-size: 14px;
+    }
+
+    .cstory__customer {
+      font-size: 17px;
+      letter-spacing: 0px;
+      font-weight: 700;
+    }
+
+    .cstory__content {
+      height: auto;
+      gap: 8px;
+      padding: 24px;
+    }
+
+    .cstory__avatar {
+      margin-right: 8px !important;
+    }
+
+    .cstory_card_header {
+      gap: 0px;
+    }
+  }
+
+  .cstory {
+    position: relative !important;
+  }
+</style>
+
+<section class="cstories">
+  <div class="overlay"></div>
+
+  {% if module.heading != blank %}
+    <div class="section container">
+      <h2 class="customer-stories-title">{{ module.heading }}</h2>
+    </div>
+  {% endif %}
+
+  <div class="cstories__loop">
+    <div id="cstory_wrapper">
+      {% for block in section.blocks %}
+        {% liquid
+          assign item = block.settings
+          assign prod = all_products[item.product]
+        %}
+
+        <div class="cstory swiper-slide">
+          <div id="cstory_wrap" class="cstory__wrap">
+            <div
+              class="cstory__image"
+              style="background-image: url(//www.flooret.com/cdn/shop/{{ item.background_image }})"
+            >
+              {% render 'lazy-image', image: item.background_image %}
+            </div>
+            <div class="cstory__content">
+              <div class="cstory_card_header">
+                <div class="cstory__avatar">
+                  {% render 'lazy-image', image: item.avatar %}
+                </div>
+                <div class="cstory__customer">{{ item.name }}</div>
+              </div>
+              <p class="cstory_card_title">{{ item.quote_title }}</p>
+              <p class="cstory_card_description">{{ item.quote }}</p>
+              <a class="cstory_card_action" href="{{ item.link }}">Read Full Story</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      <div class="cstory_action_card">
+        {% if module.cta_link != blank %}
+          <p class="cta-description">{{- module.cta_description -}}</p>
+          <a
+            href="{{ module.cta_link }}"
+            class="btn btn--primary btn--white cta-btn"
+          >
+            {{- module.cta -}}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="cstory_mobile_action">
+      {% if module.cta_link != blank %}
+        <p class="cta-description">{{- module.cta_description -}}</p>
+        <a
+          href="{{ module.cta_link }}"
+          class="btn btn--primary btn--white cta-btn"
+        >
+          {{- module.cta -}}
+        </a>
+      {% endif %}
+    </div>
+    <button class="swiper-button-prev cst-swiper-btn"></button>
+    <button class="swiper-button-next cst-swiper-btn"></button>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cuistomer Stories",
+  "class": "shopify-block",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "cta",
+      "label": "CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_link",
+      "label": "CTA Link"
+    },
+    {
+      "type": "text",
+      "id": "cta_description",
+      "label": "CTA Description"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Avatar"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name"
+        },
+        {
+          "type": "text",
+          "id": "cta",
+          "label": "CTA"
+        },
+        {
+          "type": "text",
+          "id": "cta_url",
+          "label": "CTA URL"
+        },
+        {
+          "type": "text",
+          "id": "quote_title",
+          "label": "Quote title"
+        },
+        {
+          "type": "text",
+          "id": "quote",
+          "label": "Quote"
+        },
+        {
+          "type": "text",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Stories",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', setClasses);
+  window.addEventListener('resize', setClasses);
+
+  function setClasses() {
+    let isMobile = window.innerWidth <= 598;
+
+    let loop = document.querySelector('.cstories__loop');
+    let stories = document.querySelectorAll('.cstory'); 
+    let storyWraps = document.querySelectorAll('#cstory_wrap'); 
+    let storyWrapper = document.querySelector('#cstory_wrapper');
+
+    if (loop && storyWrapper) {
+      if (isMobile) {
+        loop.classList.add('swiper');
+        storyWrapper.classList.remove('block-container');
+        storyWrapper.classList.add('swiper-wrapper');
+
+        stories.forEach((story) => {
+          story.classList.add('swiper-slide');
+        });
+
+        storyWraps.forEach((wrap) => {
+          wrap.classList.add('cstory__wrap');
+        });
+      } else {
+        loop.classList.remove('swiper');
+        storyWrapper.classList.remove('swiper-wrapper');
+        storyWrapper.classList.add('block-container');
+
+        stories.forEach((story) => {
+          story.classList.remove('swiper-slide');
+        });
+
+        storyWraps.forEach((wrap) => {
+          wrap.classList.remove('cstory__wrap');
+        });
+      }
+    }
+  }
+</script>
