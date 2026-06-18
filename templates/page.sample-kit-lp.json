@@ -13,9 +13,29 @@
       "type": "main-page",
       "disabled": true,
       "settings": {}
+    },
+    "sample_kit_banner_lp_yKfkgF": {
+      "type": "sample-kit-banner-lp",
+      "name": "Sample Kit Hero",
+      "settings": {
+        "back_label": "Sample Kits",
+        "back_url": "",
+        "heading_tag": "h1",
+        "heading": "Discover what's inside every Flooret Sample Kit",
+        "cta_label": "Shop Samples",
+        "cta_url": "",
+        "section_height_desktop": 500,
+        "section_height_mobile": 680,
+        "overlay_opacity": 55,
+        "heading_color": "#ffffff",
+        "cta_color": "#ffffff",
+        "pill_bg": "#ffffff",
+        "pill_text_color": "#1a1a1a"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "sample_kit_banner_lp_yKfkgF"
   ]
 }

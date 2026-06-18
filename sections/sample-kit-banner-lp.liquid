@@ -1,978 +1,422 @@
-{% liquid
-    assign section_id = 'sample-kit-banner-' | append: section.id
-    assign desktop_image = section.settings.desktop_image
-    assign mobile_image = section.settings.mobile_image
-    assign back_label = section.settings.back_label
-    assign back_url = section.settings.back_url
-    assign heading = section.settings.heading
-    assign cta_text = section.settings.cta_text
-    assign cta_url = section.settings.cta_url
-    assign full_width = section.settings.full_width
-    assign content_width_class = 'page-width'
-    if full_width
-      assign content_width_class = 'sample-kit-banner__inner--full'
-    endif
-  %}
-  
-  <style>
-    #{{ section_id }} {
-      --section-bg: {{ section.settings.section_bg }};
-      --overlay-color: {{ section.settings.overlay_color }};
-      --overlay-opacity-desktop: {{ section.settings.overlay_opacity_desktop | divided_by: 100.0 }};
-      --overlay-opacity-mobile: {{ section.settings.overlay_opacity_mobile | divided_by: 100.0 }};
-  
-      --section-height-desktop: {{ section.settings.section_height_desktop }}px;
-      --section-height-mobile: {{ section.settings.section_height_mobile }}px;
-  
-      --content-max-width: {{ section.settings.content_max_width }}px;
-      --content-max-width-mobile: {{ section.settings.content_max_width_mobile }}px;
-  
-      --content-horizontal-position: {{ section.settings.content_left_desktop }}%;
-      --content-bottom-position: {{ section.settings.content_bottom_desktop }}px;
-      --content-top-spacing: {{ section.settings.content_top_desktop }}px;
-  
-      --content-horizontal-position-mobile: {{ section.settings.content_left_mobile }}px;
-      --content-bottom-position-mobile: {{ section.settings.content_bottom_mobile }}px;
-      --content-top-spacing-mobile: {{ section.settings.content_top_mobile }}px;
-  
-      --heading-color: {{ section.settings.heading_color }};
-      --heading-font: {{ section.settings.font_heading }};
-      --heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
-      --heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
-      --heading-line-height-desktop: {{ section.settings.heading_line_height_desktop }};
-      --heading-line-height-mobile: {{ section.settings.heading_line_height_mobile }};
-      --heading-letter-spacing-desktop: {{ section.settings.heading_letter_spacing_desktop }}px;
-      --heading-letter-spacing-mobile: {{ section.settings.heading_letter_spacing_mobile }}px;
-      --heading-font-weight: {{ section.settings.heading_font_weight }};
-      --heading-font-style: {% if section.settings.heading_italic %}italic{% else %}normal{% endif %};
-  
-      --pill-bg: {{ section.settings.pill_bg }};
-      --pill-color: {{ section.settings.pill_text_color }};
-      --pill-border-color: {{ section.settings.pill_border_color }};
-      --pill-font: {{ section.settings.font_body }};
-      --pill-font-size-desktop: {{ section.settings.pill_font_size_desktop }}px;
-      --pill-font-size-mobile: {{ section.settings.pill_font_size_mobile }}px;
-      --pill-padding-y-desktop: {{ section.settings.pill_padding_y_desktop }}px;
-      --pill-padding-x-desktop: {{ section.settings.pill_padding_x_desktop }}px;
-      --pill-padding-y-mobile: {{ section.settings.pill_padding_y_mobile }}px;
-      --pill-padding-x-mobile: {{ section.settings.pill_padding_x_mobile }}px;
-  
-      --cta-color: {{ section.settings.cta_color }};
-      --cta-hover-color: {{ section.settings.cta_hover_color }};
-      --cta-font: {{ section.settings.font_body }};
-      --cta-font-size-desktop: {{ section.settings.cta_font_size_desktop }}px;
-      --cta-font-size-mobile: {{ section.settings.cta_font_size_mobile }}px;
-      --cta-font-weight: {{ section.settings.cta_font_weight }};
-      --cta-letter-spacing-desktop: {{ section.settings.cta_letter_spacing_desktop }}px;
-      --cta-letter-spacing-mobile: {{ section.settings.cta_letter_spacing_mobile }}px;
-      --cta-underline-thickness: {{ section.settings.cta_underline_thickness }}px;
-      --cta-underline-offset: {{ section.settings.cta_underline_offset }}px;
-  
-      --desktop-image-position-x: {{ section.settings.desktop_image_position_x }}%;
-      --desktop-image-position-y: {{ section.settings.desktop_image_position_y }}%;
-      --mobile-image-position-x: {{ section.settings.mobile_image_position_x }}%;
-      --mobile-image-position-y: {{ section.settings.mobile_image_position_y }}%;
-  
-      --padding-top-desktop: {{ section.settings.padding_top_desktop }}px;
-      --padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px;
-      --padding-left-desktop: {{ section.settings.padding_left_desktop }}px;
-      --padding-right-desktop: {{ section.settings.padding_right_desktop }}px;
-  
-      --padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
-      --padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
-      --padding-left-mobile: {{ section.settings.padding_left_mobile }}px;
-      --padding-right-mobile: {{ section.settings.padding_right_mobile }}px;
-    }
-  
-    #{{ section_id }} {
-      position: relative;
-      width: 100%;
-      background: var(--section-bg);
-      padding-top: var(--padding-top-desktop);
-      padding-bottom: var(--padding-bottom-desktop);
-      padding-left: var(--padding-left-desktop);
-      padding-right: var(--padding-right-desktop);
-    }
-  
-    #{{ section_id }} .sample-kit-banner__outer {
-      position: relative;
-      width: 100%;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__inner--full {
-      width: 100%;
-      max-width: 100%;
-    }
-  
-    #{{ section_id }} .page-width {
-      max-width: 100%;
-      padding: 0;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__media {
-      position: relative;
-      width: 100%;
-      min-height: var(--section-height-desktop);
-      overflow: hidden;
-      background: #1f1f1f;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__image-wrap {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__image--desktop {
-      object-position: var(--desktop-image-position-x) var(--desktop-image-position-y);
-    }
-  
-    #{{ section_id }} .sample-kit-banner__image--mobile {
-      display: none;
-      object-position: var(--mobile-image-position-x) var(--mobile-image-position-y);
-    }
-  
-    #{{ section_id }} .sample-kit-banner__overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      background:
-        linear-gradient(
-          to top,
-          color-mix(in srgb, var(--overlay-color) calc(var(--overlay-opacity-desktop) * 100%), transparent) 0%,
-          color-mix(in srgb, var(--overlay-color) calc(var(--overlay-opacity-desktop) * 65%), transparent) 38%,
-          color-mix(in srgb, var(--overlay-color) calc(var(--overlay-opacity-desktop) * 18%), transparent) 68%,
-          transparent 100%
-        );
-      pointer-events: none;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__content {
-      position: relative;
-      z-index: 3;
-      min-height: var(--section-height-desktop);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding-top: var(--content-top-spacing);
-      padding-bottom: var(--content-bottom-position);
-    }
-  
-    #{{ section_id }} .sample-kit-banner__nav {
-      padding-left: var(--content-horizontal-position);
-      position: relative;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-      background: var(--pill-bg);
-      color: var(--pill-color);
-      border: 1px solid var(--pill-border-color);
-      border-radius: 999px;
-      padding: var(--pill-padding-y-desktop) var(--pill-padding-x-desktop);
-      font-family: var(--pill-font);
-      font-size: var(--pill-font-size-desktop);
-      line-height: 1;
-      font-weight: 500;
-      white-space: nowrap;
-      transition: all .25s ease;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__pill:hover {
-      opacity: .88;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__pill-icon {
-      font-size: 18px;
-      line-height: 1;
-      display: inline-block;
-      transform: translateY(-1px);
-    }
-  
-    #{{ section_id }} .sample-kit-banner__text {
-      max-width: var(--content-max-width);
-      margin-left: var(--content-horizontal-position);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 18px;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__heading {
-      margin: 0;
-      color: var(--heading-color);
-      font-family: var(--heading-font);
-      font-size: var(--heading-size-desktop);
-      line-height: var(--heading-line-height-desktop);
-      letter-spacing: var(--heading-letter-spacing-desktop);
-      font-weight: var(--heading-font-weight);
-      font-style: var(--heading-font-style);
-      max-width: 16ch;
-      text-wrap: balance;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__cta {
-      color: var(--cta-color);
-      font-family: var(--cta-font);
-      font-size: var(--cta-font-size-desktop);
-      line-height: 1.2;
-      letter-spacing: var(--cta-letter-spacing-desktop);
-      font-weight: var(--cta-font-weight);
-      text-decoration-line: underline;
-      text-decoration-thickness: var(--cta-underline-thickness);
-      text-underline-offset: var(--cta-underline-offset);
-      transition: color .25s ease, opacity .25s ease;
-    }
-  
-    #{{ section_id }} .sample-kit-banner__cta:hover {
-      color: var(--cta-hover-color);
-    }
-  
-    #{{ section_id }} .sample-kit-banner__placeholder {
-      width: 100%;
-      height: 100%;
-      min-height: var(--section-height-desktop);
-      background: linear-gradient(135deg, #4f4033 0%, #2a221d 100%);
-    }
-  
-    @media screen and (max-width: 767px) {
-      #{{ section_id }} {
-        padding-top: var(--padding-top-mobile);
-        padding-bottom: var(--padding-bottom-mobile);
-        padding-left: var(--padding-left-mobile);
-        padding-right: var(--padding-right-mobile);
+{% comment %}
+  ================================================================
+  Section: Sample Kit Hero Banner
+  File:    sections/sample-kit-hero.liquid
+  CSS:     Add sample-kit-hero.css to assets/ and reference below,
+           OR keep the <style> block inside this file (both included).
+  ================================================================
+{% endcomment %}
+
+<style>
+    .sample-kit-hero {
+        position: relative;
+        width: 100%;
+        height: var(--hero-height-mobile, 680px);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
       }
-  
-      #{{ section_id }} .sample-kit-banner__media,
-      #{{ section_id }} .sample-kit-banner__content,
-      #{{ section_id }} .sample-kit-banner__placeholder {
-        min-height: var(--section-height-mobile);
+      
+      .sample-kit-hero__bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
       }
-  
-      #{{ section_id }} .sample-kit-banner__image--desktop {
-        display: none;
-      }
-  
-      #{{ section_id }} .sample-kit-banner__image--mobile {
+      
+      .sample-kit-hero__bg img,
+      .sample-kit-hero__no-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
         display: block;
       }
-  
-      #{{ section_id }} .sample-kit-banner__overlay {
-        background:
-          linear-gradient(
-            to top,
-            color-mix(in srgb, var(--overlay-color) calc(var(--overlay-opacity-mobile) * 100%), transparent) 0%,
-            color-mix(in srgb, var(--overlay-color) calc(var(--overlay-opacity-mobile) * 58%), transparent) 40%,
-            color-mix(in srgb, var(--overlay-color) calc(var(--overlay-opacity-mobile) * 15%), transparent) 70%,
-            transparent 100%
-          );
+      
+      .sample-kit-hero__no-image {
+        background: #2a2320;
       }
-  
-      #{{ section_id }} .sample-kit-banner__content {
-        padding-top: var(--content-top-spacing-mobile);
-        padding-bottom: var(--content-bottom-position-mobile);
+      
+      .sample-kit-hero__bg-img--mobile {
+        display: block;
+        height: 100%;
       }
-  
-      #{{ section_id }} .sample-kit-banner__nav {
-        padding-left: var(--content-horizontal-position-mobile);
+      
+      .sample-kit-hero__bg-img--desktop {
+        display: none;
+        height: 100%;
       }
-  
-      #{{ section_id }} .sample-kit-banner__pill {
-        font-size: var(--pill-font-size-mobile);
-        padding: var(--pill-padding-y-mobile) var(--pill-padding-x-mobile);
+      
+      .sample-kit-hero__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, var(--overlay-opacity, 0.55)) 0%,
+          rgba(0, 0, 0, calc(var(--overlay-opacity, 0.55) * 0.5)) 50%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        pointer-events: none;
       }
-  
-      #{{ section_id }} .sample-kit-banner__pill-icon {
-        font-size: 16px;
+      
+      .sample-kit-hero__content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        padding: 24px 20px 32px;
       }
-  
-      #{{ section_id }} .sample-kit-banner__text {
-        max-width: var(--content-max-width-mobile);
-        margin-left: var(--content-horizontal-position-mobile);
-        margin-right: 16px;
-        gap: 16px;
+      
+      .sample-kit-hero__nav {
+        display: flex;
+        align-items: flex-start;
       }
-  
-      #{{ section_id }} .sample-kit-banner__heading {
-        font-size: var(--heading-size-mobile);
-        line-height: var(--heading-line-height-mobile);
-        letter-spacing: var(--heading-letter-spacing-mobile);
-        max-width: 12ch;
+      
+      .sample-kit-hero__back-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: var(--pill-bg, #ffffff);
+        color: var(--pill-text, #1a1a1a);
+        padding: 8px 16px 8px 12px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: opacity 180ms ease;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
       }
-  
-      #{{ section_id }} .sample-kit-banner__cta {
-        font-size: var(--cta-font-size-mobile);
-        letter-spacing: var(--cta-letter-spacing-mobile);
+      
+      .sample-kit-hero__back-pill:hover {
+        opacity: 0.85;
       }
-    }
-  </style>
-  
-  <section id="{{ section_id }}" class="sample-kit-banner-section">
-    <div class="sample-kit-banner__outer">
-      <div class="{{ content_width_class }}">
-        <div class="sample-kit-banner__media">
-          <div class="sample-kit-banner__image-wrap">
-            {% if desktop_image != blank %}
-              <img
-                class="sample-kit-banner__image sample-kit-banner__image--desktop"
-                src="{{ desktop_image | image_url: width: 2200 }}"
-                alt="{{ desktop_image.alt | escape }}"
-                width="{{ desktop_image.width }}"
-                height="{{ desktop_image.height }}"
-                loading="eager"
-              >
-            {% else %}
-              <div class="sample-kit-banner__placeholder"></div>
-            {% endif %}
-  
-            {% if mobile_image != blank %}
-              <img
-                class="sample-kit-banner__image sample-kit-banner__image--mobile"
-                src="{{ mobile_image | image_url: width: 900 }}"
-                alt="{{ mobile_image.alt | escape }}"
-                width="{{ mobile_image.width }}"
-                height="{{ mobile_image.height }}"
-                loading="eager"
-              >
-            {% elsif desktop_image != blank %}
-              <img
-                class="sample-kit-banner__image sample-kit-banner__image--mobile"
-                src="{{ desktop_image | image_url: width: 900 }}"
-                alt="{{ desktop_image.alt | escape }}"
-                width="{{ desktop_image.width }}"
-                height="{{ desktop_image.height }}"
-                loading="eager"
-              >
-            {% endif %}
-          </div>
-  
-          <div class="sample-kit-banner__overlay"></div>
-  
-          <div class="sample-kit-banner__content">
-            <div class="sample-kit-banner__nav">
-              {% if back_label != blank %}
-                <a href="{{ back_url | default: '#' }}" class="sample-kit-banner__pill">
-                  <span class="sample-kit-banner__pill-icon" aria-hidden="true">&#8249;</span>
-                  <span>{{ back_label }}</span>
-                </a>
-              {% endif %}
-            </div>
-  
-            <div class="sample-kit-banner__text">
-              {% if heading != blank %}
-                <{{ section.settings.heading_tag }} class="sample-kit-banner__heading">
-                  {{ heading }}
-                </{{ section.settings.heading_tag }}>
-              {% endif %}
-  
-              {% if cta_text != blank and cta_url != blank %}
-                <a href="{{ cta_url }}" class="sample-kit-banner__cta">
-                  {{ cta_text }}
-                </a>
-              {% endif %}
-            </div>
-          </div>
-        </div>
+      
+      .sample-kit-hero__chevron {
+        font-size: 18px;
+        line-height: 1;
+        font-style: normal;
+        margin-top: -1px;
+      }
+      
+      .sample-kit-hero__text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+      }
+      
+      .sample-kit-hero__heading {
+        font-family: var(--font-heading-family, Georgia, serif);
+        font-size: clamp(28px, 7vw, 36px);
+        font-weight: var(--font-heading-weight, 700);
+        font-style: italic;
+        color: var(--heading-color, #ffffff);
+        line-height: 1.15;
+        margin: 0;
+        text-wrap: balance;
+        max-width: 14ch;
+      }
+      
+      .sample-kit-hero__cta {
+        color: var(--cta-color, #ffffff);
+        font-size: 15px;
+        font-weight: 400;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1px;
+        letter-spacing: 0.01em;
+        transition: opacity 180ms ease;
+      }
+      
+      .sample-kit-hero__cta:hover {
+        opacity: 0.75;
+      }
+      
+      @media screen and (min-width: 768px) {
+        .sample-kit-hero {
+          height: var(--hero-height-desktop, 500px);
+        }
+      
+        .sample-kit-hero__bg-img--mobile {
+          display: none;
+        }
+      
+        .sample-kit-hero__bg-img--desktop {
+          display: block;
+        }
+      
+        .sample-kit-hero__content {
+          padding: 36px 60px 52px;
+        }
+      
+        .sample-kit-hero__heading {
+          font-size: clamp(36px, 4vw, 64px);
+          max-width: 16ch;
+        }
+      
+        .sample-kit-hero__cta {
+          font-size: 16px;
+        }
+      
+        .sample-kit-hero__back-pill {
+          font-size: 15px;
+          padding: 9px 18px 9px 14px;
+        }
+      }
+      
+      @media screen and (min-width: 1024px) {
+        .sample-kit-hero__content {
+          padding: 44px 80px 64px;
+        }
+      }
+</style>
+
+{%- liquid
+  assign bg_image        = section.settings.background_image
+  assign bg_image_mobile = section.settings.background_image_mobile
+  assign back_label      = section.settings.back_label
+  assign back_url        = section.settings.back_url
+  assign heading         = section.settings.heading
+  assign cta_label       = section.settings.cta_label
+  assign cta_url         = section.settings.cta_url
+  assign section_height_desktop = section.settings.section_height_desktop
+  assign section_height_mobile  = section.settings.section_height_mobile
+  assign overlay_opacity        = section.settings.overlay_opacity | divided_by: 100.0
+  assign heading_color   = section.settings.heading_color
+  assign cta_color       = section.settings.cta_color
+  assign pill_bg         = section.settings.pill_bg
+  assign pill_text_color = section.settings.pill_text_color
+-%}
+
+<section
+  id="sample-kit-hero-{{ section.id }}"
+  class="sample-kit-hero"
+  aria-label="{{ heading | escape }}"
+>
+  <div class="sample-kit-hero__bg" aria-hidden="true">
+    {%- if bg_image_mobile != blank -%}
+      <div class="sample-kit-hero__bg-img sample-kit-hero__bg-img--mobile">
+        {{
+          bg_image_mobile
+          | image_url: width: 800
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '375, 430, 600, 800',
+            sizes: '100vw',
+            alt: heading | escape
+        }}
       </div>
+    {%- endif -%}
+
+    <div class="sample-kit-hero__bg-img sample-kit-hero__bg-img--desktop">
+      {%- if bg_image != blank -%}
+        {{
+          bg_image
+          | image_url: width: 1800
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '768, 1024, 1280, 1440, 1600, 1800',
+            sizes: '100vw',
+            alt: heading | escape
+        }}
+      {%- else -%}
+        <div class="sample-kit-hero__no-image"></div>
+      {%- endif -%}
     </div>
-  </section>
-  
-  {% schema %}
-  {
-    "name": "Sample kit banner",
-    "settings": [
-      {
-        "type": "checkbox",
-        "id": "full_width",
-        "label": "Full width",
-        "default": true
-      },
-      {
-        "type": "color",
-        "id": "section_bg",
-        "label": "Section background",
-        "default": "#ffffff"
-      },
-  
-      {
-        "type": "header",
-        "content": "Images"
-      },
-      {
-        "type": "image_picker",
-        "id": "desktop_image",
-        "label": "Desktop image"
-      },
-      {
-        "type": "image_picker",
-        "id": "mobile_image",
-        "label": "Mobile image"
-      },
-      {
-        "type": "range",
-        "id": "desktop_image_position_x",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "label": "Desktop image position X (%)",
-        "default": 50
-      },
-      {
-        "type": "range",
-        "id": "desktop_image_position_y",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "label": "Desktop image position Y (%)",
-        "default": 50
-      },
-      {
-        "type": "range",
-        "id": "mobile_image_position_x",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "label": "Mobile image position X (%)",
-        "default": 50
-      },
-      {
-        "type": "range",
-        "id": "mobile_image_position_y",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "label": "Mobile image position Y (%)",
-        "default": 50
-      },
-  
-      {
-        "type": "header",
-        "content": "Content"
-      },
-      {
-        "type": "select",
-        "id": "heading_tag",
-        "label": "Heading tag",
-        "options": [
-          { "value": "h1", "label": "H1" },
-          { "value": "h2", "label": "H2" },
-          { "value": "h3", "label": "H3" },
-          { "value": "p", "label": "Paragraph" }
-        ],
-        "default": "h1"
-      },
-      {
-        "type": "textarea",
-        "id": "heading",
-        "label": "Heading",
-        "default": "Discover what’s inside every Flooret Sample Kit"
-      },
-      {
-        "type": "text",
-        "id": "back_label",
-        "label": "Back pill label",
-        "default": "Sample Kits"
-      },
-      {
-        "type": "url",
-        "id": "back_url",
-        "label": "Back pill URL"
-      },
-      {
-        "type": "text",
-        "id": "cta_text",
-        "label": "CTA text",
-        "default": "Shop Samples"
-      },
-      {
-        "type": "url",
-        "id": "cta_url",
-        "label": "CTA URL"
-      },
-      {
-        "type": "range",
-        "id": "content_max_width",
-        "min": 200,
-        "max": 1200,
-        "step": 10,
-        "label": "Content max width desktop",
-        "default": 760
-      },
-      {
-        "type": "range",
-        "id": "content_max_width_mobile",
-        "min": 180,
-        "max": 500,
-        "step": 10,
-        "label": "Content max width mobile",
-        "default": 280
-      },
-      {
-        "type": "range",
-        "id": "content_left_desktop",
-        "min": 0,
-        "max": 20,
-        "step": 1,
-        "label": "Content left position desktop (%)",
-        "default": 6
-      },
-      {
-        "type": "range",
-        "id": "content_left_mobile",
-        "min": 0,
-        "max": 60,
-        "step": 1,
-        "label": "Content left position mobile (px)",
-        "default": 28
-      },
-      {
-        "type": "range",
-        "id": "content_top_desktop",
-        "min": 0,
-        "max": 200,
-        "step": 2,
-        "label": "Top spacing desktop",
-        "default": 42
-      },
-      {
-        "type": "range",
-        "id": "content_top_mobile",
-        "min": 0,
-        "max": 120,
-        "step": 2,
-        "label": "Top spacing mobile",
-        "default": 44
-      },
-      {
-        "type": "range",
-        "id": "content_bottom_desktop",
-        "min": 0,
-        "max": 200,
-        "step": 2,
-        "label": "Bottom spacing desktop",
-        "default": 56
-      },
-      {
-        "type": "range",
-        "id": "content_bottom_mobile",
-        "min": 0,
-        "max": 160,
-        "step": 2,
-        "label": "Bottom spacing mobile",
-        "default": 32
-      },
-  
-      {
-        "type": "header",
-        "content": "Section height"
-      },
-      {
-        "type": "range",
-        "id": "section_height_desktop",
-        "min": 300,
-        "max": 1000,
-        "step": 10,
-        "label": "Section height desktop",
-        "default": 582
-      },
-      {
-        "type": "range",
-        "id": "section_height_mobile",
-        "min": 360,
-        "max": 900,
-        "step": 10,
-        "label": "Section height mobile",
-        "default": 760
-      },
-  
-      {
-        "type": "header",
-        "content": "Heading typography"
-      },
-      {
-        "type": "select",
-        "id": "font_heading",
-        "label": "Heading font family",
-        "options": [
-          { "value": "Montserrat, sans-serif", "label": "Montserrat" },
-          { "value": "Roboto, sans-serif", "label": "Roboto" },
-          { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" },
-          { "value": "'Playfair Display', serif", "label": "Playfair Display" },
-          { "value": "Georgia, serif", "label": "Georgia" }
-        ],
-        "default": "'Playfair Display', serif"
-      },
-      {
-        "type": "range",
-        "id": "heading_size_desktop",
-        "min": 20,
-        "max": 100,
-        "step": 1,
-        "label": "Heading size desktop",
-        "default": 68
-      },
-      {
-        "type": "range",
-        "id": "heading_size_mobile",
-        "min": 18,
-        "max": 60,
-        "step": 1,
-        "label": "Heading size mobile",
-        "default": 34
-      },
-      {
-        "type": "range",
-        "id": "heading_line_height_desktop",
-        "min": 0.8,
-        "max": 1.6,
-        "step": 0.1,
-        "label": "Heading line height desktop",
-        "default": 1.0
-      },
-      {
-        "type": "range",
-        "id": "heading_line_height_mobile",
-        "min": 0.8,
-        "max": 1.6,
-        "step": 0.1,
-        "label": "Heading line height mobile",
-        "default": 1.0
-      },
-      {
-        "type": "range",
-        "id": "heading_letter_spacing_desktop",
-        "min": -3,
-        "max": 8,
-        "step": 0.1,
-        "label": "Heading letter spacing desktop",
-        "default": 0
-      },
-      {
-        "type": "range",
-        "id": "heading_letter_spacing_mobile",
-        "min": -3,
-        "max": 8,
-        "step": 0.1,
-        "label": "Heading letter spacing mobile",
-        "default": 0
-      },
-      {
-        "type": "range",
-        "id": "heading_font_weight",
-        "min": 300,
-        "max": 900,
-        "step": 100,
-        "label": "Heading font weight",
-        "default": 700
-      },
-      {
-        "type": "checkbox",
-        "id": "heading_italic",
-        "label": "Italic heading",
-        "default": false
-      },
-      {
-        "type": "color",
-        "id": "heading_color",
-        "label": "Heading color",
-        "default": "#ffffff"
-      },
-  
-      {
-        "type": "header",
-        "content": "Back pill"
-      },
-      {
-        "type": "select",
-        "id": "font_body",
-        "label": "Body font family",
-        "options": [
-          { "value": "Montserrat, sans-serif", "label": "Montserrat" },
-          { "value": "Roboto, sans-serif", "label": "Roboto" },
-          { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" },
-          { "value": "'Playfair Display', serif", "label": "Playfair Display" },
-          { "value": "Arial, sans-serif", "label": "Arial" }
-        ],
-        "default": "Montserrat, sans-serif"
-      },
-      {
-        "type": "range",
-        "id": "pill_font_size_desktop",
-        "min": 10,
-        "max": 30,
-        "step": 1,
-        "label": "Pill font size desktop",
-        "default": 15
-      },
-      {
-        "type": "range",
-        "id": "pill_font_size_mobile",
-        "min": 10,
-        "max": 24,
-        "step": 1,
-        "label": "Pill font size mobile",
-        "default": 14
-      },
-      {
-        "type": "range",
-        "id": "pill_padding_y_desktop",
-        "min": 4,
-        "max": 30,
-        "step": 1,
-        "label": "Pill padding Y desktop",
-        "default": 10
-      },
-      {
-        "type": "range",
-        "id": "pill_padding_x_desktop",
-        "min": 8,
-        "max": 40,
-        "step": 1,
-        "label": "Pill padding X desktop",
-        "default": 18
-      },
-      {
-        "type": "range",
-        "id": "pill_padding_y_mobile",
-        "min": 4,
-        "max": 20,
-        "step": 1,
-        "label": "Pill padding Y mobile",
-        "default": 8
-      },
-      {
-        "type": "range",
-        "id": "pill_padding_x_mobile",
-        "min": 8,
-        "max": 28,
-        "step": 1,
-        "label": "Pill padding X mobile",
-        "default": 16
-      },
-      {
-        "type": "color",
-        "id": "pill_bg",
-        "label": "Pill background",
-        "default": "#ffffff"
-      },
-      {
-        "type": "color",
-        "id": "pill_text_color",
-        "label": "Pill text color",
-        "default": "#111111"
-      },
-      {
-        "type": "color",
-        "id": "pill_border_color",
-        "label": "Pill border color",
-        "default": "#ffffff"
-      },
-  
-      {
-        "type": "header",
-        "content": "CTA link"
-      },
-      {
-        "type": "range",
-        "id": "cta_font_size_desktop",
-        "min": 10,
-        "max": 30,
-        "step": 1,
-        "label": "CTA font size desktop",
-        "default": 16
-      },
-      {
-        "type": "range",
-        "id": "cta_font_size_mobile",
-        "min": 10,
-        "max": 24,
-        "step": 1,
-        "label": "CTA font size mobile",
-        "default": 15
-      },
-      {
-        "type": "range",
-        "id": "cta_font_weight",
-        "min": 300,
-        "max": 900,
-        "step": 100,
-        "label": "CTA font weight",
-        "default": 400
-      },
-      {
-        "type": "range",
-        "id": "cta_letter_spacing_desktop",
-        "min": -1,
-        "max": 6,
-        "step": 0.1,
-        "label": "CTA letter spacing desktop",
-        "default": 0
-      },
-      {
-        "type": "range",
-        "id": "cta_letter_spacing_mobile",
-        "min": -1,
-        "max": 6,
-        "step": 0.1,
-        "label": "CTA letter spacing mobile",
-        "default": 0
-      },
-      {
-        "type": "range",
-        "id": "cta_underline_thickness",
-        "min": 1,
-        "max": 4,
-        "step": 1,
-        "label": "CTA underline thickness",
-        "default": 1
-      },
-      {
-        "type": "range",
-        "id": "cta_underline_offset",
-        "min": 1,
-        "max": 10,
-        "step": 1,
-        "label": "CTA underline offset",
-        "default": 3
-      },
-      {
-        "type": "color",
-        "id": "cta_color",
-        "label": "CTA color",
-        "default": "#ffffff"
-      },
-      {
-        "type": "color",
-        "id": "cta_hover_color",
-        "label": "CTA hover color",
-        "default": "#d9d9d9"
-      },
-  
-      {
-        "type": "header",
-        "content": "Overlay"
-      },
-      {
-        "type": "color",
-        "id": "overlay_color",
-        "label": "Overlay color",
-        "default": "#000000"
-      },
-      {
-        "type": "range",
-        "id": "overlay_opacity_desktop",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "label": "Overlay opacity desktop (%)",
-        "default": 58
-      },
-      {
-        "type": "range",
-        "id": "overlay_opacity_mobile",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "label": "Overlay opacity mobile (%)",
-        "default": 50
-      },
-  
-      {
-        "type": "header",
-        "content": "Desktop padding"
-      },
-      {
-        "type": "range",
-        "id": "padding_top_desktop",
-        "min": 0,
-        "max": 200,
-        "step": 2,
-        "label": "Padding top desktop",
-        "default": 0
-      },
-      {
-        "type": "range",
-        "id": "padding_bottom_desktop",
-        "min": 0,
-        "max": 200,
-        "step": 2,
-        "label": "Padding bottom desktop",
-        "default": 0
-      },
-      {
-        "type": "range",
-        "id": "padding_left_desktop",
-        "min": 0,
-        "max": 120,
-        "step": 2,
-        "label": "Padding left desktop",
-        "default": 0
-      },
-      {
-        "type": "range",
-        "id": "padding_right_desktop",
-        "min": 0,
-        "max": 120,
-        "step": 2,
-        "label": "Padding right desktop",
-        "default": 0
-      },
-  
-      {
-        "type": "header",
-        "content": "Mobile padding"
-      },
-      {
-        "type": "range",
-        "id": "padding_top_mobile",
-        "min": 0,
-        "max": 120,
-        "step": 2,
-        "label": "Padding top mobile",
-        "default": 0
-      },
-      {
-        "type": "range",
-        "id": "padding_bottom_mobile",
-        "min": 0,
-        "max": 120,
-        "step": 2,
-        "label": "Padding bottom mobile",
-        "default": 0
-      },
-      {
-        "type": "range",
-        "id": "padding_left_mobile",
-        "min": 0,
-        "max": 60,
-        "step": 2,
-        "label": "Padding left mobile",
-        "default": 0
-      },
-      {
-        "type": "range",
-        "id": "padding_right_mobile",
-        "min": 0,
-        "max": 60,
-        "step": 2,
-        "label": "Padding right mobile",
-        "default": 0
-      }
-    ],
-    "presets": [
-      {
-        "name": "Sample kit banner"
-      }
-    ]
+
+    <div class="sample-kit-hero__overlay"></div>
+  </div>
+
+  <div class="sample-kit-hero__content">
+    {%- if back_label != blank -%}
+      <nav class="sample-kit-hero__nav" aria-label="Breadcrumb">
+        <a
+          href="{{ back_url | default: '#' }}"
+          class="sample-kit-hero__back-pill"
+        >
+          <span class="sample-kit-hero__chevron" aria-hidden="true">&#8249;</span>
+          <span>{{ back_label }}</span>
+        </a>
+      </nav>
+    {%- else -%}
+      <div></div>
+    {%- endif -%}
+
+    <div class="sample-kit-hero__text">
+      {%- if heading != blank -%}
+        <{{ section.settings.heading_tag }} class="sample-kit-hero__heading">
+          {{ heading }}
+        </{{ section.settings.heading_tag }}>
+      {%- endif -%}
+
+      {%- if cta_label != blank and cta_url != blank -%}
+        <a href="{{ cta_url }}" class="sample-kit-hero__cta">
+          {{- cta_label -}}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  #sample-kit-hero-{{ section.id }} {
+    --hero-height-desktop: {{ section_height_desktop }}px;
+    --hero-height-mobile: {{ section_height_mobile }}px;
+    --overlay-opacity: {{ overlay_opacity }};
+    --heading-color: {{ heading_color }};
+    --cta-color: {{ cta_color }};
+    --pill-bg: {{ pill_bg }};
+    --pill-text: {{ pill_text_color }};
   }
-  {% endschema %}
+</style>
+
+{% schema %}
+{
+  "name": "Sample Kit Hero",
+  "tag": "section",
+  "class": "sample-kit-hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image (Desktop)",
+      "info": "Recommended size: 1800×700px or wider. Landscape orientation."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "Background Image (Mobile)",
+      "info": "Recommended size: 800×700px. Portrait orientation. Falls back to the desktop image if blank."
+    },
+    {
+      "type": "header",
+      "content": "Back Navigation Pill"
+    },
+    {
+      "type": "text",
+      "id": "back_label",
+      "label": "Back Button Label",
+      "default": "Sample Kits",
+      "info": "Leave blank to hide the back pill entirely."
+    },
+    {
+      "type": "url",
+      "id": "back_url",
+      "label": "Back Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Heading & CTA"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading HTML Tag",
+      "options": [
+        { "value": "h1", "label": "H1 — Page Title" },
+        { "value": "h2", "label": "H2 — Section Heading" },
+        { "value": "h3", "label": "H3 — Sub Heading" },
+        { "value": "p", "label": "Paragraph" }
+      ],
+      "default": "h1",
+      "info": "Use H1 only if this is the primary heading on the page."
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "Discover what's inside every Flooret Sample Kit"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA Link Text",
+      "default": "Shop Samples",
+      "info": "Leave blank to hide the CTA."
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Section Height"
+    },
+    {
+      "type": "range",
+      "id": "section_height_desktop",
+      "label": "Desktop Height",
+      "min": 300,
+      "max": 900,
+      "step": 10,
+      "default": 500,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_height_mobile",
+      "label": "Mobile Height",
+      "min": 300,
+      "max": 800,
+      "step": 10,
+      "default": 680,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Overlay & Colors"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Gradient Overlay Strength",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "default": 55,
+      "unit": "%",
+      "info": "Darkens the bottom of the image so text is always readable."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cta_color",
+      "label": "CTA Link Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pill_bg",
+      "label": "Back Pill Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pill_text_color",
+      "label": "Back Pill Text Color",
+      "default": "#1a1a1a"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sample Kit Hero",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}
