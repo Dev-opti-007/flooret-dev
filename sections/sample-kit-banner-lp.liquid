@@ -1,420 +1,1084 @@
-{% comment %}
-  ================================================================
-  Section: Sample Kit Hero Banner
-  File:    sections/sample-kit-hero.liquid
-  CSS:     Add sample-kit-hero.css to assets/ and reference below,
-           OR keep the <style> block inside this file (both included).
-  ================================================================
-{% endcomment %}
+{% liquid
+  assign section_id = 'sample-kit-banner-' | append: section.id
+  assign desktop_image = section.settings.desktop_image
+  assign mobile_image = section.settings.mobile_image
+  assign full_width = section.settings.full_width
+  assign content_width_class = 'page-width'
+  if full_width
+    assign content_width_class = 'sample-kit-banner__inner--full'
+  endif
+%}
 
 <style>
-    .sample-kit-hero {
-        position: relative;
-        width: 100%;
-        height: var(--hero-height-mobile, 680px);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .sample-kit-hero__bg {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-      }
-      
-      .sample-kit-hero__bg img,
-      .sample-kit-hero__no-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center center;
-        display: block;
-      }
-      
-      .sample-kit-hero__no-image {
-        background: #2a2320;
-      }
-      
-      .sample-kit-hero__bg-img--mobile {
-        display: block;
-        height: 100%;
-      }
-      
-      .sample-kit-hero__bg-img--desktop {
-        display: none;
-        height: 100%;
-      }
-      
-      .sample-kit-hero__overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, var(--overlay-opacity, 0.55)) 0%,
-          rgba(0, 0, 0, calc(var(--overlay-opacity, 0.55) * 0.5)) 50%,
-          rgba(0, 0, 0, 0) 100%
-        );
-        pointer-events: none;
-      }
-      
-      .sample-kit-hero__content {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
-        padding: 24px 20px 32px;
-      }
-      
-      .sample-kit-hero__nav {
-        display: flex;
-        align-items: flex-start;
-      }
-      
-      .sample-kit-hero__back-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        background: var(--pill-bg, #ffffff);
-        color: var(--pill-text, #1a1a1a);
-        padding: 8px 16px 8px 12px;
-        border-radius: 999px;
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 1;
-        text-decoration: none;
-        white-space: nowrap;
-        transition: opacity 180ms ease;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-      }
-      
-      .sample-kit-hero__back-pill:hover {
-        opacity: 0.85;
-      }
-      
-      .sample-kit-hero__chevron {
-        font-size: 18px;
-        line-height: 1;
-        font-style: normal;
-        margin-top: -1px;
-      }
-      
-      .sample-kit-hero__text {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 18px;
-      }
-      
-      .sample-kit-hero__heading {
-        font-family: var(--font-heading-family, Georgia, serif);
-        font-size: clamp(28px, 7vw, 36px);
-        font-weight: var(--font-heading-weight, 700);
-        font-style: italic;
-        color: var(--heading-color, #ffffff);
-        line-height: 1.15;
-        margin: 0;
-        text-wrap: balance;
-        max-width: 14ch;
-      }
-      
-      .sample-kit-hero__cta {
-        color: var(--cta-color, #ffffff);
-        font-size: 15px;
-        font-weight: 400;
-        text-decoration: underline;
-        text-underline-offset: 3px;
-        text-decoration-thickness: 1px;
-        letter-spacing: 0.01em;
-        transition: opacity 180ms ease;
-      }
-      
-      .sample-kit-hero__cta:hover {
-        opacity: 0.75;
-      }
-      
-      @media screen and (min-width: 768px) {
-        .sample-kit-hero {
-          height: var(--hero-height-desktop, 500px);
-        }
-      
-        .sample-kit-hero__bg-img--mobile {
-          display: none;
-        }
-      
-        .sample-kit-hero__bg-img--desktop {
-          display: block;
-        }
-      
-        .sample-kit-hero__content {
-          padding: 36px 60px 52px;
-        }
-      
-        .sample-kit-hero__heading {
-          font-size: clamp(36px, 4vw, 64px);
-          max-width: 16ch;
-        }
-      
-        .sample-kit-hero__cta {
-          font-size: 16px;
-        }
-      
-        .sample-kit-hero__back-pill {
-          font-size: 15px;
-          padding: 9px 18px 9px 14px;
-        }
-      }
-      
-      @media screen and (min-width: 1024px) {
-        .sample-kit-hero__content {
-          padding: 44px 80px 64px;
-        }
-      }
+  #{{ section_id }} {
+    --section-bg: {{ section.settings.section_bg }};
+    --overlay-color: {{ section.settings.overlay_color }};
+    --overlay-opacity-desktop: {{ section.settings.overlay_opacity_desktop | divided_by: 100.0 }};
+    --overlay-opacity-mobile: {{ section.settings.overlay_opacity_mobile | divided_by: 100.0 }};
+
+    --section-height-desktop: {{ section.settings.section_height_desktop }}px;
+    --section-height-mobile: {{ section.settings.section_height_mobile }}px;
+
+    --content-max-width: {{ section.settings.content_max_width }}px;
+    --content-max-width-mobile: {{ section.settings.content_max_width_mobile }}px;
+    --content-left-desktop: {{ section.settings.content_left_desktop }}%;
+    --content-left-mobile: {{ section.settings.content_left_mobile }}px;
+    --content-top-desktop: {{ section.settings.content_top_desktop }}px;
+    --content-top-mobile: {{ section.settings.content_top_mobile }}px;
+    --content-bottom-desktop: {{ section.settings.content_bottom_desktop }}px;
+    --content-bottom-mobile: {{ section.settings.content_bottom_mobile }}px;
+
+    --desktop-image-position-x: {{ section.settings.desktop_image_position_x }}%;
+    --desktop-image-position-y: {{ section.settings.desktop_image_position_y }}%;
+    --mobile-image-position-x: {{ section.settings.mobile_image_position_x }}%;
+    --mobile-image-position-y: {{ section.settings.mobile_image_position_y }}%;
+
+    --padding-top-desktop: {{ section.settings.padding_top_desktop }}px;
+    --padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --padding-left-desktop: {{ section.settings.padding_left_desktop }}px;
+    --padding-right-desktop: {{ section.settings.padding_right_desktop }}px;
+    --padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --padding-left-mobile: {{ section.settings.padding_left_mobile }}px;
+    --padding-right-mobile: {{ section.settings.padding_right_mobile }}px;
+
+    --title-font-family: {{ section.settings.font_title }};
+    --title-font-size-desktop: {{ section.settings.title_font_size_desktop }}px;
+    --title-font-size-mobile: {{ section.settings.title_font_size_mobile }}px;
+    --title-font-weight-desktop: {{ section.settings.title_font_weight_desktop }};
+    --title-font-weight-mobile: {{ section.settings.title_font_weight_mobile }};
+    --title-line-height-desktop: {{ section.settings.title_line_height_desktop }};
+    --title-line-height-mobile: {{ section.settings.title_line_height_mobile }};
+    --title-letter-spacing-desktop: {{ section.settings.title_letter_spacing_desktop }}px;
+    --title-letter-spacing-mobile: {{ section.settings.title_letter_spacing_mobile }}px;
+    --title-font-style: {% if section.settings.title_italic %}italic{% else %}normal{% endif %};
+    --title-color: {{ section.settings.title_color }};
+
+    --back-font-family: {{ section.settings.font_back }};
+    --back-font-size-desktop: {{ section.settings.back_font_size_desktop }}px;
+    --back-font-size-mobile: {{ section.settings.back_font_size_mobile }}px;
+    --back-font-weight-desktop: {{ section.settings.back_font_weight_desktop }};
+    --back-font-weight-mobile: {{ section.settings.back_font_weight_mobile }};
+    --back-line-height-desktop: {{ section.settings.back_line_height_desktop }};
+    --back-line-height-mobile: {{ section.settings.back_line_height_mobile }};
+    --back-letter-spacing-desktop: {{ section.settings.back_letter_spacing_desktop }}px;
+    --back-letter-spacing-mobile: {{ section.settings.back_letter_spacing_mobile }}px;
+    --back-pill-bg: {{ section.settings.back_pill_bg }};
+    --back-pill-color: {{ section.settings.back_pill_color }};
+    --back-pill-border: {{ section.settings.back_pill_border }};
+    --back-pill-padding-y-desktop: {{ section.settings.back_pill_padding_y_desktop }}px;
+    --back-pill-padding-x-desktop: {{ section.settings.back_pill_padding_x_desktop }}px;
+    --back-pill-padding-y-mobile: {{ section.settings.back_pill_padding_y_mobile }}px;
+    --back-pill-padding-x-mobile: {{ section.settings.back_pill_padding_x_mobile }}px;
+    --back-pill-radius: {{ section.settings.back_pill_radius }}px;
+
+    --cta-font-family: {{ section.settings.font_cta }};
+    --cta-font-size-desktop: {{ section.settings.cta_font_size_desktop }}px;
+    --cta-font-size-mobile: {{ section.settings.cta_font_size_mobile }}px;
+    --cta-font-weight-desktop: {{ section.settings.cta_font_weight_desktop }};
+    --cta-font-weight-mobile: {{ section.settings.cta_font_weight_mobile }};
+    --cta-line-height-desktop: {{ section.settings.cta_line_height_desktop }};
+    --cta-line-height-mobile: {{ section.settings.cta_line_height_mobile }};
+    --cta-letter-spacing-desktop: {{ section.settings.cta_letter_spacing_desktop }}px;
+    --cta-letter-spacing-mobile: {{ section.settings.cta_letter_spacing_mobile }}px;
+    --cta-color: {{ section.settings.cta_color }};
+    --cta-hover-color: {{ section.settings.cta_hover_color }};
+    --cta-underline-thickness: {{ section.settings.cta_underline_thickness }}px;
+    --cta-underline-offset: {{ section.settings.cta_underline_offset }}px;
+  }
+
+  #{{ section_id }} {
+    width: 100%;
+    position: relative;
+    background: var(--section-bg);
+    padding-top: var(--padding-top-desktop);
+    padding-bottom: var(--padding-bottom-desktop);
+    padding-left: var(--padding-left-desktop);
+    padding-right: var(--padding-right-desktop);
+  }
+
+  #{{ section_id }} .sample-kit-banner__inner--full {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  #{{ section_id }} .page-width {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  #{{ section_id }} .sample-kit-banner__media {
+    position: relative;
+    width: 100%;
+    min-height: var(--section-height-desktop);
+    overflow: hidden;
+    background: #2a221d;
+  }
+
+  #{{ section_id }} .sample-kit-banner__image-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  #{{ section_id }} .sample-kit-banner__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #{{ section_id }} .sample-kit-banner__image--desktop {
+    object-position: var(--desktop-image-position-x) var(--desktop-image-position-y);
+  }
+
+  #{{ section_id }} .sample-kit-banner__image--mobile {
+    display: none;
+    object-position: var(--mobile-image-position-x) var(--mobile-image-position-y);
+  }
+
+  #{{ section_id }} .sample-kit-banner__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,var(--overlay-opacity-desktop)) 0%,
+      rgba(0,0,0,calc(var(--overlay-opacity-desktop) * 0.55)) 42%,
+      rgba(0,0,0,0.08) 68%,
+      rgba(0,0,0,0) 100%
+    );
+    pointer-events: none;
+  }
+
+  #{{ section_id }} .sample-kit-banner__content {
+    position: relative;
+    z-index: 3;
+    min-height: var(--section-height-desktop);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: var(--content-top-desktop);
+    padding-bottom: var(--content-bottom-desktop);
+  }
+
+  #{{ section_id }} .sample-kit-banner__nav {
+    padding-left: var(--content-left-desktop);
+  }
+
+  #{{ section_id }} .sample-kit-banner__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    background: var(--back-pill-bg);
+    color: var(--back-pill-color);
+    border: 1px solid var(--back-pill-border);
+    border-radius: var(--back-pill-radius);
+    padding: var(--back-pill-padding-y-desktop) var(--back-pill-padding-x-desktop);
+    font-family: var(--back-font-family);
+    font-size: var(--back-font-size-desktop);
+    font-weight: var(--back-font-weight-desktop);
+    line-height: var(--back-line-height-desktop);
+    letter-spacing: var(--back-letter-spacing-desktop);
+    transition: all .25s ease;
+    white-space: nowrap;
+  }
+
+  #{{ section_id }} .sample-kit-banner__back:hover {
+    opacity: .9;
+  }
+
+  #{{ section_id }} .sample-kit-banner__back-icon {
+    font-size: 18px;
+    line-height: 1;
+    transform: translateY(-1px);
+  }
+
+  #{{ section_id }} .sample-kit-banner__text {
+    margin-left: var(--content-left-desktop);
+    max-width: var(--content-max-width);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  #{{ section_id }} .sample-kit-banner__title {
+    margin: 0;
+    color: var(--title-color);
+    font-family: var(--title-font-family);
+    font-size: var(--title-font-size-desktop);
+    font-weight: var(--title-font-weight-desktop);
+    line-height: var(--title-line-height-desktop);
+    letter-spacing: var(--title-letter-spacing-desktop);
+    font-style: var(--title-font-style);
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+
+  #{{ section_id }} .sample-kit-banner__cta {
+    color: var(--cta-color);
+    font-family: var(--cta-font-family);
+    font-size: var(--cta-font-size-desktop);
+    font-weight: var(--cta-font-weight-desktop);
+    line-height: var(--cta-line-height-desktop);
+    letter-spacing: var(--cta-letter-spacing-desktop);
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--cta-underline-thickness);
+    text-underline-offset: var(--cta-underline-offset);
+    transition: color .25s ease, opacity .25s ease;
+  }
+
+  #{{ section_id }} .sample-kit-banner__cta:hover {
+    color: var(--cta-hover-color);
+  }
+
+  #{{ section_id }} .sample-kit-banner__placeholder {
+    width: 100%;
+    min-height: var(--section-height-desktop);
+    height: 100%;
+    background: linear-gradient(135deg, #5a4639 0%, #2c231e 100%);
+  }
+
+  @media (max-width: 767px) {
+    #{{ section_id }} {
+      padding-top: var(--padding-top-mobile);
+      padding-bottom: var(--padding-bottom-mobile);
+      padding-left: var(--padding-left-mobile);
+      padding-right: var(--padding-right-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-banner__media,
+    #{{ section_id }} .sample-kit-banner__content,
+    #{{ section_id }} .sample-kit-banner__placeholder {
+      min-height: var(--section-height-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-banner__image--desktop {
+      display: none;
+    }
+
+    #{{ section_id }} .sample-kit-banner__image--mobile {
+      display: block;
+    }
+
+    #{{ section_id }} .sample-kit-banner__overlay {
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,var(--overlay-opacity-mobile)) 0%,
+        rgba(0,0,0,calc(var(--overlay-opacity-mobile) * 0.55)) 42%,
+        rgba(0,0,0,0.08) 68%,
+        rgba(0,0,0,0) 100%
+      );
+    }
+
+    #{{ section_id }} .sample-kit-banner__content {
+      padding-top: var(--content-top-mobile);
+      padding-bottom: var(--content-bottom-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-banner__nav {
+      padding-left: var(--content-left-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-banner__back {
+      font-family: var(--back-font-family);
+      font-size: var(--back-font-size-mobile);
+      font-weight: var(--back-font-weight-mobile);
+      line-height: var(--back-line-height-mobile);
+      letter-spacing: var(--back-letter-spacing-mobile);
+      padding: var(--back-pill-padding-y-mobile) var(--back-pill-padding-x-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-banner__text {
+      margin-left: var(--content-left-mobile);
+      margin-right: 18px;
+      max-width: var(--content-max-width-mobile);
+      gap: 16px;
+    }
+
+    #{{ section_id }} .sample-kit-banner__title {
+      font-family: var(--title-font-family);
+      font-size: var(--title-font-size-mobile);
+      font-weight: var(--title-font-weight-mobile);
+      line-height: var(--title-line-height-mobile);
+      letter-spacing: var(--title-letter-spacing-mobile);
+      max-width: 12ch;
+    }
+
+    #{{ section_id }} .sample-kit-banner__cta {
+      font-family: var(--cta-font-family);
+      font-size: var(--cta-font-size-mobile);
+      font-weight: var(--cta-font-weight-mobile);
+      line-height: var(--cta-line-height-mobile);
+      letter-spacing: var(--cta-letter-spacing-mobile);
+    }
+  }
 </style>
 
-{%- liquid
-  assign bg_image        = section.settings.background_image
-  assign bg_image_mobile = section.settings.background_image_mobile
-  assign back_label      = section.settings.back_label
-  assign back_url        = section.settings.back_url
-  assign heading         = section.settings.heading
-  assign cta_label       = section.settings.cta_label
-  assign cta_url         = section.settings.cta_url
-  assign section_height_desktop = section.settings.section_height_desktop
-  assign section_height_mobile  = section.settings.section_height_mobile
-  assign overlay_opacity        = section.settings.overlay_opacity | divided_by: 100.0
-  assign heading_color   = section.settings.heading_color
-  assign cta_color       = section.settings.cta_color
-  assign pill_bg         = section.settings.pill_bg
-  assign pill_text_color = section.settings.pill_text_color
--%}
+<div id="{{ section_id }}" class="sample-kit-banner-section">
+  <div class="{% if full_width %}sample-kit-banner__inner--full{% else %}page-width{% endif %}">
+    <div class="sample-kit-banner__media">
+      <div class="sample-kit-banner__image-wrap">
+        {% if desktop_image != blank %}
+          <img
+            class="sample-kit-banner__image sample-kit-banner__image--desktop"
+            src="{{ desktop_image | image_url: width: 2200 }}"
+            alt="{{ desktop_image.alt | escape }}"
+            width="{{ desktop_image.width }}"
+            height="{{ desktop_image.height }}"
+            loading="eager"
+          >
+        {% else %}
+          <div class="sample-kit-banner__placeholder"></div>
+        {% endif %}
 
-<div
-  id="sample-kit-hero-{{ section.id }}"
-  class="sample-kit-hero"
-  aria-label="{{ heading | escape }}"
->
-  <div class="sample-kit-hero__bg" aria-hidden="true">
-    {%- if bg_image_mobile != blank -%}
-      <div class="sample-kit-hero__bg-img sample-kit-hero__bg-img--mobile">
-        {{
-          bg_image_mobile
-          | image_url: width: 800
-          | image_tag:
-            loading: 'eager',
-            fetchpriority: 'high',
-            widths: '375, 430, 600, 800',
-            sizes: '100vw',
-            alt: heading | escape
-        }}
+        {% if mobile_image != blank %}
+          <img
+            class="sample-kit-banner__image sample-kit-banner__image--mobile"
+            src="{{ mobile_image | image_url: width: 900 }}"
+            alt="{{ mobile_image.alt | escape }}"
+            width="{{ mobile_image.width }}"
+            height="{{ mobile_image.height }}"
+            loading="eager"
+          >
+        {% elsif desktop_image != blank %}
+          <img
+            class="sample-kit-banner__image sample-kit-banner__image--mobile"
+            src="{{ desktop_image | image_url: width: 900 }}"
+            alt="{{ desktop_image.alt | escape }}"
+            width="{{ desktop_image.width }}"
+            height="{{ desktop_image.height }}"
+            loading="eager"
+          >
+        {% endif %}
       </div>
-    {%- endif -%}
 
-    <div class="sample-kit-hero__bg-img sample-kit-hero__bg-img--desktop">
-      {%- if bg_image != blank -%}
-        {{
-          bg_image
-          | image_url: width: 1800
-          | image_tag:
-            loading: 'eager',
-            fetchpriority: 'high',
-            widths: '768, 1024, 1280, 1440, 1600, 1800',
-            sizes: '100vw',
-            alt: heading | escape
-        }}
-      {%- else -%}
-        <div class="sample-kit-hero__no-image"></div>
-      {%- endif -%}
-    </div>
+      <div class="sample-kit-banner__overlay"></div>
 
-    <div class="sample-kit-hero__overlay"></div>
-  </div>
+      <div class="sample-kit-banner__content">
+        <div class="sample-kit-banner__nav">
+          {% if section.settings.back_label != blank %}
+            <a href="{{ section.settings.back_url | default: '#' }}" class="sample-kit-banner__back">
+              <span class="sample-kit-banner__back-icon" aria-hidden="true">&#8249;</span>
+              <span>{{ section.settings.back_label }}</span>
+            </a>
+          {% endif %}
+        </div>
 
-  <div class="sample-kit-hero__content">
-    {%- if back_label != blank -%}
-      <nav class="sample-kit-hero__nav" aria-label="Breadcrumb">
-        <a
-          href="{{ back_url | default: '#' }}"
-          class="sample-kit-hero__back-pill"
-        >
-          <span class="sample-kit-hero__chevron" aria-hidden="true">&#8249;</span>
-          <span>{{ back_label }}</span>
-        </a>
-      </nav>
-    {%- else -%}
-      <div></div>
-    {%- endif -%}
+        <div class="sample-kit-banner__text">
+          {% if section.settings.heading != blank %}
+            <{{ section.settings.heading_tag }} class="sample-kit-banner__title">
+              {{ section.settings.heading }}
+            </{{ section.settings.heading_tag }}>
+          {% endif %}
 
-    <div class="sample-kit-hero__text">
-      {%- if heading != blank -%}
-        <{{ section.settings.heading_tag }} class="sample-kit-hero__heading">
-          {{ heading }}
-        </{{ section.settings.heading_tag }}>
-      {%- endif -%}
-
-      {%- if cta_label != blank and cta_url != blank -%}
-        <a href="{{ cta_url }}" class="sample-kit-hero__cta">
-          {{- cta_label -}}
-        </a>
-      {%- endif -%}
+          {% if section.settings.cta_text != blank and section.settings.cta_url != blank %}
+            <a href="{{ section.settings.cta_url }}" class="sample-kit-banner__cta">
+              {{ section.settings.cta_text }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<style>
-  #sample-kit-hero-{{ section.id }} {
-    --hero-height-desktop: {{ section_height_desktop }}px;
-    --hero-height-mobile: {{ section_height_mobile }}px;
-    --overlay-opacity: {{ overlay_opacity }};
-    --heading-color: {{ heading_color }};
-    --cta-color: {{ cta_color }};
-    --pill-bg: {{ pill_bg }};
-    --pill-text: {{ pill_text_color }};
-  }
-</style>
-
 {% schema %}
 {
-  "name": "Sample Kit Hero",
-  "class": "sample-kit-hero-section",
+  "name": "Sample kit banner",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+
     {
       "type": "header",
       "content": "Images"
     },
     {
       "type": "image_picker",
-      "id": "background_image",
-      "label": "Background Image (Desktop)",
-      "info": "Recommended size: 1800×700px or wider. Landscape orientation."
+      "id": "desktop_image",
+      "label": "Desktop image"
     },
     {
       "type": "image_picker",
-      "id": "background_image_mobile",
-      "label": "Background Image (Mobile)",
-      "info": "Recommended size: 800×700px. Portrait orientation. Falls back to the desktop image if blank."
+      "id": "mobile_image",
+      "label": "Mobile image"
     },
+    {
+      "type": "range",
+      "id": "desktop_image_position_x",
+      "label": "Desktop image position X (%)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "desktop_image_position_y",
+      "label": "Desktop image position Y (%)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_position_x",
+      "label": "Mobile image position X (%)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_position_y",
+      "label": "Mobile image position Y (%)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+
     {
       "type": "header",
-      "content": "Back Navigation Pill"
-    },
-    {
-      "type": "text",
-      "id": "back_label",
-      "label": "Back Button Label",
-      "default": "Sample Kits",
-      "info": "Leave blank to hide the back pill entirely."
-    },
-    {
-      "type": "url",
-      "id": "back_url",
-      "label": "Back Button URL"
-    },
-    {
-      "type": "header",
-      "content": "Heading & CTA"
+      "content": "Content"
     },
     {
       "type": "select",
       "id": "heading_tag",
-      "label": "Heading HTML Tag",
+      "label": "Heading tag",
       "options": [
-        { "value": "h1", "label": "H1 — Page Title" },
-        { "value": "h2", "label": "H2 — Section Heading" },
-        { "value": "h3", "label": "H3 — Sub Heading" },
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
         { "value": "p", "label": "Paragraph" }
       ],
-      "default": "h1",
-      "info": "Use H1 only if this is the primary heading on the page."
+      "default": "h1"
     },
     {
       "type": "textarea",
       "id": "heading",
-      "label": "Heading Text",
-      "default": "Discover what's inside every Flooret Sample Kit"
+      "label": "Heading",
+      "default": "Discover what’s inside every Flooret Sample Kit"
     },
     {
       "type": "text",
-      "id": "cta_label",
-      "label": "CTA Link Text",
-      "default": "Shop Samples",
-      "info": "Leave blank to hide the CTA."
+      "id": "back_label",
+      "label": "Back label",
+      "default": "Sample Kits"
+    },
+    {
+      "type": "url",
+      "id": "back_url",
+      "label": "Back URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA text",
+      "default": "Shop Samples"
     },
     {
       "type": "url",
       "id": "cta_url",
-      "label": "CTA Link URL"
+      "label": "CTA URL"
     },
     {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width desktop",
+      "min": 200,
+      "max": 1200,
+      "step": 10,
+      "default": 760
+    },
+    {
+      "type": "range",
+      "id": "content_max_width_mobile",
+      "label": "Content max width mobile",
+      "min": 160,
+      "max": 500,
+      "step": 10,
+      "default": 280
+    },
+    {
+      "type": "range",
+      "id": "content_left_desktop",
+      "label": "Content left desktop (%)",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "content_left_mobile",
+      "label": "Content left mobile (px)",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "content_top_desktop",
+      "label": "Content top desktop",
+      "min": 0,
+      "max": 220,
+      "step": 5,
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "content_top_mobile",
+      "label": "Content top mobile",
+      "min": 0,
+      "max": 180,
+      "step": 2,
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "content_bottom_desktop",
+      "label": "Content bottom desktop",
+      "min": 0,
+      "max": 220,
+      "step": 5,
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "content_bottom_mobile",
+      "label": "Content bottom mobile",
+      "min": 0,
+      "max": 180,
+      "step": 5,
+      "default": 5
+    },
+
+    {
       "type": "header",
-      "content": "Section Height"
+      "content": "Section height"
     },
     {
       "type": "range",
       "id": "section_height_desktop",
-      "label": "Desktop Height",
+      "label": "Section height desktop",
       "min": 300,
-      "max": 900,
-      "step": 10,
-      "default": 500,
-      "unit": "px"
+      "max": 1000,
+      "step": 50,
+      "default": 500
     },
     {
       "type": "range",
       "id": "section_height_mobile",
-      "label": "Mobile Height",
-      "min": 300,
-      "max": 800,
+      "label": "Section height mobile",
+      "min": 360,
+      "max": 900,
       "step": 10,
-      "default": 680,
-      "unit": "px"
+      "default": 760
     },
+
     {
       "type": "header",
-      "content": "Overlay & Colors"
+      "content": "Title typography"
+    },
+    {
+      "type": "select",
+      "id": "font_title",
+      "label": "Font family: Title",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "'Playfair Display', serif"
     },
     {
       "type": "range",
-      "id": "overlay_opacity",
-      "label": "Gradient Overlay Strength",
+      "id": "title_font_size_desktop",
+      "label": "Title font size desktop",
+      "min": 12,
+      "max": 100,
+      "step": 1,
+      "default": 68
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_mobile",
+      "label": "Title font size mobile",
+      "min": 10,
+      "max": 72,
+      "step": 1,
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "title_font_weight_desktop",
+      "label": "Title font weight desktop",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "title_font_weight_mobile",
+      "label": "Title font weight mobile",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "title_line_height_desktop",
+      "label": "Title line height desktop",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.0
+    },
+    {
+      "type": "range",
+      "id": "title_line_height_mobile",
+      "label": "Title line height mobile",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.0
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing_desktop",
+      "label": "Title letter spacing desktop",
       "min": 0,
-      "max": 90,
-      "step": 5,
-      "default": 55,
-      "unit": "%",
-      "info": "Darkens the bottom of the image so text is always readable."
+      "max": 2,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing_mobile",
+      "label": "Title letter spacing mobile",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "title_italic",
+      "label": "Title italic",
+      "default": false
     },
     {
       "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color",
+      "id": "title_color",
+      "label": "Title color",
       "default": "#ffffff"
+    },
+
+    {
+      "type": "header",
+      "content": "Back pill typography"
+    },
+    {
+      "type": "select",
+      "id": "font_back",
+      "label": "Font family: Back pill",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat, sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "back_font_size_desktop",
+      "label": "Back font size desktop",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "back_font_size_mobile",
+      "label": "Back font size mobile",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "back_font_weight_desktop",
+      "label": "Back font weight desktop",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "back_font_weight_mobile",
+      "label": "Back font weight mobile",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "back_line_height_desktop",
+      "label": "Back line height desktop",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.0
+    },
+    {
+      "type": "range",
+      "id": "back_line_height_mobile",
+      "label": "Back line height mobile",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.0
+    },
+    {
+      "type": "range",
+      "id": "back_letter_spacing_desktop",
+      "label": "Back letter spacing desktop",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "back_letter_spacing_mobile",
+      "label": "Back letter spacing mobile",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "back_pill_bg",
+      "label": "Back pill background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "back_pill_color",
+      "label": "Back pill text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "back_pill_border",
+      "label": "Back pill border color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "back_pill_padding_y_desktop",
+      "label": "Back pill padding Y desktop",
+      "min": 2,
+      "max": 30,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "back_pill_padding_x_desktop",
+      "label": "Back pill padding X desktop",
+      "min": 4,
+      "max": 50,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "back_pill_padding_y_mobile",
+      "label": "Back pill padding Y mobile",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "back_pill_padding_x_mobile",
+      "label": "Back pill padding X mobile",
+      "min": 4,
+      "max": 40,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "back_pill_radius",
+      "label": "Back pill radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 50
+    },
+
+    {
+      "type": "header",
+      "content": "CTA typography"
+    },
+    {
+      "type": "select",
+      "id": "font_cta",
+      "label": "Font family: CTA",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat, sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "cta_font_size_desktop",
+      "label": "CTA font size desktop",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "cta_font_size_mobile",
+      "label": "CTA font size mobile",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "cta_font_weight_desktop",
+      "label": "CTA font weight desktop",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "cta_font_weight_mobile",
+      "label": "CTA font weight mobile",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "cta_line_height_desktop",
+      "label": "CTA line height desktop",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "cta_line_height_mobile",
+      "label": "CTA line height mobile",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "cta_letter_spacing_desktop",
+      "label": "CTA letter spacing desktop",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "cta_letter_spacing_mobile",
+      "label": "CTA letter spacing mobile",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "default": 0
     },
     {
       "type": "color",
       "id": "cta_color",
-      "label": "CTA Link Color",
+      "label": "CTA color",
       "default": "#ffffff"
     },
     {
       "type": "color",
-      "id": "pill_bg",
-      "label": "Back Pill Background",
-      "default": "#ffffff"
+      "id": "cta_hover_color",
+      "label": "CTA hover color",
+      "default": "#d5d5d5"
+    },
+    {
+      "type": "range",
+      "id": "cta_underline_thickness",
+      "label": "CTA underline thickness",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "cta_underline_offset",
+      "label": "CTA underline offset",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    },
+
+    {
+      "type": "header",
+      "content": "Overlay"
     },
     {
       "type": "color",
-      "id": "pill_text_color",
-      "label": "Back Pill Text Color",
-      "default": "#1a1a1a"
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity_desktop",
+      "label": "Overlay opacity desktop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 58
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity_mobile",
+      "label": "Overlay opacity mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+
+    {
+      "type": "header",
+      "content": "Desktop padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding top desktop",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding bottom desktop",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left_desktop",
+      "label": "Padding left desktop",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right_desktop",
+      "label": "Padding right desktop",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 0
+    },
+
+    {
+      "type": "header",
+      "content": "Mobile padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "label": "Padding left mobile",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "label": "Padding right mobile",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 0
     }
   ],
   "presets": [
     {
-      "name": "Sample Kit Hero",
-      "category": "Hero"
+      "name": "Sample kit banner"
     }
   ]
 }
