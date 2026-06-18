@@ -446,6 +446,117 @@
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40
       }
+    },
+    "sample_kit_faq_split_QpTG4B": {
+      "type": "sample-kit-faq-split",
+      "blocks": {
+        "faq_6iKkk3": {
+          "type": "faq",
+          "settings": {
+            "question": "How many samples are in a kit?",
+            "answer": "<p>Your sample kit can include curated sample planks depending on the selected collection.</p>"
+          }
+        },
+        "faq_Pk79Dm": {
+          "type": "faq",
+          "settings": {
+            "question": "Which collection is the best?",
+            "answer": "<p>Your sample kit can include curated sample planks depending on the selected collection.</p>"
+          }
+        },
+        "faq_wn4mRT": {
+          "type": "faq",
+          "settings": {
+            "question": "When will my samples arrive?",
+            "answer": "<p>Your sample kit can include curated sample planks depending on the selected collection.</p>"
+          }
+        },
+        "faq_GDkUpk": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I contact Flooret if I have questions?",
+            "answer": "<p>Your sample kit can include curated sample planks depending on the selected collection.</p>"
+          }
+        },
+        "faq_PCLpTm": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I clean these floors?",
+            "answer": "<p>Your sample kit can include curated sample planks depending on the selected collection.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_6iKkk3",
+        "faq_Pk79Dm",
+        "faq_wn4mRT",
+        "faq_GDkUpk",
+        "faq_PCLpTm"
+      ],
+      "name": "Sample kit FAQ split",
+      "settings": {
+        "heading": "Sample Kit FAQ",
+        "first_item_open": false,
+        "image": "shopify://shop_images/image_1_10.png",
+        "image_max_width_desktop": 420,
+        "image_width_mobile": 82,
+        "image_radius": 0,
+        "mobile_image_first": false,
+        "content_max_width": 1300,
+        "left_column_width": 3,
+        "right_column_width": 2,
+        "grid_gap_desktop": 70,
+        "grid_gap_mobile": 28,
+        "heading_bottom_spacing_desktop": 28,
+        "heading_bottom_spacing_mobile": 20,
+        "font_heading": "Montserrat, sans-serif",
+        "heading_size_desktop": 40,
+        "heading_size_mobile": 30,
+        "heading_weight_desktop": 500,
+        "heading_weight_mobile": 500,
+        "heading_line_height_desktop": 1.2,
+        "heading_line_height_mobile": 1.2,
+        "heading_letter_spacing_desktop": 0,
+        "heading_letter_spacing_mobile": 0,
+        "heading_color": "#111111",
+        "font_question": "Montserrat, sans-serif",
+        "question_size_desktop": 16,
+        "question_size_mobile": 16,
+        "question_weight_desktop": 500,
+        "question_weight_mobile": 500,
+        "question_line_height_desktop": 1.4,
+        "question_line_height_mobile": 1.4,
+        "question_letter_spacing_desktop": 0,
+        "question_letter_spacing_mobile": 0,
+        "question_color": "#222222",
+        "question_hover_color": "#000000",
+        "font_answer": "'Helvetica Neue', sans-serif",
+        "answer_size_desktop": 15,
+        "answer_size_mobile": 14,
+        "answer_weight_desktop": 400,
+        "answer_weight_mobile": 400,
+        "answer_line_height_desktop": 1.6,
+        "answer_line_height_mobile": 1.6,
+        "answer_letter_spacing_desktop": 0,
+        "answer_letter_spacing_mobile": 0,
+        "answer_color": "#555555",
+        "faq_border_color": "#d9d9d9",
+        "icon_color": "#222222",
+        "icon_size_desktop": 20,
+        "icon_size_mobile": 18,
+        "faq_item_padding_y_desktop": 18,
+        "faq_item_padding_y_mobile": 16,
+        "faq_item_gap": 16,
+        "section_bg": "#f6f6f4",
+        "padding_top_desktop": 60,
+        "padding_bottom_desktop": 60,
+        "padding_left_desktop": 24,
+        "padding_right_desktop": 24,
+        "padding_top_mobile": 32,
+        "padding_bottom_mobile": 32,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
+      }
     }
   },
   "order": [
@@ -454,6 +565,7 @@
     "usp_feature_bar_7AGK36",
     "sample_kit_info_media_e633q8",
     "sample_kit_guide_mmjEkr",
-    "bestseller_sample_kits_dHrmHx"
+    "bestseller_sample_kits_dHrmHx",
+    "sample_kit_faq_split_QpTG4B"
   ]
 }
