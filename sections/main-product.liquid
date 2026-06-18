@@ -1938,7 +1938,7 @@ document.addEventListener('DOMContentLoaded', function() {
 {% endif %}  
 
 
-{% if product.handle == 'modin-lvp-original-pvc-stair-nosings' or product.handle == 'modin-original-stair-nosings' or product.handle == 'base-truplank-round-nosing-48' %}
+{% if product.handle == 'modin-lvp-original-pvc-stair-nosings' or product.handle == 'modin-original-stair-nosings' %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
   const PRODUCT_HANDLE = {{ product.handle | json }};
@@ -2034,6 +2034,149 @@ document.addEventListener('DOMContentLoaded', function() {
         enabledInputs[0].checked = true;
       }
     });
+  }
+
+  productForm.addEventListener('change', function (e) {
+    if (
+      e.target.matches('.js-product-form__button[data-option-index]') ||
+      e.target.matches('.js-product-form__select')
+    ) {
+      setTimeout(updateOptionAvailability, 0);
+    }
+  });
+
+  updateOptionAvailability();
+});
+</script>
+{% endif %}
+
+
+{% if product.type == 'trim' or product.type == 'Trim' %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const PRODUCT_HANDLE = {{ product.handle | json }};
+  const productForm = document.querySelector('.pdp-atc__variants');
+  const allVariants = window.productInfo && window.productInfo[PRODUCT_HANDLE];
+
+  if (!productForm || !Array.isArray(allVariants) || !allVariants.length) return;
+
+  function getCurrentSelections() {
+    const selections = {};
+
+    productForm.querySelectorAll('.js-product-form__button[data-option-index]').forEach((input) => {
+      const optionIndex = parseInt(input.dataset.optionIndex, 10);
+      if (!Number.isNaN(optionIndex) && input.checked) {
+        selections[optionIndex] = input.value;
+      }
+    });
+
+    productForm.querySelectorAll('.js-product-form__select[data-option-index], .js-product-form__select').forEach((select) => {
+      let optionIndex = parseInt(select.dataset.optionIndex, 10);
+
+      if (Number.isNaN(optionIndex)) {
+        const selectedOption = select.options[select.selectedIndex];
+        if (selectedOption) {
+          optionIndex = parseInt(selectedOption.dataset.optionIndex, 10);
+        }
+      }
+
+      if (!Number.isNaN(optionIndex) && select.value && select.value !== 'Please select a color') {
+        selections[optionIndex] = select.value;
+      }
+    });
+
+    return selections;
+  }
+
+  function canOptionBeUsed(optionIndexToTest, optionValueToTest, currentSelections) {
+    return allVariants.some((variant) => {
+      if (!variant.available) return false;
+      if (!variant.options || !variant.options.length) return false;
+
+      if (variant.options[optionIndexToTest - 1] !== optionValueToTest) {
+        return false;
+      }
+
+      for (const [selectedIndex, selectedValue] of Object.entries(currentSelections)) {
+        const idx = parseInt(selectedIndex, 10);
+        if (idx === optionIndexToTest) continue;
+
+        if (variant.options[idx - 1] !== selectedValue) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }
+
+  function updateRadioOptionState(input, isAvailable) {
+    const li = input.closest('li');
+    const label = productForm.querySelector('label[for="' + input.id + '"]');
+
+    input.disabled = !isAvailable;
+
+    if (li) li.classList.toggle('is-disabled', !isAvailable);
+
+    if (label) {
+      label.classList.toggle('is-disabled', !isAvailable);
+      label.style.pointerEvents = isAvailable ? '' : 'none';
+      label.style.opacity = isAvailable ? '' : '0.45';
+    }
+  }
+
+  function autoSelectFallbacks() {
+    const groups = productForm.querySelectorAll('.pdp-atc__group, .pdp-atc__group__buttons');
+
+    groups.forEach((group) => {
+      const checked = group.querySelector('.js-product-form__button[data-option-index]:checked');
+      const enabledInputs = Array.from(
+        group.querySelectorAll('.js-product-form__button[data-option-index]:not(:disabled)')
+      );
+
+      if ((!checked || checked.disabled) && enabledInputs.length) {
+        enabledInputs[0].checked = true;
+        enabledInputs[0].dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+  }
+
+  function updateOptionAvailability() {
+    const currentSelections = getCurrentSelections();
+
+    productForm.querySelectorAll('.js-product-form__button[data-option-index]').forEach((input) => {
+      const optionIndex = parseInt(input.dataset.optionIndex, 10);
+      const optionValue = input.value;
+
+      if (Number.isNaN(optionIndex) || !optionValue) return;
+
+      const isAvailableForSelection = canOptionBeUsed(optionIndex, optionValue, currentSelections);
+      updateRadioOptionState(input, isAvailableForSelection);
+    });
+
+    productForm.querySelectorAll('.js-product-form__select').forEach((select) => {
+      const optionIndex = parseInt(select.dataset.optionIndex, 10);
+
+      Array.from(select.options).forEach((opt) => {
+        let testIndex = optionIndex;
+        if (Number.isNaN(testIndex)) {
+          testIndex = parseInt(opt.dataset.optionIndex, 10);
+        }
+
+        if (Number.isNaN(testIndex) || !opt.value) return;
+
+        const placeholder = opt.value === 'Please select a color';
+        if (placeholder) {
+          opt.disabled = false;
+          return;
+        }
+
+        const isAvailableForSelection = canOptionBeUsed(testIndex, opt.value, currentSelections);
+        opt.disabled = !isAvailableForSelection;
+      });
+    });
+
+    autoSelectFallbacks();
   }
 
   productForm.addEventListener('change', function (e) {
