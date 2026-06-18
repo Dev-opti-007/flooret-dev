@@ -1,0 +1,655 @@
+{% liquid
+  assign section_id = 'usp-feature-bar-' | append: section.id
+%}
+
+<style>
+  #{{ section_id }} {
+    --section-bg: {{ section.settings.section_bg }};
+    --section-border-color: {{ section.settings.section_border_color }};
+    --item-gap-desktop: {{ section.settings.item_gap_desktop }}px;
+    --item-gap-mobile: {{ section.settings.item_gap_mobile }}px;
+    --columns-mobile: {{ section.settings.columns_mobile }};
+    --content-max-width: {{ section.settings.content_max_width }}px;
+
+    --padding-top-desktop: {{ section.settings.padding_top_desktop }}px;
+    --padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --padding-left-desktop: {{ section.settings.padding_left_desktop }}px;
+    --padding-right-desktop: {{ section.settings.padding_right_desktop }}px;
+
+    --padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --padding-left-mobile: {{ section.settings.padding_left_mobile }}px;
+    --padding-right-mobile: {{ section.settings.padding_right_mobile }}px;
+
+    --icon-size-desktop: {{ section.settings.icon_size_desktop }}px;
+    --icon-size-mobile: {{ section.settings.icon_size_mobile }}px;
+    --icon-gap-desktop: {{ section.settings.icon_gap_desktop }}px;
+    --icon-gap-mobile: {{ section.settings.icon_gap_mobile }}px;
+
+    --text-color: {{ section.settings.text_color }};
+    --text-hover-color: {{ section.settings.text_hover_color }};
+    --text-size-desktop: {{ section.settings.text_size_desktop }}px;
+    --text-size-mobile: {{ section.settings.text_size_mobile }}px;
+    --text-weight-desktop: {{ section.settings.text_weight_desktop }};
+    --text-weight-mobile: {{ section.settings.text_weight_mobile }};
+    --text-line-height-desktop: {{ section.settings.text_line_height_desktop }};
+    --text-line-height-mobile: {{ section.settings.text_line_height_mobile }};
+    --text-letter-spacing-desktop: {{ section.settings.text_letter_spacing_desktop }}px;
+    --text-letter-spacing-mobile: {{ section.settings.text_letter_spacing_mobile }}px;
+    --text-font-family: {{ section.settings.font_text }};
+
+    --icon-color: {{ section.settings.icon_color }};
+    --item-align-desktop: {{ section.settings.item_align_desktop }};
+    --item-align-mobile: {{ section.settings.item_align_mobile }};
+  }
+
+  #{{ section_id }} {
+    width: 100%;
+    background: var(--section-bg);
+    border-top: 1px solid var(--section-border-color);
+    border-bottom: 1px solid var(--section-border-color);
+    padding-top: var(--padding-top-desktop);
+    padding-bottom: var(--padding-bottom-desktop);
+    padding-left: var(--padding-left-desktop);
+    padding-right: var(--padding-right-desktop);
+  }
+
+  #{{ section_id }} .usp-feature-bar__inner {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  #{{ section_id }} .usp-feature-bar__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+    gap: var(--item-gap-desktop);
+    align-items: center;
+  }
+
+  #{{ section_id }} .usp-feature-bar__item {
+    display: flex;
+    align-items: center;
+    justify-content:
+      {% case section.settings.item_align_desktop %}
+        {% when 'left' %} flex-start
+        {% when 'center' %} center
+        {% when 'right' %} flex-end
+      {% endcase %};
+    gap: var(--icon-gap-desktop);
+    text-decoration: none;
+    color: var(--text-color);
+    min-width: 0;
+    transition: color .25s ease, opacity .25s ease;
+  }
+
+  #{{ section_id }} .usp-feature-bar__item:hover {
+    color: var(--text-hover-color);
+  }
+
+  #{{ section_id }} .usp-feature-bar__icon {
+    width: var(--icon-size-desktop);
+    height: var(--icon-size-desktop);
+    flex: 0 0 var(--icon-size-desktop);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--icon-color);
+  }
+
+  #{{ section_id }} .usp-feature-bar__icon img,
+  #{{ section_id }} .usp-feature-bar__icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+  }
+
+  #{{ section_id }} .usp-feature-bar__icon svg {
+    stroke: currentColor;
+    fill: none;
+  }
+
+  #{{ section_id }} .usp-feature-bar__text {
+    margin: 0;
+    color: inherit;
+    font-family: var(--text-font-family);
+    font-size: var(--text-size-desktop);
+    font-weight: var(--text-weight-desktop);
+    line-height: var(--text-line-height-desktop);
+    letter-spacing: var(--text-letter-spacing-desktop);
+    white-space: normal;
+  }
+
+  #{{ section_id }} .usp-feature-bar__item[aria-disabled="true"] {
+    pointer-events: none;
+  }
+
+  @media (max-width: 767px) {
+    #{{ section_id }} {
+      padding-top: var(--padding-top-mobile);
+      padding-bottom: var(--padding-bottom-mobile);
+      padding-left: var(--padding-left-mobile);
+      padding-right: var(--padding-right-mobile);
+    }
+
+    #{{ section_id }} .usp-feature-bar__grid {
+      grid-template-columns: repeat(var(--columns-mobile), minmax(0, 1fr));
+      gap: var(--item-gap-mobile);
+      row-gap: var(--item-gap-mobile);
+    }
+
+    #{{ section_id }} .usp-feature-bar__item {
+      gap: var(--icon-gap-mobile);
+      justify-content:
+        {% case section.settings.item_align_mobile %}
+          {% when 'left' %} flex-start
+          {% when 'center' %} center
+          {% when 'right' %} flex-end
+        {% endcase %};
+      align-items: center;
+    }
+
+    #{{ section_id }} .usp-feature-bar__icon {
+      width: var(--icon-size-mobile);
+      height: var(--icon-size-mobile);
+      flex-basis: var(--icon-size-mobile);
+    }
+
+    #{{ section_id }} .usp-feature-bar__text {
+      font-size: var(--text-size-mobile);
+      font-weight: var(--text-weight-mobile);
+      line-height: var(--text_line_height_mobile);
+      letter-spacing: var(--text-letter-spacing-mobile);
+    }
+  }
+</style>
+
+<section id="{{ section_id }}" class="usp-feature-bar-section">
+  <div class="usp-feature-bar__inner">
+    <div class="usp-feature-bar__grid">
+      {% for block in section.blocks %}
+        {% liquid
+          assign block_link = block.settings.link
+          assign title = block.settings.title
+          assign icon_image = block.settings.icon_image
+          assign icon_type = block.settings.icon_type
+          assign custom_svg = block.settings.custom_svg
+        %}
+
+        {% if block_link != blank %}
+          <a
+            href="{{ block_link }}"
+            class="usp-feature-bar__item"
+            {{ block.shopify_attributes }}
+          >
+        {% else %}
+          <div
+            class="usp-feature-bar__item"
+            aria-disabled="true"
+            {{ block.shopify_attributes }}
+          >
+        {% endif %}
+
+            <div class="usp-feature-bar__icon">
+              {% if icon_type == 'image' and icon_image != blank %}
+                <img
+                  src="{{ icon_image | image_url: width: 80 }}"
+                  alt="{{ icon_image.alt | default: title | escape }}"
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                >
+              {% elsif icon_type == 'custom_svg' and custom_svg != blank %}
+                {{ custom_svg }}
+              {% else %}
+                {% case block.settings.preset_icon %}
+                  {% when 'flame' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true" stroke-width="1.8">
+                      <path d="M12 3c1.2 2.8 4 4.1 4 7.4A4 4 0 1 1 8 11c0-1.8.9-3.2 2.2-4.5.9-.9 1.5-1.9 1.8-3.5Z"/>
+                      <path d="M12 14c.8 1 1.8 1.8 1.8 3.2A1.8 1.8 0 1 1 10.2 17c0-.9.5-1.7 1.3-3Z"/>
+                    </svg>
+                  {% when 'paw' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true" stroke-width="1.8">
+                      <path d="M12 14c2.1 0 4.5 1.7 4.5 3.7 0 1.3-1.2 2.3-4.5 2.3s-4.5-1-4.5-2.3C7.5 15.7 9.9 14 12 14Z"/>
+                      <path d="M7 10.5A1.8 2.3 0 1 0 7 5.9a1.8 2.3 0 1 0 0 4.6Z"/>
+                      <path d="M12 8.5A1.8 2.3 0 1 0 12 3.9a1.8 2.3 0 1 0 0 4.6Z"/>
+                      <path d="M17 10.5A1.8 2.3 0 1 0 17 5.9a1.8 2.3 0 1 0 0 4.6Z"/>
+                      <path d="M4.2 14A1.6 2.1 0 1 0 4.2 9.8 1.6 2.1 0 1 0 4.2 14Z"/>
+                      <path d="M19.8 14a1.6 2.1 0 1 0 0-4.2 1.6 2.1 0 1 0 0 4.2Z"/>
+                    </svg>
+                  {% when 'kids' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true" stroke-width="1.8">
+                      <circle cx="8" cy="5.5" r="1.6"/>
+                      <circle cx="16.2" cy="6.2" r="1.6"/>
+                      <path d="M8 7.8 6 12.2l2.3 2.4L6.8 20"/>
+                      <path d="M8 7.8 10.2 11l1.5 2.2"/>
+                      <path d="M16.2 8.5 18 12l-2.4 2.3 1.2 5"/>
+                      <path d="M16.2 8.5 13 10.5l-1.8 1.7"/>
+                      <path d="M10.6 14.2h3"/>
+                    </svg>
+                  {% when 'shield' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true" stroke-width="1.8">
+                      <path d="M12 3 18 5v5c0 4.2-2.4 7.3-6 9-3.6-1.7-6-4.8-6-9V5l6-2Z"/>
+                    </svg>
+                  {% else %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true" stroke-width="1.8">
+                      <circle cx="12" cy="12" r="8"/>
+                    </svg>
+                {% endcase %}
+              {% endif %}
+            </div>
+
+            {% if title != blank %}
+              <p class="usp-feature-bar__text">{{ title }}</p>
+            {% endif %}
+
+        {% if block_link != blank %}
+          </a>
+        {% else %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "USP feature bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "default": 1440
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns desktop",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "item_align_desktop",
+      "label": "Item alignment desktop",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "item_align_mobile",
+      "label": "Item alignment mobile",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background color",
+      "default": "#eeeeee"
+    },
+    {
+      "type": "color",
+      "id": "section_border_color",
+      "label": "Border color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_hover_color",
+      "label": "Text hover color",
+      "default": "#111111"
+    },
+
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_text",
+      "label": "Font family",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "'Helvetica Neue', sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "text_size_desktop",
+      "label": "Text size desktop",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "default": 17
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Text size mobile",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "text_weight_desktop",
+      "label": "Text weight desktop",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "text_weight_mobile",
+      "label": "Text weight mobile",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "text_line_height_desktop",
+      "label": "Text line height desktop",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "text_line_height_mobile",
+      "label": "Text line height mobile",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "text_letter_spacing_desktop",
+      "label": "Text letter spacing desktop",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "text_letter_spacing_mobile",
+      "label": "Text letter spacing mobile",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "default": 0
+    },
+
+    {
+      "type": "header",
+      "content": "Icon sizing"
+    },
+    {
+      "type": "range",
+      "id": "icon_size_desktop",
+      "label": "Icon size desktop",
+      "min": 12,
+      "max": 60,
+      "step": 1,
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "icon_size_mobile",
+      "label": "Icon size mobile",
+      "min": 12,
+      "max": 48,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "icon_gap_desktop",
+      "label": "Icon gap desktop",
+      "min": 2,
+      "max": 30,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "icon_gap_mobile",
+      "label": "Icon gap mobile",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+
+    {
+      "type": "header",
+      "content": "Item spacing"
+    },
+    {
+      "type": "range",
+      "id": "item_gap_desktop",
+      "label": "Item gap desktop",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "item_gap_mobile",
+      "label": "Item gap mobile",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 18
+    },
+
+    {
+      "type": "header",
+      "content": "Desktop padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding top desktop",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding bottom desktop",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "padding_left_desktop",
+      "label": "Padding left desktop",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right_desktop",
+      "label": "Padding right desktop",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 20
+    },
+
+    {
+      "type": "header",
+      "content": "Mobile padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "label": "Padding left mobile",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "label": "Padding right mobile",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 14
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Text",
+          "default": "Designer Curated"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Icon type",
+          "options": [
+            { "value": "preset", "label": "Preset icon" },
+            { "value": "image", "label": "Upload image" },
+            { "value": "custom_svg", "label": "Custom SVG" }
+          ],
+          "default": "preset"
+        },
+        {
+          "type": "select",
+          "id": "preset_icon",
+          "label": "Preset icon",
+          "options": [
+            { "value": "flame", "label": "Flame" },
+            { "value": "paw", "label": "Paw" },
+            { "value": "kids", "label": "Kids" },
+            { "value": "shield", "label": "Shield" }
+          ],
+          "default": "paw"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image"
+        },
+        {
+          "type": "html",
+          "id": "custom_svg",
+          "label": "Custom SVG"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "USP feature bar",
+      "blocks": [
+        { "type": "feature", "settings": { "title": "Designer Curated", "preset_icon": "flame" } },
+        { "type": "feature", "settings": { "title": "Pet-Friendly", "preset_icon": "paw" } },
+        { "type": "feature", "settings": { "title": "Kid-Friendly", "preset_icon": "kids" } },
+        { "type": "feature", "settings": { "title": "Lifetime Warranty", "preset_icon": "shield" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
