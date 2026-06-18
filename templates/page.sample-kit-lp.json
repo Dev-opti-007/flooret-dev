@@ -306,6 +306,7 @@
         "step_7pR9kE": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/Image_5_23e633e3-f9d1-455f-8d7b-75b7c6f2eb65.png",
             "step_label": "STEP 1 - START",
             "step_number": "01",
             "heading": "Which Collection is Right for You?",
@@ -316,6 +317,7 @@
         "step_47U3r4": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/Image_6_e725d024-8c04-4ae6-8afd-f485e4ad6c8f.png",
             "step_label": "STEP 2 - EXPLORE",
             "step_number": "02",
             "heading": "Explore Models and Colors",
@@ -326,6 +328,7 @@
         "step_KBNgTn": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/Image_7_c3e64445-4166-4f48-9dc6-2d1b573e1372.png",
             "step_label": "STEP 3 - CHOOSE",
             "step_number": "03",
             "heading": "Bring Your Vision to Life",
@@ -343,26 +346,26 @@
       "settings": {
         "heading": "How to choose a sample kit",
         "heading_alignment": "left",
-        "heading_size_desktop": 40,
-        "heading_size_mobile": 30,
+        "heading_size_desktop": 36,
+        "heading_size_mobile": 28,
         "heading_weight": "500",
-        "step_heading_size_desktop": 30,
-        "step_heading_size_mobile": 22,
+        "step_heading_size_desktop": 24,
+        "step_heading_size_mobile": 20,
         "bg_color": "#ffffff",
         "text_color": "#2c2c2c",
         "heading_color": "#000000",
-        "accent_color": "#4a5565",
-        "number_color": "#e9e4e4",
+        "accent_color": "#606060",
+        "number_color": "#f0ece7",
         "image_aspect_ratio": "portrait",
-        "image_border_radius": 24,
-        "max_width": 1100,
+        "image_border_radius": 16,
+        "max_width": 1200,
         "alternate_rows": false,
         "mobile_image_position": "below",
-        "row_gap": 120,
-        "padding_top": 100,
-        "padding_bottom": 100,
-        "padding_top_mobile": 60,
-        "padding_bottom_mobile": 60
+        "row_gap": 80,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
       }
     },
     "bestseller_sample_kits_dHrmHx": {
@@ -373,7 +376,10 @@
           "settings": {
             "title": "MODIN LVP",
             "button_label": "Shop Samples",
-            "button_link": ""
+            "button_link": "",
+            "image_1": "shopify://shop_images/Rectangle_1.png",
+            "image_2": "shopify://shop_images/Rectangle_1.png",
+            "image_3": "shopify://shop_images/Rectangle_1.png"
           }
         },
         "product_card_tHjUFL": {
@@ -415,12 +421,12 @@
         "heading_size_desktop": 36,
         "heading_size_mobile": 28,
         "heading_weight": "500",
-        "bg_color": "#f5f3ef",
+        "bg_color": "#F5F3EF",
         "text_color": "#000000",
         "heading_color": "#000000",
-        "button_bg": "#f7b25b",
+        "button_bg": "#F7B25B",
         "button_color": "#000000",
-        "button_hover_bg": "#e59f42",
+        "button_hover_bg": "#E59F42",
         "image_aspect_ratio": "landscape",
         "image_border_radius": 16,
         "autoplay": false,
