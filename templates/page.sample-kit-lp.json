@@ -155,8 +155,8 @@
         "columns_mobile": "2",
         "item_align_desktop": "center",
         "item_align_mobile": "left",
-        "section_bg": "#FFFFFF",
-        "section_border_color": "#FFFFFF",
+        "section_bg": "#ffffff",
+        "section_border_color": "#ffffff",
         "icon_color": "#000000",
         "text_color": "#000000",
         "text_hover_color": "#000000",
@@ -183,6 +183,121 @@
         "padding_bottom_mobile": 18,
         "padding_left_mobile": 14,
         "padding_right_mobile": 14
+      }
+    },
+    "sample_kit_info_media_e633q8": {
+      "type": "sample-kit-info-media",
+      "blocks": {
+        "bullet_V6cVYq": {
+          "type": "bullet",
+          "settings": {
+            "text": "<p>Try multiple colors and styles in your home</p>"
+          }
+        },
+        "bullet_GtXxwz": {
+          "type": "bullet",
+          "settings": {
+            "text": "<p>Compare colors in different lighting and times of day</p>"
+          }
+        },
+        "bullet_Gp7DCn": {
+          "type": "bullet",
+          "settings": {
+            "text": "<p>Test durability and scratch resistance</p>"
+          }
+        },
+        "bullet_dnU9Bb": {
+          "type": "bullet",
+          "settings": {
+            "text": "<p>Samples ship right to your door in 2-3 business days</p>"
+          }
+        }
+      },
+      "block_order": [
+        "bullet_V6cVYq",
+        "bullet_GtXxwz",
+        "bullet_Gp7DCn",
+        "bullet_dnU9Bb"
+      ],
+      "name": "Sample kit info media",
+      "settings": {
+        "title": "Why a sample kit?",
+        "cta_text": "Shop Sample Kits",
+        "cta_url": "",
+        "top_image": "shopify://shop_images/Group_47.webp",
+        "top_image_max_width": 520,
+        "top_image_width_mobile": 82,
+        "bottom_media_image": "shopify://shop_images/Cut_Sample_Process_LP_Video_Thumbnail_1.png",
+        "media_link": "",
+        "show_play_button": true,
+        "caption": "Every sample, cut from a real plank",
+        "media_radius": 0,
+        "play_size_desktop": 92,
+        "play_size_mobile": 74,
+        "play_bg": "#efac4d",
+        "play_icon_color": "#000000",
+        "content_max_width": 1300,
+        "top_grid_gap_desktop": 60,
+        "top_grid_gap_mobile": 28,
+        "bottom_spacing_desktop": 56,
+        "bottom_spacing_mobile": 36,
+        "font_title": "Montserrat, sans-serif",
+        "title_size_desktop": 40,
+        "title_size_mobile": 30,
+        "title_weight_desktop": 500,
+        "title_weight_mobile": 500,
+        "title_line_height_desktop": 1.2,
+        "title_line_height_mobile": 1.2,
+        "title_letter_spacing_desktop": 0,
+        "title_letter_spacing_mobile": 0,
+        "title_color": "#000000",
+        "font_bullet": "Montserrat, sans-serif",
+        "bullet_size_desktop": 16,
+        "bullet_size_mobile": 14,
+        "bullet_weight_desktop": 500,
+        "bullet_weight_mobile": 500,
+        "bullet_line_height_desktop": 1.5,
+        "bullet_line_height_mobile": 1.5,
+        "bullet_letter_spacing_desktop": 0,
+        "bullet_letter_spacing_mobile": 0,
+        "bullet_color": "#000000",
+        "bullet_icon_color": "#FAAF4F",
+        "bullet_gap_desktop": 10,
+        "bullet_gap_mobile": 8,
+        "bullet_list_gap_desktop": 22,
+        "bullet_list_gap_mobile": 16,
+        "font_cta": "'Helvetica Neue', sans-serif",
+        "cta_size_desktop": 15,
+        "cta_size_mobile": 14,
+        "cta_weight_desktop": 600,
+        "cta_weight_mobile": 600,
+        "cta_line_height_desktop": 1.2,
+        "cta_line_height_mobile": 1.2,
+        "cta_letter_spacing_desktop": 0,
+        "cta_letter_spacing_mobile": 0,
+        "cta_color": "#111111",
+        "cta_hover_color": "#666666",
+        "cta_underline_offset": 2,
+        "cta_underline_thickness": 1,
+        "font_caption": "Montserrat, sans-serif",
+        "caption_size_desktop": 19,
+        "caption_size_mobile": 16,
+        "caption_weight_desktop": 500,
+        "caption_weight_mobile": 500,
+        "caption_line_height_desktop": 1.3,
+        "caption_line_height_mobile": 1.3,
+        "caption_letter_spacing_desktop": 0,
+        "caption_letter_spacing_mobile": 0,
+        "caption_color": "#6d7485",
+        "section_bg": "#f8f7f4",
+        "padding_top_desktop": 48,
+        "padding_bottom_desktop": 48,
+        "padding_left_desktop": 24,
+        "padding_right_desktop": 24,
+        "padding_top_mobile": 32,
+        "padding_bottom_mobile": 32,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
       }
     },
     "sample_kit_guide_mmjEkr": {
@@ -323,6 +438,7 @@
     "main",
     "sample_kit_banner_lp_yKfkgF",
     "usp_feature_bar_7AGK36",
+    "sample_kit_info_media_e633q8",
     "sample_kit_guide_mmjEkr",
     "bestseller_sample_kits_dHrmHx"
   ]
