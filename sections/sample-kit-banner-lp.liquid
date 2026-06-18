@@ -191,7 +191,7 @@
   assign pill_text_color = section.settings.pill_text_color
 -%}
 
-<section
+<div
   id="sample-kit-hero-{{ section.id }}"
   class="sample-kit-hero"
   aria-label="{{ heading | escape }}"
@@ -261,7 +261,7 @@
       {%- endif -%}
     </div>
   </div>
-</section>
+</div>
 
 <style>
   #sample-kit-hero-{{ section.id }} {
@@ -278,7 +278,6 @@
 {% schema %}
 {
   "name": "Sample Kit Hero",
-  "tag": "section",
   "class": "sample-kit-hero-section",
   "settings": [
     {
