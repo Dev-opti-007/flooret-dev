@@ -2091,11 +2091,42 @@ document.addEventListener('DOMContentLoaded', function () {
     return selections;
   }
 
-  function getAvailableValuesForOption(optionIndex, currentSelections) {
+  function getOptionState(optionIndex, optionValue, currentSelections) {
+    let exists = false;
+    let purchasable = false;
+
+    allVariants.forEach((variant) => {
+      if (!variant.options || !variant.options.length) return;
+      if (variant.options[optionIndex - 1] !== optionValue) return;
+
+      let matchesOtherSelections = true;
+
+      for (const [selectedIndex, selectedValue] of Object.entries(currentSelections)) {
+        const idx = parseInt(selectedIndex, 10);
+        if (idx === optionIndex) continue;
+
+        if (variant.options[idx - 1] !== selectedValue) {
+          matchesOtherSelections = false;
+          break;
+        }
+      }
+
+      if (!matchesOtherSelections) return;
+
+      exists = true;
+
+      if (variant.available) {
+        purchasable = true;
+      }
+    });
+
+    return { exists, purchasable };
+  }
+
+  function getExistingValuesForOption(optionIndex, currentSelections) {
     const values = new Set();
 
     allVariants.forEach((variant) => {
-      if (!variant.available) return;
       if (!variant.options || !variant.options.length) return;
 
       let matchesOtherSelections = true;
@@ -2118,25 +2149,25 @@ document.addEventListener('DOMContentLoaded', function () {
     return Array.from(values);
   }
 
-  function updateRadioOptionState(input, isAvailable) {
+  function updateRadioOptionState(input, state) {
     const li = input.closest('li');
     const label = productForm.querySelector('label[for="' + input.id + '"]');
 
-    if (isAvailable) {
-      input.disabled = false;
-      input.removeAttribute('disabled');
-      input.classList.remove('oos', 'disabled', 'is-disabled');
+    input.disabled = false;
+    input.removeAttribute('disabled');
+    input.classList.remove('oos', 'disabled', 'is-disabled');
 
-      if (li) {
-        li.classList.remove('is-disabled', 'disabled', 'oos');
-      }
+    if (li) {
+      li.classList.remove('oos', 'disabled', 'is-disabled');
+    }
 
-      if (label) {
-        label.classList.remove('is-disabled', 'disabled', 'oos');
-        label.style.pointerEvents = '';
-        label.style.opacity = '';
-      }
-    } else {
+    if (label) {
+      label.classList.remove('oos', 'disabled', 'is-disabled');
+      label.style.pointerEvents = '';
+      label.style.opacity = '';
+    }
+
+    if (!state.exists) {
       input.disabled = true;
       input.setAttribute('disabled', 'disabled');
       input.classList.add('is-disabled');
@@ -2153,6 +2184,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (input.checked) {
         input.checked = false;
+      }
+
+      return;
+    }
+
+    if (!state.purchasable) {
+      input.classList.add('oos');
+
+      if (li) {
+        li.classList.add('oos');
+      }
+
+      if (label) {
+        label.classList.add('oos');
       }
     }
   }
@@ -2174,6 +2219,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  function updateSelectOptionState(select, optionValue, state) {
+    const targetOption = Array.from(select.options).find((opt) => opt.value === optionValue);
+    if (!targetOption) return;
+
+    targetOption.disabled = !state.exists;
+  }
+
   function updateOptionAvailability() {
     const currentSelections = getCurrentSelections();
 
@@ -2184,11 +2236,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     allOptionIndexes.forEach((optionIndex) => {
-      const availableValues = getAvailableValuesForOption(optionIndex, currentSelections);
+      const existingValues = getExistingValuesForOption(optionIndex, currentSelections);
 
       productForm.querySelectorAll('.js-product-form__button[data-option-index="' + optionIndex + '"]').forEach((input) => {
-        const isAvailable = availableValues.includes(input.value);
-        updateRadioOptionState(input, isAvailable);
+        const state = getOptionState(optionIndex, input.value, currentSelections);
+        updateRadioOptionState(input, state);
       });
 
       productForm.querySelectorAll('.js-product-form__select[data-option-index="' + optionIndex + '"]').forEach((select) => {
@@ -2198,9 +2250,12 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
           }
 
-          opt.disabled = !availableValues.includes(opt.value);
+          const state = getOptionState(optionIndex, opt.value, currentSelections);
+          updateSelectOptionState(select, opt.value, state);
         });
       });
+
+      console.log('Existing values for option ' + optionIndex + ':', existingValues);
     });
 
     fixInvalidSelections();
@@ -2209,7 +2264,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const styleInputs = Array.from(productForm.querySelectorAll('.js-product-form__button[data-option-index="2"]'));
 
     console.log('Current selections:', currentSelections);
-    console.log('Available styles:', getAvailableValuesForOption(2, currentSelections));
+    console.log('Available styles by existence:', getExistingValuesForOption(2, currentSelections));
     console.log('Checked style:', styleChecked ? styleChecked.value : null);
     console.log('Style DOM state:', styleInputs.map((input) => ({
       value: input.value,
