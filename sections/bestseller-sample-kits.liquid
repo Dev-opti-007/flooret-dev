@@ -1,0 +1,791 @@
+{%- liquid
+    assign bg_color = section.settings.bg_color | default: '#F5F3EF'
+    assign text_color = section.settings.text_color | default: '#000000'
+    assign heading_color = section.settings.heading_color | default: '#000000'
+    assign button_bg = section.settings.button_bg | default: '#F7B25B'
+    assign button_color = section.settings.button_color | default: '#000000'
+    assign button_hover_bg = section.settings.button_hover_bg | default: '#E59F42'
+    
+    assign heading_align_d = section.settings.heading_alignment_desktop | default: 'left'
+    assign heading_align_m = section.settings.heading_alignment_mobile | default: 'left'
+  -%}
+  
+  <style>
+    .bestseller-kits--{{ section.id }} {
+      --bk-bg-color: {{ bg_color }};
+      --bk-text-color: {{ text_color }};
+      --bk-heading-color: {{ heading_color }};
+      --bk-button-bg: {{ button_bg }};
+      --bk-button-color: {{ button_color }};
+      --bk-button-hover-bg: {{ button_hover_bg }};
+      --bk-heading-align-d: {{ heading_align_d }};
+      --bk-heading-align-m: {{ heading_align_m }};
+      --bk-heading-size-d: {{ section.settings.heading_size_desktop }}px;
+      --bk-heading-size-m: {{ section.settings.heading_size_mobile }}px;
+      --bk-heading-weight: {{ section.settings.heading_weight | default: '500' }};
+      
+      --bk-image-radius: {{ section.settings.image_border_radius }}px;
+      --bk-grid-gap: {{ section.settings.grid_gap }}px;
+      --bk-max-width: {{ section.settings.max_width }}px;
+      
+      --bk-padding-top: {{ section.settings.padding_top }}px;
+      --bk-padding-bottom: {{ section.settings.padding_bottom }}px;
+      --bk-padding-top-m: {{ section.settings.padding_top_mobile }}px;
+      --bk-padding-bottom-m: {{ section.settings.padding_bottom_mobile }}px;
+  
+      background-color: var(--bk-bg-color);
+      color: var(--bk-text-color);
+      padding-top: var(--bk-padding-top);
+      padding-bottom: var(--bk-padding-bottom);
+    }
+  
+    .bestseller-kits--{{ section.id }} .bestseller-kits__container {
+      max-width: var(--bk-max-width);
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
+      box-sizing: border-box;
+    }
+  
+    /* Header / Title Styling */
+    .bestseller-kits--{{ section.id }} .bestseller-kits__header {
+      margin-bottom: 40px;
+    }
+  
+    .bestseller-kits--{{ section.id }} .bestseller-kits__heading {
+      font-family: 'Montserrat', sans-serif;
+      font-size: var(--bk-heading-size-d);
+      font-weight: var(--bk-heading-weight);
+      color: var(--bk-heading-color);
+      text-align: var(--bk-heading-align-d);
+      margin: 0;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+    }
+  
+    /* 2-Column Grid Layout */
+    .bestseller-kits--{{ section.id }} .bestseller-kits__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--bk-grid-gap);
+    }
+  
+    /* Individual Card */
+    .bestseller-kits--{{ section.id }} .bestseller-kits__card {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    /* Slider Styling */
+    .bestseller-kits--{{ section.id }} .bestseller-kits__slider {
+      position: relative;
+      width: 100%;
+      border-radius: var(--bk-image-radius);
+      overflow: hidden;
+      transform: translateZ(0); /* Webkit clipping fix */
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+  
+    .bestseller-kits--{{ section.id }} .bestseller-kits__track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+  
+    .bestseller-kits--{{ section.id }} .bestseller-kits__track::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+    }
+  
+    .bestseller-kits--{{ section.id }} .bestseller-kits__slide {
+      flex: 0 0 100%;
+      width: 100%;
+      scroll-snap-align: start;
+      position: relative;
+      overflow: hidden;
+    }
+  
+    /* Image aspect ratio classes */
+    .bestseller-kits--{{ section.id }} .bestseller-kits__slider--square .bestseller-kits__slide {
+      aspect-ratio: 1 / 1;
+    }
+    .bestseller-kits--{{ section.id }} .bestseller-kits__slider--portrait .bestseller-kits__slide {
+      aspect-ratio: 4 / 5;
+    }
+    .bestseller-kits--{{ section.id }} .bestseller-kits__slider--landscape .bestseller-kits__slide {
+      aspect-ratio: 16 / 9;
+    }
+    .bestseller-kits--{{ section.id }} .bestseller-kits__slider--natural .bestseller-kits__slide {
+      height: auto;
+    }
+  
+    .bestseller-kits--{{ section.id }} .bestseller-kits__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+  
+    /* Card Image Hover zoom effect */
+    .bestseller-kits--{{ section.id }} .bestseller-kits__card:hover .bestseller-kits__image {
+      transform: scale(1.03);
+    }
+  
+    /* Pagination Dots Overlay (Bottom Right) */
+    .bestseller-kits--{{ section.id }} .bestseller-kits__dots {
+      position: absolute;
+      bottom: 16px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      z-index: 5;
+      pointer-events: auto;
+    }
+  
+    .bestseller-kits--{{ section.id }} .bestseller-kits__dot {
+      width: 24px;
+      height: 3px;
+      border-radius: 2px;
+      background-color: rgba(255, 255, 255, 0.4);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background-color 0.2s ease, width 0.2s ease;
+    }
+  
+    .bestseller-kits--{{ section.id }} .bestseller-kits__dot.is-active {
+      background-color: var(--bk-button-bg);
+    }
+  
+    /* Card Info (Title + CTA Button) */
+    .bestseller-kits--{{ section.id }} .bestseller-kits__info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+      gap: 20px;
+    }
+  
+    .bestseller-kits--{{ section.id }} .bestseller-kits__title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: var(--bk-text-color);
+      margin: 0;
+      letter-spacing: 0.5px;
+      line-height: 1.3;
+      flex: 1;
+    }
+  
+    .bestseller-kits--{{ section.id }} .bestseller-kits__button {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      background-color: var(--bk-button-bg);
+      color: var(--bk-button-color);
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 50px;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+    }
+  
+    .bestseller-kits--{{ section.id }} .bestseller-kits__button:hover {
+      background-color: var(--bk-button-hover-bg);
+      transform: translateY(-1px);
+    }
+  
+    /* Responsive / Mobile styles */
+    @media (max-width: 768px) {
+      .bestseller-kits--{{ section.id }} {
+        padding-top: var(--bk-padding-top-m);
+        padding-bottom: var(--bk-padding-bottom-m);
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__header {
+        margin-bottom: 24px;
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__heading {
+        font-size: var(--bk-heading-size-m);
+        text-align: var(--bk-heading-align-m);
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 14px;
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__title {
+        font-size: 16px;
+        width: 100%;
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__button {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__dots {
+        bottom: 12px;
+        right: 16px;
+        gap: 6px;
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__dot {
+        width: 20px;
+        height: 3px;
+      }
+    }
+  </style>
+  
+  <div class="bestseller-kits--{{ section.id }} bestseller-kits" id="bestseller-kits-{{ section.id }}">
+    <div class="bestseller-kits__container">
+      {% if section.settings.heading != blank %}
+        <div class="bestseller-kits__header">
+          <h2 class="bestseller-kits__heading">{{ section.settings.heading | escape }}</h2>
+        </div>
+      {% endif %}
+  
+      {% if section.blocks.size > 0 %}
+        <div class="bestseller-kits__grid">
+          {% for block in section.blocks %}
+            <div class="bestseller-kits__card" {{ block.shopify_attributes }}>
+              
+              {%- liquid
+                assign has_images = false
+                if block.settings.image_1 != blank or block.settings.image_2 != blank or block.settings.image_3 != blank or block.settings.image_4 != blank or block.settings.image_5 != blank
+                  assign has_images = true
+                endif
+              -%}
+              
+              <!-- Slider Component -->
+              <div class="bestseller-kits__slider bestseller-kits__slider--{{ section.settings.image_aspect_ratio }}"
+                   data-autoplay="{{ section.settings.autoplay | default: false }}"
+                   data-autoplay-speed="{{ section.settings.autoplay_speed | times: 1000 | default: 4000 }}">
+                
+                <div class="bestseller-kits__track">
+                  {% if has_images %}
+                    {%- assign active_slide_count = 0 -%}
+                    
+                    {%- for i in (1..5) -%}
+                      {%- capture img_key -%}image_{{ i }}{%- endcapture -%}
+                      {%- assign img = block.settings[img_key] -%}
+                      
+                      {% if img != blank %}
+                        <div class="bestseller-kits__slide" data-index="{{ active_slide_count }}">
+                          <img 
+                            srcset="{%- if img.width >= 375 -%}{{ img | image_url: width: 375 }} 375w,{%- endif -%}
+                              {%- if img.width >= 550 -%}{{ img | image_url: width: 550 }} 550w,{%- endif -%}
+                              {%- if img.width >= 750 -%}{{ img | image_url: width: 750 }} 750w,{%- endif -%}
+                              {%- if img.width >= 1100 -%}{{ img | image_url: width: 1100 }} 1100w,{%- endif -%}
+                              {{ img | image_url }} {{ img.width }}w"
+                            src="{{ img | image_url: width: 750 }}"
+                            sizes="(min-width: 769px) 50vw, 100vw"
+                            alt="{{ img.alt | escape | default: block.settings.title | default: 'Sample Kit Image' }}"
+                            loading="lazy"
+                            width="{{ img.width }}"
+                            height="{{ img.height }}"
+                            class="bestseller-kits__image"
+                          >
+                        </div>
+                        {%- assign active_slide_count = active_slide_count | plus: 1 -%}
+                      {% endif %}
+                    {%- endfor -%}
+                    
+                  {% else %}
+                    <div class="bestseller-kits__slide">
+                      {{ 'image' | placeholder_svg_tag: 'placeholder-svg bestseller-kits__image' }}
+                    </div>
+                  {% endif %}
+                </div>
+  
+                <!-- Pagination dots overlay -->
+                {% if has_images and active_slide_count > 1 %}
+                  <div class="bestseller-kits__dots">
+                    {%- assign dot_index = 0 -%}
+                    {%- for i in (1..5) -%}
+                      {%- capture img_key -%}image_{{ i }}{%- endcapture -%}
+                      {%- assign img = block.settings[img_key] -%}
+                      {% if img != blank %}
+                        <button 
+                          type="button" 
+                          class="bestseller-kits__dot{% if dot_index == 0 %} is-active{% endif %}" 
+                          aria-label="Go to slide {{ dot_index | plus: 1 }}"
+                          aria-selected="{% if dot_index == 0 %}true{% else %}false{% endif %}"
+                          data-index="{{ dot_index }}">
+                        </button>
+                        {%- assign dot_index = dot_index | plus: 1 -%}
+                      {% endif %}
+                    {%- endfor -%}
+                  </div>
+                {% endif %}
+              </div>
+  
+              <!-- Card Info -->
+              <div class="bestseller-kits__info">
+                {% if block.settings.title != blank %}
+                  <h3 class="bestseller-kits__title">{{ block.settings.title | escape }}</h3>
+                {% endif %}
+  
+                {% if block.settings.button_label != blank %}
+                  <a href="{{ block.settings.button_link | default: '#' }}" class="bestseller-kits__button">
+                    {{ block.settings.button_label | escape }}
+                  </a>
+                {% endif %}
+              </div>
+              
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <!-- Empty state placeholder cards for customizer helper -->
+        <div class="bestseller-kits__grid">
+          {% for i in (1..2) %}
+            <div class="bestseller-kits__card">
+              <div class="bestseller-kits__slider bestseller-kits__slider--landscape">
+                <div class="bestseller-kits__track">
+                  <div class="bestseller-kits__slide">
+                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg bestseller-kits__image' }}
+                  </div>
+                </div>
+              </div>
+              <div class="bestseller-kits__info">
+                <h3 class="bestseller-kits__title">Sample Kit Title {{ i }}</h3>
+                <a href="#" class="bestseller-kits__button">Shop Samples</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  
+  <script>
+    (function() {
+      function initBestsellerSliders() {
+        const sectionContainer = document.getElementById('bestseller-kits-{{ section.id }}');
+        if (!sectionContainer) return;
+  
+        const sliders = sectionContainer.querySelectorAll('.bestseller-kits__slider');
+        
+        sliders.forEach((slider) => {
+          if (slider.dataset.sliderInitialized === 'true') return;
+          slider.dataset.sliderInitialized = 'true';
+  
+          const track = slider.querySelector('.bestseller-kits__track');
+          const dots = slider.querySelectorAll('.bestseller-kits__dot');
+          if (!track || dots.length === 0) return;
+  
+          const autoplayEnabled = slider.dataset.autoplay === 'true';
+          const autoplaySpeed = parseInt(slider.dataset.autoplaySpeed, 10) || 4000;
+          let autoplayInterval = null;
+          let isInteracted = false;
+  
+          // Sync active dots with scroll snap position
+          function updateDots() {
+            const slideWidth = track.clientWidth;
+            if (slideWidth <= 0) return;
+            
+            const index = Math.round(track.scrollLeft / slideWidth);
+            dots.forEach((dot, idx) => {
+              if (idx === index) {
+                dot.classList.add('is-active');
+                dot.setAttribute('aria-selected', 'true');
+              } else {
+                dot.classList.remove('is-active');
+                dot.setAttribute('aria-selected', 'false');
+              }
+            });
+          }
+  
+          // Debounced scroll listener for high performance
+          let scrollTimeout;
+          track.addEventListener('scroll', () => {
+            if (scrollTimeout) cancelAnimationFrame(scrollTimeout);
+            scrollTimeout = requestAnimationFrame(updateDots);
+          }, { passive: true });
+  
+          // Add dot click navigation
+          dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+              stopAutoplay();
+              const slideWidth = track.clientWidth;
+              track.scrollTo({
+                left: slideWidth * index,
+                behavior: 'smooth'
+              });
+            });
+          });
+  
+          // Autoplay controller
+          function startAutoplay() {
+            if (!autoplayEnabled || isInteracted) return;
+            stopAutoplay();
+            
+            autoplayInterval = setInterval(() => {
+              const slideWidth = track.clientWidth;
+              if (slideWidth <= 0) return;
+              
+              const totalSlides = dots.length;
+              const currentIndex = Math.round(track.scrollLeft / slideWidth);
+              const nextIndex = (currentIndex + 1) % totalSlides;
+              
+              track.scrollTo({
+                left: slideWidth * nextIndex,
+                behavior: 'smooth'
+              });
+            }, autoplaySpeed);
+          }
+  
+          function stopAutoplay() {
+            if (autoplayInterval) {
+              clearInterval(autoplayInterval);
+              autoplayInterval = null;
+            }
+            isInteracted = true;
+          }
+  
+          // Pause autoplay upon touch/drag gestures
+          track.addEventListener('touchstart', stopAutoplay, { passive: true });
+          track.addEventListener('mousedown', stopAutoplay, { passive: true });
+  
+          if (autoplayEnabled) {
+            startAutoplay();
+          }
+        });
+      }
+  
+      // Standard DOM Load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initBestsellerSliders);
+      } else {
+        initBestsellerSliders();
+      }
+  
+      // Theme Customizer event reloading
+      document.addEventListener('shopify:section:load', function(e) {
+        if (e.detail && e.detail.sectionId === '{{ section.id }}') {
+          initBestsellerSliders();
+        } else if (e.target && e.target.querySelector('#bestseller-kits-{{ section.id }}')) {
+          initBestsellerSliders();
+        }
+      });
+    })();
+  </script>
+  
+  {% schema %}
+  {
+    "name": "Bestseller Sample Kits",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Section Title"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading Text",
+        "default": "Shop Our Bestselling Sample Kits"
+      },
+      {
+        "type": "select",
+        "id": "heading_alignment_desktop",
+        "label": "Heading Alignment (Desktop)",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "select",
+        "id": "heading_alignment_mobile",
+        "label": "Heading Alignment (Mobile)",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "range",
+        "id": "heading_size_desktop",
+        "label": "Heading Size Desktop (px)",
+        "min": 24,
+        "max": 64,
+        "step": 2,
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "heading_size_mobile",
+        "label": "Heading Size Mobile (px)",
+        "min": 18,
+        "max": 36,
+        "step": 2,
+        "default": 28
+      },
+      {
+        "type": "select",
+        "id": "heading_weight",
+        "label": "Heading Font Weight",
+        "options": [
+          { "value": "300", "label": "Light" },
+          { "value": "400", "label": "Normal" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi Bold" },
+          { "value": "700", "label": "Bold" }
+        ],
+        "default": "500"
+      },
+      {
+        "type": "header",
+        "content": "Color Palette"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color",
+        "default": "#F5F3EF"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Heading Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "button_bg",
+        "label": "Button Background Color",
+        "default": "#F7B25B"
+      },
+      {
+        "type": "color",
+        "id": "button_color",
+        "label": "Button Text Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "button_hover_bg",
+        "label": "Button Hover Background Color",
+        "default": "#E59F42"
+      },
+      {
+        "type": "header",
+        "content": "Image & Slider Options"
+      },
+      {
+        "type": "select",
+        "id": "image_aspect_ratio",
+        "label": "Image Aspect Ratio",
+        "options": [
+          { "value": "natural", "label": "Natural" },
+          { "value": "square", "label": "Square (1:1)" },
+          { "value": "portrait", "label": "Portrait (4:5)" },
+          { "value": "landscape", "label": "Landscape (16:9)" }
+        ],
+        "default": "landscape"
+      },
+      {
+        "type": "range",
+        "id": "image_border_radius",
+        "label": "Image Border Radius (px)",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "default": 16
+      },
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Enable Autoplay",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "autoplay_speed",
+        "label": "Autoplay Speed (seconds)",
+        "min": 2,
+        "max": 8,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "header",
+        "content": "Layout Settings"
+      },
+      {
+        "type": "range",
+        "id": "max_width",
+        "label": "Max Container Width (px)",
+        "min": 800,
+        "max": 1400,
+        "step": 50,
+        "default": 1200
+      },
+      {
+        "type": "range",
+        "id": "grid_gap",
+        "label": "Grid Gap (px)",
+        "min": 15,
+        "max": 60,
+        "step": 5,
+        "default": 30
+      },
+      {
+        "type": "header",
+        "content": "Section Spacing"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Desktop Top Padding (px)",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "default": 60
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Desktop Bottom Padding (px)",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "default": 60
+      },
+      {
+        "type": "range",
+        "id": "padding_top_mobile",
+        "label": "Mobile Top Padding (px)",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom_mobile",
+        "label": "Mobile Bottom Padding (px)",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "default": 40
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product_card",
+        "name": "Product Card",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Product Title",
+            "default": "MODIN LVP"
+          },
+          {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button Label",
+            "default": "Shop Samples"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button Link"
+          },
+          {
+            "type": "header",
+            "content": "Slider Images (Up to 5)"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_1",
+            "label": "Image 1"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_2",
+            "label": "Image 2"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_3",
+            "label": "Image 3"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_4",
+            "label": "Image 4"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_5",
+            "label": "Image 5"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Bestseller Sample Kits",
+        "blocks": [
+          {
+            "type": "product_card",
+            "settings": {
+              "title": "MODIN LVP"
+            }
+          },
+          {
+            "type": "product_card",
+            "settings": {
+              "title": "ARISTA LAMINATE"
+            }
+          },
+          {
+            "type": "product_card",
+            "settings": {
+              "title": "SILVAN NATURAL HARDWOOD"
+            }
+          },
+          {
+            "type": "product_card",
+            "settings": {
+              "title": "PROVENCE NATURAL HARDWOOD"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  {% endschema %}
+  

@@ -1,0 +1,659 @@
+{%- liquid
+  assign text_color = section.settings.text_color
+  assign bg_color = section.settings.bg_color
+  assign heading_color = section.settings.heading_color
+  assign accent_color = section.settings.accent_color
+-%}
+
+<style>
+  .story-grid-guide-{{ section.id }} {
+    --sgg-bg-color: {{ bg_color | default: '#ffffff' }};
+    --sgg-text-color: {{ text_color | default: '#2c2c2c' }};
+    --sgg-heading-color: {{ heading_color | default: '#000000' }};
+    --sgg-accent-color: {{ accent_color | default: '#606060' }};
+    --sgg-padding-top: {{ section.settings.padding_top }}px;
+    --sgg-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --sgg-max-width: {{ section.settings.max_width }}px;
+    --sgg-row-gap: {{ section.settings.row_gap }}px;
+    --sgg-image-radius: {{ section.settings.image_border_radius }}px;
+
+    background-color: var(--sgg-bg-color);
+    padding-top: var(--sgg-padding-top);
+    padding-bottom: var(--sgg-padding-bottom);
+    color: var(--sgg-text-color);
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__container {
+    max-width: var(--sgg-max-width);
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__header {
+    margin-bottom: calc(var(--sgg-row-gap) * 0.5);
+    text-align: {{ section.settings.heading_alignment }};
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: {{ section.settings.heading_size_desktop }}px;
+    font-weight: {{ section.settings.heading_weight }};
+    color: var(--sgg-heading-color);
+    margin: 0;
+    line-height: 45px;
+    letter-spacing: -0.45px;
+    vertical-align: middle;
+    max-width: 450px; /* Forces title to wrap elegantly as in mockup */
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sgg-row-gap);
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 90px; /* Spacious column gap */
+    align-items: center;
+  }
+
+  /* Image Column Styling */
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-col {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--sgg-image-radius);
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper {
+    position: relative;
+    width: 100%;
+    display: block;
+  }
+
+  /* Handle aspect ratio */
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--natural {
+    height: auto;
+  }
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--square {
+    aspect-ratio: 1 / 1;
+  }
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--portrait {
+    aspect-ratio: 4 / 5;
+  }
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--landscape {
+    aspect-ratio: 16 / 9;
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Content Column Styling */
+  .story-grid-guide-{{ section.id }} .story-grid-guide__content-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 480px; /* Premium line-length constraint matching the screenshot */
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__step-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--sgg-accent-color);
+    margin-bottom: 25px;
+    line-height: 18px;
+    display: block;
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__step-number {
+    font-family: 'Playfair', serif;
+    font-size: 200px;
+    font-weight: 600; /* SemiBold weight */
+    line-height: 50.4px;
+    color: {{ section.settings.number_color | default: '#E9E4E4' }};
+    letter-spacing: 0;
+    vertical-align: middle;
+    margin: 25px 0 40px 0;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__step-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-size: {{ section.settings.step_heading_size_desktop }}px;
+    font-weight: 500;
+    color: var(--sgg-heading-color);
+    margin: 0 0 25px 0;
+    line-height: 36px;
+    letter-spacing: 0.4px;
+    vertical-align: middle;
+    max-width: 440px; /* Wrap precisely like screenshot1 */
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.31px;
+    color: var(--sgg-text-color);
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__description p {
+    margin-top: 0;
+    margin-bottom: 24px; /* Spacious gap between paragraphs */
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__description p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Optional Secondary Description */
+  .story-grid-guide-{{ section.id }} .story-grid-guide__secondary-description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.31px;
+    color: var(--sgg-text-color);
+    margin-top: 24px;
+  }
+
+  .story-grid-guide-{{ section.id }} .story-grid-guide__secondary-description p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  /* Alternating Zig Zag layout logic on desktop */
+  {% if section.settings.alternate_rows %}
+    @media (min-width: 769px) {
+      .story-grid-guide-{{ section.id }} .story-grid-guide__row:nth-child(even) {
+        grid-template-columns: 1fr 1fr;
+      }
+      .story-grid-guide-{{ section.id }} .story-grid-guide__row:nth-child(even) .story-grid-guide__image-col {
+        order: 2;
+      }
+      .story-grid-guide-{{ section.id }} .story-grid-guide__row:nth-child(even) .story-grid-guide__content-col {
+        order: 1;
+        padding-left: 0;
+        padding-right: 90px;
+      }
+    }
+  {% endif %}
+
+  /* Responsive / Mobile styles */
+  @media (max-width: 768px) {
+    .story-grid-guide-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile | default: 60 }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile | default: 60 }}px;
+    }
+
+    .story-grid-guide-{{ section.id }} .story-grid-guide__header {
+      margin-bottom: 40px;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+
+    .story-grid-guide-{{ section.id }} .story-grid-guide__title {
+      font-size: {{ section.settings.heading_size_mobile }}px;
+      line-height: 30px;
+      letter-spacing: -0.45px;
+      max-width: 100%;
+    }
+
+    .story-grid-guide-{{ section.id }} .story-grid-guide__rows {
+      gap: 80px; /* Space between steps on mobile */
+    }
+
+    .story-grid-guide-{{ section.id }} .story-grid-guide__row {
+      grid-template-columns: 1fr;
+      gap: 32px; /* Gap between image and content stacked on mobile */
+    }
+
+    .story-grid-guide-{{ section.id }} .story-grid-guide__content-col {
+      max-width: 100%;
+    }
+
+    .story-grid-guide-{{ section.id }} .story-grid-guide__step-label {
+      font-size: 12px;
+      line-height: 18px;
+      letter-spacing: 0.6px;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .story-grid-guide-{{ section.id }} .story-grid-guide__step-number {
+      font-size: 125px;
+      line-height: 50.4px;
+      margin: 15px 0 25px 0;
+      display: block;
+    }
+
+    .story-grid-guide-{{ section.id }} .story-grid-guide__step-heading {
+      font-size: {{ section.settings.step_heading_size_mobile }}px;
+      line-height: 26px;
+      letter-spacing: 0.37px;
+      margin: 0 0 16px 0;
+    }
+
+    .story-grid-guide-{{ section.id }} .story-grid-guide__description {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 21.6px;
+      letter-spacing: 0;
+    }
+
+    .story-grid-guide-{{ section.id }} .story-grid-guide__secondary-description {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 21.6px;
+      letter-spacing: 0;
+      margin-top: 21.6px;
+    }
+
+    /* Stacking direction on mobile */
+    {% if section.settings.mobile_image_position == 'above' %}
+      .story-grid-guide-{{ section.id }} .story-grid-guide__row .story-grid-guide__image-col {
+        order: 1;
+      }
+      .story-grid-guide-{{ section.id }} .story-grid-guide__row .story-grid-guide__content-col {
+        order: 2;
+      }
+    {% else %}
+      .story-grid-guide-{{ section.id }} .story-grid-guide__row .story-grid-guide__image-col {
+        order: 2;
+      }
+      .story-grid-guide-{{ section.id }} .story-grid-guide__row .story-grid-guide__content-col {
+        order: 1;
+      }
+    {% endif %}
+  }
+</style>
+
+<div class="story-grid-guide-{{ section.id }} story-grid-guide">
+  <div class="story-grid-guide__container">
+    {% if section.settings.heading != blank %}
+      <div class="story-grid-guide__header">
+        <h2 class="story-grid-guide__title">{{ section.settings.heading | escape }}</h2>
+      </div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="story-grid-guide__rows">
+        {% for block in section.blocks %}
+          <div class="story-grid-guide__row" {{ block.shopify_attributes }}>
+            
+            <!-- Image Column -->
+            <div class="story-grid-guide__image-col">
+              <div class="story-grid-guide__image-wrapper story-grid-guide__image-wrapper--{{ section.settings.image_aspect_ratio }}">
+                {% if block.settings.image != blank %}
+                  {%- assign img_alt = block.settings.image.alt | default: block.settings.heading | default: 'Sample kit guide step image' -%}
+                  <img 
+                    srcset="{%- if block.settings.image.width >= 375 -%}{{ block.settings.image | image_url: width: 375 }} 375w,{%- endif -%}
+                      {%- if block.settings.image.width >= 550 -%}{{ block.settings.image | image_url: width: 550 }} 550w,{%- endif -%}
+                      {%- if block.settings.image.width >= 750 -%}{{ block.settings.image | image_url: width: 750 }} 750w,{%- endif -%}
+                      {%- if block.settings.image.width >= 1100 -%}{{ block.settings.image | image_url: width: 1100 }} 1100w,{%- endif -%}
+                      {{ block.settings.image | image_url }} {{ block.settings.image.width }}w"
+                    src="{{ block.settings.image | image_url: width: 750 }}"
+                    sizes="(min-width: 769px) 50vw, 100vw"
+                    alt="{{ img_alt | escape }}"
+                    loading="lazy"
+                    width="{{ block.settings.image.width }}"
+                    height="{{ block.settings.image.height }}"
+                    class="story-grid-guide__image"
+                  >
+                {% else %}
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg story-grid-guide__image' }}
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Content Column -->
+            <div class="story-grid-guide__content-col">
+              {% if block.settings.step_label != blank %}
+                <span class="story-grid-guide__step-label">{{ block.settings.step_label | escape }}</span>
+              {% endif %}
+
+              {%- assign current_step_number = block.settings.step_number | default: forloop.index -%}
+              {%- if current_step_number != blank -%}
+                {%- comment -%}Ensure single digit numbers are padded with a leading zero to match the editorial style "01", "02", "03"{%- endcomment -%}
+                {%- assign number_size = current_step_number | size -%}
+                {%- if number_size == 1 -%}
+                  {%- assign display_number = '0' | append: current_step_number -%}
+                {%- else -%}
+                  {%- assign display_number = current_step_number -%}
+                {%- endif -%}
+                <span class="story-grid-guide__step-number" aria-hidden="true">{{ display_number | escape }}</span>
+              {%- endif -%}
+
+              {% if block.settings.heading != blank %}
+                <h3 class="story-grid-guide__step-heading">{{ block.settings.heading | escape }}</h3>
+              {% endif %}
+
+              {% if block.settings.description != blank %}
+                <div class="story-grid-guide__description rte">
+                  {{ block.settings.description }}
+                </div>
+              {% endif %}
+
+              {% if block.settings.secondary_description != blank %}
+                <div class="story-grid-guide__secondary-description rte">
+                  {{ block.settings.secondary_description }}
+                </div>
+              {% endif %}
+            </div>
+
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Sample Kit Guide",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Title"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "How to choose a sample kit"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading Size Desktop (px)",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading Size Mobile (px)",
+      "min": 18,
+      "max": 36,
+      "step": 2,
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Step Headings"
+    },
+    {
+      "type": "range",
+      "id": "step_heading_size_desktop",
+      "label": "Step Heading Size Desktop (px)",
+      "min": 18,
+      "max": 48,
+      "step": 1,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "step_heading_size_mobile",
+      "label": "Step Heading Size Mobile (px)",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "default": 22
+    },
+    {
+      "type": "header",
+      "content": "Color Palette"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2c2c2c"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Step Label Color",
+      "default": "#4A5565"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Step Number Color (Faded)",
+      "default": "#E9E4E4"
+    },
+    {
+      "type": "header",
+      "content": "Image Options"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image Aspect Ratio",
+      "options": [
+        { "value": "natural", "label": "Natural" },
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "portrait", "label": "Portrait (4:5)" },
+        { "value": "landscape", "label": "Landscape (16:9)" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image Border Radius (px)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max Container Width (px)",
+      "min": 800,
+      "max": 1400,
+      "step": 50,
+      "default": 1100
+    },
+    {
+      "type": "checkbox",
+      "id": "alternate_rows",
+      "label": "Alternate rows on desktop (zig-zag)",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "mobile_image_position",
+      "label": "Mobile Image Position",
+      "options": [
+        { "value": "above", "label": "Above content" },
+        { "value": "below", "label": "Below content" }
+      ],
+      "default": "below"
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "label": "Row Gap Desktop (px)",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "default": 120
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Desktop Top Padding (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Desktop Bottom Padding (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Mobile Top Padding (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Mobile Bottom Padding (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step Row",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step Image"
+        },
+        {
+          "type": "text",
+          "id": "step_label",
+          "label": "Step Label",
+          "default": "STEP 1 - START"
+        },
+        {
+          "type": "text",
+          "id": "step_number",
+          "label": "Step Faded Number",
+          "default": "01",
+          "info": "Leave blank to automatically use step number (e.g. 01, 02)."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Step Heading",
+          "default": "Which Collection is Right for You?"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>High-traffic homes with kids and pets? Start with Modin LVP or Arista Laminate.</p><p>Want real wood that's DIY-friendly? Explore Silvan Resilient Hardwood.</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "secondary_description",
+          "label": "Secondary Description (Optional)",
+          "info": "Useful for keeping paragraphs distinct or adding extra formatted text."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sample Kit Guide",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "step_label": "STEP 1 - START",
+            "step_number": "01",
+            "heading": "Which Collection is Right for You?",
+            "description": "<p>High-traffic homes with kids and pets? Start with Modin LVP or Arista Laminate.</p><p>Want real wood that's DIY-friendly? Explore Silvan Resilient Hardwood.</p><p>Looking for the authentic look and feel of hardwood at a more accessible price? Discover Provence Natural Hardwood.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_label": "STEP 2 - EXPLORE",
+            "step_number": "02",
+            "heading": "Explore Models and Colors",
+            "description": "<p>Shop by color family, plank size, or explore our Bestsellers Kits featuring a range of customer favorites.</p><p>Not sure which collection is right for your space? Our Model Comparison Kits make it easy to compare options side by side.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_label": "STEP 3 - CHOOSE",
+            "step_number": "03",
+            "heading": "Bring Your Vision to Life",
+            "description": "<p>Test samples throughout your home alongside your wall colors, furniture, textiles, and natural light.</p><p>Questions along the way? Our team is here to help, from your first sample to your finished installation.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
