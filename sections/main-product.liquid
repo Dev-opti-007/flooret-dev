@@ -2054,6 +2054,7 @@ document.addEventListener('DOMContentLoaded', function() {
 {% if product.type == 'trim' or product.type == 'Trim' %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+  console.log('dadadadadadadadadadada')
   const PRODUCT_HANDLE = {{ product.handle | json }};
   const productForm = document.querySelector('.pdp-atc__variants');
   const allVariants = window.productInfo && window.productInfo[PRODUCT_HANDLE];
