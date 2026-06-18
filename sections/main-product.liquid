@@ -2059,162 +2059,177 @@ document.addEventListener('DOMContentLoaded', function () {
   const allVariants = window.productInfo && window.productInfo[PRODUCT_HANDLE];
 
   if (!productForm || !Array.isArray(allVariants) || !allVariants.length) {
-    console.warn('[VariantFilter] Missing productForm or allVariants for', PRODUCT_HANDLE);
+    console.warn('[VariantFilter] Missing form or variants', PRODUCT_HANDLE);
     return;
   }
 
-  let _updating = false; // prevent re-entrant loop
-
-  // ─── Read current checked/selected state from the form ───────────────────
   function getCurrentSelections() {
     const selections = {};
 
     productForm.querySelectorAll('.js-product-form__button[data-option-index]').forEach((input) => {
-      const idx = parseInt(input.dataset.optionIndex, 10);
-      if (!Number.isNaN(idx) && input.checked) {
-        selections[idx] = input.value;
+      const optionIndex = parseInt(input.dataset.optionIndex, 10);
+      if (!Number.isNaN(optionIndex) && input.checked) {
+        selections[optionIndex] = input.value;
       }
     });
 
     productForm.querySelectorAll('.js-product-form__select').forEach((select) => {
-      // prefer data-option-index on the <select> itself
-      let idx = parseInt(select.dataset.optionIndex, 10);
+      let optionIndex = parseInt(select.dataset.optionIndex, 10);
 
-      // fall back to the selected <option>'s data-option-index
-      if (Number.isNaN(idx) && select.selectedIndex >= 0) {
-        idx = parseInt(select.options[select.selectedIndex].dataset.optionIndex, 10);
+      if (Number.isNaN(optionIndex)) {
+        const selectedOption = select.options[select.selectedIndex];
+        if (selectedOption) {
+          optionIndex = parseInt(selectedOption.dataset.optionIndex, 10);
+        }
       }
 
-      const val = select.value;
-      if (!Number.isNaN(idx) && val && val !== 'Please select a color') {
-        selections[idx] = val;
+      if (!Number.isNaN(optionIndex) && select.value && select.value !== 'Please select a color') {
+        selections[optionIndex] = select.value;
       }
     });
 
     return selections;
   }
 
-  // ─── Can this specific option value be used given current other selections?
-  //     KEY FIX: only filter by indices that are ALREADY selected (not all indices).
-  function canOptionBeUsed(optionIndexToTest, optionValueToTest, currentSelections) {
-    return allVariants.some((variant) => {
-      if (!variant.available) return false;
-      if (!variant.options || !variant.options.length) return false;
+  function getAvailableValuesForOption(optionIndex, currentSelections) {
+    const values = new Set();
 
-      // The variant must have the value we're testing
-      if (variant.options[optionIndexToTest - 1] !== optionValueToTest) return false;
+    allVariants.forEach((variant) => {
+      if (!variant.available) return;
+      if (!variant.options || !variant.options.length) return;
 
-      // For every OTHER index that the user has ALREADY selected, the variant must match
+      let matchesOtherSelections = true;
+
       for (const [selectedIndex, selectedValue] of Object.entries(currentSelections)) {
         const idx = parseInt(selectedIndex, 10);
-        if (idx === optionIndexToTest) continue; // skip self
-        // Only constrain if this index is actually selected
-        if (variant.options[idx - 1] !== selectedValue) return false;
+        if (idx === optionIndex) continue;
+
+        if (variant.options[idx - 1] !== selectedValue) {
+          matchesOtherSelections = false;
+          break;
+        }
       }
 
-      return true;
+      if (matchesOtherSelections) {
+        values.add(variant.options[optionIndex - 1]);
+      }
     });
+
+    return Array.from(values);
   }
 
-  // ─── Apply enabled/disabled visual state to a single radio input ──────────
-  function applyRadioState(input, isAvailable) {
+  function updateRadioOptionState(input, isAvailable) {
     const li = input.closest('li');
     const label = productForm.querySelector('label[for="' + input.id + '"]');
 
-    input.disabled = !isAvailable;
+    if (isAvailable) {
+      input.disabled = false;
+      input.removeAttribute('disabled');
+      input.classList.remove('oos', 'disabled', 'is-disabled');
 
-    if (li) li.classList.toggle('is-disabled', !isAvailable);
+      if (li) {
+        li.classList.remove('is-disabled', 'disabled', 'oos');
+      }
 
-    if (label) {
-      label.classList.toggle('is-disabled', !isAvailable);
-      label.style.pointerEvents = isAvailable ? '' : 'none';
-      label.style.opacity     = isAvailable ? '' : '0.45';
+      if (label) {
+        label.classList.remove('is-disabled', 'disabled', 'oos');
+        label.style.pointerEvents = '';
+        label.style.opacity = '';
+      }
+    } else {
+      input.disabled = true;
+      input.setAttribute('disabled', 'disabled');
+      input.classList.add('is-disabled');
+
+      if (li) {
+        li.classList.add('is-disabled');
+      }
+
+      if (label) {
+        label.classList.add('is-disabled');
+        label.style.pointerEvents = 'none';
+        label.style.opacity = '0.45';
+      }
+
+      if (input.checked) {
+        input.checked = false;
+      }
     }
   }
 
-  // ─── If the currently checked input just became disabled, silently move
-  //     the check to the first still-enabled option. NO change event fired.
-  function fixInvalidCheckedState() {
-    const groups = productForm.querySelectorAll('.pdp-atc__group__buttons, .pdp-atc__group');
+  function fixInvalidSelections() {
+    const groups = productForm.querySelectorAll('.pdp-atc__group, .pdp-atc__group__buttons');
 
     groups.forEach((group) => {
-      const allInputs     = Array.from(group.querySelectorAll('.js-product-form__button[data-option-index]'));
-      if (!allInputs.length) return;
+      const inputs = Array.from(group.querySelectorAll('.js-product-form__button[data-option-index]'));
+      if (!inputs.length) return;
 
-      const checkedInput  = allInputs.find((i) => i.checked);
-      const enabledInputs = allInputs.filter((i) => !i.disabled);
+      const checked = inputs.find((input) => input.checked && !input.disabled);
+      if (checked) return;
 
-      // Nothing to fix if the checked one is still enabled, or no radios exist
-      if (checkedInput && !checkedInput.disabled) return;
-
-      // Uncheck the now-disabled one
-      if (checkedInput) checkedInput.checked = false;
-
-      // Move check to first enabled option (silently — do NOT dispatch change)
-      if (enabledInputs.length) {
-        enabledInputs[0].checked = true;
+      const firstEnabled = inputs.find((input) => !input.disabled);
+      if (firstEnabled) {
+        firstEnabled.checked = true;
       }
     });
   }
 
-  // ─── Main update function ─────────────────────────────────────────────────
   function updateOptionAvailability() {
-    if (_updating) return; // guard against re-entrant calls
-    _updating = true;
+    const currentSelections = getCurrentSelections();
 
-    try {
-      const currentSelections = getCurrentSelections();
+    const allOptionIndexes = new Set();
+    productForm.querySelectorAll('.js-product-form__button[data-option-index], .js-product-form__select[data-option-index]').forEach((el) => {
+      const idx = parseInt(el.dataset.optionIndex, 10);
+      if (!Number.isNaN(idx)) allOptionIndexes.add(idx);
+    });
 
-      // Update all radio buttons
-      productForm.querySelectorAll('.js-product-form__button[data-option-index]').forEach((input) => {
-        const optionIndex = parseInt(input.dataset.optionIndex, 10);
-        const optionValue = input.value;
-        if (Number.isNaN(optionIndex) || !optionValue) return;
+    allOptionIndexes.forEach((optionIndex) => {
+      const availableValues = getAvailableValuesForOption(optionIndex, currentSelections);
 
-        const isAvailable = canOptionBeUsed(optionIndex, optionValue, currentSelections);
-        applyRadioState(input, isAvailable);
+      productForm.querySelectorAll('.js-product-form__button[data-option-index="' + optionIndex + '"]').forEach((input) => {
+        const isAvailable = availableValues.includes(input.value);
+        updateRadioOptionState(input, isAvailable);
       });
 
-      // Update all select dropdowns
-      productForm.querySelectorAll('.js-product-form__select').forEach((select) => {
-        let selectOptionIndex = parseInt(select.dataset.optionIndex, 10);
-
+      productForm.querySelectorAll('.js-product-form__select[data-option-index="' + optionIndex + '"]').forEach((select) => {
         Array.from(select.options).forEach((opt) => {
           if (!opt.value || opt.value === 'Please select a color') {
             opt.disabled = false;
             return;
           }
 
-          let testIndex = selectOptionIndex;
-          if (Number.isNaN(testIndex)) {
-            testIndex = parseInt(opt.dataset.optionIndex, 10);
-          }
-          if (Number.isNaN(testIndex)) return;
-
-          opt.disabled = !canOptionBeUsed(testIndex, opt.value, currentSelections);
+          opt.disabled = !availableValues.includes(opt.value);
         });
       });
+    });
 
-      // Silently fix any checked-but-now-disabled state
-      fixInvalidCheckedState();
+    fixInvalidSelections();
 
-    } finally {
-      _updating = false;
-    }
+    const styleChecked = productForm.querySelector('.js-product-form__button[data-option-index="2"]:checked');
+    const styleInputs = Array.from(productForm.querySelectorAll('.js-product-form__button[data-option-index="2"]'));
+
+    console.log('Current selections:', currentSelections);
+    console.log('Available styles:', getAvailableValuesForOption(2, currentSelections));
+    console.log('Checked style:', styleChecked ? styleChecked.value : null);
+    console.log('Style DOM state:', styleInputs.map((input) => ({
+      value: input.value,
+      disabled: input.disabled,
+      classes: input.className
+    })));
   }
 
-  // ─── Listen to form changes ───────────────────────────────────────────────
   productForm.addEventListener('change', function (e) {
     if (
       e.target.matches('.js-product-form__button[data-option-index]') ||
       e.target.matches('.js-product-form__select')
     ) {
       setTimeout(updateOptionAvailability, 0);
+      setTimeout(updateOptionAvailability, 30);
     }
   });
 
-  // ─── Run on load ──────────────────────────────────────────────────────────
   updateOptionAvailability();
+  setTimeout(updateOptionAvailability, 50);
 });
 </script>
 {% endif %}
