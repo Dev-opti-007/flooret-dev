@@ -389,7 +389,9 @@
           "settings": {
             "title": "ARISTA LAMINATE",
             "button_label": "Shop Samples",
-            "button_link": ""
+            "button_link": "",
+            "image_1": "shopify://shop_images/Rectangle_1_5.png",
+            "image_2": "shopify://shop_images/Rectangle_1_5.png"
           }
         },
         "product_card_j3hKkj": {
@@ -397,7 +399,9 @@
           "settings": {
             "title": "SILVAN NATURAL HARDWOOD",
             "button_label": "Shop Samples",
-            "button_link": ""
+            "button_link": "",
+            "image_1": "shopify://shop_images/Rectangle_1_6.png",
+            "image_2": "shopify://shop_images/Rectangle_1_6.png"
           }
         },
         "product_card_qYR6V3": {
@@ -405,7 +409,9 @@
           "settings": {
             "title": "PROVENCE NATURAL HARDWOOD",
             "button_label": "Shop Samples",
-            "button_link": ""
+            "button_link": "",
+            "image_1": "shopify://shop_images/Rectangle_1_7.png",
+            "image_2": "shopify://shop_images/Rectangle_1_7.png"
           }
         }
       },
