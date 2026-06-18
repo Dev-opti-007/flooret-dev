@@ -1,0 +1,1191 @@
+{% liquid
+  assign section_id = 'sample-kit-info-media-' | append: section.id
+%}
+
+<style>
+  #{{ section_id }} {
+    --section-bg: {{ section.settings.section_bg }};
+    --content-max-width: {{ section.settings.content_max_width }}px;
+    --top-grid-gap-desktop: {{ section.settings.top_grid_gap_desktop }}px;
+    --top-grid-gap-mobile: {{ section.settings.top_grid_gap_mobile }}px;
+    --bottom-spacing-desktop: {{ section.settings.bottom_spacing_desktop }}px;
+    --bottom-spacing-mobile: {{ section.settings.bottom_spacing_mobile }}px;
+
+    --padding-top-desktop: {{ section.settings.padding_top_desktop }}px;
+    --padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --padding-left-desktop: {{ section.settings.padding_left_desktop }}px;
+    --padding-right-desktop: {{ section.settings.padding_right_desktop }}px;
+
+    --padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --padding-left-mobile: {{ section.settings.padding_left_mobile }}px;
+    --padding-right-mobile: {{ section.settings.padding_right_mobile }}px;
+
+    --title-color: {{ section.settings.title_color }};
+    --title-font-family: {{ section.settings.font_title }};
+    --title-size-desktop: {{ section.settings.title_size_desktop }}px;
+    --title-size-mobile: {{ section.settings.title_size_mobile }}px;
+    --title-weight-desktop: {{ section.settings.title_weight_desktop }};
+    --title-weight-mobile: {{ section.settings.title_weight_mobile }};
+    --title-line-height-desktop: {{ section.settings.title_line_height_desktop }};
+    --title-line-height-mobile: {{ section.settings.title_line_height_mobile }};
+    --title-letter-spacing-desktop: {{ section.settings.title_letter_spacing_desktop }}px;
+    --title-letter-spacing-mobile: {{ section.settings.title_letter_spacing_mobile }}px;
+
+    --bullet-color: {{ section.settings.bullet_color }};
+    --bullet-font-family: {{ section.settings.font_bullet }};
+    --bullet-size-desktop: {{ section.settings.bullet_size_desktop }}px;
+    --bullet-size-mobile: {{ section.settings.bullet_size_mobile }}px;
+    --bullet-weight-desktop: {{ section.settings.bullet_weight_desktop }};
+    --bullet-weight-mobile: {{ section.settings.bullet_weight_mobile }};
+    --bullet-line-height-desktop: {{ section.settings.bullet_line_height_desktop }};
+    --bullet-line-height-mobile: {{ section.settings.bullet_line_height_mobile }};
+    --bullet-letter-spacing-desktop: {{ section.settings.bullet_letter_spacing_desktop }}px;
+    --bullet-letter-spacing-mobile: {{ section.settings.bullet_letter_spacing_mobile }}px;
+    --bullet-icon-color: {{ section.settings.bullet_icon_color }};
+    --bullet-gap-desktop: {{ section.settings.bullet_gap_desktop }}px;
+    --bullet-gap-mobile: {{ section.settings.bullet_gap_mobile }}px;
+    --bullet-list-gap-desktop: {{ section.settings.bullet_list_gap_desktop }}px;
+    --bullet-list-gap-mobile: {{ section.settings.bullet_list_gap_mobile }}px;
+
+    --cta-color: {{ section.settings.cta_color }};
+    --cta-hover-color: {{ section.settings.cta_hover_color }};
+    --cta-font-family: {{ section.settings.font_cta }};
+    --cta-size-desktop: {{ section.settings.cta_size_desktop }}px;
+    --cta-size-mobile: {{ section.settings.cta_size_mobile }}px;
+    --cta-weight-desktop: {{ section.settings.cta_weight_desktop }};
+    --cta-weight-mobile: {{ section.settings.cta_weight_mobile }};
+    --cta-line-height-desktop: {{ section.settings.cta_line_height_desktop }};
+    --cta-line-height-mobile: {{ section.settings.cta_line_height_mobile }};
+    --cta-letter-spacing-desktop: {{ section.settings.cta_letter_spacing_desktop }}px;
+    --cta-letter-spacing-mobile: {{ section.settings.cta_letter_spacing_mobile }}px;
+    --cta-underline-offset: {{ section.settings.cta_underline_offset }}px;
+    --cta-underline-thickness: {{ section.settings.cta_underline_thickness }}px;
+
+    --caption-color: {{ section.settings.caption_color }};
+    --caption-font-family: {{ section.settings.font_caption }};
+    --caption-size-desktop: {{ section.settings.caption_size_desktop }}px;
+    --caption-size-mobile: {{ section.settings.caption_size_mobile }}px;
+    --caption-weight-desktop: {{ section.settings.caption_weight_desktop }};
+    --caption-weight-mobile: {{ section.settings.caption_weight_mobile }};
+    --caption-line-height-desktop: {{ section.settings.caption_line_height_desktop }};
+    --caption-line-height-mobile: {{ section.settings.caption_line_height_mobile }};
+    --caption-letter-spacing-desktop: {{ section.settings.caption_letter_spacing_desktop }}px;
+    --caption-letter-spacing-mobile: {{ section.settings.caption_letter_spacing_mobile }}px;
+
+    --media-radius: {{ section.settings.media_radius }}px;
+    --play-size-desktop: {{ section.settings.play_size_desktop }}px;
+    --play-size-mobile: {{ section.settings.play_size_mobile }}px;
+    --play-bg: {{ section.settings.play_bg }};
+    --play-icon-color: {{ section.settings.play_icon_color }};
+    --top-image-max-width: {{ section.settings.top_image_max_width }}px;
+    --top-image-width-mobile: {{ section.settings.top_image_width_mobile }}%;
+  }
+
+  #{{ section_id }} {
+    width: 100%;
+    background: var(--section-bg);
+    padding-top: var(--padding-top-desktop);
+    padding-bottom: var(--padding-bottom-desktop);
+    padding-left: var(--padding-left-desktop);
+    padding-right: var(--padding-right-desktop);
+  }
+
+  #{{ section_id }} .sample-kit-info-media__inner {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, var(--top-image-max-width));
+    gap: var(--top-grid-gap-desktop);
+    align-items: center;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__content {
+    max-width: 540px;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__title {
+    margin: 0 0 36px;
+    color: var(--title-color);
+    font-family: var(--title-font-family);
+    font-size: var(--title-size-desktop);
+    font-weight: var(--title-weight-desktop);
+    line-height: var(--title-line-height-desktop);
+    letter-spacing: var(--title-letter-spacing-desktop);
+  }
+
+  #{{ section_id }} .sample-kit-info-media__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bullet-list-gap-desktop);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--bullet-gap-desktop);
+  }
+
+  #{{ section_id }} .sample-kit-info-media__list-icon {
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    color: var(--bullet-icon-color);
+    margin-top: 3px;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__list-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    stroke: currentColor;
+    fill: none;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__list-text,
+  #{{ section_id }} .sample-kit-info-media__list-text p {
+    margin: 0;
+    color: var(--bullet-color);
+    font-family: var(--bullet-font-family);
+    font-size: var(--bullet-size-desktop);
+    font-weight: var(--bullet-weight-desktop);
+    line-height: var(--bullet-line-height-desktop);
+    letter-spacing: var(--bullet-letter-spacing-desktop);
+  }
+
+  #{{ section_id }} .sample-kit-info-media__cta-wrap {
+    margin-top: 54px;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__cta {
+    color: var(--cta-color);
+    font-family: var(--cta-font-family);
+    font-size: var(--cta-size-desktop);
+    font-weight: var(--cta-weight-desktop);
+    line-height: var(--cta-line-height-desktop);
+    letter-spacing: var(--cta-letter-spacing-desktop);
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--cta-underline-thickness);
+    text-underline-offset: var(--cta-underline-offset);
+    transition: color .25s ease;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__cta:hover {
+    color: var(--cta-hover-color);
+  }
+
+  #{{ section_id }} .sample-kit-info-media__image-wrap {
+    width: 100%;
+    max-width: var(--top-image-max-width);
+    margin-left: auto;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__bottom {
+    margin-top: var(--bottom-spacing-desktop);
+  }
+
+  #{{ section_id }} .sample-kit-info-media__media-link,
+  #{{ section_id }} .sample-kit-info-media__media-box {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: var(--media-radius);
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__media-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--play-size-desktop);
+    height: var(--play-size-desktop);
+    border-radius: 50%;
+    background: var(--play-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    transition: transform .25s ease, opacity .25s ease;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__media-link:hover .sample-kit-info-media__play {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+
+  #{{ section_id }} .sample-kit-info-media__play svg {
+    width: 34%;
+    height: 34%;
+    fill: var(--play-icon-color);
+    margin-left: 4px;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__caption {
+    margin: 18px 0 0;
+    text-align: center;
+    color: var(--caption-color);
+    font-family: var(--caption-font-family);
+    font-size: var(--caption-size-desktop);
+    font-weight: var(--caption-weight-desktop);
+    line-height: var(--caption-line-height-desktop);
+    letter-spacing: var(--caption-letter-spacing-desktop);
+  }
+
+  @media (max-width: 767px) {
+    #{{ section_id }} {
+      padding-top: var(--padding-top-mobile);
+      padding-bottom: var(--padding-bottom-mobile);
+      padding-left: var(--padding-left-mobile);
+      padding-right: var(--padding-right-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-info-media__top {
+      grid-template-columns: 1fr;
+      gap: var(--top-grid-gap-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-info-media__content {
+      max-width: 100%;
+      order: 1;
+    }
+
+    #{{ section_id }} .sample-kit-info-media__image-wrap {
+      order: 2;
+      margin: 0 auto;
+      max-width: 100%;
+      width: var(--top-image-width-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-info-media__title {
+      margin: 0 0 24px;
+      font-size: var(--title-size-mobile);
+      font-weight: var(--title-weight-mobile);
+      line-height: var(--title-line-height-mobile);
+      letter-spacing: var(--title-letter-spacing-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-info-media__list {
+      gap: var(--bullet-list-gap-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-info-media__list-item {
+      gap: var(--bullet-gap-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-info-media__list-text,
+    #{{ section_id }} .sample-kit-info-media__list-text p {
+      font-size: var(--bullet-size-mobile);
+      font-weight: var(--bullet-weight-mobile);
+      line-height: var(--bullet-line-height-mobile);
+      letter-spacing: var(--bullet-letter-spacing-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-info-media__cta-wrap {
+      margin-top: 28px;
+    }
+
+    #{{ section_id }} .sample-kit-info-media__cta {
+      font-size: var(--cta-size-mobile);
+      font-weight: var(--cta-weight-mobile);
+      line-height: var(--cta-line-height-mobile);
+      letter-spacing: var(--cta-letter-spacing-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-info-media__bottom {
+      margin-top: var(--bottom-spacing-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-info-media__play {
+      width: var(--play-size-mobile);
+      height: var(--play-size-mobile);
+    }
+
+    #{{ section_id }} .sample-kit-info-media__caption {
+      margin-top: 14px;
+      font-size: var(--caption-size-mobile);
+      font-weight: var(--caption-weight-mobile);
+      line-height: var(--caption-line-height-mobile);
+      letter-spacing: var(--caption-letter-spacing-mobile);
+    }
+  }
+</style>
+
+<section id="{{ section_id }}" class="sample-kit-info-media-section">
+  <div class="sample-kit-info-media__inner">
+    <div class="sample-kit-info-media__top">
+      <div class="sample-kit-info-media__content">
+        {% if section.settings.title != blank %}
+          <h2 class="sample-kit-info-media__title">{{ section.settings.title }}</h2>
+        {% endif %}
+
+        {% if section.blocks.size > 0 %}
+          <ul class="sample-kit-info-media__list" role="list">
+            {% for block in section.blocks %}
+              {% if block.type == 'bullet' %}
+                <li class="sample-kit-info-media__list-item" {{ block.shopify_attributes }}>
+                  <span class="sample-kit-info-media__list-icon" aria-hidden="true">
+                    {% if block.settings.custom_icon != blank %}
+                      <img
+                        src="{{ block.settings.custom_icon | image_url: width: 40 }}"
+                        alt=""
+                        width="14"
+                        height="14"
+                        loading="lazy"
+                      >
+                    {% else %}
+                      <svg viewBox="0 0 24 24" stroke-width="2">
+                        <path d="M5 12.5 9.2 16.5 19 6.5"/>
+                      </svg>
+                    {% endif %}
+                  </span>
+                  <div class="sample-kit-info-media__list-text">
+                    {{ block.settings.text }}
+                  </div>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if section.settings.cta_text != blank and section.settings.cta_url != blank %}
+          <div class="sample-kit-info-media__cta-wrap">
+            <a href="{{ section.settings.cta_url }}" class="sample-kit-info-media__cta">
+              {{ section.settings.cta_text }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="sample-kit-info-media__image-wrap">
+        {% if section.settings.top_image != blank %}
+          <img
+            class="sample-kit-info-media__image"
+            src="{{ section.settings.top_image | image_url: width: 1200 }}"
+            alt="{{ section.settings.top_image.alt | escape }}"
+            width="{{ section.settings.top_image.width }}"
+            height="{{ section.settings.top_image.height }}"
+            loading="lazy"
+          >
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="sample-kit-info-media__bottom">
+      {% if section.settings.media_link != blank %}
+        <a href="{{ section.settings.media_link }}" class="sample-kit-info-media__media-link">
+      {% else %}
+        <div class="sample-kit-info-media__media-box">
+      {% endif %}
+
+          {% if section.settings.bottom_media_image != blank %}
+            <img
+              class="sample-kit-info-media__media-image"
+              src="{{ section.settings.bottom_media_image | image_url: width: 1800 }}"
+              alt="{{ section.settings.bottom_media_image.alt | escape }}"
+              width="{{ section.settings.bottom_media_image.width }}"
+              height="{{ section.settings.bottom_media_image.height }}"
+              loading="lazy"
+            >
+          {% endif %}
+
+          {% if section.settings.show_play_button %}
+            <span class="sample-kit-info-media__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"></path>
+              </svg>
+            </span>
+          {% endif %}
+
+      {% if section.settings.media_link != blank %}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.caption != blank %}
+        <p class="sample-kit-info-media__caption">{{ section.settings.caption }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sample kit info media",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Why a sample kit?"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA text",
+      "default": "Shop Sample Kits"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+
+    {
+      "type": "header",
+      "content": "Top image"
+    },
+    {
+      "type": "image_picker",
+      "id": "top_image",
+      "label": "Top right image"
+    },
+    {
+      "type": "range",
+      "id": "top_image_max_width",
+      "label": "Top image max width desktop",
+      "min": 200,
+      "max": 900,
+      "step": 10,
+      "default": 520
+    },
+    {
+      "type": "range",
+      "id": "top_image_width_mobile",
+      "label": "Top image width mobile (%)",
+      "min": 40,
+      "max": 100,
+      "step": 1,
+      "default": 82
+    },
+
+    {
+      "type": "header",
+      "content": "Bottom media"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_media_image",
+      "label": "Bottom media image"
+    },
+    {
+      "type": "url",
+      "id": "media_link",
+      "label": "Media link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_play_button",
+      "label": "Show play button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "default": "Every sample, cut from a real plank"
+    },
+    {
+      "type": "range",
+      "id": "media_radius",
+      "label": "Media corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "play_size_desktop",
+      "label": "Play button size desktop",
+      "min": 40,
+      "max": 180,
+      "step": 2,
+      "default": 92
+    },
+    {
+      "type": "range",
+      "id": "play_size_mobile",
+      "label": "Play button size mobile",
+      "min": 36,
+      "max": 120,
+      "step": 2,
+      "default": 74
+    },
+    {
+      "type": "color",
+      "id": "play_bg",
+      "label": "Play button background",
+      "default": "#efac4d"
+    },
+    {
+      "type": "color",
+      "id": "play_icon_color",
+      "label": "Play icon color",
+      "default": "#000000"
+    },
+
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 700,
+      "max": 1800,
+      "step": 50,
+      "default": 1300
+    },
+    {
+      "type": "range",
+      "id": "top_grid_gap_desktop",
+      "label": "Top section gap desktop",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "top_grid_gap_mobile",
+      "label": "Top section gap mobile",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "bottom_spacing_desktop",
+      "label": "Bottom media spacing desktop",
+      "min": 10,
+      "max": 160,
+      "step": 2,
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "bottom_spacing_mobile",
+      "label": "Bottom media spacing mobile",
+      "min": 10,
+      "max": 120,
+      "step": 2,
+      "default": 36
+    },
+
+    {
+      "type": "header",
+      "content": "Title typography"
+    },
+    {
+      "type": "select",
+      "id": "font_title",
+      "label": "Font family: Title",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "'Helvetica Neue', sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "label": "Title size desktop",
+      "min": 14,
+      "max": 80,
+      "step": 1,
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Title size mobile",
+      "min": 14,
+      "max": 48,
+      "step": 1,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "title_weight_desktop",
+      "label": "Title weight desktop",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "title_weight_mobile",
+      "label": "Title weight mobile",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "title_line_height_desktop",
+      "label": "Title line height desktop",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "title_line_height_mobile",
+      "label": "Title line height mobile",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing_desktop",
+      "label": "Title letter spacing desktop",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing_mobile",
+      "label": "Title letter spacing mobile",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#111111"
+    },
+
+    {
+      "type": "header",
+      "content": "Bullet typography"
+    },
+    {
+      "type": "select",
+      "id": "font_bullet",
+      "label": "Font family: Bullets",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "'Helvetica Neue', sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "bullet_size_desktop",
+      "label": "Bullet size desktop",
+      "min": 10,
+      "max": 36,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "bullet_size_mobile",
+      "label": "Bullet size mobile",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "bullet_weight_desktop",
+      "label": "Bullet weight desktop",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "bullet_weight_mobile",
+      "label": "Bullet weight mobile",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "bullet_line_height_desktop",
+      "label": "Bullet line height desktop",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "bullet_line_height_mobile",
+      "label": "Bullet line height mobile",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "bullet_letter_spacing_desktop",
+      "label": "Bullet letter spacing desktop",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "bullet_letter_spacing_mobile",
+      "label": "Bullet letter spacing mobile",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "bullet_color",
+      "label": "Bullet text color",
+      "default": "#232323"
+    },
+    {
+      "type": "color",
+      "id": "bullet_icon_color",
+      "label": "Bullet icon color",
+      "default": "#d7a04b"
+    },
+    {
+      "type": "range",
+      "id": "bullet_gap_desktop",
+      "label": "Bullet icon gap desktop",
+      "min": 2,
+      "max": 30,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "bullet_gap_mobile",
+      "label": "Bullet icon gap mobile",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "bullet_list_gap_desktop",
+      "label": "Bullet list spacing desktop",
+      "min": 2,
+      "max": 40,
+      "step": 1,
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "bullet_list_gap_mobile",
+      "label": "Bullet list spacing mobile",
+      "min": 2,
+      "max": 30,
+      "step": 1,
+      "default": 16
+    },
+
+    {
+      "type": "header",
+      "content": "CTA typography"
+    },
+    {
+      "type": "select",
+      "id": "font_cta",
+      "label": "Font family: CTA",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "'Helvetica Neue', sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "cta_size_desktop",
+      "label": "CTA size desktop",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "cta_size_mobile",
+      "label": "CTA size mobile",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "cta_weight_desktop",
+      "label": "CTA weight desktop",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "cta_weight_mobile",
+      "label": "CTA weight mobile",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "cta_line_height_desktop",
+      "label": "CTA line height desktop",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "cta_line_height_mobile",
+      "label": "CTA line height mobile",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "cta_letter_spacing_desktop",
+      "label": "CTA letter spacing desktop",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "cta_letter_spacing_mobile",
+      "label": "CTA letter spacing mobile",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "cta_color",
+      "label": "CTA color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "cta_hover_color",
+      "label": "CTA hover color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "cta_underline_offset",
+      "label": "CTA underline offset",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "cta_underline_thickness",
+      "label": "CTA underline thickness",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 1
+    },
+
+    {
+      "type": "header",
+      "content": "Caption typography"
+    },
+    {
+      "type": "select",
+      "id": "font_caption",
+      "label": "Font family: Caption",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "Montserrat, sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "caption_size_desktop",
+      "label": "Caption size desktop",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "default": 19
+    },
+    {
+      "type": "range",
+      "id": "caption_size_mobile",
+      "label": "Caption size mobile",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "caption_weight_desktop",
+      "label": "Caption weight desktop",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "caption_weight_mobile",
+      "label": "Caption weight mobile",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "caption_line_height_desktop",
+      "label": "Caption line height desktop",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.3
+    },
+    {
+      "type": "range",
+      "id": "caption_line_height_mobile",
+      "label": "Caption line height mobile",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.3
+    },
+    {
+      "type": "range",
+      "id": "caption_letter_spacing_desktop",
+      "label": "Caption letter spacing desktop",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "caption_letter_spacing_mobile",
+      "label": "Caption letter spacing mobile",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Caption color",
+      "default": "#6d7485"
+    },
+
+    {
+      "type": "header",
+      "content": "Colors and spacing"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section background",
+      "default": "#f8f7f4"
+    },
+    {
+      "type": "header",
+      "content": "Desktop padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding top desktop",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding bottom desktop",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_left_desktop",
+      "label": "Padding left desktop",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_right_desktop",
+      "label": "Padding right desktop",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 24
+    },
+
+    {
+      "type": "header",
+      "content": "Mobile padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "label": "Padding left mobile",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "label": "Padding right mobile",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bullet",
+      "name": "Bullet item",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Bullet text",
+          "default": "<p>Try multiple colors and styles in your home</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sample kit info media",
+      "blocks": [
+        {
+          "type": "bullet",
+          "settings": {
+            "text": "<p>Try multiple colors and styles in your home</p>"
+          }
+        },
+        {
+          "type": "bullet",
+          "settings": {
+            "text": "<p>Compare colors in different lighting and times of day</p>"
+          }
+        },
+        {
+          "type": "bullet",
+          "settings": {
+            "text": "<p>Test durability and scratch resistance</p>"
+          }
+        },
+        {
+          "type": "bullet",
+          "settings": {
+            "text": "<p>Samples ship right to your door in 2-3 business days</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
