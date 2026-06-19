@@ -9020,3 +9020,8 @@ html:has(.cart-open) {
 .productThumbs .swiper-slide:has(video) {
     height: auto;
 }
+
+ul.pdp-atc__group__buttons li.is-disabled {
+    pointer-events: none;
+    opacity: 0.45;
+}
