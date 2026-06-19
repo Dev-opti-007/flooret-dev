@@ -1940,7 +1940,7 @@ document.addEventListener('DOMContentLoaded', function() {
 {% endif %}  
 
 
-{% if product.handle == 'modin-lvp-original-pvc-stair-nosings' or product.handle == 'modin-original-stair-nosings' %}
+{% comment %} {% if product.handle == 'modin-lvp-original-pvc-stair-nosings' or product.handle == 'modin-original-stair-nosings' %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
   const PRODUCT_HANDLE = {{ product.handle | json }};
@@ -2050,8 +2050,161 @@ document.addEventListener('DOMContentLoaded', function() {
   updateOptionAvailability();
 });
 </script>
-{% endif %}
+{% endif %} {% endcomment %}
 
+{% if product.handle == 'modin-lvp-original-pvc-stair-nosings' or product.handle == 'modin-original-stair-nosings' %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const PRODUCT_HANDLE = {{ product.handle | json }};
+  const productForm = document.querySelector('.pdp-atc__variants');
+  const allVariants = window.productInfo && window.productInfo[PRODUCT_HANDLE];
+
+  if (!productForm || !allVariants || !allVariants.length) return;
+
+  function getCurrentSelections() {
+    const selections = {};
+
+    productForm.querySelectorAll('.js-product-form__button[data-option-index]').forEach(input => {
+      const optionIndex = parseInt(input.dataset.optionIndex, 10);
+      if (input.checked) {
+        selections[optionIndex] = input.value;
+      }
+    });
+
+    const selects = productForm.querySelectorAll('.js-product-form__select[data-option-index], .js-product-form__select');
+    selects.forEach(select => {
+      const selectOptionIndex = parseInt(select.dataset.optionIndex, 10);
+      const selectedOption = select.options[select.selectedIndex];
+      const optionIndex = !isNaN(selectOptionIndex)
+        ? selectOptionIndex
+        : selectedOption
+          ? parseInt(selectedOption.dataset.optionIndex, 10)
+          : NaN;
+
+      if (!isNaN(optionIndex) && select.value && select.value !== 'Please select a color') {
+        selections[optionIndex] = select.value;
+      }
+    });
+
+    return selections;
+  }
+
+  function combinationExists(optionIndexToTest, optionValueToTest, currentSelections) {
+    return allVariants.some(variant => {
+      if (!variant || !variant.options || !variant.options.length) return false;
+
+      if (variant.options[optionIndexToTest - 1] !== optionValueToTest) {
+        return false;
+      }
+
+      for (const [selectedIndex, selectedValue] of Object.entries(currentSelections)) {
+        const idx = parseInt(selectedIndex, 10);
+        if (idx === optionIndexToTest) continue;
+        if (selectedValue && variant.options[idx - 1] !== selectedValue) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }
+
+  function updateRadioButtons(currentSelections) {
+    productForm.querySelectorAll('.js-product-form__button[data-option-index]').forEach(input => {
+      const li = input.closest('li');
+      const label = productForm.querySelector(`label[for="${input.id}"]`);
+      const optionIndex = parseInt(input.dataset.optionIndex, 10);
+      const optionValue = input.value;
+
+      const exists = combinationExists(optionIndex, optionValue, currentSelections);
+
+      input.disabled = !exists;
+
+      if (li) li.classList.toggle('is-disabled', !exists);
+
+      if (label) {
+        label.classList.toggle('is-disabled', !exists);
+        label.style.pointerEvents = exists ? '' : 'none';
+        label.style.opacity = exists ? '' : '0.45';
+      }
+
+      if (!exists && input.checked) {
+        input.checked = false;
+      }
+    });
+  }
+
+  function updateSelectOptions(currentSelections) {
+    const selects = productForm.querySelectorAll('.js-product-form__select[data-option-index], .js-product-form__select');
+
+    selects.forEach(select => {
+      const selectOptionIndex = parseInt(select.dataset.optionIndex, 10);
+
+      Array.from(select.options).forEach(option => {
+        const optionIndex = !isNaN(selectOptionIndex)
+          ? selectOptionIndex
+          : parseInt(option.dataset.optionIndex, 10);
+
+        if (isNaN(optionIndex) || !option.value || option.value === 'Please select a color') return;
+
+        const exists = combinationExists(optionIndex, option.value, currentSelections);
+        option.disabled = !exists;
+        option.hidden = !exists;
+      });
+
+      if (select.value) {
+        const selectedOption = select.options[select.selectedIndex];
+        if (selectedOption && selectedOption.disabled) {
+          const firstEnabled = Array.from(select.options).find(opt => !opt.disabled && opt.value && opt.value !== 'Please select a color');
+          if (firstEnabled) {
+            select.value = firstEnabled.value;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+      }
+    });
+  }
+
+  function autoSelectFirstValidRadioPerGroup() {
+    const groups = productForm.querySelectorAll('.pdp-atc__group');
+
+    groups.forEach(group => {
+      const enabledInputs = Array.from(
+        group.querySelectorAll('.js-product-form__button[data-option-index]:not(:disabled)')
+      );
+
+      if (!enabledInputs.length) return;
+
+      const checkedEnabled = enabledInputs.find(input => input.checked);
+      if (checkedEnabled) return;
+
+      enabledInputs[0].checked = true;
+      enabledInputs[0].dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  }
+
+  function updateOptionAvailability() {
+    const currentSelections = getCurrentSelections();
+    updateRadioButtons(currentSelections);
+    updateSelectOptions(currentSelections);
+    autoSelectFirstValidRadioPerGroup();
+  }
+
+  productForm.addEventListener('change', function (e) {
+    if (
+      e.target.matches('.js-product-form__button[data-option-index]') ||
+      e.target.matches('.js-product-form__select')
+    ) {
+      setTimeout(updateOptionAvailability, 0);
+      setTimeout(updateOptionAvailability, 30);
+    }
+  });
+
+  updateOptionAvailability();
+  setTimeout(updateOptionAvailability, 50);
+});
+</script>
+{% endif %}
 
 {% if product.handle == 'base-truplank-round-nosing-48' %}
 <script>
