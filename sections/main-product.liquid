@@ -1940,7 +1940,7 @@ document.addEventListener('DOMContentLoaded', function() {
 {% endif %}  
 
 
-{% if product.handle == 'modin-lvp-original-pvc-stair-nosings' or product.handle == 'modin-original-stair-nosings' %}
+{% comment %} {% if product.handle == 'modin-lvp-original-pvc-stair-nosings' or product.handle == 'modin-original-stair-nosings' %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
   const PRODUCT_HANDLE = {{ product.handle | json }};
@@ -2050,9 +2050,9 @@ document.addEventListener('DOMContentLoaded', function() {
   updateOptionAvailability();
 });
 </script>
-{% endif %}
+{% endif %} {% endcomment %}
 
-{% comment %} {% if product.handle == 'modin-lvp-original-pvc-stair-nosings' or product.handle == 'modin-original-stair-nosings' %}
+{% if product.handle == 'modin-lvp-original-pvc-stair-nosings' or product.handle == 'modin-original-stair-nosings' %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const PRODUCT_HANDLE = {{ product.handle | json }};
@@ -2099,8 +2099,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
       for (const [selectedIndex, selectedValue] of Object.entries(currentSelections)) {
         const idx = parseInt(selectedIndex, 10);
-        if (idx === optionIndexToTest) continue;
-        if (selectedValue && variant.options[idx - 1] !== selectedValue) {
+
+        if (idx >= optionIndexToTest) continue;
+        if (!selectedValue) continue;
+
+        if (variant.options[idx - 1] !== selectedValue) {
           return false;
         }
       }
@@ -2204,7 +2207,7 @@ document.addEventListener('DOMContentLoaded', function () {
   setTimeout(updateOptionAvailability, 50);
 });
 </script>
-{% endif %} {% endcomment %}
+{% endif %}
 
 {% if product.handle == 'base-truplank-round-nosing-48' %}
 <script>
