@@ -1834,9 +1834,11 @@ document.addEventListener('DOMContentLoaded', function() {
       
       if (!isAvailable) {
         {% comment %} $li.addClass('display-none').hide(); {% endcomment %}
+        $li.addClass('is-disabled');
         console.log('HIDDEN:', sizeValue);
       } else {
         {% comment %} $li.removeClass('display-none').show(); {% endcomment %}
+         $li.removeClass('is-disabled');
         console.log('SHOWN:', sizeValue);
       }
     });
