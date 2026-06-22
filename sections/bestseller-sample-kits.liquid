@@ -224,6 +224,28 @@
         gap: 40px;
       }
   
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider {
+        max-width: 350px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slide {
+        width: 350px;
+        height: 288px;
+        flex: 0 0 350px;
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--square .bestseller-kits__slide,
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--portrait .bestseller-kits__slide,
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--landscape .bestseller-kits__slide,
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--natural .bestseller-kits__slide {
+        aspect-ratio: auto;
+        width: 350px;
+        height: 288px;
+      }
+  
       .bestseller-kits--{{ section.id }} .bestseller-kits__info {
         flex-direction: column;
         align-items: flex-start;
