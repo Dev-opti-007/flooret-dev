@@ -203,6 +203,31 @@
       transform: translateY(-1px);
     }
   
+    /* Desktop styles */
+    @media (min-width: 769px) {
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider {
+        max-width: 624px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slide {
+        width: 624px;
+        height: 228px;
+        flex: 0 0 624px;
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--square .bestseller-kits__slide,
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--portrait .bestseller-kits__slide,
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--landscape .bestseller-kits__slide,
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--natural .bestseller-kits__slide {
+        aspect-ratio: auto;
+        width: 624px;
+        height: 228px;
+      }
+    }
+  
     /* Responsive / Mobile styles */
     @media (max-width: 768px) {
       .bestseller-kits--{{ section.id }} {
