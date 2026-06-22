@@ -128,7 +128,7 @@
             "link": "",
             "icon_type": "image",
             "preset_icon": "kids",
-            "icon_image": "shopify://shop_images/Light_Mode_Kids_Proof.png",
+            "icon_image": "shopify://shop_images/kid_friendly.png",
             "custom_svg": ""
           }
         },
@@ -139,7 +139,7 @@
             "link": "",
             "icon_type": "image",
             "preset_icon": "shield",
-            "icon_image": "shopify://shop_images/Light_Mode_Safe_for_Indoor_Air_Quality.png",
+            "icon_image": "shopify://shop_images/warrantys.png",
             "custom_svg": ""
           }
         }
