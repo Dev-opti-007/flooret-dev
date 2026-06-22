@@ -64,6 +64,7 @@
   .story-grid-guide-{{ section.id }} .story-grid-guide__image-col {
     position: relative;
     width: 100%;
+    max-width: 555px;
     overflow: hidden;
     border-radius: var(--sgg-image-radius);
   }
@@ -75,17 +76,11 @@
   }
 
   /* Handle aspect ratio */
-  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--natural {
-    height: auto;
-  }
-  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--square {
-    aspect-ratio: 1 / 1;
-  }
-  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--portrait {
-    aspect-ratio: 4 / 5;
-  }
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--natural,
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--square,
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--portrait,
   .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--landscape {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 555 / 577;
   }
 
   .story-grid-guide-{{ section.id }} .story-grid-guide__image {
