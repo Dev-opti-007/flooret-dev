@@ -501,7 +501,7 @@
         "image_max_width_desktop": 420,
         "image_width_mobile": 82,
         "image_radius": 0,
-        "mobile_image_first": false,
+        "mobile_image_first": true,
         "content_max_width": 1300,
         "left_column_width": 3,
         "right_column_width": 2,
