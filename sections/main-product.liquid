@@ -2447,6 +2447,14 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 {% endif %}
 
+{% if product.handle == 'stair-tread' %}
+<script>
+  document.addEventListener('DOMContentLoaded', function (){
+    document.getElementById('quantity').value = 2
+  }
+</script>
+{% endif %}
+
 {% schema %}
 {
   "name": "Product Main",
