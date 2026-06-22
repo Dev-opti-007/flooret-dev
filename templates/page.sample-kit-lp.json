@@ -54,7 +54,7 @@
         "title_italic": false,
         "title_color": "#ffffff",
         "font_back": "Montserrat, sans-serif",
-        "back_font_size_desktop": 15,
+        "back_font_size_desktop": 12,
         "back_font_size_mobile": 14,
         "back_font_weight_desktop": 500,
         "back_font_weight_mobile": 500,
