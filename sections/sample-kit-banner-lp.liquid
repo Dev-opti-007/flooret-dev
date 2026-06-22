@@ -241,7 +241,11 @@
     height: 100%;
     background: linear-gradient(135deg, #5a4639 0%, #2c231e 100%);
   }
-
+  @media(min-width: 767px){
+    .sample-kit-banner__cta {
+      display: none;
+  }
+  }
   @media (max-width: 767px) {
     #{{ section_id }} {
       padding-top: var(--padding-top-mobile);
