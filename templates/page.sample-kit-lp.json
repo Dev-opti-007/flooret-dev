@@ -234,7 +234,7 @@
         "show_play_button": true,
         "caption": "Every sample, cut from a real plank",
         "media_radius": 0,
-        "play_size_desktop": 92,
+        "play_size_desktop": 170,
         "play_size_mobile": 74,
         "play_bg": "#efac4d",
         "play_icon_color": "#000000",
