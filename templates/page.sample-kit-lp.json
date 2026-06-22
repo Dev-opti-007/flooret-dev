@@ -356,7 +356,7 @@
         "bg_color": "#ffffff",
         "text_color": "#2c2c2c",
         "heading_color": "#000000",
-        "accent_color": "#4A5565",
+        "accent_color": "#4a5565",
         "number_color": "#f0ece7",
         "image_aspect_ratio": "portrait",
         "image_border_radius": 16,
