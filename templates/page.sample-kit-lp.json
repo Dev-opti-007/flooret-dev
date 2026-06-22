@@ -255,7 +255,7 @@
         "title_color": "#000000",
         "font_bullet": "Montserrat, sans-serif",
         "bullet_size_desktop": 16,
-        "bullet_size_mobile": 14,
+        "bullet_size_mobile": 16,
         "bullet_weight_desktop": 500,
         "bullet_weight_mobile": 500,
         "bullet_line_height_desktop": 1.5,
