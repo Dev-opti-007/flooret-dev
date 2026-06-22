@@ -293,7 +293,7 @@
         "caption_color": "#4a5565",
         "section_bg": "#f8f7f4",
         "padding_top_desktop": 48,
-        "padding_bottom_desktop": 0,
+        "padding_bottom_desktop": 20,
         "padding_left_desktop": 24,
         "padding_right_desktop": 24,
         "padding_top_mobile": 32,
