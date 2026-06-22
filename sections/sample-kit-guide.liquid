@@ -64,7 +64,6 @@
   .story-grid-guide-{{ section.id }} .story-grid-guide__image-col {
     position: relative;
     width: 100%;
-    max-width: 555px;
     overflow: hidden;
     border-radius: var(--sgg-image-radius);
   }
@@ -76,11 +75,17 @@
   }
 
   /* Handle aspect ratio */
-  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--natural,
-  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--square,
-  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--portrait,
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--natural {
+    height: auto;
+  }
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--square {
+    aspect-ratio: 1 / 1;
+  }
+  .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--portrait {
+    aspect-ratio: 4 / 5;
+  }
   .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--landscape {
-    aspect-ratio: 555 / 577;
+    aspect-ratio: 16 / 9;
   }
 
   .story-grid-guide-{{ section.id }} .story-grid-guide__image {
@@ -175,11 +180,33 @@
     margin-bottom: 0;
   }
 
+  @media (min-width: 769px) {
+    .story-grid-guide-{{ section.id }} .story-grid-guide__row {
+      grid-template-columns: 555px 1fr;
+    }
+    .story-grid-guide-{{ section.id }} .story-grid-guide__image-col {
+      width: 555px;
+      height: 577px;
+    }
+    .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper {
+      width: 555px;
+      height: 577px;
+    }
+    .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--square,
+    .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--portrait,
+    .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--landscape,
+    .story-grid-guide-{{ section.id }} .story-grid-guide__image-wrapper--natural {
+      aspect-ratio: auto;
+      width: 555px;
+      height: 577px;
+    }
+  }
+
   /* Alternating Zig Zag layout logic on desktop */
   {% if section.settings.alternate_rows %}
     @media (min-width: 769px) {
       .story-grid-guide-{{ section.id }} .story-grid-guide__row:nth-child(even) {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 555px;
       }
       .story-grid-guide-{{ section.id }} .story-grid-guide__row:nth-child(even) .story-grid-guide__image-col {
         order: 2;
