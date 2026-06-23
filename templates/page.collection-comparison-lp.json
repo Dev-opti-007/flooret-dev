@@ -31,10 +31,46 @@
             "button_text": "Shop Modin",
             "button_link": "shopify://collections/modin-luxury-vinyl-plank"
           }
+        },
+        "card_aPCghL": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/3f497de293ab31f478b9951ebbc293e7b412f6f7.jpg",
+            "title": "Provence Natural Hardwood",
+            "best_for": "<ul><li>Timeless interiors</li><li>Modern farmhouse homes</li><li>Premium spaces</li></ul>",
+            "description": "A refinishable wood veneer with XL plank sizes and 50% longs",
+            "icon_1": "shopify://shop_images/modin-craftsman_50x_2_1.png",
+            "icon_2": "shopify://shop_images/modin-signature_50x_2_1.png",
+            "button_text": "Shop Provence",
+            "button_link": "shopify://collections/provence-natural-hardwood"
+          }
+        },
+        "card_T3T68D": {
+          "type": "card",
+          "settings": {
+            "title": "",
+            "best_for": "",
+            "description": "",
+            "button_text": "",
+            "button_link": ""
+          }
+        },
+        "card_CYPwhg": {
+          "type": "card",
+          "settings": {
+            "title": "",
+            "best_for": "",
+            "description": "",
+            "button_text": "",
+            "button_link": ""
+          }
         }
       },
       "block_order": [
-        "card_PhGDiB"
+        "card_PhGDiB",
+        "card_aPCghL",
+        "card_T3T68D",
+        "card_CYPwhg"
       ],
       "name": "Four Collections",
       "settings": {
