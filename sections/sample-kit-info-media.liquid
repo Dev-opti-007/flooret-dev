@@ -465,99 +465,44 @@ document.addEventListener('DOMContentLoaded', function () {
   const videoUrl = trigger.dataset.videoUrl;
   if (!videoUrl) return;
 
-  function getEmbedMarkup(url) {
-    if (url.includes('youtube.com/watch?v=')) {
-      const videoId = new URL(url).searchParams.get('v');
-      if (videoId) {
-        return `
-          <div class="sample-kit-info-media__media-player">
-            <iframe
-              src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
-              title="YouTube video player"
-              allow="autoplay; encrypted-media; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-          </div>
-        `;
-      }
-    }
-
-    if (url.includes('youtu.be/')) {
-      const videoId = url.split('youtu.be/')[1].split('?')[0];
-      return `
-        <div class="sample-kit-info-media__media-player">
-          <iframe
-            src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
-            title="YouTube video player"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-        </div>
-      `;
-    }
-
-    if (url.includes('vimeo.com/')) {
-      const match = url.match(/vimeo\.com\/(\d+)/);
-      if (match && match[1]) {
-        return `
-          <div class="sample-kit-info-media__media-player">
-            <iframe
-              src="https://player.vimeo.com/video/${match[1]}?autoplay=1"
-              title="Vimeo video player"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-          </div>
-        `;
-      }
-    }
-
-    if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(url)) {
-      return `
-        <div class="sample-kit-info-media__media-player">
-          <video class="sample-kit-info-media__video" controls autoplay playsinline>
-            <source src="${url}">
-          </video>
-        </div>
-      `;
-    }
-
-    return null;
+  function isDirectVideo(url) {
+    return /\.(mp4|webm|ogg)(\?.*)?$/i.test(url);
   }
 
-  function playVideo() {
+  function createVideo() {
+    trigger.innerHTML = `
+      <div class="sample-kit-info-media__media-player">
+        <video class="sample-kit-info-media__video" controls autoplay playsinline>
+          <source src="${videoUrl}">
+        </video>
+      </div>
+    `;
+
+    const video = trigger.querySelector('.sample-kit-info-media__video');
+
+    video.addEventListener('click', function(e) {
+      e.stopPropagation();
+      this[this.paused ? 'play' : 'pause']();
+    });
+  }
+
+  trigger.addEventListener('click', function () {
+    if (!isDirectVideo(videoUrl)) return;
+
     const existingVideo = trigger.querySelector('.sample-kit-info-media__video');
-    const existingIframe = trigger.querySelector('iframe');
 
-    if (existingVideo) {
-      existingVideo[existingVideo.paused ? 'play' : 'pause']();
+    if (!existingVideo) {
+      createVideo();
       return;
     }
 
-    if (existingIframe) {
-      return;
-    }
-
-    const embedMarkup = getEmbedMarkup(videoUrl);
-    if (!embedMarkup) return;
-
-    trigger.innerHTML = embedMarkup;
-
-    const newVideo = trigger.querySelector('.sample-kit-info-media__video');
-    if (newVideo) {
-      newVideo.addEventListener('click', function(e) {
-        e.stopPropagation();
-        this[this.paused ? 'play' : 'pause']();
-      });
-    }
-  }
-
-  trigger.addEventListener('click', playVideo);
+    existingVideo[existingVideo.paused ? 'play' : 'pause']();
+  });
 
   trigger.addEventListener('keydown', function(event) {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      playVideo();
+      trigger.click();
     }
   });
 });
