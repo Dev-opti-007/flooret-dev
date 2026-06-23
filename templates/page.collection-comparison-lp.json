@@ -48,11 +48,14 @@
         "card_T3T68D": {
           "type": "card",
           "settings": {
-            "title": "",
-            "best_for": "",
-            "description": "",
-            "button_text": "",
-            "button_link": ""
+            "image": "shopify://shop_images/17704a2e1f7621d93a86ca78c8b15a3e1d3f63e2.jpg",
+            "title": "Silvan Resilient Hardwood",
+            "best_for": "<ul><li>Modern minimalist homes</li><li>Higher-traffic premiums spaces</li><li>DIYers who want real wood</li></ul>",
+            "description": "Never needs to be refinished, 3x harder than traditional hardwood",
+            "icon_1": "shopify://shop_images/modin-craftsman_50x_2_1.png",
+            "icon_2": "shopify://shop_images/modin-signature_50x_2_1.png",
+            "button_text": "Shop Silvan",
+            "button_link": "shopify://collections/silvan-hardwood"
           }
         },
         "card_CYPwhg": {
