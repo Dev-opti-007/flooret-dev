@@ -91,60 +91,72 @@
 
     <!-- Mobile Accordion -->
 
-    <div class="mobile-selector-accordion mobile-only">
-      {% for block in section.blocks %}
-        <div class="mobile-selector-item">
-          <button
-            class="mobile-selector-trigger {% if forloop.first %}active{% endif %}"
+    <!-- Mobile Accordion -->
+<div class="mobile-selector-accordion mobile-only">
+
+  {% for block in section.blocks %}
+
+    <div class="mobile-selector-item">
+
+      <button
+        class="mobile-selector-trigger {% if forloop.first %}active{% endif %}"
+      >
+
+        <span class="mobile-trigger-text">
+          {{ block.settings.selector_text }}
+        </span>
+
+        <span class="mobile-trigger-icon">
+          <svg
+            width="12"
+            height="7"
+            viewBox="0 0 12 7"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <span class="mobile-trigger-text">
-              {{ block.settings.selector_text }}
-            </span>
+            <path
+              d="M9.66431 1.41418L5.53931 5.53918L1.41431 1.41418"
+              stroke="#212121"
+              stroke-width="2"
+              stroke-miterlimit="10"
+              stroke-linecap="square"
+            />
+          </svg>
+        </span>
 
-            <span class="mobile-trigger-icon">
-              <svg
-                width="12"
-                height="7"
-                viewBox="0 0 12 7"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.66431 1.41418L5.53931 5.53918L1.41431 1.41418"
-                  stroke="#212121"
-                  stroke-width="2"
-                  stroke-miterlimit="10"
-                  stroke-linecap="square"
-                />
-              </svg>
-            </span>
-          </button>
+      </button>
 
-          <div class="mobile-selector-panel {% if forloop.first %}active{% endif %}">
-            <div class="mobile-selector-card">
-              {% if block.settings.background_image %}
-                <img
-                  src="{{ block.settings.background_image | image_url: width: 1200 }}"
-                  alt="{{ block.settings.title }}"
-                >
-              {% endif %}
+      <div
+        class="mobile-selector-panel {% if forloop.first %}active{% endif %}"
+      >
 
-              <div class="mobile-selector-overlay"></div>
+        <div class="mobile-selector-card">
 
-              <div class="mobile-selector-card-content">
-                <div class="mobile-selector-title">
-                  {{ block.settings.title }}
-                </div>
+          {% if block.settings.background_image %}
+            <img
+              src="{{ block.settings.background_image | image_url: width: 1200 }}"
+              alt="{{ block.settings.title }}"
+              loading="lazy"
+            >
+          {% endif %}
 
-                <div class="mobile-selector-description">
-                  {{ block.settings.description }}
-                </div>
+          <div class="mobile-selector-overlay"></div>
 
-                <div class="mobile-selector-characteristics">
-                  {{ block.settings.characteristics | newline_to_br }}
-                </div>
-              </div>
+          <div class="mobile-selector-card-content">
+
+            <div class="mobile-selector-title">
+              {{ block.settings.title }}
             </div>
+
+            <div class="mobile-selector-description">
+              {{ block.settings.description }}
+            </div>
+
+            {% if block.settings.characteristics != blank %}
+              <div class="mobile-selector-characteristics">
+                {{ block.settings.characteristics }}
+              </div>
+            {% endif %}
 
             {% if block.settings.primary_button_text != blank %}
               <a
@@ -154,10 +166,27 @@
                 {{ block.settings.primary_button_text }}
               </a>
             {% endif %}
+
+            {% if block.settings.secondary_button_text != blank %}
+              <a
+                href="{{ block.settings.secondary_button_link }}"
+                class="mobile-selector-secondary-btn"
+              >
+                {{ block.settings.secondary_button_text }}
+              </a>
+            {% endif %}
+
           </div>
+
         </div>
-      {% endfor %}
+
+      </div>
+
     </div>
+
+  {% endfor %}
+
+</div>
   </div>
 </section>
 
