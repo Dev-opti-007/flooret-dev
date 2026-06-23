@@ -339,6 +339,22 @@
       letter-spacing: var(--caption-letter-spacing-mobile);
     }
   }
+  #{{ section_id }} .sample-kit-info-media__media-trigger {
+    cursor: pointer;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__media-player,
+  #{{ section_id }} .sample-kit-info-media__media-player iframe,
+  #{{ section_id }} .sample-kit-info-media__media-player video {
+    width: 100%;
+    display: block;
+  }
+
+  #{{ section_id }} .sample-kit-info-media__media-player iframe,
+  #{{ section_id }} .sample-kit-info-media__media-player video {
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
 </style>
 
 <section id="{{ section_id }}" class="sample-kit-info-media-section">
@@ -402,36 +418,34 @@
     </div>
 
     <div class="sample-kit-info-media__bottom">
-      {% if section.settings.media_link != blank %}
-        <a href="{{ section.settings.media_link }}" class="sample-kit-info-media__media-link">
-      {% else %}
-        <div class="sample-kit-info-media__media-box">
-      {% endif %}
+      <div
+        class="sample-kit-info-media__media-box sample-kit-info-media__media-trigger"
+        {% if section.settings.media_link != blank %}
+          data-video-url="{{ section.settings.media_link }}"
+          role="button"
+          tabindex="0"
+          aria-label="Play video"
+        {% endif %}
+      >
+        {% if section.settings.bottom_media_image != blank %}
+          <img
+            class="sample-kit-info-media__media-image"
+            src="{{ section.settings.bottom_media_image | image_url: width: 1800 }}"
+            alt="{{ section.settings.bottom_media_image.alt | escape }}"
+            width="{{ section.settings.bottom_media_image.width }}"
+            height="{{ section.settings.bottom_media_image.height }}"
+            loading="lazy"
+          >
+        {% endif %}
 
-          {% if section.settings.bottom_media_image != blank %}
-            <img
-              class="sample-kit-info-media__media-image"
-              src="{{ section.settings.bottom_media_image | image_url: width: 1800 }}"
-              alt="{{ section.settings.bottom_media_image.alt | escape }}"
-              width="{{ section.settings.bottom_media_image.width }}"
-              height="{{ section.settings.bottom_media_image.height }}"
-              loading="lazy"
-            >
-          {% endif %}
-
-          {% if section.settings.show_play_button %}
-            <span class="sample-kit-info-media__play" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"></path>
-              </svg>
-            </span>
-          {% endif %}
-
-      {% if section.settings.media_link != blank %}
-        </a>
-      {% else %}
-        </div>
-      {% endif %}
+        {% if section.settings.show_play_button and section.settings.media_link != blank %}
+          <span class="sample-kit-info-media__play" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+          </span>
+        {% endif %}
+      </div>
 
       {% if section.settings.caption != blank %}
         <p class="sample-kit-info-media__caption">{{ section.settings.caption }}</p>
@@ -441,87 +455,91 @@
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const section = document.getElementById('{{ section_id }}');
-    if (!section) return;
+document.addEventListener('DOMContentLoaded', function () {
+  const section = document.getElementById('{{ section_id }}');
+  if (!section) return;
 
-    const trigger = section.querySelector('.sample-kit-info-media__media-trigger');
-    if (!trigger) return;
+  const trigger = section.querySelector('.sample-kit-info-media__media-trigger');
+  if (!trigger) return;
 
-    const videoUrl = trigger.dataset.videoUrl;
-    if (!videoUrl) return;
+  const videoUrl = trigger.dataset.videoUrl;
+  if (!videoUrl) return;
 
-    function getEmbedMarkup(url) {
-      if (url.includes('youtube.com/watch?v=')) {
-        const videoId = new URL(url).searchParams.get('v');
-        if (videoId) {
-          return `<div class="sample-kit-info-media__media-player">
+  function getEmbedMarkup(url) {
+    if (url.includes('youtube.com/watch?v=')) {
+      const videoId = new URL(url).searchParams.get('v');
+      if (videoId) {
+        return `
+          <div class="sample-kit-info-media__media-player">
             <iframe
               src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
               title="YouTube video player"
               allow="autoplay; encrypted-media; picture-in-picture"
               allowfullscreen>
             </iframe>
-          </div>`;
-        }
+          </div>
+        `;
       }
+    }
 
-      if (url.includes('youtu.be/')) {
-        const videoId = url.split('youtu.be/')[1].split('?')[0];
-        return `<div class="sample-kit-info-media__media-player">
+    if (url.includes('youtu.be/')) {
+      const videoId = url.split('youtu.be/')[1].split('?')[0];
+      return `
+        <div class="sample-kit-info-media__media-player">
           <iframe
             src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
             title="YouTube video player"
             allow="autoplay; encrypted-media; picture-in-picture"
             allowfullscreen>
           </iframe>
-        </div>`;
-      }
+        </div>
+      `;
+    }
 
-      if (url.includes('vimeo.com/')) {
-        const match = url.match(/vimeo\.com\/(\d+)/);
-        if (match && match[1]) {
-          return `<div class="sample-kit-info-media__media-player">
+    if (url.includes('vimeo.com/')) {
+      const match = url.match(/vimeo\.com\/(\d+)/);
+      if (match && match[1]) {
+        return `
+          <div class="sample-kit-info-media__media-player">
             <iframe
               src="https://player.vimeo.com/video/${match[1]}?autoplay=1"
               title="Vimeo video player"
               allow="autoplay; fullscreen; picture-in-picture"
               allowfullscreen>
             </iframe>
-          </div>`;
-        }
+          </div>
+        `;
       }
+    }
 
-      if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(url)) {
-        return `<div class="sample-kit-info-media__media-player">
+    if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(url)) {
+      return `
+        <div class="sample-kit-info-media__media-player">
           <video controls autoplay playsinline>
             <source src="${url}">
           </video>
-        </div>`;
-      }
-
-      return null;
+        </div>
+      `;
     }
 
-    function playVideo() {
-      const embedMarkup = getEmbedMarkup(videoUrl);
-      if (!embedMarkup) return;
-      trigger.innerHTML = embedMarkup;
-      trigger.classList.add('is-playing');
-      trigger.removeAttribute('role');
-      trigger.removeAttribute('tabindex');
-      trigger.removeAttribute('aria-label');
+    return null;
+  }
+
+  function playVideo() {
+    const embedMarkup = getEmbedMarkup(videoUrl);
+    if (!embedMarkup) return;
+    trigger.innerHTML = embedMarkup;
+  }
+
+  trigger.addEventListener('click', playVideo);
+
+  trigger.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      playVideo();
     }
-
-    trigger.addEventListener('click', playVideo);
-
-    trigger.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        playVideo();
-      }
-    });
   });
+});
 </script>
 
 {% schema %}
