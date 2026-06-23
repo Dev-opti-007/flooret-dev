@@ -15,7 +15,7 @@
     </div>
 
     <!-- Desktop Selector -->
-    <div class="flooring-selector-tabs desktop-only">
+    <div class="flooring-selector-tabs">
       {% for block in section.blocks %}
         <button
           class="selector-tab {% if forloop.first %}active{% endif %}"
@@ -32,7 +32,7 @@
     </div>
 
     <!-- Desktop Content -->
-    <div class="flooring-selector-content desktop-only">
+    <div class="flooring-selector-content">
       {% for block in section.blocks %}
         <div
           class="selector-content-item {% if forloop.first %}active{% endif %}"
@@ -211,7 +211,7 @@
 
     padding:20px;
 
-    display:flex;
+    display:flex !important;
     flex-direction:column;
     align-items:flex-start;
 
@@ -379,9 +379,10 @@
 
   @media screen and (max-width:749px){
 
-    .desktop-only{
-      display:none;
-    }
+    .flooring-selector-tabs,
+  .flooring-selector-content{
+    display:none;
+  }
 
     .mobile-only{
       display:block;
