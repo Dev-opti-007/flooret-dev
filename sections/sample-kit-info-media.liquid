@@ -515,7 +515,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(url)) {
       return `
         <div class="sample-kit-info-media__media-player">
-          <video controls autoplay playsinline>
+          <video class="sample-kit-info-media__video" controls autoplay playsinline>
             <source src="${url}">
           </video>
         </div>
@@ -526,9 +526,30 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function playVideo() {
+    const existingVideo = trigger.querySelector('.sample-kit-info-media__video');
+    const existingIframe = trigger.querySelector('iframe');
+
+    if (existingVideo) {
+      existingVideo[existingVideo.paused ? 'play' : 'pause']();
+      return;
+    }
+
+    if (existingIframe) {
+      return;
+    }
+
     const embedMarkup = getEmbedMarkup(videoUrl);
     if (!embedMarkup) return;
+
     trigger.innerHTML = embedMarkup;
+
+    const newVideo = trigger.querySelector('.sample-kit-info-media__video');
+    if (newVideo) {
+      newVideo.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this[this.paused ? 'play' : 'pause']();
+      });
+    }
   }
 
   trigger.addEventListener('click', playVideo);
