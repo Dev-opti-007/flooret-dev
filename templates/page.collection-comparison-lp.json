@@ -82,10 +82,93 @@
         "heading": "Four Collections, One Standard of Quality",
         "subheading": "<p>Every Flooret floor is durable, comfortable underfoot, and built to last. The difference comes down to materials, price, and which floor is the right choice for your home and your lifestyle.</p>"
       }
+    },
+    "cc_compare_details_ReKCqQ": {
+      "type": "cc-compareDetails",
+      "blocks": {
+        "row_x7QhER": {
+          "type": "row",
+          "settings": {
+            "feature": "Waterproof Level",
+            "value_1": "100%",
+            "value_2": "Water Resistant",
+            "value_3": "Water Resistant",
+            "value_4": "Water Resistant"
+          }
+        },
+        "row_8wxyfD": {
+          "type": "row",
+          "settings": {
+            "feature": "DIY Friendly",
+            "value_1": "Yes",
+            "value_2": "No",
+            "value_3": "Yes",
+            "value_4": "Yes"
+          }
+        },
+        "row_9gQVwc": {
+          "type": "row",
+          "settings": {
+            "feature": "Kid & Pet Friendly",
+            "value_1": "Yes",
+            "value_2": "Yes",
+            "value_3": "Yes",
+            "value_4": "Yes"
+          }
+        },
+        "row_NyjCrq": {
+          "type": "row",
+          "settings": {
+            "feature": "Wear Layer",
+            "value_1": "Up to 40 mil",
+            "value_2": "1.2 mm",
+            "value_3": ".6mm",
+            "value_4": "AC5"
+          }
+        },
+        "row_d7DYaP": {
+          "type": "row",
+          "settings": {
+            "feature": "Installation Method",
+            "value_1": "Floating Click Lock",
+            "value_2": "Professional Glue or Nail",
+            "value_3": "Floating or Glue Click",
+            "value_4": "Floating Click Lock"
+          }
+        },
+        "row_g7cMh4": {
+          "type": "row",
+          "settings": {
+            "feature": "Price Level",
+            "value_1": "$$ - $$$",
+            "value_2": "$$$$",
+            "value_3": "$$$",
+            "value_4": "$$"
+          }
+        }
+      },
+      "block_order": [
+        "row_x7QhER",
+        "row_8wxyfD",
+        "row_9gQVwc",
+        "row_NyjCrq",
+        "row_d7DYaP",
+        "row_g7cMh4"
+      ],
+      "name": "Compare Details Table",
+      "settings": {
+        "heading": "Compare the Details That Matter",
+        "subheading": "<p>Find the best flooring collection to match your lifestyle</p>",
+        "column_1_title": "MODIN LVP",
+        "column_2_title": "PROVENCE Natural Hardwood",
+        "column_3_title": "SILVAN Resilient Hardwood",
+        "column_4_title": "ARISTA Laminate"
+      }
     }
   },
   "order": [
     "main",
-    "four_collections_adHYED"
+    "four_collections_adHYED",
+    "cc_compare_details_ReKCqQ"
   ]
 }
