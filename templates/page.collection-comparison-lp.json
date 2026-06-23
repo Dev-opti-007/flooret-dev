@@ -61,11 +61,13 @@
         "card_CYPwhg": {
           "type": "card",
           "settings": {
-            "title": "",
-            "best_for": "",
-            "description": "",
-            "button_text": "",
-            "button_link": ""
+            "image": "shopify://shop_images/8bba7f5a378d66289a4f6fac30fee84b10a0df61.jpg",
+            "title": "Arista Laminate",
+            "best_for": "<ul><li>Budget-conscious projects</li><li>Superior Scratch Resistance</li><li>Secondary spaces</li></ul>",
+            "description": "AC5 Scratch rating and IXPE backing makes Arista durable and soft underfoot",
+            "icon_1": "shopify://shop_images/modin-signature_50x_2_1.png",
+            "button_text": "Shop Arista",
+            "button_link": "shopify://collections/arista-laminate"
           }
         }
       },
