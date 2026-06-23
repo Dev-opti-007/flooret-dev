@@ -12,9 +12,39 @@
     "main": {
       "type": "main-page",
       "settings": {}
+    },
+    "four_collections_adHYED": {
+      "type": "four-collections",
+      "blocks": {
+        "card_PhGDiB": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/a6474d2590b27f79a0b1b1740a27a3a8da71f29a.png",
+            "title": "Modin LVP",
+            "best_for": "<ul><li>DIY Installations</li><li>High-traffic households</li><li>Pets & kids</li></ul>",
+            "description": "The wear layer is up to 40 MIL and comes in various plank sizes.",
+            "icon_1": "shopify://shop_images/modin-craftsman_50x_2_1.png",
+            "icon_2": "shopify://shop_images/modin-signature_50x_2_1.png",
+            "icon_3": "shopify://shop_images/modin-signature_50x_2_1.png",
+            "icon_4": "shopify://shop_images/modin-signature_50x_2_1.png",
+            "icon_5": "shopify://shop_images/modin-herringbone_50x_91068403-ecc6-48a9-8a0c-0629c96f1a56_50x_2.png",
+            "button_text": "Shop Modin",
+            "button_link": "shopify://collections/modin-luxury-vinyl-plank"
+          }
+        }
+      },
+      "block_order": [
+        "card_PhGDiB"
+      ],
+      "name": "Four Collections",
+      "settings": {
+        "heading": "Four Collections, One Standard of Quality",
+        "subheading": "<p>Every Flooret floor is durable, comfortable underfoot, and built to last. The difference comes down to materials, price, and which floor is the right choice for your home and your lifestyle.</p>"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "four_collections_adHYED"
   ]
 }
