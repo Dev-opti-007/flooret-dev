@@ -1,4 +1,3 @@
-```liquid
 <section class="compare-details-section">
 
   <div class="page-width">
@@ -123,14 +122,12 @@
   min-width:1261px;
 }
 
-.compare-table-head{
+.compare-table-head,
+.compare-row{
   display:grid;
   grid-template-columns:
-    200px
-    265.25px
-    265.25px
-    265.25px
-    265.25px;
+    minmax(200px,1fr)
+    repeat(4,minmax(265px,1fr));
 }
 
 .compare-feature-heading{
@@ -240,7 +237,7 @@
   background:#73929B33;
 }
 
-@media screen and (max-width:1024px){
+@media screen and (max-width: 1260px) and (min-width: 750px){
 
   .compare-table-wrapper{
     overflow-x:auto;
@@ -248,7 +245,7 @@
   }
 
   .compare-table{
-    min-width:1261px;
+    width:1261px;
   }
 
 }
@@ -338,4 +335,3 @@
   ]
 }
 {% endschema %}
-```
