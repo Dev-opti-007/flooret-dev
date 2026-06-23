@@ -212,10 +212,17 @@
 
 .flooring-selector-tabs{
   display:flex;
-  gap:12px;
+  flex-direction:row;
+  flex-wrap:nowrap;
+  gap:16px;
+
   overflow-x:auto;
-  margin-bottom:32px;
+  overflow-y:hidden;
+
+  width:100%;
+
   scrollbar-width:none;
+  -ms-overflow-style:none;
 }
 
 .flooring-selector-tabs::-webkit-scrollbar{
@@ -223,9 +230,9 @@
 }
 
 .selector-tab{
+  flex:0 0 303px;
   width:303px;
   height:149px;
-  flex-shrink:0;
 
   background:#FFFFFF;
   border:1px solid #D9D9D9;
