@@ -1,9 +1,6 @@
 <section class="flooring-selector-section">
-
   <div class="page-width">
-
     <div class="flooring-selector-header">
-
       {% if section.settings.heading != blank %}
         <h2 class="flooring-selector-heading">
           {{ section.settings.heading }}
@@ -15,12 +12,10 @@
           {{ section.settings.subheading }}
         </div>
       {% endif %}
-
     </div>
 
     <!-- Desktop Selector -->
     <div class="flooring-selector-tabs desktop-only">
-
       {% for block in section.blocks %}
         <button
           class="selector-tab {% if forloop.first %}active{% endif %}"
@@ -34,21 +29,16 @@
           </div>
         </button>
       {% endfor %}
-
     </div>
 
     <!-- Desktop Content -->
     <div class="flooring-selector-content desktop-only">
-
       {% for block in section.blocks %}
-
         <div
           class="selector-content-item {% if forloop.first %}active{% endif %}"
           data-content="{{ block.id }}"
         >
-
           <div class="selector-hero">
-
             {% if block.settings.background_image %}
               <img
                 src="{{ block.settings.background_image | image_url: width: 2500 }}"
@@ -60,7 +50,6 @@
             <div class="selector-overlay"></div>
 
             <div class="selector-hero-content">
-
               <h3 class="selector-title">
                 {{ block.settings.title }}
               </h3>
@@ -76,7 +65,6 @@
               {% endif %}
 
               <div class="selector-buttons">
-
                 {% if block.settings.primary_button_text != blank %}
                   <a
                     href="{{ block.settings.primary_button_link }}"
@@ -94,64 +82,53 @@
                     {{ block.settings.secondary_button_text }}
                   </a>
                 {% endif %}
-
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       {% endfor %}
-
     </div>
 
     <!-- Mobile Accordion -->
 
     <div class="mobile-selector-accordion mobile-only">
-
       {% for block in section.blocks %}
-
         <div class="mobile-selector-item">
-
           <button
             class="mobile-selector-trigger {% if forloop.first %}active{% endif %}"
           >
+            <span class="mobile-trigger-text">
+              {{ block.settings.selector_text }}
+            </span>
 
-            {% if block.settings.background_image %}
-              <img
-                src="{{ block.settings.background_image | image_url: width: 1200 }}"
-                alt="{{ block.settings.title }}"
-                loading="lazy"
-              >
-            {% endif %}
-
-            <div class="mobile-selector-overlay"></div>
-
-            <div class="mobile-selector-content">
-
-              <div class="mobile-selector-title">
-                {{ block.settings.title }}
-              </div>
-
-              <div class="mobile-selector-description">
-                {{ block.settings.description }}
-              </div>
-
-              {% if block.settings.characteristics != blank %}
-                <div class="mobile-selector-characteristics">
-                  {{ block.settings.characteristics }}
-                </div>
-              {% endif %}
-
-            </div>
-
+            <span class="mobile-trigger-icon"> + </span>
           </button>
 
-          <div
-            class="mobile-selector-panel {% if forloop.first %}active{% endif %}"
-          >
+          <div class="mobile-selector-panel {% if forloop.first %}active{% endif %}">
+            <div class="mobile-selector-card">
+              {% if block.settings.background_image %}
+                <img
+                  src="{{ block.settings.background_image | image_url: width: 1200 }}"
+                  alt="{{ block.settings.title }}"
+                >
+              {% endif %}
+
+              <div class="mobile-selector-overlay"></div>
+
+              <div class="mobile-selector-card-content">
+                <div class="mobile-selector-title">
+                  {{ block.settings.title }}
+                </div>
+
+                <div class="mobile-selector-description">
+                  {{ block.settings.description }}
+                </div>
+
+                <div class="mobile-selector-characteristics">
+                  {{ block.settings.characteristics | newline_to_br }}
+                </div>
+              </div>
+            </div>
 
             {% if block.settings.primary_button_text != blank %}
               <a
@@ -161,323 +138,440 @@
                 {{ block.settings.primary_button_text }}
               </a>
             {% endif %}
-
           </div>
-
         </div>
-
       {% endfor %}
-
     </div>
-
   </div>
-
 </section>
 
 <style>
-.flooring-selector-section{
-  background:#F4F2EC;
-  padding:96px 0;
-}
-
-/* HEADER */
-
-.flooring-selector-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:60px;
-  margin-bottom:60px;
-}
-
-.flooring-selector-heading{
-  margin:0;
-  max-width:520px;
-  font-size:40px;
-  font-weight:500;
-  line-height:1.2;
-  color:#000000;
-}
-
-.flooring-selector-subheading{
-  max-width:430px;
-  text-align:right;
-  font-size:16px;
-  font-weight:500;
-  line-height:1.5;
-  color:#4A5565;
-}
-
-/* DESKTOP TABS */
-
-.flooring-selector-tabs{
-  display:flex;
-  flex-direction:row;
-  flex-wrap:nowrap;
-  gap:16px;
-
-  overflow-x:auto;
-  overflow-y:hidden;
-
-  width:100%;
-
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-}
-
-.flooring-selector-tabs::-webkit-scrollbar{
-  display:none;
-}
-
-.selector-tab{
-  flex:0 0 303px;
-  width:303px;
-  height:149px;
-
-  background:#FFFFFF;
-  border:1px solid #D9D9D9;
-  border-radius:10px;
-
-  padding:20px;
-
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-
-  cursor:pointer;
-  transition:.3s ease;
-
-  text-align:left;
-}
-
-.selector-tab.active{
-  border:3px solid #FAAF4F;
-}
-
-.selector-quote-mark{
-  font-family:"Playfair Display", serif;
-  font-size:80px;
-  font-weight:600;
-  line-height:1;
-  color:#000000;
-}
-
-.selector-tab-text{
-  margin-top:auto;
-
-  font-size:20px;
-  font-weight:500;
-  line-height:1.4;
-  color:#000000;
-}
-
-/* HERO */
-
-.flooring-selector-content{
-  position:relative;
-}
-
-.selector-content-item{
-  display:none;
-}
-
-.selector-content-item.active{
-  display:block;
-}
-
-.selector-hero{
-  position:relative;
-
-  width:100%;
-  max-width:1247px;
-  height:543px;
-
-  border-radius:16px;
-  overflow:hidden;
-}
-
-.selector-hero img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-
-.selector-overlay{
-  position:absolute;
-  inset:0;
-
-  background:linear-gradient(
-    180deg,
-    #00000080 0%,
-    #00000033 45%,
-    #00000000 100%
-  );
-}
-
-.selector-hero-content{
-  position:absolute;
-  left:48px;
-  bottom:48px;
-
-  max-width:620px;
-  z-index:2;
-}
-
-.selector-title{
-  margin:0 0 16px;
-
-  font-size:40px;
-  font-weight:500;
-  line-height:1.1;
-  color:#FFFFFF;
-}
-
-.selector-description{
-  font-size:16px;
-  font-weight:500;
-  line-height:1.5;
-  color:#FFFFFF;
-
-  margin-bottom:24px;
-}
-
-.selector-characteristics{
-  font-size:16px;
-  font-weight:500;
-  line-height:1.5;
-  color:#FFFFFF;
-
-  margin-bottom:32px;
-}
-
-.selector-buttons{
-  display:flex;
-  gap:16px;
-  flex-wrap:wrap;
-}
-
-.selector-btn{
-  text-decoration:none;
-  transition:.3s ease;
-}
-
-.selector-btn-primary{
-  background:#FAAF4F;
-  color:#000000;
-
-  border-radius:100px;
-
-  padding:14px 28px;
-
-  font-size:14px;
-  font-weight:600;
-}
-
-.selector-btn-secondary{
-  color:#FFFFFF;
-
-  font-size:14px;
-  font-weight:600;
-
-  display:flex;
-  align-items:center;
-}
-
-/* MOBILE */
-
-.mobile-only{
-  display:none;
-}
-
-/* TABLET */
-
-@media screen and (max-width:1260px){
-
   .flooring-selector-section{
-    padding:80px 32px;
+    background:#F4F2EC;
+    padding:96px 0;
   }
 
-  .selector-hero{
-    height:500px;
-  }
-
-}
-
-/* MOBILE */
-
-@media screen and (max-width:749px){
-
-  .desktop-only{
-    display:none;
-  }
-
-  .mobile-only{
-    display:block;
-  }
-
-  .flooring-selector-section{
-    padding:60px 20px;
-  }
+  /* HEADER */
 
   .flooring-selector-header{
-    flex-direction:column;
-    gap:16px;
-    margin-bottom:32px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:60px;
+    margin-bottom:60px;
   }
 
   .flooring-selector-heading{
-    max-width:100%;
-    width:100%;
-
-    text-align:center;
-
-    font-size:24px;
+    margin:0;
+    max-width:520px;
+    font-size:40px;
     font-weight:500;
+    line-height:1.2;
+    color:#000000;
   }
 
   .flooring-selector-subheading{
-    max-width:100%;
+    max-width:430px;
+    text-align:right;
+    font-size:16px;
+    font-weight:500;
+    line-height:1.5;
+    color:#4A5565;
+  }
+
+  /* DESKTOP TABS */
+
+  .flooring-selector-tabs{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    gap:16px;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+
     width:100%;
 
-    text-align:center;
-
-    font-size:15px;
-    font-weight:500;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
   }
 
-  .mobile-selector-accordion{
+  .flooring-selector-tabs::-webkit-scrollbar{
+    display:none;
+  }
+
+  .selector-tab{
+    flex:0 0 303px;
+    width:303px;
+    height:149px;
+
+    background:#FFFFFF;
+    border:1px solid #D9D9D9;
+    border-radius:10px;
+
+    padding:20px;
+
     display:flex;
     flex-direction:column;
-    gap:12px;
+    align-items:flex-start;
+
+    cursor:pointer;
+    transition:.3s ease;
+
+    text-align:left;
   }
 
-  .mobile-selector-item{
+  .selector-tab.active{
+    border:3px solid #FAAF4F;
+  }
+
+  .selector-quote-mark{
+    font-family:"Playfair Display", serif;
+    font-size:80px;
+    font-weight:600;
+    line-height:1;
+    color:#000000;
+  }
+
+  .selector-tab-text{
+    margin-top:auto;
+
+    font-size:20px;
+    font-weight:500;
+    line-height:1.4;
+    color:#000000;
+  }
+
+  /* HERO */
+
+  .flooring-selector-content{
+    position:relative;
+  }
+
+  .selector-content-item{
+    display:none;
+  }
+
+  .selector-content-item.active{
+    display:block;
+  }
+
+  .selector-hero{
+    position:relative;
+
+    width:100%;
+    max-width:1247px;
+    height:543px;
+
+    border-radius:16px;
     overflow:hidden;
-    border-radius:10px;
+  }
+
+  .selector-hero img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .selector-overlay{
+    position:absolute;
+    inset:0;
+
+    background:linear-gradient(
+      180deg,
+      #00000080 0%,
+      #00000033 45%,
+      #00000000 100%
+    );
+  }
+
+  .selector-hero-content{
+    position:absolute;
+    left:48px;
+    bottom:48px;
+
+    max-width:620px;
+    z-index:2;
+  }
+
+  .selector-title{
+    margin:0 0 16px;
+
+    font-size:40px;
+    font-weight:500;
+    line-height:1.1;
+    color:#FFFFFF;
+  }
+
+  .selector-description{
+    font-size:16px;
+    font-weight:500;
+    line-height:1.5;
+    color:#FFFFFF;
+
+    margin-bottom:24px;
+  }
+
+  .selector-characteristics{
+    font-size:16px;
+    font-weight:500;
+    line-height:1.5;
+    color:#FFFFFF;
+
+    margin-bottom:32px;
+  }
+
+  .selector-buttons{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+
+  .selector-btn{
+    text-decoration:none;
+    transition:.3s ease;
+  }
+
+  .selector-btn-primary{
+    background:#FAAF4F;
+    color:#000000;
+
+    border-radius:100px;
+
+    padding:14px 28px;
+
+    font-size:14px;
+    font-weight:600;
+  }
+
+  .selector-btn-secondary{
+    color:#FFFFFF;
+
+    font-size:14px;
+    font-weight:600;
+
+    display:flex;
+    align-items:center;
+  }
+
+  /* MOBILE */
+
+  .mobile-only{
+    display:none;
+  }
+
+  /* TABLET */
+
+  @media screen and (max-width:1260px){
+
+    .flooring-selector-section{
+      padding:80px 32px;
+    }
+
+    .selector-hero{
+      height:500px;
+    }
+
+  }
+
+  /* MOBILE */
+
+  @media screen and (max-width:749px){
+
+    .desktop-only{
+      display:none;
+    }
+
+    .mobile-only{
+      display:block;
+    }
+
+    .flooring-selector-section{
+      padding:60px 20px;
+    }
+
+    .flooring-selector-header{
+      flex-direction:column;
+      gap:16px;
+      margin-bottom:32px;
+    }
+
+    .flooring-selector-heading{
+      max-width:100%;
+      width:100%;
+
+      text-align:center;
+
+      font-size:24px;
+      font-weight:500;
+    }
+
+    .flooring-selector-subheading{
+      max-width:100%;
+      width:100%;
+
+      text-align:center;
+
+      font-size:15px;
+      font-weight:500;
+    }
+
+    .mobile-selector-accordion{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .mobile-selector-item{
+      overflow:hidden;
+      border-radius:10px;
+    }
+
+    .mobile-selector-trigger{
+      width:100%;
+      min-height:220px;
+
+      border:none;
+      padding:24px;
+
+      position:relative;
+
+      text-align:left;
+
+      background:none;
+    }
+
+    .mobile-selector-trigger img{
+      position:absolute;
+      inset:0;
+
+      width:100%;
+      height:100%;
+
+      object-fit:cover;
+    }
+
+    .mobile-selector-overlay{
+      position:absolute;
+      inset:0;
+      background:#00000066;
+    }
+
+    .mobile-selector-content{
+      position:relative;
+      z-index:2;
+    }
+
+    .mobile-selector-title{
+      font-size:40px;
+      font-weight:500;
+      line-height:1.1;
+      color:#FFFFFF;
+
+      margin-bottom:12px;
+    }
+
+    .mobile-selector-description{
+      font-size:12px;
+      font-weight:400;
+      line-height:1.5;
+      color:#FFFFFF;
+
+      margin-bottom:12px;
+    }
+
+    .mobile-selector-characteristics{
+      font-size:10px;
+      font-weight:500;
+      line-height:1.6;
+      color:#FFFFFF;
+    }
+
+    .mobile-selector-panel{
+      display:none;
+
+      background:#FFFFFF;
+
+      padding:20px;
+    }
+
+    .mobile-selector-panel.active{
+      display:block;
+    }
+
+    .mobile-selector-btn{
+      width:290px;
+      height:46px;
+
+      margin:0 auto;
+
+      background:#FAAF4F;
+      border-radius:100px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      text-decoration:none;
+
+      color:#000000;
+
+      font-size:14px;
+      font-weight:600;
+    }
+    .mobile-selector-item{
+    border-bottom:1px solid #D9D9D9;
   }
 
   .mobile-selector-trigger{
     width:100%;
-    min-height:220px;
+    padding:18px 0;
 
-    border:none;
-    padding:24px;
-
-    position:relative;
-
-    text-align:left;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 
     background:none;
+    border:none;
+
+    text-align:left;
   }
 
-  .mobile-selector-trigger img{
+  .mobile-trigger-text{
+    font-size:16px;
+    font-weight:500;
+    line-height:1.4;
+    color:#000;
+  }
+
+  .mobile-trigger-icon{
+    font-size:24px;
+    line-height:1;
+  }
+
+  .mobile-selector-panel{
+    display:none;
+    padding-bottom:20px;
+  }
+
+  .mobile-selector-panel.active{
+    display:block;
+  }
+
+  .mobile-selector-card{
+    position:relative;
+    height:280px;
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:16px;
+  }
+
+  .mobile-selector-card img{
     position:absolute;
     inset:0;
-
     width:100%;
     height:100%;
-
     object-fit:cover;
   }
 
@@ -487,148 +581,87 @@
     background:#00000066;
   }
 
-  .mobile-selector-content{
-    position:relative;
+  .mobile-selector-card-content{
+    position:absolute;
+    left:20px;
+    right:20px;
+    bottom:20px;
     z-index:2;
   }
-
-  .mobile-selector-title{
-    font-size:40px;
-    font-weight:500;
-    line-height:1.1;
-    color:#FFFFFF;
-
-    margin-bottom:12px;
   }
-
-  .mobile-selector-description{
-    font-size:12px;
-    font-weight:400;
-    line-height:1.5;
-    color:#FFFFFF;
-
-    margin-bottom:12px;
-  }
-
-  .mobile-selector-characteristics{
-    font-size:10px;
-    font-weight:500;
-    line-height:1.6;
-    color:#FFFFFF;
-  }
-
-  .mobile-selector-panel{
-    display:none;
-
-    background:#FFFFFF;
-
-    padding:20px;
-  }
-
-  .mobile-selector-panel.active{
-    display:block;
-  }
-
-  .mobile-selector-btn{
-    width:290px;
-    height:46px;
-
-    margin:0 auto;
-
-    background:#FAAF4F;
-    border-radius:100px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    text-decoration:none;
-
-    color:#000000;
-
-    font-size:14px;
-    font-weight:600;
-  }
-}
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-
-  /* =========================
+  document.addEventListener('DOMContentLoaded', function () {
+    /* =========================
      Desktop Tabs
   ========================= */
 
-  const tabs = document.querySelectorAll('.selector-tab');
-  const contents = document.querySelectorAll('.selector-content-item');
+    const tabs = document.querySelectorAll('.selector-tab');
+    const contents = document.querySelectorAll('.selector-content-item');
 
-  tabs.forEach((tab) => {
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', function () {
+        const target = this.dataset.tab;
 
-    tab.addEventListener('click', function () {
+        tabs.forEach((item) => {
+          item.classList.remove('active');
+        });
 
-      const target = this.dataset.tab;
+        contents.forEach((item) => {
+          item.classList.remove('active');
+        });
 
-      tabs.forEach((item) => {
-        item.classList.remove('active');
+        this.classList.add('active');
+
+        const activeContent = document.querySelector(`.selector-content-item[data-content="${target}"]`);
+
+        if (activeContent) {
+          activeContent.classList.add('active');
+        }
       });
-
-      contents.forEach((item) => {
-        item.classList.remove('active');
-      });
-
-      this.classList.add('active');
-
-      const activeContent = document.querySelector(
-        `.selector-content-item[data-content="${target}"]`
-      );
-
-      if (activeContent) {
-        activeContent.classList.add('active');
-      }
-
     });
 
-  });
-
-  /* =========================
+    /* =========================
      Mobile Accordion
   ========================= */
 
-  const mobileTriggers = document.querySelectorAll(
-    '.mobile-selector-trigger'
-  );
+    const mobileTriggers = document.querySelectorAll('.mobile-selector-trigger');
 
-  mobileTriggers.forEach((trigger) => {
+    mobileTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', function () {
+        const parent = this.closest('.mobile-selector-item');
+        const panel = parent.querySelector('.mobile-selector-panel');
 
-    trigger.addEventListener('click', function () {
+        const isOpen = panel.classList.contains('active');
 
-      const parent = this.closest('.mobile-selector-item');
-      const panel = parent.querySelector('.mobile-selector-panel');
-
-      const isOpen = panel.classList.contains('active');
-
-      document
-        .querySelectorAll('.mobile-selector-panel')
-        .forEach((item) => {
+        document.querySelectorAll('.mobile-selector-panel').forEach((item) => {
           item.classList.remove('active');
         });
 
-      document
-        .querySelectorAll('.mobile-selector-trigger')
-        .forEach((item) => {
+        document.querySelectorAll('.mobile-selector-trigger').forEach((item) => {
           item.classList.remove('active');
         });
+        document.querySelectorAll('.mobile-trigger-icon').forEach((icon) => {
+          icon.textContent = '+';
+        });
 
-      if (!isOpen) {
-        panel.classList.add('active');
-        this.classList.add('active');
-      }
+        if (!isOpen) {
+          panel.classList.add('active');
+          this.classList.add('active');
 
+          const icon = this.querySelector('.mobile-trigger-icon');
+          if (icon) {
+            icon.textContent = '−';
+          }
+        }
+        if (!isOpen) {
+          panel.classList.add('active');
+          this.classList.add('active');
+        }
+      });
     });
-
   });
-
-});
 </script>
 
 {% schema %}
