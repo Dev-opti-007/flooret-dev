@@ -254,7 +254,49 @@
         "collection_card_pd8MhH": {
           "type": "collection_card",
           "settings": {
+            "selector_text": "I want the best overall durability and performance.",
+            "background_image": "shopify://shop_images/3f497de293ab31f478b9951ebbc293e7b412f6f7.jpg",
+            "title": "Modin",
+            "description": "Modin Rigid Luxury Vinyl Plank is crafted with industry-leading specs and unique features that focus on quality, durability, and aesthetics",
+            "characteristics": "Available In 27 Colors   •    100% Waterproof   •    DIY-Friendly",
+            "primary_button_text": "Meet Modin",
+            "primary_button_link": "shopify://collections/modin-landing-page",
+            "secondary_button_text": "SHOP COLLECTION",
+            "secondary_button_link": "shopify://collections/modin-luxury-vinyl-plank"
+          }
+        },
+        "collection_card_zyqXBL": {
+          "type": "collection_card",
+          "settings": {
             "selector_text": "I love natural wood tones and timeless style.",
+            "background_image": "shopify://shop_images/3f497de293ab31f478b9951ebbc293e7b412f6f7.jpg",
+            "title": "Modin",
+            "description": "Modin Rigid Luxury Vinyl Plank is crafted with industry-leading specs and unique features that focus on quality, durability, and aesthetics",
+            "characteristics": "Available In 27 Colors   •    100% Waterproof   •    DIY-Friendly",
+            "primary_button_text": "Meet Modin",
+            "primary_button_link": "shopify://collections/modin-landing-page",
+            "secondary_button_text": "SHOP COLLECTION",
+            "secondary_button_link": "shopify://collections/modin-luxury-vinyl-plank"
+          }
+        },
+        "collection_card_9wgzhU": {
+          "type": "collection_card",
+          "settings": {
+            "selector_text": "I prefer modern, clean aesthetics.",
+            "background_image": "shopify://shop_images/3f497de293ab31f478b9951ebbc293e7b412f6f7.jpg",
+            "title": "Modin",
+            "description": "Modin Rigid Luxury Vinyl Plank is crafted with industry-leading specs and unique features that focus on quality, durability, and aesthetics",
+            "characteristics": "Available In 27 Colors   •    100% Waterproof   •    DIY-Friendly",
+            "primary_button_text": "Meet Modin",
+            "primary_button_link": "shopify://collections/modin-landing-page",
+            "secondary_button_text": "SHOP COLLECTION",
+            "secondary_button_link": "shopify://collections/modin-luxury-vinyl-plank"
+          }
+        },
+        "collection_card_KLMPzf": {
+          "type": "collection_card",
+          "settings": {
+            "selector_text": "I want the best value for my budget.",
             "background_image": "shopify://shop_images/3f497de293ab31f478b9951ebbc293e7b412f6f7.jpg",
             "title": "Modin",
             "description": "Modin Rigid Luxury Vinyl Plank is crafted with industry-leading specs and unique features that focus on quality, durability, and aesthetics",
@@ -267,7 +309,10 @@
         }
       },
       "block_order": [
-        "collection_card_pd8MhH"
+        "collection_card_pd8MhH",
+        "collection_card_zyqXBL",
+        "collection_card_9wgzhU",
+        "collection_card_KLMPzf"
       ],
       "name": "Right Collection Selector",
       "settings": {
