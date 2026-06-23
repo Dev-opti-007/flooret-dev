@@ -101,7 +101,23 @@
               {{ block.settings.selector_text }}
             </span>
 
-            <span class="mobile-trigger-icon"> + </span>
+            <span class="mobile-trigger-icon">
+  <svg
+    width="12"
+    height="7"
+    viewBox="0 0 12 7"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M9.66431 1.41418L5.53931 5.53918L1.41431 1.41418"
+      stroke="#212121"
+      stroke-width="2"
+      stroke-miterlimit="10"
+      stroke-linecap="square"
+    />
+  </svg>
+</span>
           </button>
 
           <div class="mobile-selector-panel {% if forloop.first %}active{% endif %}">
@@ -547,9 +563,20 @@
   }
 
   .mobile-trigger-icon{
-    font-size:24px;
-    line-height:1;
-  }
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:transform .3s ease;
+  flex-shrink:0;
+}
+
+.mobile-trigger-icon svg{
+  display:block;
+}
+
+.mobile-selector-trigger.active .mobile-trigger-icon{
+  transform:rotate(180deg);
+}
 
   .mobile-selector-panel{
     display:none;
@@ -643,23 +670,15 @@
         document.querySelectorAll('.mobile-selector-trigger').forEach((item) => {
           item.classList.remove('active');
         });
-        document.querySelectorAll('.mobile-trigger-icon').forEach((icon) => {
-          icon.textContent = '+';
-        });
+ 
+        document.querySelectorAll('.mobile-selector-trigger').forEach((item) => {
+  item.classList.remove('active');
+});
 
-        if (!isOpen) {
-          panel.classList.add('active');
-          this.classList.add('active');
-
-          const icon = this.querySelector('.mobile-trigger-icon');
-          if (icon) {
-            icon.textContent = '−';
-          }
-        }
-        if (!isOpen) {
-          panel.classList.add('active');
-          this.classList.add('active');
-        }
+if (!isOpen) {
+  panel.classList.add('active');
+  this.classList.add('active');
+}
       });
     });
   });
