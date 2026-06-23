@@ -468,18 +468,19 @@
           "type": "faq",
           "settings": {
             "question": "When will my samples arrive?",
-            "answer": "<p>Your sample kit can include curated sample planks depending on the selected collection.</p>"
+            "answer": "<p>Cut samples and sample kits arrive in 2 - 3 business days from the date of order. Full plank samples arrive in 4-8 business days.</p>"
           }
         },
         "faq_GDkUpk": {
           "type": "faq",
           "settings": {
             "question": "How do I contact Flooret if I have questions?",
-            "answer": "<p>Your sample kit can include curated sample planks depending on the selected collection.</p>"
+            "answer": "<p>You can give us a call or text at 1-800-700-8122, reach out via live chat on our website, or send us an email at support@flooret.com</p>"
           }
         },
         "faq_PCLpTm": {
           "type": "faq",
+          "disabled": true,
           "settings": {
             "question": "How do I clean these floors?",
             "answer": "<p>Your sample kit can include curated sample planks depending on the selected collection.</p>"
