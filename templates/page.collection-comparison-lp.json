@@ -247,12 +247,40 @@
         "column_3_title": "SILVAN Resilient Hardwood",
         "column_4_title": "ARISTA Laminate"
       }
+    },
+    "cc_right_collection_czCXjp": {
+      "type": "cc-rightCollection",
+      "blocks": {
+        "collection_card_pd8MhH": {
+          "type": "collection_card",
+          "settings": {
+            "selector_text": "I love natural wood tones and timeless style.",
+            "background_image": "shopify://shop_images/3f497de293ab31f478b9951ebbc293e7b412f6f7.jpg",
+            "title": "Modin",
+            "description": "Modin Rigid Luxury Vinyl Plank is crafted with industry-leading specs and unique features that focus on quality, durability, and aesthetics",
+            "characteristics": "Available In 27 Colors   •    100% Waterproof   •    DIY-Friendly",
+            "primary_button_text": "Meet Modin",
+            "primary_button_link": "shopify://collections/modin-landing-page",
+            "secondary_button_text": "SHOP COLLECTION",
+            "secondary_button_link": "shopify://collections/modin-luxury-vinyl-plank"
+          }
+        }
+      },
+      "block_order": [
+        "collection_card_pd8MhH"
+      ],
+      "name": "Right Collection Selector",
+      "settings": {
+        "heading": "Which Collection Is Right for You?",
+        "subheading": "<p>Pick the statement that sounds most like you — we'll point you to the right floor.</p>"
+      }
     }
   },
   "order": [
     "main",
     "sample_kit_banner_lp_34iwXc",
     "four_collections_adHYED",
-    "cc_compare_details_ReKCqQ"
+    "cc_compare_details_ReKCqQ",
+    "cc_right_collection_czCXjp"
   ]
 }
