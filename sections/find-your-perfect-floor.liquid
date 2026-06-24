@@ -1,5 +1,5 @@
 {% comment %}
-  Section: Find Your Perfect Floor (Hero Comparison Banner)
+  Section: Find Your Perfect Floor
   File: sections/find-your-perfect-floor.liquid
 {% endcomment %}
 
@@ -7,12 +7,12 @@
 {%- assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0 -%}
 {%- assign heading_letter_spacing = section.settings.heading_letter_spacing | divided_by: 100.0 -%}
 {%- assign subheading_letter_spacing = section.settings.subheading_letter_spacing | divided_by: 100.0 -%}
-{%- assign links_letter_spacing = section.settings.links_letter_spacing | divided_by: 100.0 -%}
 {%- assign heading_line_height = section.settings.heading_line_height | divided_by: 100.0 -%}
 {%- assign subheading_line_height = section.settings.subheading_line_height | divided_by: 100.0 -%}
 
+<!-- ========== DESKTOP: Full Hero Banner ========== -->
 <div
-  class="fpf-section"
+  class="fpf-section fpf-desktop-banner"
   style="
     --fpf-min-height: {{ section.settings.section_height }}px;
     --fpf-overlay-color: {{ section.settings.overlay_color }};
@@ -69,7 +69,6 @@
     {%- endif -%}
 
     <div class="fpf-content">
-
       {%- if section.settings.heading != blank -%}
         <{{ section.settings.heading_tag }}
           class="fpf-heading"
@@ -103,44 +102,168 @@
         {%- endif -%}
 
         {%- if section.blocks.size > 0 -%}
-          <div
-            class="fpf-links"
-            style="
-              font-family: {{ section.settings.links_font_family }};
-              font-size: {{ section.settings.links_font_size }}px;
-              font-weight: {{ section.settings.links_font_weight }};
-              --fpf-link-color: {{ section.settings.links_color }};
-              --fpf-link-hover-color: {{ section.settings.links_hover_color }};
-              --fpf-separator-color: {{ section.settings.links_separator_color }};
-              letter-spacing: {{ links_letter_spacing }}em;
-              text-transform: {{ section.settings.links_text_transform }};
-            "
-          >
+          <div class="fpf-links" style="
+            font-family: {{ section.settings.links_font_family }};
+            font-size: {{ section.settings.links_font_size }}px;
+            font-weight: {{ section.settings.links_font_weight }};
+            --fpf-link-color: {{ section.settings.links_color }};
+            --fpf-link-hover-color: {{ section.settings.links_hover_color }};
+            --fpf-separator-color: {{ section.settings.links_separator_color }};
+            text-transform: {{ section.settings.links_text_transform }};
+          ">
             {%- for block in section.blocks -%}
-              {%- if block.type == 'product_link' -%}
-                <a
-                  href="{{ block.settings.link_url }}"
-                  class="fpf-link-item"
-                  {{ block.shopify_attributes }}
-                >{{ block.settings.link_text }}</a>
-                {%- unless forloop.last -%}
-                  <span class="fpf-separator" aria-hidden="true">·</span>
-                {%- endunless -%}
+              {%- if block.type == 'floor_card' -%}
+                <a href="{{ block.settings.card_url }}" class="fpf-link-item" {{ block.shopify_attributes }}>{{ block.settings.card_title }}</a>
+                {%- unless forloop.last -%}<span class="fpf-separator" aria-hidden="true">·</span>{%- endunless -%}
               {%- endif -%}
             {%- endfor -%}
           </div>
         {%- endif -%}
       </div>
-
     </div>
+
   </div>
 </div>
 
+<!-- ========== MOBILE: Header + Cards ========== -->
+<div class="fpf-mobile-section" style="background-color: {{ section.settings.mobile_bg_color }}; padding: {{ section.settings.mobile_padding_top }}px {{ section.settings.mobile_padding_x }}px {{ section.settings.mobile_padding_bottom }}px;">
+
+  <!-- Mobile Heading & Subheading -->
+  <div class="fpf-mobile-header">
+    {%- if section.settings.heading != blank -%}
+      <{{ section.settings.heading_tag }}
+        class="fpf-mobile-heading"
+        style="
+          font-family: {{ section.settings.heading_font_family }};
+          font-size: {{ section.settings.mobile_heading_font_size }}px;
+          font-weight: {{ section.settings.heading_font_weight }};
+          color: {{ section.settings.mobile_heading_color }};
+          line-height: {{ heading_line_height }};
+          letter-spacing: {{ heading_letter_spacing }}em;
+          text-transform: {{ section.settings.heading_text_transform }};
+        "
+      >{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p
+        class="fpf-mobile-subheading"
+        style="
+          font-family: {{ section.settings.subheading_font_family }};
+          font-size: {{ section.settings.mobile_subheading_font_size }}px;
+          font-weight: {{ section.settings.subheading_font_weight }};
+          color: {{ section.settings.mobile_subheading_color }};
+          line-height: {{ subheading_line_height }};
+        "
+      >{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  <!-- Mobile Cards -->
+  {%- if section.blocks.size > 0 -%}
+    <div class="fpf-cards">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'floor_card' -%}
+          {%- assign card_letter_spacing = block.settings.card_title_letter_spacing | divided_by: 100.0 -%}
+          <a
+            href="{{ block.settings.card_url }}"
+            class="fpf-card"
+            style="background-color: {{ section.settings.card_bg_color }}; border-radius: {{ section.settings.card_border_radius }}px;"
+            {{ block.shopify_attributes }}
+          >
+            <!-- Card Image -->
+            {%- if block.settings.card_image != blank -%}
+              <div class="fpf-card__image">
+                <img
+                  src="{{ block.settings.card_image | image_url: width: 300 }}"
+                  alt="{{ block.settings.card_image.alt | default: block.settings.card_title | escape }}"
+                  loading="lazy"
+                  width="300"
+                  height="200"
+                >
+              </div>
+            {%- else -%}
+              <div class="fpf-card__image fpf-card__image--placeholder" style="background-color: {{ section.settings.card_image_placeholder_color }};"></div>
+            {%- endif -%}
+
+            <!-- Card Body -->
+            <div class="fpf-card__body">
+              <!-- Title -->
+              <div class="fpf-card__title-row">
+                <span
+                  class="fpf-card__title"
+                  style="
+                    font-family: {{ section.settings.card_title_font_family }};
+                    font-size: {{ section.settings.card_title_font_size }}px;
+                    font-weight: {{ section.settings.card_title_font_weight }};
+                    color: {{ block.settings.card_title_color }};
+                    letter-spacing: {{ card_letter_spacing }}em;
+                    text-transform: {{ section.settings.card_title_text_transform }};
+                  "
+                >{{ block.settings.card_title }}</span>
+                <span class="fpf-card__arrow" style="color: {{ block.settings.card_title_color }};">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </span>
+              </div>
+
+              <!-- Tagline -->
+              {%- if block.settings.card_tagline != blank -%}
+                <p
+                  class="fpf-card__tagline"
+                  style="
+                    font-family: {{ section.settings.card_tagline_font_family }};
+                    font-size: {{ section.settings.card_tagline_font_size }}px;
+                    font-weight: {{ section.settings.card_tagline_font_weight }};
+                    color: {{ section.settings.card_tagline_color }};
+                  "
+                >{{ block.settings.card_tagline }}</p>
+              {%- endif -%}
+
+              <!-- Install Method (hidden on mobile per design) -->
+              {%- if block.settings.card_install_method != blank -%}
+                <div class="fpf-card__install fpf-hide-mobile" style="color: {{ section.settings.card_meta_color }};">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                  <span
+                    style="
+                      font-family: {{ section.settings.card_meta_font_family }};
+                      font-size: {{ section.settings.card_meta_font_size }}px;
+                      font-weight: {{ section.settings.card_meta_font_weight }};
+                    "
+                  >{{ block.settings.card_install_method }}</span>
+                </div>
+              {%- endif -%}
+
+              <!-- Price Range -->
+              {%- if block.settings.card_price_range != blank -%}
+                <p
+                  class="fpf-card__price"
+                  style="
+                    font-family: {{ section.settings.card_meta_font_family }};
+                    font-size: {{ section.settings.card_price_font_size }}px;
+                    font-weight: {{ section.settings.card_price_font_weight }};
+                    color: {{ section.settings.card_meta_color }};
+                  "
+                >{{ block.settings.card_price_range }}</p>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+</div>
+
 <style>
-  .fpf-section {
+  /* ===== DESKTOP BANNER ===== */
+  .fpf-desktop-banner {
+    display: flex;
     position: relative;
     min-height: var(--fpf-min-height, 440px);
-    display: flex;
     align-items: center;
     overflow: hidden;
     padding-top: var(--fpf-padding-top, 48px);
@@ -191,12 +314,10 @@
     margin-bottom: 32px;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    transition: background-color 0.2s ease, opacity 0.2s ease;
+    transition: opacity 0.2s ease;
   }
 
-  .fpf-back-btn:hover {
-    opacity: 0.85;
-  }
+  .fpf-back-btn:hover { opacity: 0.8; }
 
   .fpf-content {
     display: flex;
@@ -219,9 +340,7 @@
     gap: 20px;
   }
 
-  .fpf-subheading {
-    margin: 0;
-  }
+  .fpf-subheading { margin: 0; }
 
   .fpf-links {
     display: flex;
@@ -247,14 +366,121 @@
     user-select: none;
   }
 
+  /* ===== MOBILE SECTION ===== */
+  .fpf-mobile-section {
+    display: none;
+  }
+
+  .fpf-mobile-header {
+    margin-bottom: 24px;
+  }
+
+  .fpf-mobile-heading {
+    margin: 0 0 12px;
+    white-space: pre-line;
+  }
+
+  .fpf-mobile-subheading {
+    margin: 0;
+  }
+
+  /* ===== CARDS ===== */
+  .fpf-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .fpf-card {
+    display: flex;
+    align-items: stretch;
+    text-decoration: none;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .fpf-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    transform: translateY(-1px);
+  }
+
+  .fpf-card__image {
+    flex: 0 0 120px;
+    width: 120px;
+    overflow: hidden;
+  }
+
+  .fpf-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .fpf-card__image--placeholder {
+    min-height: 120px;
+  }
+
+  .fpf-card__body {
+    flex: 1;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+  }
+
+  .fpf-card__title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .fpf-card__title {
+    display: block;
+    line-height: 1.2;
+  }
+
+  .fpf-card__arrow {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .fpf-card__tagline {
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .fpf-card__install {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .fpf-card__price {
+    margin: 4px 0 0;
+  }
+
+  /* ===== RESPONSIVE ===== */
   @media screen and (max-width: 768px) {
-    .fpf-content {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 24px;
+    .fpf-desktop-banner {
+      display: none !important;
     }
-    .fpf-right {
-      max-width: 100%;
+    .fpf-mobile-section {
+      display: block;
+    }
+    .fpf-hide-mobile {
+      display: none !important;
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    .fpf-mobile-section {
+      display: none !important;
     }
   }
 </style>
@@ -264,6 +490,10 @@
   "name": "Find Your Perfect Floor",
   "class": "fpf-section-wrapper",
   "settings": [
+    {
+      "type": "header",
+      "content": "── DESKTOP BANNER ──────────────"
+    },
     {
       "type": "header",
       "content": "Background"
@@ -297,7 +527,7 @@
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "Desktop Layout"
     },
     {
       "type": "range",
@@ -363,7 +593,7 @@
     },
     {
       "type": "header",
-      "content": "Back Button"
+      "content": "Back Button (Desktop Only)"
     },
     {
       "type": "checkbox",
@@ -385,19 +615,19 @@
     {
       "type": "color",
       "id": "back_btn_text_color",
-      "label": "Back Button Text Color",
+      "label": "Text Color",
       "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "back_btn_bg_color",
-      "label": "Back Button Background Color",
+      "label": "Background Color",
       "default": "#ffffff26"
     },
     {
       "type": "range",
       "id": "back_btn_border_radius",
-      "label": "Back Button Border Radius",
+      "label": "Border Radius",
       "min": 0,
       "max": 100,
       "step": 2,
@@ -407,7 +637,7 @@
     {
       "type": "select",
       "id": "back_btn_font_family",
-      "label": "Font Family: Back Button",
+      "label": "Font Family",
       "options": [
         { "value": "'Playfair Display', serif", "label": "Playfair Display" },
         { "value": "Montserrat, sans-serif", "label": "Montserrat" },
@@ -419,7 +649,7 @@
     {
       "type": "range",
       "id": "back_btn_font_size",
-      "label": "Font Size: Back Button",
+      "label": "Font Size",
       "min": 10,
       "max": 20,
       "step": 1,
@@ -429,7 +659,7 @@
     {
       "type": "select",
       "id": "back_btn_font_weight",
-      "label": "Font Weight: Back Button",
+      "label": "Font Weight",
       "options": [
         { "value": "300", "label": "Light (300)" },
         { "value": "400", "label": "Regular (400)" },
@@ -452,7 +682,7 @@
     {
       "type": "select",
       "id": "heading_tag",
-      "label": "Heading HTML Tag",
+      "label": "HTML Tag",
       "options": [
         { "value": "h1", "label": "H1" },
         { "value": "h2", "label": "H2" },
@@ -463,7 +693,7 @@
     {
       "type": "select",
       "id": "heading_font_family",
-      "label": "Font Family: Heading",
+      "label": "Font Family",
       "options": [
         { "value": "'Playfair Display', serif", "label": "Playfair Display" },
         { "value": "Montserrat, sans-serif", "label": "Montserrat" },
@@ -475,7 +705,7 @@
     {
       "type": "range",
       "id": "heading_font_size",
-      "label": "Font Size: Heading",
+      "label": "Font Size (Desktop)",
       "min": 24,
       "max": 100,
       "step": 2,
@@ -483,9 +713,19 @@
       "default": 52
     },
     {
+      "type": "range",
+      "id": "mobile_heading_font_size",
+      "label": "Font Size (Mobile)",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
       "type": "select",
       "id": "heading_font_weight",
-      "label": "Font Weight: Heading",
+      "label": "Font Weight",
       "options": [
         { "value": "300", "label": "Light (300)" },
         { "value": "400", "label": "Regular (400)" },
@@ -500,13 +740,19 @@
     {
       "type": "color",
       "id": "heading_color",
-      "label": "Heading Color",
+      "label": "Color (Desktop)",
       "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "mobile_heading_color",
+      "label": "Color (Mobile)",
+      "default": "#1a1a1a"
     },
     {
       "type": "range",
       "id": "heading_line_height",
-      "label": "Line Height: Heading",
+      "label": "Line Height",
       "min": 90,
       "max": 160,
       "step": 5,
@@ -516,7 +762,7 @@
     {
       "type": "range",
       "id": "heading_letter_spacing",
-      "label": "Letter Spacing: Heading (x0.01em)",
+      "label": "Letter Spacing (x0.01em)",
       "min": -5,
       "max": 20,
       "step": 1,
@@ -525,7 +771,7 @@
     {
       "type": "select",
       "id": "heading_text_transform",
-      "label": "Text Transform: Heading",
+      "label": "Text Transform",
       "options": [
         { "value": "none", "label": "None" },
         { "value": "uppercase", "label": "UPPERCASE" },
@@ -537,7 +783,7 @@
     {
       "type": "range",
       "id": "heading_max_width",
-      "label": "Heading Max Width",
+      "label": "Max Width (Desktop)",
       "min": 200,
       "max": 800,
       "step": 20,
@@ -557,7 +803,7 @@
     {
       "type": "select",
       "id": "subheading_font_family",
-      "label": "Font Family: Subheading",
+      "label": "Font Family",
       "options": [
         { "value": "'Playfair Display', serif", "label": "Playfair Display" },
         { "value": "Montserrat, sans-serif", "label": "Montserrat" },
@@ -569,7 +815,7 @@
     {
       "type": "range",
       "id": "subheading_font_size",
-      "label": "Font Size: Subheading",
+      "label": "Font Size (Desktop)",
       "min": 12,
       "max": 32,
       "step": 1,
@@ -577,9 +823,19 @@
       "default": 16
     },
     {
+      "type": "range",
+      "id": "mobile_subheading_font_size",
+      "label": "Font Size (Mobile)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
       "type": "select",
       "id": "subheading_font_weight",
-      "label": "Font Weight: Subheading",
+      "label": "Font Weight",
       "options": [
         { "value": "300", "label": "Light (300)" },
         { "value": "400", "label": "Regular (400)" },
@@ -592,13 +848,19 @@
     {
       "type": "color",
       "id": "subheading_color",
-      "label": "Subheading Color",
+      "label": "Color (Desktop)",
       "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "mobile_subheading_color",
+      "label": "Color (Mobile)",
+      "default": "#555555"
     },
     {
       "type": "range",
       "id": "subheading_line_height",
-      "label": "Line Height: Subheading",
+      "label": "Line Height",
       "min": 100,
       "max": 200,
       "step": 5,
@@ -608,7 +870,7 @@
     {
       "type": "range",
       "id": "subheading_letter_spacing",
-      "label": "Letter Spacing: Subheading (x0.01em)",
+      "label": "Letter Spacing (x0.01em)",
       "min": -5,
       "max": 20,
       "step": 1,
@@ -617,7 +879,7 @@
     {
       "type": "range",
       "id": "subheading_max_width",
-      "label": "Subheading Max Width",
+      "label": "Max Width (Desktop)",
       "min": 200,
       "max": 700,
       "step": 20,
@@ -626,12 +888,12 @@
     },
     {
       "type": "header",
-      "content": "Product Links Row"
+      "content": "Desktop Links Row"
     },
     {
       "type": "select",
       "id": "links_font_family",
-      "label": "Font Family: Links",
+      "label": "Font Family",
       "options": [
         { "value": "'Playfair Display', serif", "label": "Playfair Display" },
         { "value": "Montserrat, sans-serif", "label": "Montserrat" },
@@ -643,7 +905,7 @@
     {
       "type": "range",
       "id": "links_font_size",
-      "label": "Font Size: Links",
+      "label": "Font Size",
       "min": 10,
       "max": 24,
       "step": 1,
@@ -653,7 +915,7 @@
     {
       "type": "select",
       "id": "links_font_weight",
-      "label": "Font Weight: Links",
+      "label": "Font Weight",
       "options": [
         { "value": "300", "label": "Light (300)" },
         { "value": "400", "label": "Regular (400)" },
@@ -666,58 +928,312 @@
     {
       "type": "color",
       "id": "links_color",
-      "label": "Links Color",
+      "label": "Link Color",
       "default": "#ffffffbf"
     },
     {
       "type": "color",
       "id": "links_hover_color",
-      "label": "Links Hover Color",
+      "label": "Link Hover Color",
       "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "links_separator_color",
-      "label": "Separator ( · ) Color",
+      "label": "Separator Color",
       "default": "#ffffff66"
-    },
-    {
-      "type": "range",
-      "id": "links_letter_spacing",
-      "label": "Letter Spacing: Links (x0.01em)",
-      "min": -5,
-      "max": 20,
-      "step": 1,
-      "default": 0
     },
     {
       "type": "select",
       "id": "links_text_transform",
-      "label": "Text Transform: Links",
+      "label": "Text Transform",
       "options": [
         { "value": "none", "label": "None" },
         { "value": "uppercase", "label": "UPPERCASE" },
-        { "value": "lowercase", "label": "lowercase" },
         { "value": "capitalize", "label": "Capitalize" }
       ],
       "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "── MOBILE LAYOUT ──────────────"
+    },
+    {
+      "type": "color",
+      "id": "mobile_bg_color",
+      "label": "Mobile Background Color",
+      "default": "#f5f3ee"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Mobile Padding Top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Mobile Padding Bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_x",
+      "label": "Mobile Side Padding",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "── CARD STYLES ──────────────"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card Border Radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "card_image_placeholder_color",
+      "label": "Card Image Placeholder Color",
+      "default": "#d4cfc6"
+    },
+    {
+      "type": "header",
+      "content": "Card Title"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "'Playfair Display', serif"
+    },
+    {
+      "type": "range",
+      "id": "card_title_font_size",
+      "label": "Font Size",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "card_title_text_transform",
+      "label": "Text Transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Card Tagline"
+    },
+    {
+      "type": "select",
+      "id": "card_tagline_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "Roboto, sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "card_tagline_font_size",
+      "label": "Font Size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "card_tagline_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "card_tagline_color",
+      "label": "Tagline Color",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Card Meta (Install + Price)"
+    },
+    {
+      "type": "select",
+      "id": "card_meta_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "Roboto, sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "card_meta_font_size",
+      "label": "Install Method Font Size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "card_meta_font_weight",
+      "label": "Install Method Font Weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "card_price_font_size",
+      "label": "Price Font Size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "card_price_font_weight",
+      "label": "Price Font Weight",
+      "options": [
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "card_meta_color",
+      "label": "Meta Text Color (Install + Price)",
+      "default": "#333333"
     }
   ],
   "blocks": [
     {
-      "type": "product_link",
-      "name": "Product Link",
+      "type": "floor_card",
+      "name": "Floor Card",
       "settings": [
         {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Card Image"
+        },
+        {
           "type": "text",
-          "id": "link_text",
-          "label": "Link Text",
-          "default": "Collection Name"
+          "id": "card_title",
+          "label": "Title",
+          "default": "Modin"
+        },
+        {
+          "type": "color",
+          "id": "card_title_color",
+          "label": "Title Color",
+          "default": "#b8860b"
+        },
+        {
+          "type": "range",
+          "id": "card_title_letter_spacing",
+          "label": "Title Letter Spacing (x0.01em)",
+          "min": -5,
+          "max": 20,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "text",
+          "id": "card_tagline",
+          "label": "Tagline",
+          "default": "Premium Performance.\nUnmatched Versatility."
+        },
+        {
+          "type": "text",
+          "id": "card_install_method",
+          "label": "Install Method (hidden on mobile)",
+          "default": "Floating Click Lock"
+        },
+        {
+          "type": "text",
+          "id": "card_price_range",
+          "label": "Price Range",
+          "default": "$$ - $$$"
         },
         {
           "type": "url",
-          "id": "link_url",
-          "label": "Link URL"
+          "id": "card_url",
+          "label": "Card Link URL"
         }
       ]
     }
@@ -727,20 +1243,48 @@
       "name": "Find Your Perfect Floor",
       "blocks": [
         {
-          "type": "product_link",
-          "settings": { "link_text": "Modin LVP", "link_url": "/" }
+          "type": "floor_card",
+          "settings": {
+            "card_title": "Modin",
+            "card_title_color": "#b8860b",
+            "card_tagline": "Premium Performance.\nUnmatched Versatility.",
+            "card_install_method": "Floating Click Lock",
+            "card_price_range": "$$ - $$$",
+            "card_url": "/"
+          }
         },
         {
-          "type": "product_link",
-          "settings": { "link_text": "Provence Natural Hardwood", "link_url": "/" }
+          "type": "floor_card",
+          "settings": {
+            "card_title": "Provence",
+            "card_title_color": "#6b8e5a",
+            "card_tagline": "Timeless Elegance.\nNatural Harmony.",
+            "card_install_method": "Professional Glue or Nail",
+            "card_price_range": "$$$$",
+            "card_url": "/"
+          }
         },
         {
-          "type": "product_link",
-          "settings": { "link_text": "Silvan Resilient Hardwood", "link_url": "/" }
+          "type": "floor_card",
+          "settings": {
+            "card_title": "Silvan",
+            "card_title_color": "#5a7a8e",
+            "card_tagline": "Refined Design.\nEuropean Inspiration.",
+            "card_install_method": "Floating or Glue Drop Click",
+            "card_price_range": "$$$",
+            "card_url": "/"
+          }
         },
         {
-          "type": "product_link",
-          "settings": { "link_text": "Arista Laminate", "link_url": "/" }
+          "type": "floor_card",
+          "settings": {
+            "card_title": "Arista",
+            "card_title_color": "#8e6b5a",
+            "card_tagline": "Beautiful Floors.\nSmart Value.",
+            "card_install_method": "Floating Click Lock",
+            "card_price_range": "$$",
+            "card_url": "/"
+          }
         }
       ]
     }
