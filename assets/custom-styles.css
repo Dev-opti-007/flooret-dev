@@ -9084,5 +9084,8 @@ ul.pdp-atc__group__buttons li.is-disabled {
   /* .template-page-collection-comparison-lp .fpf-section-wrapper {
     display: none;
   } */
+  .mobile-selector-accordion.mobile-only {
+      display: flex !IMPORTANT;
+  }
 
 }
