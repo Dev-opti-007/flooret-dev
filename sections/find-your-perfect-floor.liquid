@@ -1,0 +1,750 @@
+{% comment %}
+  Section: Find Your Perfect Floor (Hero Comparison Banner)
+  File: sections/find-your-perfect-floor.liquid
+{% endcomment %}
+
+{%- assign bg_image = section.settings.background_image -%}
+{%- assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0 -%}
+{%- assign heading_letter_spacing = section.settings.heading_letter_spacing | divided_by: 100.0 -%}
+{%- assign subheading_letter_spacing = section.settings.subheading_letter_spacing | divided_by: 100.0 -%}
+{%- assign links_letter_spacing = section.settings.links_letter_spacing | divided_by: 100.0 -%}
+{%- assign heading_line_height = section.settings.heading_line_height | divided_by: 100.0 -%}
+{%- assign subheading_line_height = section.settings.subheading_line_height | divided_by: 100.0 -%}
+
+<section
+  class="fpf-section"
+  style="
+    --fpf-min-height: {{ section.settings.section_height }}px;
+    --fpf-overlay-color: {{ section.settings.overlay_color }};
+    --fpf-overlay-opacity: {{ overlay_opacity }};
+    --fpf-content-align: {{ section.settings.content_alignment }};
+    --fpf-padding-top: {{ section.settings.padding_top }}px;
+    --fpf-padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  {%- if bg_image != blank -%}
+    <div class="fpf-bg">
+      <img
+        src="{{ bg_image | image_url: width: 1920 }}"
+        srcset="
+          {{ bg_image | image_url: width: 750 }} 750w,
+          {{ bg_image | image_url: width: 1100 }} 1100w,
+          {{ bg_image | image_url: width: 1500 }} 1500w,
+          {{ bg_image | image_url: width: 1920 }} 1920w
+        "
+        sizes="100vw"
+        alt="{{ bg_image.alt | escape }}"
+        loading="lazy"
+        width="{{ bg_image.width }}"
+        height="{{ bg_image.height }}"
+        class="fpf-bg-img"
+      >
+    </div>
+  {%- else -%}
+    <div class="fpf-bg fpf-bg--placeholder" style="background-color: {{ section.settings.fallback_bg_color }};"></div>
+  {%- endif -%}
+
+  <div class="fpf-overlay"></div>
+
+  <div class="fpf-container" style="max-width: {{ section.settings.container_max_width }}px; padding-inline: {{ section.settings.container_padding }}px;">
+
+    {%- if section.settings.show_back_button -%}
+      <a
+        href="{{ section.settings.back_button_url }}"
+        class="fpf-back-btn"
+        style="
+          font-family: {{ section.settings.back_btn_font_family }};
+          font-size: {{ section.settings.back_btn_font_size }}px;
+          font-weight: {{ section.settings.back_btn_font_weight }};
+          color: {{ section.settings.back_btn_text_color }};
+          background-color: {{ section.settings.back_btn_bg_color }};
+          border-radius: {{ section.settings.back_btn_border_radius }}px;
+        "
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        {{ section.settings.back_button_text }}
+      </a>
+    {%- endif -%}
+
+    <div class="fpf-content">
+
+      {%- if section.settings.heading != blank -%}
+        <{{ section.settings.heading_tag }}
+          class="fpf-heading"
+          style="
+            font-family: {{ section.settings.heading_font_family }};
+            font-size: {{ section.settings.heading_font_size }}px;
+            font-weight: {{ section.settings.heading_font_weight }};
+            color: {{ section.settings.heading_color }};
+            line-height: {{ heading_line_height }};
+            letter-spacing: {{ heading_letter_spacing }}em;
+            text-transform: {{ section.settings.heading_text_transform }};
+            max-width: {{ section.settings.heading_max_width }}px;
+          "
+        >{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
+      {%- endif -%}
+
+      <div class="fpf-right">
+        {%- if section.settings.subheading != blank -%}
+          <p
+            class="fpf-subheading"
+            style="
+              font-family: {{ section.settings.subheading_font_family }};
+              font-size: {{ section.settings.subheading_font_size }}px;
+              font-weight: {{ section.settings.subheading_font_weight }};
+              color: {{ section.settings.subheading_color }};
+              line-height: {{ subheading_line_height }};
+              letter-spacing: {{ subheading_letter_spacing }}em;
+              max-width: {{ section.settings.subheading_max_width }}px;
+            "
+          >{{ section.settings.subheading }}</p>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <div
+            class="fpf-links"
+            style="
+              font-family: {{ section.settings.links_font_family }};
+              font-size: {{ section.settings.links_font_size }}px;
+              font-weight: {{ section.settings.links_font_weight }};
+              --fpf-link-color: {{ section.settings.links_color }};
+              --fpf-link-hover-color: {{ section.settings.links_hover_color }};
+              --fpf-separator-color: {{ section.settings.links_separator_color }};
+              letter-spacing: {{ links_letter_spacing }}em;
+              text-transform: {{ section.settings.links_text_transform }};
+            "
+          >
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'product_link' -%}
+                <a
+                  href="{{ block.settings.link_url }}"
+                  class="fpf-link-item"
+                  {{ block.shopify_attributes }}
+                >{{ block.settings.link_text }}</a>
+                {%- unless forloop.last -%}
+                  <span class="fpf-separator" aria-hidden="true">·</span>
+                {%- endunless -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .fpf-section {
+    position: relative;
+    min-height: var(--fpf-min-height, 440px);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-top: var(--fpf-padding-top, 48px);
+    padding-bottom: var(--fpf-padding-bottom, 48px);
+  }
+
+  .fpf-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .fpf-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .fpf-bg--placeholder {
+    width: 100%;
+    height: 100%;
+  }
+
+  .fpf-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-color: var(--fpf-overlay-color, #000000);
+    opacity: var(--fpf-overlay-opacity, 0.35);
+    pointer-events: none;
+  }
+
+  .fpf-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .fpf-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    padding: 8px 16px;
+    margin-bottom: 32px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+  }
+
+  .fpf-back-btn:hover {
+    opacity: 0.85;
+  }
+
+  .fpf-content {
+    display: flex;
+    align-items: flex-end;
+    justify-content: var(--fpf-content-align, space-between);
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .fpf-heading {
+    margin: 0;
+    flex: 0 1 auto;
+    white-space: pre-line;
+  }
+
+  .fpf-right {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .fpf-subheading {
+    margin: 0;
+  }
+
+  .fpf-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 0;
+  }
+
+  .fpf-link-item {
+    color: var(--fpf-link-color, rgba(255,255,255,0.75));
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .fpf-link-item:hover {
+    color: var(--fpf-link-hover-color, #ffffff);
+    text-decoration: underline;
+  }
+
+  .fpf-separator {
+    color: var(--fpf-separator-color, rgba(255,255,255,0.4));
+    padding: 0 8px;
+    user-select: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    .fpf-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .fpf-right {
+      max-width: 100%;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Find Your Perfect Floor",
+  "tag": "section",
+  "class": "fpf-section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "fallback_bg_color",
+      "label": "Fallback Background Color",
+      "default": "#b0a895"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 35
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section Min Height",
+      "min": 300,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 440
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "container_max_width",
+      "label": "Container Max Width",
+      "min": 800,
+      "max": 2000,
+      "step": 40,
+      "unit": "px",
+      "default": 1360
+    },
+    {
+      "type": "range",
+      "id": "container_padding",
+      "label": "Container Side Padding",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content Alignment",
+      "options": [
+        { "value": "space-between", "label": "Space Between (Left + Right)" },
+        { "value": "flex-start", "label": "Left Aligned" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right Aligned" }
+      ],
+      "default": "space-between"
+    },
+    {
+      "type": "header",
+      "content": "Back Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_back_button",
+      "label": "Show Back Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "back_button_text",
+      "label": "Back Button Text",
+      "default": "All Floors"
+    },
+    {
+      "type": "url",
+      "id": "back_button_url",
+      "label": "Back Button URL"
+    },
+    {
+      "type": "color",
+      "id": "back_btn_text_color",
+      "label": "Back Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "back_btn_bg_color",
+      "label": "Back Button Background Color",
+      "default": "#ffffff26"
+    },
+    {
+      "type": "range",
+      "id": "back_btn_border_radius",
+      "label": "Back Button Border Radius",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "back_btn_font_family",
+      "label": "Font Family: Back Button",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "Roboto, sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "back_btn_font_size",
+      "label": "Font Size: Back Button",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "back_btn_font_weight",
+      "label": "Font Weight: Back Button",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "Find Your\nPerfect Floor"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading HTML Tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Font Family: Heading",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "'Playfair Display', serif"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Font Size: Heading",
+      "min": 24,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 52
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font Weight: Heading",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" },
+        { "value": "900", "label": "Black (900)" }
+      ],
+      "default": "800"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Line Height: Heading",
+      "min": 90,
+      "max": 160,
+      "step": 5,
+      "unit": "%",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "label": "Letter Spacing: Heading (x0.01em)",
+      "min": -5,
+      "max": 20,
+      "step": 1,
+      "default": -2
+    },
+    {
+      "type": "select",
+      "id": "heading_text_transform",
+      "label": "Text Transform: Heading",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "lowercase", "label": "lowercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "heading_max_width",
+      "label": "Heading Max Width",
+      "min": 200,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 380
+    },
+    {
+      "type": "header",
+      "content": "Subheading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading Text",
+      "default": "Compare our collections to find the perfect look, performance, and value for your home or project."
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_family",
+      "label": "Font Family: Subheading",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "Roboto, sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "Font Size: Subheading",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_weight",
+      "label": "Font Weight: Subheading",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "subheading_line_height",
+      "label": "Line Height: Subheading",
+      "min": 100,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "default": 155
+    },
+    {
+      "type": "range",
+      "id": "subheading_letter_spacing",
+      "label": "Letter Spacing: Subheading (x0.01em)",
+      "min": -5,
+      "max": 20,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subheading_max_width",
+      "label": "Subheading Max Width",
+      "min": 200,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "default": 440
+    },
+    {
+      "type": "header",
+      "content": "Product Links Row"
+    },
+    {
+      "type": "select",
+      "id": "links_font_family",
+      "label": "Font Family: Links",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "Montserrat, sans-serif", "label": "Montserrat" },
+        { "value": "Roboto, sans-serif", "label": "Roboto" },
+        { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+      ],
+      "default": "Roboto, sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "links_font_size",
+      "label": "Font Size: Links",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "links_font_weight",
+      "label": "Font Weight: Links",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "links_color",
+      "label": "Links Color",
+      "default": "#ffffffbf"
+    },
+    {
+      "type": "color",
+      "id": "links_hover_color",
+      "label": "Links Hover Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "links_separator_color",
+      "label": "Separator ( · ) Color",
+      "default": "#ffffff66"
+    },
+    {
+      "type": "range",
+      "id": "links_letter_spacing",
+      "label": "Letter Spacing: Links (x0.01em)",
+      "min": -5,
+      "max": 20,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "links_text_transform",
+      "label": "Text Transform: Links",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "lowercase", "label": "lowercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "none"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_link",
+      "name": "Product Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "Collection Name"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Find Your Perfect Floor",
+      "blocks": [
+        {
+          "type": "product_link",
+          "settings": { "link_text": "Modin LVP", "link_url": "/" }
+        },
+        {
+          "type": "product_link",
+          "settings": { "link_text": "Provence Natural Hardwood", "link_url": "/" }
+        },
+        {
+          "type": "product_link",
+          "settings": { "link_text": "Silvan Resilient Hardwood", "link_url": "/" }
+        },
+        {
+          "type": "product_link",
+          "settings": { "link_text": "Arista Laminate", "link_url": "/" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
