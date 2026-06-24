@@ -51,6 +51,7 @@
         "floor_card_ma3twy": {
           "type": "floor_card",
           "settings": {
+            "title_desktop": "Modin LVP",
             "card_image": "shopify://shop_images/Rectangle_11_aa15ec09-7663-4bc5-ad6b-1bd487ac4c5e.png",
             "card_title": "Modin",
             "card_title_color": "#313155",
@@ -58,12 +59,13 @@
             "card_tagline": "Premium Performance. Unmatched Versatility.",
             "card_install_method": "Floating Click Lock",
             "card_price_range": "$$ - $$$",
-            "card_url": ""
+            "card_url": "shopify://collections/modin-luxury-vinyl-plank"
           }
         },
         "floor_card_7PignT": {
           "type": "floor_card",
           "settings": {
+            "title_desktop": "Provence Natural Hardwood ",
             "card_image": "shopify://shop_images/Rectangle_11_aa15ec09-7663-4bc5-ad6b-1bd487ac4c5e.png",
             "card_title": "Provence",
             "card_title_color": "#313155",
@@ -71,12 +73,13 @@
             "card_tagline": "Timeless Elegance.  Natural Harmony.",
             "card_install_method": "Professional Glue or Nail",
             "card_price_range": "$$ - $$$",
-            "card_url": ""
+            "card_url": "shopify://collections/provence-natural-hardwood"
           }
         },
         "floor_card_Ha9kex": {
           "type": "floor_card",
           "settings": {
+            "title_desktop": "Silvan Resilient Hardwood",
             "card_image": "shopify://shop_images/Rectangle_11_aa15ec09-7663-4bc5-ad6b-1bd487ac4c5e.png",
             "card_title": "Silvan",
             "card_title_color": "#918055",
@@ -84,12 +87,13 @@
             "card_tagline": "Refined Design. European Inspiration.",
             "card_install_method": "Floating or Glue Drop Click",
             "card_price_range": "$$ - $$$",
-            "card_url": ""
+            "card_url": "shopify://collections/silvan-hardwood"
           }
         },
         "floor_card_pe6G7x": {
           "type": "floor_card",
           "settings": {
+            "title_desktop": "Arista Laminate",
             "card_image": "shopify://shop_images/Rectangle_11_aa15ec09-7663-4bc5-ad6b-1bd487ac4c5e.png",
             "card_title": "Arista",
             "card_title_color": "#918055",
@@ -97,7 +101,7 @@
             "card_tagline": "Beautiful Floors. Smart Value.",
             "card_install_method": "Floating Click Lock",
             "card_price_range": "$$ - $$$",
-            "card_url": ""
+            "card_url": "shopify://collections/arista-laminate"
           }
         }
       },
