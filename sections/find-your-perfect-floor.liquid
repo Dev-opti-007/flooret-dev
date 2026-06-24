@@ -11,7 +11,7 @@
 {%- assign heading_line_height = section.settings.heading_line_height | divided_by: 100.0 -%}
 {%- assign subheading_line_height = section.settings.subheading_line_height | divided_by: 100.0 -%}
 
-<section
+<div
   class="fpf-section"
   style="
     --fpf-min-height: {{ section.settings.section_height }}px;
@@ -134,7 +134,7 @@
 
     </div>
   </div>
-</section>
+</div>
 
 <style>
   .fpf-section {
@@ -262,7 +262,6 @@
 {% schema %}
 {
   "name": "Find Your Perfect Floor",
-  "tag": "section",
   "class": "fpf-section-wrapper",
   "settings": [
     {

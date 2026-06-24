@@ -45,6 +45,92 @@
         "button-font-color": ""
       }
     },
+    "find_your_perfect_floor_bJXJ7E": {
+      "type": "find-your-perfect-floor",
+      "blocks": {
+        "product_link_9Qheda": {
+          "type": "product_link",
+          "settings": {
+            "link_text": "Modin LVP",
+            "link_url": "/"
+          }
+        },
+        "product_link_pycNRR": {
+          "type": "product_link",
+          "settings": {
+            "link_text": "Provence Natural Hardwood",
+            "link_url": "/"
+          }
+        },
+        "product_link_DXtwAG": {
+          "type": "product_link",
+          "settings": {
+            "link_text": "Silvan Resilient Hardwood",
+            "link_url": "/"
+          }
+        },
+        "product_link_VfGGkL": {
+          "type": "product_link",
+          "settings": {
+            "link_text": "Arista Laminate",
+            "link_url": "/"
+          }
+        }
+      },
+      "block_order": [
+        "product_link_9Qheda",
+        "product_link_pycNRR",
+        "product_link_DXtwAG",
+        "product_link_VfGGkL"
+      ],
+      "name": "Find Your Perfect Floor",
+      "settings": {
+        "fallback_bg_color": "#b0a895",
+        "overlay_color": "#000000",
+        "overlay_opacity": 35,
+        "section_height": 440,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "container_max_width": 1360,
+        "container_padding": 32,
+        "content_alignment": "space-between",
+        "show_back_button": true,
+        "back_button_text": "All Floors",
+        "back_button_url": "",
+        "back_btn_text_color": "#ffffff",
+        "back_btn_bg_color": "#ffffff26",
+        "back_btn_border_radius": 100,
+        "back_btn_font_family": "Roboto, sans-serif",
+        "back_btn_font_size": 13,
+        "back_btn_font_weight": "500",
+        "heading": "Find Your\nPerfect Floor",
+        "heading_tag": "h2",
+        "heading_font_family": "'Playfair Display', serif",
+        "heading_font_size": 52,
+        "heading_font_weight": "800",
+        "heading_color": "#ffffff",
+        "heading_line_height": 110,
+        "heading_letter_spacing": -2,
+        "heading_text_transform": "none",
+        "heading_max_width": 380,
+        "subheading": "Compare our collections to find the perfect look, performance, and value for your home or project.",
+        "subheading_font_family": "Roboto, sans-serif",
+        "subheading_font_size": 16,
+        "subheading_font_weight": "400",
+        "subheading_color": "#ffffff",
+        "subheading_line_height": 155,
+        "subheading_letter_spacing": 0,
+        "subheading_max_width": 440,
+        "links_font_family": "Roboto, sans-serif",
+        "links_font_size": 13,
+        "links_font_weight": "400",
+        "links_color": "#ffffffbf",
+        "links_hover_color": "#ffffff",
+        "links_separator_color": "#ffffff66",
+        "links_letter_spacing": 0,
+        "links_text_transform": "none"
+      }
+    },
     "four_collections_adHYED": {
       "type": "four-collections",
       "blocks": {
@@ -273,6 +359,7 @@
   "order": [
     "main",
     "silvan_lp_collection_model_kfpA8d",
+    "find_your_perfect_floor_bJXJ7E",
     "four_collections_adHYED",
     "cc_compare_details_ReKCqQ",
     "cc_right_collection_czCXjp"
