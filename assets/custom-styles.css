@@ -9025,3 +9025,49 @@ ul.pdp-atc__group__buttons li.is-disabled {
     pointer-events: none;
     opacity: 0.45;
 }
+
+.template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.template-page-collection-comparison-lp .collection-modal-section__container a.button.button--primary {
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 12px;
+    leading-trim: NONE;
+    line-height: 16px;
+    letter-spacing: 0px;
+    text-decoration: none;
+    background: rgba(250, 175, 79, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 25px;
+    border-radius: 24px;
+    margin-left: auto;
+}
+
+.template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap h2 {
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 14px;
+    leading-trim: NONE;
+    line-height: 21.6px;
+    letter-spacing: 0%;
+    color: #000;
+    margin: 0px;
+}
+
+.template-page-collection-comparison-lp .collection-modal-section__container .pointers p {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 12px !important;
+    leading-trim: NONE;
+    line-height: 15px;
+    letter-spacing: 0%;
+}
