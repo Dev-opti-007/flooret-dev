@@ -265,9 +265,6 @@
     {{- 'slick.css' | asset_url | stylesheet_tag: preload: true -}}
     {{ 'custom-collection-design.css' | asset_url | stylesheet_tag }}
      <script src="https://cdn.noibu.com/collect-core.js" ></script>
-     {% if template.name == 'product' %}
-      <script defer src="{{ 'swatch-change-only-mobile.js' | asset_url }}"></script>
-     {% endif %}
   </head>
 
   <body class="template-{{ template | handleize | split: '.' | first }}{% if template == 'product' %} {{ product.handle }}{% endif %} {% if template == 'collection' %} {{ collection.handle }}{% endif %} {% if current_tags %}tag{% endif %}">
