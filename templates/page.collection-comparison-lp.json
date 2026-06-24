@@ -48,40 +48,22 @@
     "find_your_perfect_floor_bJXJ7E": {
       "type": "find-your-perfect-floor",
       "blocks": {
-        "product_link_9Qheda": {
-          "type": "product_link",
+        "floor_card_ma3twy": {
+          "type": "floor_card",
           "settings": {
-            "link_text": "Modin LVP",
-            "link_url": "/"
-          }
-        },
-        "product_link_pycNRR": {
-          "type": "product_link",
-          "settings": {
-            "link_text": "Provence Natural Hardwood",
-            "link_url": "/"
-          }
-        },
-        "product_link_DXtwAG": {
-          "type": "product_link",
-          "settings": {
-            "link_text": "Silvan Resilient Hardwood",
-            "link_url": "/"
-          }
-        },
-        "product_link_VfGGkL": {
-          "type": "product_link",
-          "settings": {
-            "link_text": "Arista Laminate",
-            "link_url": "/"
+            "card_image": "shopify://shop_images/Rectangle_11_aa15ec09-7663-4bc5-ad6b-1bd487ac4c5e.png",
+            "card_title": "Modin",
+            "card_title_color": "#b8860b",
+            "card_title_letter_spacing": 0,
+            "card_tagline": "Premium Performance. Unmatched Versatility.",
+            "card_install_method": "Floating Click Lock",
+            "card_price_range": "$$ - $$$",
+            "card_url": ""
           }
         }
       },
       "block_order": [
-        "product_link_9Qheda",
-        "product_link_pycNRR",
-        "product_link_DXtwAG",
-        "product_link_VfGGkL"
+        "floor_card_ma3twy"
       ],
       "name": "Find Your Perfect Floor",
       "settings": {
@@ -108,8 +90,10 @@
         "heading_tag": "h2",
         "heading_font_family": "'Playfair Display', serif",
         "heading_font_size": 50,
+        "mobile_heading_font_size": 36,
         "heading_font_weight": "600",
         "heading_color": "#ffffff",
+        "mobile_heading_color": "#1a1a1a",
         "heading_line_height": 110,
         "heading_letter_spacing": -2,
         "heading_text_transform": "none",
@@ -117,8 +101,10 @@
         "subheading": "Compare our collections to find the perfect look, performance, and value for your home or project.",
         "subheading_font_family": "Montserrat, sans-serif",
         "subheading_font_size": 20,
+        "mobile_subheading_font_size": 14,
         "subheading_font_weight": "400",
         "subheading_color": "#ffffff",
+        "mobile_subheading_color": "#555555",
         "subheading_line_height": 155,
         "subheading_letter_spacing": 0,
         "subheading_max_width": 440,
@@ -128,8 +114,28 @@
         "links_color": "#ffffffbf",
         "links_hover_color": "#ffffff",
         "links_separator_color": "#ffffff66",
-        "links_letter_spacing": 0,
-        "links_text_transform": "none"
+        "links_text_transform": "none",
+        "mobile_bg_color": "#f5f3ee",
+        "mobile_padding_top": 32,
+        "mobile_padding_bottom": 32,
+        "mobile_padding_x": 16,
+        "card_bg_color": "#ffffff",
+        "card_border_radius": 12,
+        "card_image_placeholder_color": "#d4cfc6",
+        "card_title_font_family": "'Playfair Display', serif",
+        "card_title_font_size": 22,
+        "card_title_font_weight": "700",
+        "card_title_text_transform": "none",
+        "card_tagline_font_family": "Roboto, sans-serif",
+        "card_tagline_font_size": 13,
+        "card_tagline_font_weight": "400",
+        "card_tagline_color": "#555555",
+        "card_meta_font_family": "Roboto, sans-serif",
+        "card_meta_font_size": 12,
+        "card_meta_font_weight": "400",
+        "card_price_font_size": 14,
+        "card_price_font_weight": "600",
+        "card_meta_color": "#333333"
       }
     },
     "four_collections_adHYED": {
