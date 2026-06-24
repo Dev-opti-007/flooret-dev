@@ -378,7 +378,7 @@
           "settings": {
             "title": "MODIN LVP",
             "button_label": "Shop Samples",
-            "button_link": "",
+            "button_link": "shopify://products/modin-lvp-signature-bestsellers-sample-kit",
             "image_1": "shopify://shop_images/Modin_LVP_Signature_Bestsellers_Sample_Kit_Enhanced_Bevel_New.webp"
           }
         },
