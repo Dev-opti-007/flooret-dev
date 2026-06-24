@@ -9081,5 +9081,8 @@ ul.pdp-atc__group__buttons li.is-disabled {
   .template-page-collection-comparison-lp .collection-modal-section {
       display: none;
   }
+  .template-page-collection-comparison-lp .fpf-section-wrapper {
+    display: none;
+  }
 
 }
