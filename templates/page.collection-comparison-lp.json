@@ -53,9 +53,48 @@
           "settings": {
             "card_image": "shopify://shop_images/Rectangle_11_aa15ec09-7663-4bc5-ad6b-1bd487ac4c5e.png",
             "card_title": "Modin",
-            "card_title_color": "#b8860b",
+            "card_title_color": "#313155",
             "card_title_letter_spacing": 0,
             "card_tagline": "Premium Performance. Unmatched Versatility.",
+            "card_install_method": "Floating Click Lock",
+            "card_price_range": "$$ - $$$",
+            "card_url": ""
+          }
+        },
+        "floor_card_7PignT": {
+          "type": "floor_card",
+          "settings": {
+            "card_image": "shopify://shop_images/Rectangle_11_aa15ec09-7663-4bc5-ad6b-1bd487ac4c5e.png",
+            "card_title": "Provence",
+            "card_title_color": "#313155",
+            "card_title_letter_spacing": 0,
+            "card_tagline": "Timeless Elegance.  Natural Harmony.",
+            "card_install_method": "Professional Glue or Nail",
+            "card_price_range": "$$ - $$$",
+            "card_url": ""
+          }
+        },
+        "floor_card_Ha9kex": {
+          "type": "floor_card",
+          "settings": {
+            "card_image": "shopify://shop_images/Rectangle_11_aa15ec09-7663-4bc5-ad6b-1bd487ac4c5e.png",
+            "card_title": "Silvan",
+            "card_title_color": "#918055",
+            "card_title_letter_spacing": 0,
+            "card_tagline": "Refined Design. European Inspiration.",
+            "card_install_method": "Floating or Glue Drop Click",
+            "card_price_range": "$$ - $$$",
+            "card_url": ""
+          }
+        },
+        "floor_card_pe6G7x": {
+          "type": "floor_card",
+          "settings": {
+            "card_image": "shopify://shop_images/Rectangle_11_aa15ec09-7663-4bc5-ad6b-1bd487ac4c5e.png",
+            "card_title": "Arista",
+            "card_title_color": "#918055",
+            "card_title_letter_spacing": 0,
+            "card_tagline": "Beautiful Floors. Smart Value.",
             "card_install_method": "Floating Click Lock",
             "card_price_range": "$$ - $$$",
             "card_url": ""
@@ -63,7 +102,10 @@
         }
       },
       "block_order": [
-        "floor_card_ma3twy"
+        "floor_card_ma3twy",
+        "floor_card_7PignT",
+        "floor_card_Ha9kex",
+        "floor_card_pe6G7x"
       ],
       "name": "Find Your Perfect Floor",
       "settings": {
