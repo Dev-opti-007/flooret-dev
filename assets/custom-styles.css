@@ -9071,3 +9071,8 @@ ul.pdp-atc__group__buttons li.is-disabled {
     line-height: 15px;
     letter-spacing: 0%;
 }
+.template-page-collection-comparison-lp .collection-modal-section__container {
+    display: flex;
+    flex-direction: row;
+    padding: 8px 15px;
+}
