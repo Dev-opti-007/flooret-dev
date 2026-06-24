@@ -266,7 +266,7 @@
     {{ 'custom-collection-design.css' | asset_url | stylesheet_tag }}
      <script src="https://cdn.noibu.com/collect-core.js" ></script>
      {% if template.name == 'product' %}
-      <script src="{{ 'swatch-change-only-mobile.js' | asset_url }}"></script>
+      <script defer src="{{ 'swatch-change-only-mobile.js' | asset_url }}"></script>
      {% endif %}
   </head>
 
