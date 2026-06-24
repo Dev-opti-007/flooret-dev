@@ -113,7 +113,7 @@
           ">
             {%- for block in section.blocks -%}
               {%- if block.type == 'floor_card' -%}
-                <a href="{{ block.settings.card_url }}" class="fpf-link-item" {{ block.shopify_attributes }}>{{ block.settings.card_title }}</a>
+                <a href="{{ block.settings.card_url }}" class="fpf-link-item" {{ block.shopify_attributes }}>{{ block.settings.title_desktop }}</a>
                 {%- unless forloop.last -%}<span class="fpf-separator" aria-hidden="true">·</span>{%- endunless -%}
               {%- endif -%}
             {%- endfor -%}
@@ -1188,7 +1188,7 @@
       "settings": [
         {
           "type": "text",
-          "id": "titl_desktop",
+          "id": "title_desktop",
           "label": "Desktop title below description"
         },
         {
