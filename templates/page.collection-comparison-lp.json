@@ -369,7 +369,7 @@
         "use_custom_height": true,
         "desktop_min_height": 520,
         "use_custom_height-mob": true,
-        "mobile_min_height": 600,
+        "mobile_min_height": 390,
         "thumbnail_width": 1900,
         "video_url": "",
         "video_overlay_color": "#000000",
