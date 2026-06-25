@@ -387,7 +387,7 @@
           "settings": {
             "title": "ARISTA LAMINATE",
             "button_label": "Shop Samples",
-            "button_link": "shopify://products/bestsellers-sample-kits",
+            "button_link": "https://www.flooret.com/products/bestsellers-sample-kits?variant=52339236241683",
             "image_1": "shopify://shop_images/3.New_Arista_Laminate_Bestsellers_Sample_Kit.webp"
           }
         },
@@ -396,7 +396,7 @@
           "settings": {
             "title": "SILVAN RESILIENT HARDWOOD",
             "button_label": "Shop Samples",
-            "button_link": "",
+            "button_link": "https://www.flooret.com/products/bestsellers-sample-kits?variant=52339236176147",
             "image_1": "shopify://shop_images/Silvan_7_Bestsellers_Sample_Kit.webp"
           }
         },
