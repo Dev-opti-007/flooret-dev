@@ -220,7 +220,7 @@
   
       .bestseller-kits--{{ section.id }} .bestseller-kits__slide {
         width: 100%;
-        {% comment %} height: 228px; {% endcomment %}
+        height: {{ section.settings.card_height_desktop }};
         flex: 0 0 100%;
       }
   
@@ -230,7 +230,7 @@
       .bestseller-kits--{{ section.id }} .bestseller-kits__slider--natural .bestseller-kits__slide {
         aspect-ratio: auto;
         width: 100%;
-        {% comment %} height: 228px; {% endcomment %}
+        height: {{ section.settings.card_height_desktop }};
       }
     }
   
@@ -305,6 +305,16 @@
       .bestseller-kits--{{ section.id }} .bestseller-kits__dot {
         width: 20px;
         height: 3px;
+      }
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slide {
+        height: {{ section.settings.card_height_mobile }};
+      }
+  
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--square .bestseller-kits__slide,
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--portrait .bestseller-kits__slide,
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--landscape .bestseller-kits__slide,
+      .bestseller-kits--{{ section.id }} .bestseller-kits__slider--natural .bestseller-kits__slide {
+        height: {{ section.settings.card_height_mobile }};
       }
     }
   </style>
@@ -623,6 +633,15 @@
         "max": 600,
         "step": 5,
         "default": 300
+      },
+      {
+        "type": "range",
+        "id": "card_height_mobile",
+        "label": "Card heigth mobile (px)",
+        "min": 50,
+        "max": 500,
+        "step": 5,
+        "default": 200
       },
       {
         "type": "header",
