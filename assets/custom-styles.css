@@ -9089,6 +9089,10 @@ ul.pdp-atc__group__buttons li.is-disabled {
     letter-spacing: 0%;
     color: #000;
 }
+.template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap .pointers p::before {
+    content: "✔";
+     color: #000;
+}
 @media (max-width:768px){
 
   .template-page-collection-comparison-lp .collection-modal-section {
