@@ -405,7 +405,8 @@
       "name": "Right Collection Selector",
       "settings": {
         "heading": "Which Collection Is Right for You?",
-        "subheading": "<p>Pick the statement that sounds most like you — we'll point you to the right floor.</p>"
+        "subheading": "<p>Pick the statement that sounds most like you — we'll point you to the right floor.</p>",
+        "subheading_mob": "<p>Pick the statement that sounds most like you.</p>"
       }
     },
     "bfcm_new_banner_section_qN4Vpt": {
