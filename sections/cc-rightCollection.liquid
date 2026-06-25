@@ -8,10 +8,17 @@
       {% endif %}
 
       {% if section.settings.subheading != blank %}
-        <div class="flooring-selector-subheading">
+        <div class="flooring-selector-subheading desk">
           {{ section.settings.subheading }}
         </div>
       {% endif %}
+
+      {% if section.settings.subheading_mob != blank %}
+        <div class="flooring-selector-subheading mob">
+          {{ section.settings.subheading_mob }}
+        </div>
+      {% endif %}
+      
     </div>
 
     <!-- Desktop Selector -->
@@ -228,6 +235,14 @@
       line-height:1.5;
       color:#4A5565;
       align-self: end;
+    }
+
+    .flooring-selector-subheading.desk {
+      display:block;
+    }
+
+    .flooring-selector-subheading.mob {
+      display:none;
     }
 
     /* DESKTOP TABS */
@@ -705,6 +720,13 @@
 .mobile-selector-secondary-btn {
   margin-top:25px;
 }
+.flooring-selector-subheading.desk {
+      display:none;
+    }
+
+    .flooring-selector-subheading.mob {
+      display:block;
+    }
     }
 </style>
 
@@ -786,6 +808,11 @@
       "type": "richtext",
       "id": "subheading",
       "label": "Subheading"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading_mob",
+      "label": "Subheading Mobile"
     }
   ],
   "blocks": [
