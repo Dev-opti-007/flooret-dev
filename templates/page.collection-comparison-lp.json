@@ -125,7 +125,7 @@
         "content_alignment": "space-between",
         "show_back_button": true,
         "back_button_text": "All Floors",
-        "back_button_url": "",
+        "back_button_url": "shopify://collections/all-floors",
         "back_btn_text_color": "#000000",
         "back_btn_bg_color": "#ffffff",
         "back_btn_border_radius": 100,
