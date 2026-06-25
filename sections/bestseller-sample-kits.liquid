@@ -131,8 +131,10 @@
     .bestseller-kits--{{ section.id }} .bestseller-kits__image {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: {{ section.settings.image_style }};
       display: block;
+      object-position:{{ section.settings.image_position }};
+      {% if section.settings.image-background != blank %} background-color:{{ section.settings.image-background }} {% endif %}
       transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
   
@@ -623,12 +625,12 @@
       },
       {
         "type": "header",
-        "content": "Card Height"
+        "content": "Card image height"
       },
       {
         "type": "range",
         "id": "card_height_desktop",
-        "label": "Card heigth desktop (px)",
+        "label": "Card image height desktop (px)",
         "min": 100,
         "max": 600,
         "step": 5,
@@ -637,11 +639,48 @@
       {
         "type": "range",
         "id": "card_height_mobile",
-        "label": "Card heigth mobile (px)",
+        "label": "Card image height mobile (px)",
         "min": 50,
         "max": 500,
         "step": 5,
         "default": 200
+      },
+      {
+        "type": "header",
+        "content": "Card image"
+      },
+      {
+        "type":"color",
+        "id":"image-background",
+        "label":"Image background",
+        "info": "Optional"
+      },
+      {
+        "type":"select",
+        "id": "image_style",
+        "label": "Image Style",
+        "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" }
+        ],
+        "default": "cover"
+      },
+      {
+        "type": "select",
+        "id": "image_position",
+        "label": "Image Position",
+        "options": [
+          { "value": "left top", "label": "Left Top" },
+          { "value": "left center", "label": "Left Center" },
+          { "value": "left bottom", "label": "Left Bottom" },
+          { "value": "center top", "label": "Center Top" },
+          { "value": "center center", "label": "Center Center" },
+          { "value": "center bottom", "label": "Center Bottom" },
+          { "value": "right top", "label": "Right Top" },
+          { "value": "right center", "label": "Right Center" },
+          { "value": "right bottom", "label": "Right Bottom" }
+        ],
+        "default": "center center"
       },
       {
         "type": "header",
