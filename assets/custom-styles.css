@@ -9076,6 +9076,9 @@ ul.pdp-atc__group__buttons li.is-disabled {
     flex-direction: row;
     padding: 8px 15px;
 }
+.template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap .pointers {
+    gap: 41px;
+}
 @media (max-width:768px){
 
   .template-page-collection-comparison-lp .collection-modal-section {
