@@ -372,13 +372,13 @@
           "settings": {
             "selector_text": "I prefer modern, clean aesthetics.",
             "background_image": "shopify://shop_images/Screenshot_at_Jun_25_18-56-33.png",
-            "title": "Silvan",
+            "title": "Provence Natural Hardwood",
             "description": "Modin Rigid Luxury Vinyl Plank is crafted with industry-leading specs and unique features that focus on quality, durability, and aesthetics",
-            "characteristics": "Available In 27 Colors   •    100% Waterproof   •    DIY-Friendly",
-            "primary_button_text": "Meet Modin",
-            "primary_button_link": "shopify://collections/modin-landing-page",
+            "characteristics": "Available In 4 Colors   •    Refinishable   •    Professional Installation",
+            "primary_button_text": "Meet Provence",
+            "primary_button_link": "shopify://pages/meet-provence",
             "secondary_button_text": "SHOP COLLECTION",
-            "secondary_button_link": "shopify://collections/modin-luxury-vinyl-plank"
+            "secondary_button_link": "shopify://collections/provence-natural-hardwood"
           }
         },
         "collection_card_KLMPzf": {
