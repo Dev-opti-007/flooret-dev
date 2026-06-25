@@ -9079,6 +9079,16 @@ ul.pdp-atc__group__buttons li.is-disabled {
 .template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap .pointers {
     gap: 41px;
 }
+.template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap .pointers p {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 12px;
+    leading-trim: NONE;
+    line-height: 15px;
+    letter-spacing: 0%;
+    color: #000;
+}
 @media (max-width:768px){
 
   .template-page-collection-comparison-lp .collection-modal-section {
