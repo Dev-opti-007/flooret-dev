@@ -386,13 +386,13 @@
           "settings": {
             "selector_text": "I want the best value for my budget.",
             "background_image": "shopify://shop_images/Screenshot_at_Jun_25_18-56-33.png",
-            "title": "Arista",
-            "description": "Modin Rigid Luxury Vinyl Plank is crafted with industry-leading specs and unique features that focus on quality, durability, and aesthetics",
-            "characteristics": "Available In 27 Colors   •    100% Waterproof   •    DIY-Friendly",
-            "primary_button_text": "Meet Modin",
-            "primary_button_link": "shopify://collections/modin-landing-page",
+            "title": "Arista Laminate",
+            "description": "The Smarter Way to do Laminate",
+            "characteristics": "Available In 8 Colors   •    Water Resistant   •    DIY-Friendly",
+            "primary_button_text": "Meet Arista",
+            "primary_button_link": "https://www.flooret.com/pages/arista-laminate",
             "secondary_button_text": "SHOP COLLECTION",
-            "secondary_button_link": "shopify://collections/modin-luxury-vinyl-plank"
+            "secondary_button_link": "shopify://collections/arista-laminate"
           }
         }
       },
