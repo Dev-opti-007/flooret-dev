@@ -503,7 +503,7 @@
         "image_width_mobile": 82,
         "image_radius": 0,
         "mobile_image_first": true,
-        "content_max_width": 1300,
+        "content_max_width": 1250,
         "left_column_width": 3,
         "right_column_width": 2,
         "grid_gap_desktop": 70,
