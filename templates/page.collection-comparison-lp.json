@@ -19,7 +19,7 @@
       "name": "Collection Modal",
       "settings": {
         "heading": "Collection Comparison",
-        "pointers": "<p>100% Waterproof</p><p>Pet and Kid-Friendly</p><p>Designer-Curated</p><p>Lifetime Warranty</p>",
+        "pointers": "<p>Pet and Kid-Friendly</p><p>Designer-Curated</p><p>Lifetime Warranty</p>",
         "featured_collection": "",
         "button_text": "",
         "button_url": "#",
