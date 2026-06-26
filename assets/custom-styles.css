@@ -9093,6 +9093,27 @@ ul.pdp-atc__group__buttons li.is-disabled {
     content: "✔";
      color: #000;
 }
+.template-page-collection-comparison-lp .collection-modal-section__container .button svg {
+    display: none;
+}
+
+.template-page-collection-comparison-lp .collection-modal-section__container .button {
+    background: rgba(250, 175, 79, 1);
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 12px;
+    leading-trim: NONE;
+    line-height: 16px;
+    letter-spacing: 0px;
+    color: rgba(0, 0, 0, 1);
+    height: 28px;
+    width: 123px;
+    border-radius: 20px;
+}
+.template-page-collection-comparison-lp .collection-modal-section__container .button:hover {
+    background: rgba(250, 175, 79, 1);
+}
 @media (max-width:768px){
 
   .template-page-collection-comparison-lp .collection-modal-section {
