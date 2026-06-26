@@ -203,10 +203,8 @@
           "settings": {
             "image": "shopify://shop_images/3f497de293ab31f478b9951ebbc293e7b412f6f7.jpg",
             "title": "Provence Natural Hardwood",
-            "best_for": "<ul><li>Timeless interiors</li><li>Modern farmhouse homes</li><li>Premium spaces</li></ul>",
+            "best_for": "<ul><li>Timeless interiors</li><li>Modern farmhouse homes</li><li>Premium spaces</li><li>4 colors & 2 styles</li></ul>",
             "description": "A refinishable wood veneer with XL plank sizes and 50% longs",
-            "icon_1": "shopify://shop_images/modin-craftsman_50x_2_1.png",
-            "icon_2": "shopify://shop_images/modin-signature_50x_2_1.png",
             "button_text": "Shop Provence",
             "button_link": "shopify://collections/provence-natural-hardwood"
           }
@@ -216,10 +214,8 @@
           "settings": {
             "image": "shopify://shop_images/17704a2e1f7621d93a86ca78c8b15a3e1d3f63e2.jpg",
             "title": "Silvan Resilient Hardwood",
-            "best_for": "<ul><li>Modern minimalist homes</li><li>Higher-traffic premiums spaces</li><li>DIYers who want real wood</li></ul>",
+            "best_for": "<ul><li>Modern homes</li><li>Higher-traffic premium spacess</li><li>DIYers who want real wood</li><li>6 colors & 2 styles</li></ul>",
             "description": "Never needs to be refinished, 3x harder than traditional hardwood",
-            "icon_1": "shopify://shop_images/modin-craftsman_50x_2_1.png",
-            "icon_2": "shopify://shop_images/modin-signature_50x_2_1.png",
             "button_text": "Shop Silvan",
             "button_link": "shopify://collections/silvan-hardwood"
           }
