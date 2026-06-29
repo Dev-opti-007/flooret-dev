@@ -345,7 +345,8 @@
         "step_KBNgTn"
       ],
       "custom_css": [
-        ".story-grid-guide__secondary-description.rte {display: flex; align-items: center; justify-content: space-between;}"
+        "@media (min-width: 768px) {.story-grid-guide__secondary-description.rte {display: flex; align-items: center; justify-content: space-between; }}",
+        "@media (max-width: 768px) {div#klaviyo-modal-overlay {padding: 0px 9px;}}"
       ],
       "name": "Sample Kit Guide",
       "settings": {
