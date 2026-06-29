@@ -344,6 +344,9 @@
         "step_47U3r4",
         "step_KBNgTn"
       ],
+      "custom_css": [
+        ".story-grid-guide__secondary-description.rte {display: flex; align-items: center; justify-content: space-between;}"
+      ],
       "name": "Sample Kit Guide",
       "settings": {
         "heading": "How to choose a sample kit",
