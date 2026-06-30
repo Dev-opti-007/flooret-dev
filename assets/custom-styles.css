@@ -9141,3 +9141,8 @@ ul.pdp-atc__group__buttons li.is-disabled {
   }
 
 }
+@media (max-width: 365px) {
+    .template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap .pointers {
+        gap: 4px 6px !important;
+    }
+}
