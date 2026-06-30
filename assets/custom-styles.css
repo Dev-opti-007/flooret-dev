@@ -9116,6 +9116,12 @@ ul.pdp-atc__group__buttons li.is-disabled {
 }
 @media (max-width:768px){
 
+  .template-page-collection-comparison-lp .collection-modal-section .heading-wrap h2 {
+      display: none;
+  }
+  .template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap .pointers p {
+      font-size: 10px !important;
+  }
   /* .template-page-collection-comparison-lp .collection-modal-section {
       display: none;
   } */
