@@ -9134,5 +9134,10 @@ ul.pdp-atc__group__buttons li.is-disabled {
   .template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap .pointers {
       gap: 4px 15px !important;
   }
+  .template-page-collection-comparison-lp .collection-modal-section__container a.button.button--primary {
+      padding: 0px 14px;
+      font-size: 10px !important;
+      width: fit-content;
+  }
 
 }
