@@ -9077,7 +9077,7 @@ ul.pdp-atc__group__buttons li.is-disabled {
     padding: 8px 15px;
 }
 .template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap .pointers {
-    gap: 41px;
+    gap: 41px !important;
 }
 .template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap .pointers p {
     font-family: Montserrat;
@@ -9130,6 +9130,9 @@ ul.pdp-atc__group__buttons li.is-disabled {
   } */
   .mobile-selector-accordion.mobile-only {
       display: flex !IMPORTANT;
+  }
+  .template-page-collection-comparison-lp .collection-modal-section__container .heading-wrap .pointers {
+      gap: 4px 15px !important;
   }
 
 }
