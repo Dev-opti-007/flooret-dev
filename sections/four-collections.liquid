@@ -54,6 +54,7 @@
 
             <div class="fc-divider"></div>
 
+            {% if block.settings.icon_1 %}
             <div class="fc-icons">
 
               {% if block.settings.icon_1 %}
@@ -97,7 +98,7 @@
               {% endif %}
 
             </div>
-
+          {% endif %}
             {% if block.settings.button_text != blank %}
               <a
                 href="{{ block.settings.button_link }}"
