@@ -5,7 +5,7 @@
 <div id="product-details" class="product-details js-header-sticky">
   <div class="top-content">
     <div class="desktop-only">
-      {%-  render 'product-details-header', isAddSamplePopup :  -%}
+      {%- render 'product-details-header' -%}
     </div>
 
    {%- liquid
@@ -225,3 +225,13 @@
   const checkInterval = setInterval(updateReviewRatingId, 100);
 </script>
   
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%-  render 'product-details-header', isAddSamplePopup :  -%}"
+  to: "{%- render 'product-details-header' -%}"
+  position: 184..223
+{% endcomment %}

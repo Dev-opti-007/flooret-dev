@@ -1,11 +1,11 @@
 {%- unless products == blank and blocks == blank -%}
   {%- liquid
     if module.cta
-      assign module.cta_text = module.cta
+      assign renamed_variable_module_2e_cta_text = module.cta
     endif
 
     if module.cta_link
-      assign module.cta_url = module.cta_link
+      assign renamed_variable_module_2e_cta_url = module.cta_link
     endif
   -%}
 
@@ -68,3 +68,16 @@
     </div>
   </section>
 {%- endunless -%}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "      assign module.cta_text = module.cta"
+  to: "      assign renamed_variable_module_2e_cta_text = module.cta"
+  position: 84..145
+- from: "      assign module.cta_url = module.cta_link"
+  to: "      assign renamed_variable_module_2e_cta_url = module.cta_link"
+  position: 180..245
+{% endcomment %}
